@@ -1,11 +1,39 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.punuo.pet">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name="com.punuo.sys.sdk.PnApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".splash.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoWindowAnimationStyle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoWindowAnimationStyle"/>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoWindowAnimationStyle"/>
+
+    </application>
 </manifest>
