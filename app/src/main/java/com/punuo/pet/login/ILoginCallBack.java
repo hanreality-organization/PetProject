@@ -7,4 +7,6 @@ package com.punuo.pet.login;
 public interface ILoginCallBack {
     void loginSuccess();
     void loginError();
+    void getAuthCodeSuccess();
+    void getAuthCodeError();
 }

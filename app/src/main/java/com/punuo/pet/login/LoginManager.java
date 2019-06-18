@@ -89,6 +89,7 @@ public class LoginManager {
     public void sendAuthCode(String phone) {
         if (!RegexUtils.checkMobile(phone)) {
             ToastUtils.showToast("请输入合法的手机号码");
+            return;
         }
         if (mGetCodeRequest != null && !mGetCodeRequest.isFinish()) {
             return;
@@ -111,11 +112,22 @@ public class LoginManager {
                 if (!TextUtils.isEmpty(result.message)) {
                     ToastUtils.showToast(result.message);
                 }
+                if (result.success) {
+                    if (mLoginCallBack != null) {
+                        mLoginCallBack.getAuthCodeSuccess();
+                    }
+                } else {
+                    if (mLoginCallBack != null) {
+                        mLoginCallBack.getAuthCodeError();
+                    }
+                }
             }
 
             @Override
             public void onError(Exception e) {
-
+                if (mLoginCallBack != null) {
+                    mLoginCallBack.getAuthCodeError();
+                }
             }
         });
         HttpManager.addRequest(mGetCodeRequest);

@@ -1,6 +1,6 @@
 package com.punuo.pet.login;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.punuo.pet.R;
-import com.punuo.pet.home.HomeActivity;
 import com.punuo.pet.login.fragment.NormalLoginFragment;
 import com.punuo.pet.login.fragment.QuickLoginFragment;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -42,7 +41,6 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.cache_bg)
     View mCacheBg;
 
-    private LoginManager mLoginManager;
     private int TRANSLATION_Y = 0;
     private QuickLoginFragment mQuickLoginFragment;
     private NormalLoginFragment mNormalLoginFragment;
@@ -52,7 +50,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
         ButterKnife.bind(this);
-        mLoginManager = new LoginManager(this, mLoginCallBack);
 
         initView();
     }
@@ -60,21 +57,27 @@ public class LoginActivity extends BaseActivity {
     private void initView() {
         int screenHeight = CommonUtil.getHeight();
         int top = CommonUtil.dip2px(150f);
-        int tabHeight = CommonUtil.dip2px(64f);
+        int tabHeight = CommonUtil.dip2px(44f);
         int statusHeight = StatusBarUtil.getStatusBarHeight(this);
         TRANSLATION_Y = screenHeight - top - tabHeight - statusHeight;
         mContentContainer.setTranslationY(TRANSLATION_Y);
         mNormalLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContentContainer.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(300);
+                mContentContainer.animate().translationY(0)
+                        .setInterpolator(new LinearInterpolator()).setDuration(300);
+                mNormalLogin.setTextColor(Color.parseColor("#333333"));
+                mQuickLogin.setTextColor(Color.parseColor("#FFFFFF"));
                 switchFragment(TYPE_NORMAL_LOGIN);
             }
         });
         mQuickLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContentContainer.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(300);
+                mContentContainer.animate().translationY(0)
+                        .setInterpolator(new LinearInterpolator()).setDuration(300);
+                mQuickLogin.setTextColor(Color.parseColor("#333333"));
+                mNormalLogin.setTextColor(Color.parseColor("#FFFFFF"));
                 switchFragment(TYPE_QUICK_LOGIN);
             }
         });
@@ -82,8 +85,10 @@ public class LoginActivity extends BaseActivity {
         mCacheBg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContentContainer.animate().translationY(TRANSLATION_Y).setInterpolator(new LinearInterpolator()).setDuration(300);
-
+                mContentContainer.animate().translationY(TRANSLATION_Y)
+                        .setInterpolator(new LinearInterpolator()).setDuration(300);
+                mQuickLogin.setTextColor(Color.parseColor("#FFFFFF"));
+                mNormalLogin.setTextColor(Color.parseColor("#FFFFFF"));
             }
         });
     }
@@ -120,23 +125,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private ILoginCallBack mLoginCallBack = new ILoginCallBack() {
-        @Override
-        public void loginSuccess() {
-            jumpToHome();
-        }
 
-        @Override
-        public void loginError() {
-
-        }
-    };
-
-    private void jumpToHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void onBackPressed() {

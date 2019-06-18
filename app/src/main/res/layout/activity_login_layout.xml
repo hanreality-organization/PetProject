@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/ic_background">
 
     <View
         android:id="@+id/cache_bg"
@@ -40,7 +41,7 @@
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="快捷登陆"
-                android:textColor="#333333"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -52,7 +53,7 @@
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="密码登录"
-                android:textColor="#333333"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -60,7 +61,7 @@
         <FrameLayout
             android:id="@+id/id_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:visibility="visible" />
     </LinearLayout>
 
