@@ -11,7 +11,7 @@ import com.punuo.pet.login.LoginActivity;
 import com.punuo.pet.process.ProcessTasks;
 import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.activity.BaseActivity;
-import com.punuo.sys.sdk.util.PreferenceUtils;
+import com.punuo.sys.sdk.util.MMKVUtil;
 
 /**
  * Created by han.chen.
@@ -30,9 +30,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void init() {
-        boolean isFirstRun = PreferenceUtils.getBoolean(this, "is_first_run", true);
+        boolean isFirstRun = MMKVUtil.getBoolean("is_first_run", true);
         if (isFirstRun) {
-            PreferenceUtils.setBoolean(this,"is_first_run", false);
+            MMKVUtil.setBoolean("is_first_run", false);
             //TODO 第一次启动，可以做一些自定义的东西
         }
         getWindow().getDecorView().postDelayed(new Runnable() {

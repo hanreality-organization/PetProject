@@ -14,7 +14,7 @@ import com.punuo.pet.view.CleanEditText;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.IntentUtil;
-import com.punuo.sys.sdk.util.PreferenceUtils;
+import com.punuo.sys.sdk.util.MMKVUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +54,7 @@ public class NormalLoginFragment extends BaseFragment {
     }
 
     private void initView() {
-        mAccount = PreferenceUtils.getString(mActivity, "wsq_account");
+        mAccount = MMKVUtil.getString("wsq_account");
         mEditAccount.setText(mAccount);
         mLoginManager = new LoginManager(mActivity, mLoginCallBack);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +77,7 @@ public class NormalLoginFragment extends BaseFragment {
         @Override
         public void loginSuccess() {
             IntentUtil.jumpActivity(mActivity, HomeActivity.class);
-            PreferenceUtils.setString(mActivity, "wsq_account", mAccount);
+            MMKVUtil.setString("wsq_account", mAccount);
             mActivity.finish();
         }
 

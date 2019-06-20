@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.tencent.mmkv.MMKV;
+
 /**
  * Created by han.chen.
  * Date on 2019/4/4.
@@ -22,6 +24,7 @@ public class PnApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+        MMKV.initialize(base);
     }
 
     @Override

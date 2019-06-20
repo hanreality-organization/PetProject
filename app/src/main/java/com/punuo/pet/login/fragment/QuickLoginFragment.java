@@ -16,7 +16,7 @@ import com.punuo.pet.view.CleanEditText;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.IntentUtil;
-import com.punuo.sys.sdk.util.PreferenceUtils;
+import com.punuo.sys.sdk.util.MMKVUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +61,7 @@ public class QuickLoginFragment extends BaseFragment {
     private void initView() {
         mCount = new MyCount(60 * 1000, 1000);
         mLoginManager = new LoginManager(mActivity, mLoginCallBack);
-        mPhone = PreferenceUtils.getString(mActivity, "wsp_phone");
+        mPhone = MMKVUtil.getString("wsp_phone");
         mEditPhone.setText(mPhone);
         mGetCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public class QuickLoginFragment extends BaseFragment {
         @Override
         public void loginSuccess() {
             IntentUtil.jumpActivity(mActivity, HomeActivity.class);
-            PreferenceUtils.setString(mActivity, "wsp_phone", mPhone);
+            MMKVUtil.setString("wsp_phone", mPhone);
             mActivity.finish();
         }
 

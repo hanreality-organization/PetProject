@@ -1,11 +1,9 @@
 package com.punuo.pet.account;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.httplib.JsonUtil;
-import com.punuo.sys.sdk.util.PreferenceUtils;
+import com.punuo.sys.sdk.util.MMKVUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,18 +20,16 @@ public class AccountManager {
 
     public static boolean isLoginned() {
         if (!sIsLogined || TextUtils.isEmpty(sSession)) {
-            Context context = PnApplication.getInstance();
-            sSession = PreferenceUtils.getString(context, "wsq_pref_session");
+            sSession = MMKVUtil.getString("wsq_pref_session");
             sIsLogined = !TextUtils.equals(sSession, "");
         }
         return sIsLogined;
     }
 
     public static void setUserInfo(UserInfo userInfo) {
-        Context context = PnApplication.getInstance();
         if (userInfo != null) {
             sUserInfo = userInfo;
-            PreferenceUtils.setString(context, "wsq_pref_user", JsonUtil.toJson(userInfo));
+            MMKVUtil.setString("wsq_pref_user", JsonUtil.toJson(userInfo));
             //重新设置本地用户信息时候会发出通知具体页面可以接收做相应的处理
             EventBus.getDefault().post(userInfo);
         }
@@ -41,8 +37,7 @@ public class AccountManager {
 
     public static UserInfo getUserInfo() {
         if (sUserInfo == null) {
-            Context context = PnApplication.getInstance();
-            sUserInfo = (UserInfo) JsonUtil.fromJson(PreferenceUtils.getString(context, "wsq_pref_user"), UserInfo.class);
+            sUserInfo = (UserInfo) JsonUtil.fromJson(MMKVUtil.getString("wsq_pref_user"), UserInfo.class);
             sUserInfo = sUserInfo == null ? new UserInfo() : sUserInfo;
         }
 
@@ -51,12 +46,12 @@ public class AccountManager {
 
     public static void setSession(String session) {
         sSession = session;
-        PreferenceUtils.setString(PnApplication.getInstance(), "wsq_pref_session", session);
+        MMKVUtil.setString("wsq_pref_session", session);
     }
 
     public static String getSession() {
         if (TextUtils.isEmpty(sSession)) {
-            sSession = PreferenceUtils.getString(PnApplication.getInstance(), "wsq_pref_session");
+            sSession = MMKVUtil.getString("wsq_pref_session");
         }
         return sSession;
     }
@@ -66,7 +61,7 @@ public class AccountManager {
         sIsLogined = false;
         sSession = "";
         sUserInfo = null;
-        PreferenceUtils.removeData(PnApplication.getInstance(), "wsq_pref_session");
-        PreferenceUtils.removeData(PnApplication.getInstance(), "wsq_pref_user");
+        MMKVUtil.removeData("wsq_pref_session");
+        MMKVUtil.removeData("wsq_pref_user");
     }
 }
