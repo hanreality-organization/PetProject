@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.view.PNLoadingDialog;
@@ -15,6 +18,13 @@ import com.punuo.sys.sdk.view.PNLoadingDialog;
 public class BaseFragment extends Fragment {
     private Activity mActivity;
     private PNLoadingDialog mLoadingDialog;
+    protected View mFragmentView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mFragmentView = super.onCreateView(inflater, container, savedInstanceState);
+        return mFragmentView;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

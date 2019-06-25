@@ -196,5 +196,9 @@ public final class RegexUtils {
         return false;
     }
 
+    public static String hidePhone(String phone) {
+		return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+	}
+
 
 }

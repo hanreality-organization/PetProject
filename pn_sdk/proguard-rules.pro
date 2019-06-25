@@ -22,3 +22,9 @@
 
 -dontwarn me.imid.swipebacklayout.lib.**
 -keep class me.imid.swipebacklayout.lib.**{*;}
+
+#腾讯
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.tencent.wxop.** {*;}
+-keep class com.tencent.mm.sdk.** {*;}
+#腾讯

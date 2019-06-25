@@ -124,11 +124,4 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
-
-
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }

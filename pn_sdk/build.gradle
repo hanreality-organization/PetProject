@@ -53,4 +53,5 @@ dependencies {
     api 'com.jakewharton:butterknife:7.0.1'
     api 'com.tencent:mmkv:1.0.22'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

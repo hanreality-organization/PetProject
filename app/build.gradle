@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion gradle.sdk.compileSdkVersion
     buildToolsVersion gradle.sdk.buildToolsVersion
+    signingConfigs {
+        PunuoClient {
+            storeFile file('../hangzhoupunuo.jks')
+            storePassword '123456'
+            keyAlias = 'hangzhoupunuokeystore'
+            keyPassword '123456'
+        }
+    }
     defaultConfig {
         multiDexEnabled true
         applicationId gradle.sdk.packageName
@@ -10,14 +18,6 @@ android {
         targetSdkVersion gradle.sdk.targetSdkVersion
         versionCode gradle.sdk.versionCode
         versionName gradle.sdk.versionName
-    }
-    signingConfigs {
-        PunuoClient {
-            keyAlias 'hangzhoupunuokeystore'
-            keyPassword '123456'
-            storeFile file('../hangzhoupunuo.jks')
-            storePassword '123456'
-        }
     }
     buildTypes {
         release {

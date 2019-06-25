@@ -1,4 +1,4 @@
-package com.punuo.pet.account;
+package com.punuo.sys.sdk.account;
 
 /**
  * Created by han.chen.

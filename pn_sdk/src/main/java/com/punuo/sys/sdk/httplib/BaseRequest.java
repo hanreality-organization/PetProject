@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.punuo.sys.sdk.account.AccountManager;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -86,6 +87,9 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
                 requestParams.put(String.valueOf(key), String.valueOf(value));
             }
         }
+        if (!TextUtils.isEmpty(AccountManager.getSession())) {
+            requestParams.put("session", AccountManager.getSession());
+        }
         return urlWithQueryString(getPathUrl(), requestParams);
     }
 
@@ -105,8 +109,9 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
 
     @Override
     public Request build() {
-        addHeader("user-agent", HttpConfig.getUserAgent());
-        addHeader("connection", "Keep-Alive");
+        addHeader("User-Agent", HttpConfig.getUserAgent());
+        addHeader("Connection", "Keep-Alive");
+        addHeader("Content-Type", "application/json; charset=utf-8");
         url(getUrl());
         switch (mRequestType) {
             case POST:

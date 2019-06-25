@@ -9,4 +9,6 @@ public interface ILoginCallBack {
     void loginError();
     void getAuthCodeSuccess();
     void getAuthCodeError();
+    void setPasswordSuccess();
+    void logoutSuccess();
 }

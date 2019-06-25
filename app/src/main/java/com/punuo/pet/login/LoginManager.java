@@ -1,18 +1,27 @@
 package com.punuo.pet.login;
 
+import android.content.Context;
 import android.text.TextUtils;
 
-import com.punuo.pet.account.AccountManager;
+import com.punuo.pet.Constant;
 import com.punuo.pet.login.model.LoginResult;
 import com.punuo.pet.login.request.AccountLoginRequest;
 import com.punuo.pet.login.request.GetCodeRequest;
 import com.punuo.pet.login.request.QuickLoginRequest;
+import com.punuo.pet.login.request.SetPasswordRequest;
+import com.punuo.pet.login.request.WeChatLoginRequest;
 import com.punuo.pet.model.BaseModel;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.util.DeviceHelper;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
  * Created by han.chen.
@@ -86,7 +95,7 @@ public class LoginManager {
     //获取验证码
     private GetCodeRequest mGetCodeRequest;
 
-    public void sendAuthCode(String phone) {
+    public void sendAuthCode(final String phone) {
         if (!RegexUtils.checkMobile(phone)) {
             ToastUtils.showToast("请输入合法的手机号码");
             return;
@@ -94,7 +103,6 @@ public class LoginManager {
         if (mGetCodeRequest != null && !mGetCodeRequest.isFinish()) {
             return;
         }
-        //TODO 发送验证码
         mActivity.showLoadingDialog("验证码发送中...");
         mGetCodeRequest = new GetCodeRequest();
         mGetCodeRequest.addUrlParam("phone", phone);
@@ -111,14 +119,12 @@ public class LoginManager {
                 }
                 if (!TextUtils.isEmpty(result.message)) {
                     ToastUtils.showToast(result.message);
+                } else {
+                    ToastUtils.showToast("验证短信已经发送到" + RegexUtils.hidePhone(phone));
                 }
                 if (result.success) {
                     if (mLoginCallBack != null) {
                         mLoginCallBack.getAuthCodeSuccess();
-                    }
-                } else {
-                    if (mLoginCallBack != null) {
-                        mLoginCallBack.getAuthCodeError();
                     }
                 }
             }
@@ -150,7 +156,7 @@ public class LoginManager {
         mActivity.showLoadingDialog("登陆中...");
         mAccountLoginRequest = new AccountLoginRequest();
         mAccountLoginRequest.addUrlParam("userName", accountName);
-        mAccountLoginRequest.addUrlParam("usePwd", pwd);
+        mAccountLoginRequest.addUrlParam("userPwd", pwd);
         mAccountLoginRequest.setRequestListener(new RequestListener<LoginResult>() {
             @Override
             public void onComplete() {
@@ -187,8 +193,112 @@ public class LoginManager {
         HttpManager.addRequest(mAccountLoginRequest);
     }
 
-    public void loginWithWeChat() {
+    private WeChatLoginRequest mWeChatLoginRequest;
+
+    public void loginWithWeChat(String code) {
+        if (mWeChatLoginRequest != null && !mWeChatLoginRequest.isFinish()) {
+            return;
+        }
+        mWeChatLoginRequest = new WeChatLoginRequest();
+        mWeChatLoginRequest.addUrlParam("code", code);
+        mWeChatLoginRequest.setRequestListener(new RequestListener<LoginResult>() {
+            @Override
+            public void onComplete() {
+                mActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onSuccess(LoginResult result) {
+                if (result == null) {
+                    return;
+                }
+                if (!TextUtils.isEmpty(result.message)) {
+                    ToastUtils.showToast(result.message);
+                }
+                if (result.success) {
+                    mLoginCallBack.loginSuccess();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+                if (mLoginCallBack != null) {
+                    mLoginCallBack.loginError();
+                }
+            }
+        });
+        HttpManager.addRequest(mWeChatLoginRequest);
+    }
+
+    private IWXAPI mIWXAPI;
+
+    private void createWxApi(Context context) {
+        if (mIWXAPI == null) {
+            mIWXAPI = WXAPIFactory.createWXAPI(context.getApplicationContext(),
+                    Constant.WX_APP_ID, false);
+            mIWXAPI.registerApp(Constant.WX_APP_ID);
+        }
 
     }
 
+    public void authLogin(Context context) {
+        createWxApi(context);
+        if (DeviceHelper.isWechatInstalled(context, Constant.WX_APP_ID)) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = String.valueOf(System.currentTimeMillis());
+            mIWXAPI.sendReq(req);
+        } else {
+            ToastUtils.showToast("您还没有安装微信");
+            mActivity.dismissLoadingDialog();
+        }
+    }
+
+    private SetPasswordRequest mSetPasswordRequest;
+
+    public void setPassword(String password, String confirmPwd) {
+        if (TextUtils.isEmpty(password)) {
+            ToastUtils.showToast("请输入密码");
+            return;
+        }
+        if (TextUtils.isEmpty(confirmPwd)) {
+            ToastUtils.showToast("请输入确认密码");
+            return;
+        }
+        if (mSetPasswordRequest != null && !mSetPasswordRequest.isFinish()) {
+            return;
+        }
+        mActivity.showLoadingDialog("提交中...");
+        mSetPasswordRequest = new SetPasswordRequest();
+        mSetPasswordRequest.addUrlParam("password", password);
+        mSetPasswordRequest.addUrlParam("confirm_pwd", confirmPwd);
+        mSetPasswordRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+                mActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                if (result == null) {
+                    return;
+                }
+                if (result.success) {
+                    if (mLoginCallBack != null) {
+                        mLoginCallBack.setPasswordSuccess();
+                    }
+                }
+                if (!TextUtils.isEmpty(result.message)) {
+                    ToastUtils.showToast(result.message);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                ToastUtils.showToast("设置密码失败，请重试");
+            }
+        });
+        HttpManager.addRequest(mSetPasswordRequest);
+    }
 }

@@ -34,7 +34,6 @@ public class NormalLoginFragment extends BaseFragment {
     @Bind(R.id.forget_password)
     TextView mForgetPassword;
 
-    private View mView;
     private BaseActivity mActivity;
     private String mAccount;
 
@@ -47,10 +46,10 @@ public class NormalLoginFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = (BaseActivity) getActivity();
-        mView = inflater.inflate(R.layout.fragment_normal_login, container, false);
-        ButterKnife.bind(this, mView);
+        mFragmentView = inflater.inflate(R.layout.fragment_normal_login, container, false);
+        ButterKnife.bind(this, mFragmentView);
         initView();
-        return mView;
+        return mFragmentView;
     }
 
     private void initView() {
@@ -83,7 +82,6 @@ public class NormalLoginFragment extends BaseFragment {
 
         @Override
         public void loginError() {
-
         }
 
         @Override
@@ -93,6 +91,16 @@ public class NormalLoginFragment extends BaseFragment {
 
         @Override
         public void getAuthCodeError() {
+
+        }
+
+        @Override
+        public void setPasswordSuccess() {
+
+        }
+
+        @Override
+        public void logoutSuccess() {
 
         }
     };

@@ -6,11 +6,17 @@ import android.os.Looper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -25,6 +31,7 @@ public class HttpManager {
     private static volatile OkHttpClient sOkHttpClient;
     private static OkHttpClient.Builder sBuilder = new OkHttpClient.Builder();
     private static Context sContext;
+    private static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
     public static OkHttpClient getsOkHttpClient() {
         init();
@@ -43,6 +50,18 @@ public class HttpManager {
                             .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
                             .followRedirects(true)
                             .retryOnConnectionFailure(true)
+                            .cookieJar(new CookieJar() {
+                                @Override
+                                public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                                    cookieStore.put(url.host(), cookies);
+                                }
+
+                                @Override
+                                public List<Cookie> loadForRequest(HttpUrl url) {
+                                    List<Cookie> cookies = cookieStore.get(url.host());
+                                    return cookies != null ? cookies : new ArrayList<Cookie>();
+                                }
+                            })
                             .cache(new Cache(new File(sContext.getExternalCacheDir(), "okhttp"),
                                     500 * 1024 * 1024));
                     sOkHttpClient = sBuilder.build();

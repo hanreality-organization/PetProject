@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.punuo.pet.R;
-import com.punuo.pet.account.AccountManager;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.pet.home.HomeActivity;
 import com.punuo.pet.login.LoginActivity;
 import com.punuo.pet.process.ProcessTasks;

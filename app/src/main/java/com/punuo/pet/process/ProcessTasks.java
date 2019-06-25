@@ -23,7 +23,7 @@ public class ProcessTasks {
         HttpConfig.init(new IHttpConfig() {
             @Override
             public String getHost() {
-                return "127.0.0.1";
+                return "pet.qinqingonline.com";
             }
 
             @Override
@@ -43,7 +43,7 @@ public class ProcessTasks {
 
             @Override
             public String getPrefixPath() {
-                return "/weishiqi/tp5/public/index.php";
+                return "";
             }
         });
         HttpManager.setContext(app);

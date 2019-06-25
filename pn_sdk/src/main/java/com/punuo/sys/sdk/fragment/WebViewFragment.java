@@ -19,7 +19,6 @@ import com.punuo.sys.sdk.util.StatusBarUtil;
  * Date on 2019/5/29.
  **/
 public abstract class WebViewFragment extends BaseFragment {
-    private View mFragmentView;
     private PullToRefreshWebView mPullToRefreshWebView;
     private WebView mWebView;
     private View mStatusBar;
