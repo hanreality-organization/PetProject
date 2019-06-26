@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.punuo.pet.R;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -17,12 +16,9 @@ import butterknife.ButterKnife;
  **/
 public class AddPetActivity extends BaseSwipeBackActivity {
 
-    @Bind(R.id.title)
-    TextView mTitle;
-    @Bind(R.id.back)
-    ImageView mBack;
-    @Bind(R.id.sub_title)
-    TextView mSubTitle;
+    private TextView mTitle;
+    private ImageView mBack;
+    private TextView mSubTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +30,9 @@ public class AddPetActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
+        mBack = (ImageView) findViewById(R.id.back);
+        mTitle = (TextView) findViewById(R.id.title);
+        mSubTitle = (TextView) findViewById(R.id.sub_title);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

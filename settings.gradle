@@ -1,4 +1,4 @@
-include ':app', ':basesdk'
+include ':app', ':basesdk', ':module_home', ':module_compat', ':module_router', ':module_member', ':module_message', ':module_circle'
 apply from: './base.gradle'
 
 gradle.ext {

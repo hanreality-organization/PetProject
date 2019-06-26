@@ -24,6 +24,16 @@ public class IntentUtil {
         context.startActivity(intent);
     }
 
+    public static void jumpActivity(Context context, String className) {
+        try {
+            Class classz = Class.forName(className);
+            Intent intent = getIntent(context, classz);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void jumpActivity(Context context, Class classz, Bundle bundle) {
         Intent intent = getIntent(context, classz, bundle);
         context.startActivity(intent);

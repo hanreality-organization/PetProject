@@ -28,32 +28,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".home.HomeActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoWindowAnimationStyle" />
-
-        <activity
-            android:name=".login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoWindowAnimationStyle"/>
-
-        <activity android:name=".login.RegisterAccountActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-        <activity android:name=".login.ForgetPasswordActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
         <activity android:name=".pet.AddPetActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
     </application>
 </manifest>

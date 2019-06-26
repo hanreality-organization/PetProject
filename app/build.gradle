@@ -45,5 +45,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     api project(':basesdk')
+    api project(':module_home')
+    api project(':module_compat')
+    api project(':module_message')
+    api project(':module_member')
+    api project(':module_circle')
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 }

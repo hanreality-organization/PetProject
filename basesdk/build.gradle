@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion gradle.sdk.compileSdkVersion
-    buildToolsVersion gradle.sdk.buildToolsVersion
-
-
     defaultConfig {
         minSdkVersion gradle.sdk.minSdkVersion
         targetSdkVersion gradle.sdk.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     sourceSets {
@@ -54,4 +54,10 @@ dependencies {
     api 'com.tencent:mmkv:1.0.22'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    api ('com.alibaba:arouter-api:1.5.0') {
+        exclude module: 'support-v4'
+    }
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+
+    api project(':module_router')
 }

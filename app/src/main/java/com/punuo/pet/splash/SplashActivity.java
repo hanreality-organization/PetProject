@@ -1,15 +1,15 @@
 package com.punuo.pet.splash;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.R;
-import com.punuo.sys.sdk.account.AccountManager;
-import com.punuo.pet.home.HomeActivity;
-import com.punuo.pet.login.LoginActivity;
 import com.punuo.pet.process.ProcessTasks;
+import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.PnApplication;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.util.MMKVUtil;
 
@@ -39,11 +39,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if (AccountManager.isLoginned()) {
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    ARouter.getInstance().build(CompatRouter.ROUTER_HOME_ACTIVITY).navigation();
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    ARouter.getInstance().build(MemberRouter.ROUTER_LOGIN_ACTIVITY).navigation();
                 }
                 finish();
             }
