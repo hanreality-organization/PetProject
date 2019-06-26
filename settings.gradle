@@ -1,4 +1,4 @@
-include ':app', ":pn_sdk"
+include ':app', ':basesdk'
 apply from: './base.gradle'
 
 gradle.ext {

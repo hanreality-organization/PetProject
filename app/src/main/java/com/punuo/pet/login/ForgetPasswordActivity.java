@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by han.chen.
  * Date on 2019-06-25.
+ * 忘记密码页面
  **/
 public class ForgetPasswordActivity extends BaseSwipeBackActivity {
 

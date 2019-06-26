@@ -48,7 +48,8 @@
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".pet.AddPetActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

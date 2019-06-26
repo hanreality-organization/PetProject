@@ -7,11 +7,11 @@ import android.view.View;
 import com.punuo.pet.R;
 import com.punuo.pet.circle.CircleFragment;
 import com.punuo.pet.home.fragment.HomeFragment;
-import com.punuo.pet.login.ILoginCallBack;
-import com.punuo.pet.login.LoginManager;
 import com.punuo.pet.message.MessageFragment;
 import com.punuo.pet.mine.MineFragment;
+import com.punuo.pet.pet.AddPetActivity;
 import com.punuo.sys.sdk.activity.BaseActivity;
+import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import butterknife.Bind;
@@ -21,7 +21,8 @@ import butterknife.ButterKnife;
  * Created by han.chen.
  * Date on 2019-06-15.
  **/
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class
+HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final int TAB_ONE = 0;
     private static final int TAB_TWO = 1;
     private static final int TAB_THREE = 2;
@@ -38,7 +39,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     View mTabFour;
     @Bind(R.id.tab_five)
     View mTabFive;
-    private LoginManager mLoginManager;
     public static final int TAB_COUNT = 5;
     private MyFragmentManager mMyFragmentManager;
     private View[] mTabBars = new View[TAB_COUNT];
@@ -48,37 +48,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
         ButterKnife.bind(this);
-        mLoginManager = new LoginManager(this, new ILoginCallBack() {
-            @Override
-            public void loginSuccess() {
-
-            }
-
-            @Override
-            public void loginError() {
-
-            }
-
-            @Override
-            public void getAuthCodeSuccess() {
-
-            }
-
-            @Override
-            public void getAuthCodeError() {
-
-            }
-
-            @Override
-            public void setPasswordSuccess() {
-
-            }
-
-            @Override
-            public void logoutSuccess() {
-
-            }
-        });
         mMyFragmentManager = new MyFragmentManager(this);
         init();
 
@@ -88,6 +57,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         initTabBars();
         switchFragment(TAB_ONE);
+
+        IntentUtil.jumpActivity(this, AddPetActivity.class);
     }
 
     private void initTabBars() {
