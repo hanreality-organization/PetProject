@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.punuo.pet.R;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
-import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
@@ -24,7 +23,6 @@ public class AddPetActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
-        ButterKnife.bind(this);
 
         initView();
     }

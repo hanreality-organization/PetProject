@@ -15,7 +15,6 @@ import com.punuo.pet.router.MessageRouter;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
-import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
@@ -38,7 +37,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
-        ButterKnife.bind(this);
         mMyFragmentManager = new MyFragmentManager(this);
         init();
 

@@ -14,8 +14,6 @@ import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.CleanEditText;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
@@ -46,7 +44,6 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_layout);
         mLoginManager = new LoginManager(this, mLoginCallBack);
-        ButterKnife.bind(this);
         initView();
 
     }

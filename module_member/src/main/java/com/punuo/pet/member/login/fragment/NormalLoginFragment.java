@@ -16,9 +16,6 @@ import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.view.CleanEditText;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by han.chen.
  * Date on 2019-06-15.
