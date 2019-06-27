@@ -50,9 +50,7 @@ dependencies {
     api 'org.msgpack:msgpack-core:0.7.1'
     api 'commons-net:commons-net:2.2'
     api 'me.imid.swipebacklayout.lib:library:1.1.0'
-    api 'com.jakewharton:butterknife:7.0.1'
     api 'com.tencent:mmkv:1.0.22'
-    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     api ('com.alibaba:arouter-api:1.5.0') {
         exclude module: 'support-v4'

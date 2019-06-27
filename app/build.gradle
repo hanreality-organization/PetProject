@@ -50,5 +50,4 @@ dependencies {
     api project(':module_message')
     api project(':module_member')
     api project(':module_circle')
-    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 }

@@ -36,7 +36,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':basesdk')
-    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 
 }
