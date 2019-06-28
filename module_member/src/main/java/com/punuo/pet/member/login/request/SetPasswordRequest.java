@@ -10,7 +10,7 @@ import com.punuo.sys.sdk.model.BaseModel;
 public class SetPasswordRequest extends BaseRequest<BaseModel> {
 
     public SetPasswordRequest() {
+        setRequestType(RequestType.POST);
         setRequestPath("/users/setPassWord");
-        setRequestType(RequestType.GET);
     }
 }

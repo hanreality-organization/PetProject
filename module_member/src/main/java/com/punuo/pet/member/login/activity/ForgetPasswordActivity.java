@@ -1,11 +1,13 @@
-package com.punuo.pet.member.login;
+package com.punuo.pet.member.login.activity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
 /**
@@ -13,6 +15,7 @@ import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
  * Date on 2019-06-25.
  * 忘记密码页面
  **/
+@Route(path = MemberRouter.ROUTER_FORGET_PASSWORD_ACTIVITY)
 public class ForgetPasswordActivity extends BaseSwipeBackActivity {
 
     private TextView mTitle;

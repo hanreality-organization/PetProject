@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
-import com.punuo.pet.member.login.ILoginCallBack;
-import com.punuo.pet.member.login.LoginManager;
-import com.punuo.pet.member.login.RegisterAccountActivity;
+import com.punuo.pet.member.login.manager.ILoginCallBack;
+import com.punuo.pet.member.login.manager.LoginManager;
+import com.punuo.pet.member.login.activity.RegisterAccountActivity;
 import com.punuo.pet.member.login.event.AuthEvent;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -109,7 +109,6 @@ public class QuickLoginFragment extends BaseFragment {
         public void loginSuccess() {
             ARouter.getInstance().build(CompatRouter.ROUTER_HOME_ACTIVITY).navigation();
             MMKVUtil.setString("wsp_phone", mPhone);
-            ToastUtils.showToast("登录成功");
             mActivity.finish();
         }
 
@@ -125,12 +124,12 @@ public class QuickLoginFragment extends BaseFragment {
 
         @Override
         public void getAuthCodeError() {
-            ToastUtils.showToast("发送验证码失败,请重试");
+
         }
 
         @Override
         public void setPasswordSuccess() {
-            ToastUtils.showToast("注册成功");
+
         }
 
         @Override

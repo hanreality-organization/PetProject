@@ -3,15 +3,15 @@
 
     <application>
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoWindowAnimationStyle"/>
 
-        <activity android:name=".login.RegisterAccountActivity"
+        <activity android:name=".login.activity.RegisterAccountActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
-        <activity android:name=".login.ForgetPasswordActivity"
+        <activity android:name=".login.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 

@@ -117,18 +117,22 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
             case POST:
                 type(RequestType.POST);
                 buildPostBody();
+                addHeader("Content-Type", "application/x-www-form-urlencoded");
                 break;
             case PUT:
                 type(RequestType.PUT);
                 buildPostBody();
+                addHeader("Content-Type", "application/x-www-form-urlencoded");
                 break;
             case DELETE:
                 type(RequestType.DELETE);
                 buildPostBody();
+                addHeader("Content-Type", "application/x-www-form-urlencoded");
                 break;
             case UPLOAD:
                 type(RequestType.UPLOAD);
                 buildPostBody();
+                addHeader("Content-Type", "application/x-www-form-urlencoded");
                 break;
         }
         return super.build();

@@ -1,4 +1,4 @@
-package com.punuo.pet.member.login;
+package com.punuo.pet.member.login.activity;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -7,11 +7,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
+import com.punuo.pet.member.login.manager.ILoginCallBack;
+import com.punuo.pet.member.login.manager.LoginManager;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
-import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.CleanEditText;
 
 
@@ -20,6 +23,7 @@ import com.punuo.sys.sdk.view.CleanEditText;
  * Date on 2019-06-22.
  * 注册页面
  **/
+@Route(path = MemberRouter.ROUTER_REGISTER_ACCOUNT_ACTIVITY)
 public class RegisterAccountActivity extends BaseSwipeBackActivity {
 
     private TextView mTitle;
@@ -133,6 +137,7 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
 
         @Override
         public void loginError() {
+
         }
 
         @Override
@@ -142,7 +147,7 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
 
         @Override
         public void getAuthCodeError() {
-            ToastUtils.showToast("获取验证码失败,请重试");
+
         }
 
         @Override

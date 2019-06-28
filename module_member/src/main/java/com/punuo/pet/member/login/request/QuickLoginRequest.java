@@ -11,7 +11,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
 public class QuickLoginRequest extends BaseRequest<LoginResult> {
 
     public QuickLoginRequest() {
-        setRequestType(RequestType.GET);
+        setRequestType(RequestType.POST);
         setRequestPath("/codeLogin");
     }
 }

@@ -10,7 +10,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
  **/
 public class WeChatLoginRequest extends BaseRequest<LoginResult> {
     public WeChatLoginRequest() {
-        setRequestType(RequestType.GET);
+        setRequestType(RequestType.POST);
         setRequestPath("/wechatLogin");
     }
 }

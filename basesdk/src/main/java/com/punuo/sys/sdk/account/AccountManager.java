@@ -3,6 +3,7 @@ package com.punuo.sys.sdk.account;
 import android.text.TextUtils;
 
 import com.punuo.sys.sdk.httplib.JsonUtil;
+import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.MMKVUtil;
 
 import org.greenrobot.eventbus.EventBus;

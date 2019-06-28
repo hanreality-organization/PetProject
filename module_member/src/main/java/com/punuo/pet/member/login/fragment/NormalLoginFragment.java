@@ -8,9 +8,10 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
-import com.punuo.pet.member.login.ILoginCallBack;
-import com.punuo.pet.member.login.LoginManager;
+import com.punuo.pet.member.login.manager.ILoginCallBack;
+import com.punuo.pet.member.login.manager.LoginManager;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.MMKVUtil;
@@ -28,7 +29,7 @@ public class NormalLoginFragment extends BaseFragment {
     private TextView mForgetPassword;
 
     private BaseActivity mActivity;
-    private String mAccount;
+    private String mPhone;
 
     private LoginManager mLoginManager;
 
@@ -49,21 +50,21 @@ public class NormalLoginFragment extends BaseFragment {
         mEditPassword = mFragmentView.findViewById(R.id.edit_password);
         mLoginBtn = mFragmentView.findViewById(R.id.login_btn);
         mForgetPassword = mFragmentView.findViewById(R.id.forget_password);
-        mAccount = MMKVUtil.getString("wsq_account");
-        mEditAccount.setText(mAccount);
+        mPhone = MMKVUtil.getString("wsq_phone");
+        mEditAccount.setText(mPhone);
         mLoginManager = new LoginManager(mActivity, mLoginCallBack);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAccount = mEditAccount.getText().toString().trim();
+                mPhone = mEditAccount.getText().toString().trim();
                 String pwd = mEditPassword.getText().toString();
-                mLoginManager.loginWithAccount(mAccount, pwd);
+                mLoginManager.loginWithAccount(mPhone, pwd);
             }
         });
         mForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(MemberRouter.ROUTER_FORGET_PASSWORD_ACTIVITY).navigation();
             }
         });
     }
@@ -72,7 +73,7 @@ public class NormalLoginFragment extends BaseFragment {
         @Override
         public void loginSuccess() {
             ARouter.getInstance().build(CompatRouter.ROUTER_HOME_ACTIVITY).navigation();
-            MMKVUtil.setString("wsq_account", mAccount);
+            MMKVUtil.setString("wsq_phone", mPhone);
             mActivity.finish();
         }
 

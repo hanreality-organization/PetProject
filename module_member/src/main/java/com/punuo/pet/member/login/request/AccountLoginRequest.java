@@ -11,7 +11,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
 public class AccountLoginRequest extends BaseRequest<LoginResult> {
 
     public AccountLoginRequest() {
-        setRequestType(RequestType.GET);
+        setRequestType(RequestType.POST);
         setRequestPath("/userLogin");
     }
 }

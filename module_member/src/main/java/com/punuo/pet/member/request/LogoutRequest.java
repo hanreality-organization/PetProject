@@ -11,6 +11,6 @@ public class LogoutRequest extends BaseRequest<BaseModel> {
 
     public LogoutRequest() {
         setRequestPath("/logout");
-        setRequestType(RequestType.GET);
+        setRequestType(RequestType.POST);
     }
 }

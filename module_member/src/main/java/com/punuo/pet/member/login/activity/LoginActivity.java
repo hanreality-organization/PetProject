@@ -1,4 +1,4 @@
-package com.punuo.pet.member.login;
+package com.punuo.pet.member.login.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;

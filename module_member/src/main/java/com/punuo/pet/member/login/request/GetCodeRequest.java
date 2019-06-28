@@ -10,7 +10,7 @@ import com.punuo.sys.sdk.model.BaseModel;
  **/
 public class GetCodeRequest extends BaseRequest<BaseModel> {
     public GetCodeRequest() {
-        setRequestType(RequestType.GET);
+        setRequestType(RequestType.POST);
         setRequestPath("/sendCode");
     }
 }

@@ -10,4 +10,10 @@ import com.punuo.sys.sdk.model.BaseModel;
 public class LoginResult extends BaseModel {
     @SerializedName("session")
     public String session;
+
+    @SerializedName("hasBindPhone")
+    public boolean hasBindPhone;
+
+    @SerializedName("phone")
+    public String phone;
 }

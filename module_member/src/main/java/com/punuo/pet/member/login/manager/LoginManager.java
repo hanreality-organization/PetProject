@@ -1,4 +1,4 @@
-package com.punuo.pet.member.login;
+package com.punuo.pet.member.login.manager;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,6 +11,7 @@ import com.punuo.pet.member.login.request.SetPasswordRequest;
 import com.punuo.pet.member.login.request.WeChatLoginRequest;
 import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -40,7 +41,7 @@ public class LoginManager {
 
     private QuickLoginRequest mQuickLoginRequest;
 
-    public void loginWithPhone(String phone, String code) {
+    public void loginWithPhone(final String phone, String code) {
         if (!RegexUtils.checkMobile(phone)) {
             ToastUtils.showToast("请输入合法的手机号码");
             return;
@@ -76,6 +77,7 @@ public class LoginManager {
                         mLoginCallBack.loginSuccess();
                     }
                     AccountManager.setSession(result.session);
+                    UserManager.getUserInfo(phone);
                 } else {
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginError();
@@ -85,6 +87,7 @@ public class LoginManager {
 
             @Override
             public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
                 if (mLoginCallBack != null) {
                     mLoginCallBack.loginError();
                 }
@@ -132,6 +135,7 @@ public class LoginManager {
 
             @Override
             public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
                 if (mLoginCallBack != null) {
                     mLoginCallBack.getAuthCodeError();
                 }
@@ -142,8 +146,8 @@ public class LoginManager {
 
     private AccountLoginRequest mAccountLoginRequest;
 
-    public void loginWithAccount(String accountName, String pwd) {
-        if (TextUtils.isEmpty(accountName)) {
+    public void loginWithAccount(final String phone, String pwd) {
+        if (TextUtils.isEmpty(phone)) {
             ToastUtils.showToast("请输入账号");
             return;
         }
@@ -156,7 +160,7 @@ public class LoginManager {
         }
         mActivity.showLoadingDialog("登陆中...");
         mAccountLoginRequest = new AccountLoginRequest();
-        mAccountLoginRequest.addUrlParam("userName", accountName);
+        mAccountLoginRequest.addUrlParam("userName", phone);
         mAccountLoginRequest.addUrlParam("userPwd", pwd);
         mAccountLoginRequest.setRequestListener(new RequestListener<LoginResult>() {
             @Override
@@ -177,6 +181,7 @@ public class LoginManager {
                         mLoginCallBack.loginSuccess();
                     }
                     AccountManager.setSession(result.session);
+                    UserManager.getUserInfo(phone);
                 } else {
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginError();
@@ -186,6 +191,7 @@ public class LoginManager {
 
             @Override
             public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
                 if (mLoginCallBack != null) {
                     mLoginCallBack.loginError();
                 }
@@ -218,6 +224,11 @@ public class LoginManager {
                 }
                 if (result.success) {
                     mLoginCallBack.loginSuccess();
+                    if (result.hasBindPhone) {
+                        UserManager.getUserInfo(result.phone);
+                    } else {
+                        //TODO 绑定手机号码页面
+                    }
                 }
             }
 
@@ -297,7 +308,7 @@ public class LoginManager {
 
             @Override
             public void onError(Exception e) {
-                ToastUtils.showToast("设置密码失败，请重试");
+                HandlerExceptionUtils.handleException(e);
             }
         });
         HttpManager.addRequest(mSetPasswordRequest);

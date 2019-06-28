@@ -1,4 +1,4 @@
-package com.punuo.pet.member.login;
+package com.punuo.pet.member.login.manager;
 
 /**
  * Created by han.chen.
