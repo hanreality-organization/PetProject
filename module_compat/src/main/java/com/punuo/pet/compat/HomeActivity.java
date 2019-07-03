@@ -12,7 +12,9 @@ import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
+import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
 
@@ -32,6 +34,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public static final int TAB_COUNT = 5;
     private MyFragmentManager mMyFragmentManager;
     private View[] mTabBars = new View[TAB_COUNT];
+    private View mPostView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         init();
 
         StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
+        mPostView = getWindow().getDecorView();
+        mPostView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (AccountManager.isLoginned()) {
+                    String session = AccountManager.getSession();
+                    if (!RegexUtils.checkMobile(session)) {
+                        Bundle params = new Bundle();
+                        params.putString("openId", session);
+                        ARouter.getInstance().build(MemberRouter.ROUTER_BIND_PHONE_ACTIVITY)
+                                .with(params)
+                                .navigation();
+                    }
+                }
+            }
+        });
     }
 
     private void init() {

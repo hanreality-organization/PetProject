@@ -13,7 +13,4 @@ public class LoginResult extends BaseModel {
 
     @SerializedName("hasBindPhone")
     public boolean hasBindPhone;
-
-    @SerializedName("phone")
-    public String phone;
 }

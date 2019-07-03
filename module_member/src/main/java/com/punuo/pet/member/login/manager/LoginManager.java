@@ -1,14 +1,17 @@
 package com.punuo.pet.member.login.manager;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.login.model.LoginResult;
 import com.punuo.pet.member.login.request.AccountLoginRequest;
 import com.punuo.pet.member.login.request.GetCodeRequest;
 import com.punuo.pet.member.login.request.QuickLoginRequest;
 import com.punuo.pet.member.login.request.SetPasswordRequest;
 import com.punuo.pet.member.login.request.WeChatLoginRequest;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
@@ -225,9 +228,18 @@ public class LoginManager {
                 if (result.success) {
                     mLoginCallBack.loginSuccess();
                     if (result.hasBindPhone) {
-                        UserManager.getUserInfo(result.phone);
+                        //获取用户信息
+                        if (result.session != null) {
+                            UserManager.getUserInfo(result.session);
+                        }
+                        AccountManager.setSession(result.session);
                     } else {
-                        //TODO 绑定手机号码页面
+                        //绑定手机
+                        Bundle params = new Bundle();
+                        params.putString("openId", result.session);
+                        ARouter.getInstance().build(MemberRouter.ROUTER_BIND_PHONE_ACTIVITY)
+                                .with(params)
+                                .navigation();
                     }
                 }
             }

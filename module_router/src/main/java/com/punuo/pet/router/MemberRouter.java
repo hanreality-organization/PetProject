@@ -10,4 +10,5 @@ public class MemberRouter {
     public static final String ROUTER_LOGIN_ACTIVITY = PREFIX + "/LoginActivity";
     public static final String ROUTER_REGISTER_ACCOUNT_ACTIVITY = PREFIX + "/RegisterAccountActivity";
     public static final String ROUTER_FORGET_PASSWORD_ACTIVITY = PREFIX + "/ForgetPasswordActivity";
+    public static final String ROUTER_BIND_PHONE_ACTIVITY = PREFIX + "/BindPhoneActivity";
 }
