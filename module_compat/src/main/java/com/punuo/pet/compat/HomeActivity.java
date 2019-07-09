@@ -56,6 +56,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         ARouter.getInstance().build(MemberRouter.ROUTER_BIND_PHONE_ACTIVITY)
                                 .with(params)
                                 .navigation();
+                    } else {
+                        ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                                .navigation();
                     }
                 }
             }

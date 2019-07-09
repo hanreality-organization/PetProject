@@ -9,11 +9,11 @@ import okhttp3.MediaType;
  * Created by han.chen.
  * Date on 2019/5/27.
  **/
-public class UploadFileRequest extends BaseRequest<UploadResult> {
+public class UploadPictureRequest extends BaseRequest<UploadResult> {
 
-    public UploadFileRequest() {
+    public UploadPictureRequest() {
         setRequestType(RequestType.UPLOAD);
-        setRequestPath("/xiaoyupeihu/public/index.php/users/updateUserPic");
+        setRequestPath("/addPics");
         contentType(MediaType.parse("image/*"));
     }
 }

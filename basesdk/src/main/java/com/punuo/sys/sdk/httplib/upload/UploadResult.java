@@ -1,7 +1,5 @@
 package com.punuo.sys.sdk.httplib.upload;
 
-import android.text.TextUtils;
-
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -10,16 +8,12 @@ import com.google.gson.annotations.SerializedName;
  **/
 public class UploadResult {
 
-    @SerializedName("msg")
-    public String msg;
+    @SerializedName("message")
+    public String message;
 
-    @SerializedName("tip")
-    public String tip;
+    @SerializedName("success")
+    public boolean success;
 
-    @SerializedName("avatar")
-    public String avatar;
-
-    public boolean isSuccess() {
-        return TextUtils.equals("success", msg);
-    }
+    @SerializedName("url")
+    public String url;
 }

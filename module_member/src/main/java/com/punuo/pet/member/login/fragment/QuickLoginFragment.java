@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
-import com.punuo.pet.member.login.manager.ILoginCallBack;
-import com.punuo.pet.member.login.manager.LoginManager;
 import com.punuo.pet.member.login.activity.RegisterAccountActivity;
 import com.punuo.pet.member.login.event.AuthEvent;
+import com.punuo.pet.member.login.manager.ILoginCallBack;
+import com.punuo.pet.member.login.manager.LoginManager;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.CleanEditText;
@@ -99,7 +99,11 @@ public class QuickLoginFragment extends BaseFragment {
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtil.jumpActivity(mActivity, RegisterAccountActivity.class);
+                ARouter.getInstance().build(MemberRouter.ROUTER_REGISTER_ACCOUNT_ACTIVITY)
+                        .withBoolean("isRegister", true)
+                        .withString("title", "注册")
+                        .withInt("type", RegisterAccountActivity.TYPE_INPUT_PHONE)
+                        .navigation();
             }
         });
     }

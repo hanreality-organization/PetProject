@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
@@ -33,13 +34,19 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
     private CleanEditText mEditPwd;
     private TextView mPasswordTip;
     private TextView mApply;
+    @Autowired(name = "isRegister")
+    boolean isRegister;
+    @Autowired(name = "type")
+    int type;
+    @Autowired(name = "title")
+    String title;
 
     private String stepOne = "<font color=\"#FF1A1A\">1.输入手机号</font> > 2.输入验证码 > 3.设置密码";
     private String stepTwo = "1.输入手机号 > <font color=\"#FF1A1A\">2.输入验证码</font> > 3.设置密码";
     private String stepThree = "1.输入手机号 > 2.输入验证码 > <font color=\"#FF1A1A\">3.设置密码</font>";
-    private static final int TYPE_INPUT_PHONE = 1;
-    private static final int TYPE_INPUT_CODE = 2;
-    private static final int TYPE_SET_PWD = 3;
+    public static final int TYPE_INPUT_PHONE = 1;
+    public static final int TYPE_INPUT_CODE = 2;
+    public static final int TYPE_SET_PWD = 3;
     private LoginManager mLoginManager;
     private String mPhone;
 
@@ -47,6 +54,7 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_layout);
+        ARouter.getInstance().inject(this);
         mLoginManager = new LoginManager(this, mLoginCallBack);
         initView();
 
@@ -60,8 +68,12 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
         mEditPwd = (CleanEditText) findViewById(R.id.edit_pwd);
         mPasswordTip = (TextView) findViewById(R.id.password_tip);
         mApply = (TextView) findViewById(R.id.apply);
-        mTitle.setText("注册");
-        switchType(TYPE_INPUT_PHONE);
+        if (isRegister) {
+            mTitle.setText(title);
+        } else {
+            mTitle.setText(title);
+        }
+        switchType(type);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

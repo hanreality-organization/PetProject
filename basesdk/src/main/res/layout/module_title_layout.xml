@@ -33,6 +33,12 @@
         android:text="subText"
         android:textColor="#333333"
         android:textSize="14sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_base" />
 
 </RelativeLayout>

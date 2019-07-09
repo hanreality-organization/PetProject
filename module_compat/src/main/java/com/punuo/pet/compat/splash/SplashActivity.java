@@ -1,11 +1,11 @@
-package com.punuo.pet.splash;
+package com.punuo.pet.compat.splash;
 
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.punuo.pet.R;
-import com.punuo.pet.process.ProcessTasks;
+import com.punuo.pet.compat.R;
+import com.punuo.pet.compat.process.ProcessTasks;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.PnApplication;

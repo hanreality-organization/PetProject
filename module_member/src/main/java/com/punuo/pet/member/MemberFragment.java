@@ -55,7 +55,7 @@ public class MemberFragment extends BaseFragment {
         mExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout("18758256058");
+                logout(AccountManager.getSession());
             }
         });
     }
