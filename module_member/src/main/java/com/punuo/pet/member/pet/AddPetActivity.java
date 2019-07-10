@@ -15,10 +15,15 @@ import com.punuo.pet.member.login.fragment.NormalLoginFragment;
 import com.punuo.pet.member.pet.fragment.AddPetFragment;
 import com.punuo.pet.member.pet.fragment.AddUserInfoFragment;
 import com.punuo.pet.member.pet.model.RequestParam;
+import com.punuo.pet.member.pet.request.AddPetRequest;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
-
-import java.util.HashMap;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 
 /**
@@ -34,7 +39,6 @@ public class AddPetActivity extends BaseSwipeBackActivity {
     private TextView mSubTitle;
     private AddPetFragment mAddPetFragment;
     private AddUserInfoFragment mAddUserInfoFragment;
-    private HashMap<Object, Object> mRequestParams = new HashMap<>();
     private FragmentManager mFragmentManager;
 
     @Override
@@ -61,21 +65,15 @@ public class AddPetActivity extends BaseSwipeBackActivity {
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.equals(mSubTitle.getText(),"下一步")) {
-                    RequestParam requestParam = mAddPetFragment.getRequestParam();
-                    //TODO 提交表单
-
-                    switchFragment(TYPE_ADD_USER);
-                    mTitle.setText("添加主人信息");
-                    mSubTitle.setText("完成");
-                } else if (TextUtils.equals(mSubTitle.getText(),"完成")) {
+                if (TextUtils.equals(mSubTitle.getText(), "下一步")) {
+                    addPetInfo(mAddPetFragment.getRequestParam());
+                } else if (TextUtils.equals(mSubTitle.getText(), "完成")) {
                     //TODO 提交表单
                 }
             }
         });
         mFragmentManager = getSupportFragmentManager();
         switchFragment(TYPE_ADD_PET);
-        mRequestParams.clear();
     }
 
     private void switchFragment(int type) {
@@ -110,6 +108,52 @@ public class AddPetActivity extends BaseSwipeBackActivity {
             default:
                 break;
         }
+    }
+
+    private AddPetRequest mAddPetRequest;
+
+    private void addPetInfo(RequestParam requestParams) {
+        if (mAddPetRequest != null && !mAddPetRequest.isFinish()) {
+            return;
+        }
+        if (requestParams == null) {
+            return;
+        }
+        mAddPetRequest = new AddPetRequest();
+        mAddPetRequest.addUrlParam("type", requestParams.type);
+        mAddPetRequest.addUrlParam("photo", requestParams.photo);
+        mAddPetRequest.addUrlParam("petName", requestParams.petName);
+        mAddPetRequest.addUrlParam("breed", requestParams.breed);
+        mAddPetRequest.addUrlParam("birth", requestParams.birth);
+        mAddPetRequest.addUrlParam("weight", requestParams.weight);
+        mAddPetRequest.addUrlParam("userName", AccountManager.getUserInfo().userName);
+        mAddPetRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                if (result == null) {
+                    return;
+                }
+                if (result.success) {
+                    switchFragment(TYPE_ADD_USER);
+                    mTitle.setText("添加主人信息");
+                    mSubTitle.setText("完成");
+                }
+                if (!TextUtils.isEmpty(result.message)) {
+                    ToastUtils.showToast(result.message);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        HttpManager.addRequest(mAddPetRequest);
     }
 
     @Override

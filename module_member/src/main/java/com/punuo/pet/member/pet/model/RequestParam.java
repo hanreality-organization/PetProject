@@ -8,9 +8,9 @@ public class RequestParam {
 
     public int type;
     public String photo;
-    public String name;
+    public String petName;
     public int breed;
-    public String date;
+    public String birth;
     public String weight;
 
 }
