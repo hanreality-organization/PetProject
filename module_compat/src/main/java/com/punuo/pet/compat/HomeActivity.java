@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.punuo.pet.PetManager;
+import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.CircleRouter;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.HomeRouter;
@@ -14,8 +16,12 @@ import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
+import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -57,8 +63,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                                 .with(params)
                                 .navigation();
                     } else {
-                        ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
-                                .navigation();
+                        PetManager.getPetInfo();
                     }
                 }
             }
@@ -68,8 +73,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         initTabBars();
         switchFragment(TAB_ONE);
+    }
 
-//        IntentUtil.jumpActivity(this, AddPetActivity.class);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UserInfo userInfo) {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PetModel model) {
+        if (model.mPets == null || model.mPets.isEmpty()) {
+            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                    .navigation();
+        }
     }
 
     private void initTabBars() {

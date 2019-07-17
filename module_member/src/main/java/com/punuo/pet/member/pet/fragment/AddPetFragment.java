@@ -126,6 +126,17 @@ public class AddPetFragment extends BaseFragment {
                 mDatePickerDialog.show();
             }
         });
+        mEditPetWeightUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mRequestParam.unit = mEditPetWeightUnit.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     /**
