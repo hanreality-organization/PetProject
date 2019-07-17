@@ -1,23 +1,53 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion gradle.sdk.compileSdkVersion
+    buildToolsVersion gradle.sdk.buildToolsVersion
+    signingConfigs {
+        PunuoClient {
+            storeFile file('../hangzhoupunuo.jks')
+            storePassword '123456'
+            keyAlias = 'hangzhoupunuokeystore'
+            keyPassword '123456'
+        }
+    }
     defaultConfig {
-        applicationId "com.punuo.pet"
-        minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        multiDexEnabled true
+        applicationId gradle.sdk.packageName
+        minSdkVersion gradle.sdk.minSdkVersion
+        targetSdkVersion gradle.sdk.targetSdkVersion
+        versionCode gradle.sdk.versionCode
+        versionName gradle.sdk.versionName
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.PunuoClient
         }
+        debug {
+            signingConfig signingConfigs.PunuoClient
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    productFlavors {
+
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.0.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':basesdk')
+    api project(':module_home')
+    api project(':module_compat')
+    api project(':module_message')
+    api project(':module_member')
+    api project(':module_circle')
 }

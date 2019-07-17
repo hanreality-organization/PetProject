@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="catTypeArray">
+        <item>英国短毛猫</item>
+        <item>美国短毛猫</item>
+        <item>异国短毛猫</item>
+    </string-array>
+    <string-array name="dogTypeArray">
+        <item>哈士奇</item>
+        <item>金毛</item>
+        <item>喜乐蒂</item>
+    </string-array>
+
+    <string-array name="petWeightUnit">
+        <item>kg</item>
+        <item>磅</item>
+    </string-array>
+</resources>

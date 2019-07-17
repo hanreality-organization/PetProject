@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.punuo.pet.compat" >
+
+    <application>
+        <activity
+            android:name=".HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoWindowAnimationStyle" />
+    </application>
+</manifest>
