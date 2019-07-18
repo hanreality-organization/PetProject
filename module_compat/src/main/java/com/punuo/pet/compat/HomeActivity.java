@@ -43,9 +43,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mMyFragmentManager = new MyFragmentManager(this);
         init();
 
-        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);//StatusBarUtil：状态栏工具类
         mPostView = getWindow().getDecorView();
-        mPostView.post(new Runnable() {
+        mPostView.post(new Runnable() {//view.post():1.子线程更UI,2.获取View的宽高
             @Override
             public void run() {
                 if (AccountManager.isLoginned()) {

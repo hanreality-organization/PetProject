@@ -64,8 +64,10 @@ public class AddPetFragment extends BaseFragment {
     private RequestParam mRequestParam = new RequestParam();
     private String mPetAvatar;
     private int mPetType;
+    private int mUnit;
 
     private ArrayAdapter<String> mPetAdapter;
+    private ArrayAdapter<String> mUnitAdapter;
     private Activity mActivity;
     private DatePickerDialog mDatePickerDialog;
 
@@ -112,7 +114,7 @@ public class AddPetFragment extends BaseFragment {
                 if (mDatePickerDialog != null && mDatePickerDialog.isShowing()) {
                     return;
                 }
-                Calendar calendar = Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();//Calendar类：可以理解为日期
                 int yy = calendar.get(Calendar.YEAR);
                 int mm = calendar.get(Calendar.MONTH);
                 int dd = calendar.get(Calendar.DAY_OF_MONTH);
@@ -158,6 +160,23 @@ public class AddPetFragment extends BaseFragment {
         });
     }
 
+    /**
+     *选取体重单位——wankui
+     */
+    private void setWeightUnit(){
+        mUnit = 1;
+        mEditPetWeightUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mUnit = position+1;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -186,6 +205,7 @@ public class AddPetFragment extends BaseFragment {
     }
 
     public RequestParam getRequestParam() {
+        setWeightUnit();
         int checkedRadioButtonId = mRadioGroup.getCheckedRadioButtonId();
         if (checkedRadioButtonId == R.id.radio_dog) {
             mRequestParam.type = 1;
@@ -198,6 +218,8 @@ public class AddPetFragment extends BaseFragment {
         mRequestParam.breed = mPetType;
         mRequestParam.birth = mEditPetBirth.getText().toString().trim();
         mRequestParam.weight = mEditPetWeight.getText().toString().trim();
+        mRequestParam.unit = mUnit;
+
         return mRequestParam;
     }
 
