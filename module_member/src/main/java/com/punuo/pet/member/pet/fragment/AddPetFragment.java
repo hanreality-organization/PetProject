@@ -64,7 +64,7 @@ public class AddPetFragment extends BaseFragment {
     private RequestParam mRequestParam = new RequestParam();
     private String mPetAvatar;
     private int mPetType;
-    private int mUnit;
+    private int mUnit = 1;
 
     private ArrayAdapter<String> mPetAdapter;
     private ArrayAdapter<String> mUnitAdapter;
@@ -128,6 +128,17 @@ public class AddPetFragment extends BaseFragment {
                 mDatePickerDialog.show();
             }
         });
+
+        mEditPetWeightUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mUnit = position + 1;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     /**
@@ -155,23 +166,6 @@ public class AddPetFragment extends BaseFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    /**
-     *选取体重单位——wankui
-     */
-    private void setWeightUnit(){
-        mUnit = 1;
-        mEditPetWeightUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                mUnit = position+1;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -205,7 +199,6 @@ public class AddPetFragment extends BaseFragment {
     }
 
     public RequestParam getRequestParam() {
-        setWeightUnit();
         int checkedRadioButtonId = mRadioGroup.getCheckedRadioButtonId();
         if (checkedRadioButtonId == R.id.radio_dog) {
             mRequestParam.type = 1;
