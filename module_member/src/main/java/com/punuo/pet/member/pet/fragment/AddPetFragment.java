@@ -67,7 +67,6 @@ public class AddPetFragment extends BaseFragment {
     private int mUnit = 1;
 
     private ArrayAdapter<String> mPetAdapter;
-    private ArrayAdapter<String> mUnitAdapter;
     private Activity mActivity;
     private DatePickerDialog mDatePickerDialog;
 
