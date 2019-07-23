@@ -22,7 +22,7 @@ public class PetManager {
             return;
         }
         mGetPetInfoRequest = new GetPetInfoRequest();
-        mGetPetInfoRequest.addUrlParam("userName", AccountManager.getUserInfo().userName);
+        mGetPetInfoRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetPetInfoRequest.setRequestListener(new RequestListener<PetModel>() {
             @Override
             public void onComplete() {

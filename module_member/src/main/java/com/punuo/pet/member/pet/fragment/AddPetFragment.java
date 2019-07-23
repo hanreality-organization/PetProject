@@ -228,7 +228,7 @@ public class AddPetFragment extends BaseFragment {
         showLoadingDialog("正在上传...");
         mUploadPictureRequest = new UploadPictureRequest();
         mUploadPictureRequest.addEntityParam("photo", file);
-        mUploadPictureRequest.addEntityParam("userName", AccountManager.getUserInfo().userName);
+        mUploadPictureRequest.addEntityParam("userName", AccountManager.getUserName());
         mUploadPictureRequest.setRequestListener(new RequestListener<UploadResult>() {
             @Override
             public void onComplete() {

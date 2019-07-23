@@ -45,6 +45,14 @@ public class AccountManager {
         return sUserInfo;
     }
 
+    public static String getUserName() {
+        String userName = getUserInfo().userName;
+        if (TextUtils.isEmpty(userName)) {
+            userName = getSession();
+        }
+        return userName;
+    }
+
     public static void setSession(String session) {
         sSession = session;
         MMKVUtil.setString("wsq_pref_session", session);
