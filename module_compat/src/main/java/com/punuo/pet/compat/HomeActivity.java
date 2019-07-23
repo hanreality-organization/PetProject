@@ -14,6 +14,7 @@ import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
+import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -74,6 +75,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (RegexUtils.checkMobile(AccountManager.getUserName())) {
             UserManager.getUserInfo(AccountManager.getUserName());
         }
+
+        ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
+                .withString("url", "https://www.baidu.com")
+                .navigation();
     }
 
     private void init() {

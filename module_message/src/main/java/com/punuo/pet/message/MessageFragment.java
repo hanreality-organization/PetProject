@@ -1,8 +1,5 @@
 package com.punuo.pet.message;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,18 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,22 +55,22 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void initView(){
-        mComment = mFragmentView.findViewById(R.id.comment);
-        mLike = mFragmentView.findViewById(R.id.like);
-        mAite = mFragmentView.findViewById(R.id.aite);
-        mEquipmentNotify = mFragmentView.findViewById(R.id.equipment_notify);
-        mToolNotify = mFragmentView.findViewById(R.id.tool_notify);
-        mMyIssue = mFragmentView.findViewById(R.id.myissue);
-        mTitle = mFragmentView.findViewById(R.id.title);
-        count1 = mFragmentView.findViewById(R.id.comment_count);
-
-        mTitle.setText("消息");
-        if(commentCount != 0){
-            count1.setText(String.valueOf(commentCount));
-            count1.setVisibility(View.VISIBLE);
-        }else{
-            count1.setVisibility(View.INVISIBLE);
-        }
+//        mComment = mFragmentView.findViewById(R.id.comment);
+//        mLike = mFragmentView.findViewById(R.id.like);
+//        mAite = mFragmentView.findViewById(R.id.aite);
+//        mEquipmentNotify = mFragmentView.findViewById(R.id.equipment_notify);
+//        mToolNotify = mFragmentView.findViewById(R.id.tool_notify);
+//        mMyIssue = mFragmentView.findViewById(R.id.myissue);
+//        mTitle = mFragmentView.findViewById(R.id.title);
+//        count1 = mFragmentView.findViewById(R.id.comment_count);
+//
+//        mTitle.setText("消息");
+//        if(commentCount != 0){
+//            count1.setText(String.valueOf(commentCount));
+//            count1.setVisibility(View.VISIBLE);
+//        }else{
+//            count1.setVisibility(View.INVISIBLE);
+//        }
 
     }
 
@@ -103,26 +94,26 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        //在Android Library中R.java中的资源ID不是常数，不再使用switch—case
-        int id = view.getId();
-        if(id == R.id.comment) {
-            ARouter.getInstance().build(MessageRouter.ROUTER_COMMENTVIEW).navigation();
-        }
-        else if(id == R.id.like){
-            ARouter.getInstance().build(MessageRouter.ROUTER_ADDLIKEVIEW).navigation();
-        }
-        else if(id == R.id.aite){
-            ARouter.getInstance().build(MessageRouter.ROUTER_AITEVIEW).navigation();
-        }
-        else if(id == R.id.equipment_notify){
-            ARouter.getInstance().build(MessageRouter.ROUTER_EQUIPMENTNOTIFY).navigation();
-        }
-        else if(id == R.id.tool_notify){
-            ARouter.getInstance().build(MessageRouter.ROUTER_TOOLNOTIFY).navigation();
-        }
-        else if(id == R.id.myissue){
-            ARouter.getInstance().build(MessageRouter.ROUTER_MYISSUE).navigation();
-        }
+//        //在Android Library中R.java中的资源ID不是常数，不再使用switch—case
+//        int id = view.getId();
+//        if(id == R.id.comment) {
+//            ARouter.getInstance().build(MessageRouter.ROUTER_COMMENTVIEW).navigation();
+//        }
+//        else if(id == R.id.like){
+//            ARouter.getInstance().build(MessageRouter.ROUTER_ADDLIKEVIEW).navigation();
+//        }
+//        else if(id == R.id.aite){
+//            ARouter.getInstance().build(MessageRouter.ROUTER_AITEVIEW).navigation();
+//        }
+//        else if(id == R.id.equipment_notify){
+//            ARouter.getInstance().build(MessageRouter.ROUTER_EQUIPMENTNOTIFY).navigation();
+//        }
+//        else if(id == R.id.tool_notify){
+//            ARouter.getInstance().build(MessageRouter.ROUTER_TOOLNOTIFY).navigation();
+//        }
+//        else if(id == R.id.myissue){
+//            ARouter.getInstance().build(MessageRouter.ROUTER_MYISSUE).navigation();
+//        }
     }
 
     @Override
