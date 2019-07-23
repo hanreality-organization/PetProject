@@ -15,9 +15,12 @@ import com.punuo.pet.member.login.fragment.NormalLoginFragment;
 import com.punuo.pet.member.pet.fragment.AddPetFragment;
 import com.punuo.pet.member.pet.fragment.AddUserInfoFragment;
 import com.punuo.pet.member.pet.model.RequestParam;
+import com.punuo.pet.member.pet.model.UserParam;
 import com.punuo.pet.member.pet.request.AddPetRequest;
+import com.punuo.pet.member.pet.request.AddUserInfoRequest;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -68,7 +71,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
                 if (TextUtils.equals(mSubTitle.getText(), "下一步")) {
                     addPetInfo(mAddPetFragment.getRequestParam());
                 } else if (TextUtils.equals(mSubTitle.getText(), "完成")) {
-                    //TODO 提交表单
+                    addUserInfo(mAddUserInfoFragment.getUserParam());
                 }
             }
         });
@@ -156,6 +159,46 @@ public class AddPetActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(mAddPetRequest);
+    }
+
+    private AddUserInfoRequest mAddUserInfoRequest;
+
+    private void addUserInfo(UserParam userParam) {
+        if (mAddUserInfoRequest != null && !mAddUserInfoRequest.isFinish()) {
+            return;
+        }
+        mAddUserInfoRequest = new AddUserInfoRequest();
+        mAddUserInfoRequest.addUrlParam("userName", AccountManager.getUserName());
+        mAddUserInfoRequest.addUrlParam("photo", userParam.avatar);
+        mAddUserInfoRequest.addUrlParam("birth", userParam.birth);
+        mAddUserInfoRequest.addUrlParam("nickName", userParam.nickName);
+        mAddUserInfoRequest.addUrlParam("gender", userParam.gender);
+        mAddUserInfoRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                if (result == null) {
+                    return;
+                }
+                if (result.success) {
+                    UserManager.getUserInfo(AccountManager.getUserName());
+                    finish();
+                }
+                if (!TextUtils.isEmpty(result.message)) {
+                    ToastUtils.showToast(result.message);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mAddUserInfoRequest);
     }
 
     @Override
