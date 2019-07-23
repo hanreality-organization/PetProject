@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -127,6 +128,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
         mAddPetRequest.addUrlParam("birth", requestParams.birth);
         mAddPetRequest.addUrlParam("weight", requestParams.weight);
         mAddPetRequest.addUrlParam("unit",requestParams.unit);
+        Log.e("单位是", ""+requestParams.unit);
         mAddPetRequest.addUrlParam("userName", AccountManager.getUserInfo().userName);
         mAddPetRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
