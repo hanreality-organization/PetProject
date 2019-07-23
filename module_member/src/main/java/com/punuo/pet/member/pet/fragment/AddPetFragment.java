@@ -32,6 +32,7 @@ import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.httplib.upload.UploadPictureRequest;
 import com.punuo.sys.sdk.httplib.upload.UploadResult;
+import com.punuo.sys.sdk.util.BitmapUtil;
 import com.punuo.sys.sdk.util.FileUtil;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
@@ -179,8 +180,7 @@ public class AddPetFragment extends BaseFragment {
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
                     LocalMedia localMedia = selectList.get(0);
                     String path = localMedia.getPath();
-                    if (isJPEG(path)) {
-                        //TODO 上传图片
+                    if (BitmapUtil.isJPEG(path)) {
                         uploadPicture(compressBitmap(path));
                     } else {
                         ToastUtils.showToast("只支持jpg格式");
@@ -190,11 +190,6 @@ public class AddPetFragment extends BaseFragment {
                     break;
             }
         }
-    }
-
-    private boolean isJPEG(String path) {
-        String type = PictureMimeType.getLastImgType(path);
-        return type.equals(".jpg") || type.equals(".JPEG") || type.equals(".jpeg");
     }
 
     public RequestParam getRequestParam() {

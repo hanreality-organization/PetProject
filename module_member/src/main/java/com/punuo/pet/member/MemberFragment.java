@@ -31,6 +31,7 @@ public class MemberFragment extends BaseFragment {
     private TextView mTitle;
     private ImageView mBack;
     private TextView mExitButton;
+    private TextView mAddPetButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class MemberFragment extends BaseFragment {
         mBack = mFragmentView.findViewById(R.id.back);
         mTitle = mFragmentView.findViewById(R.id.title);
         mExitButton = mFragmentView.findViewById(R.id.exit_button);
+        mAddPetButton = mFragmentView.findViewById(R.id.add_pet_button);
         mBack.setVisibility(View.GONE);
         mTitle.setText("我的");
 
@@ -56,6 +58,13 @@ public class MemberFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 logout(AccountManager.getSession());
+            }
+        });
+        mAddPetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                        .navigation();
             }
         });
     }

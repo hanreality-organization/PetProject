@@ -15,6 +15,7 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.RegexUtils;
@@ -70,6 +71,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         });
         EventBus.getDefault().register(this);
+        if (RegexUtils.checkMobile(AccountManager.getUserName())) {
+            UserManager.getUserInfo(AccountManager.getUserName());
+        }
     }
 
     private void init() {

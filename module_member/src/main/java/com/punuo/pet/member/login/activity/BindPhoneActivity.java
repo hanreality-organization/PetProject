@@ -16,6 +16,7 @@ import com.punuo.pet.member.login.manager.LoginManager;
 import com.punuo.pet.member.login.request.BindPhoneRequest;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -101,6 +102,7 @@ public class BindPhoneActivity extends BaseActivity {
                     ToastUtils.showToast(result.message);
                 }
                 if (result.success) {
+                    UserManager.getUserInfo(mPhone);
                     ARouter.getInstance().build(CompatRouter.ROUTER_HOME_ACTIVITY)
                             .navigation();
                 }
