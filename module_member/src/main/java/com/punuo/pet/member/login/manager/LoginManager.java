@@ -76,11 +76,11 @@ public class LoginManager {
                 }
 
                 if (result.success) {
+                    UserManager.getUserInfo(phone);
+                    AccountManager.setSession(result.session);
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginSuccess();
                     }
-                    AccountManager.setSession(result.session);
-                    UserManager.getUserInfo(phone);
                 } else {
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginError();
@@ -180,11 +180,11 @@ public class LoginManager {
                     ToastUtils.showToast(result.message);
                 }
                 if (result.success) {
+                    UserManager.getUserInfo(phone);
+                    AccountManager.setSession(result.session);
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginSuccess();
                     }
-                    AccountManager.setSession(result.session);
-                    UserManager.getUserInfo(phone);
                 } else {
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginError();

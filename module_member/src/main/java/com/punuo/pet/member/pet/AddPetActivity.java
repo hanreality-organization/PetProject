@@ -130,6 +130,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
         mAddPetRequest.addUrlParam("unit",requestParams.unit);
         Log.e("单位是", ""+requestParams.unit);
         mAddPetRequest.addUrlParam("userName", AccountManager.getUserInfo().userName);
+        mAddPetRequest.addUrlParam("unit", requestParams.unit);
         mAddPetRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
             public void onComplete() {
