@@ -64,6 +64,7 @@ public class AddPetFragment extends BaseFragment {
     private RequestParam mRequestParam = new RequestParam();
     private String mPetAvatar;
     private int mPetType;
+    private int mUnit = 1;
 
     private ArrayAdapter<String> mPetAdapter;
     private Activity mActivity;
@@ -112,7 +113,7 @@ public class AddPetFragment extends BaseFragment {
                 if (mDatePickerDialog != null && mDatePickerDialog.isShowing()) {
                     return;
                 }
-                Calendar calendar = Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();//Calendar类：可以理解为日期
                 int yy = calendar.get(Calendar.YEAR);
                 int mm = calendar.get(Calendar.MONTH);
                 int dd = calendar.get(Calendar.DAY_OF_MONTH);
@@ -126,14 +127,14 @@ public class AddPetFragment extends BaseFragment {
                 mDatePickerDialog.show();
             }
         });
+
         mEditPetWeightUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mRequestParam.unit = mEditPetWeightUnit.getSelectedItem().toString();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mUnit = position + 1;
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -209,6 +210,8 @@ public class AddPetFragment extends BaseFragment {
         mRequestParam.breed = mPetType;
         mRequestParam.birth = mEditPetBirth.getText().toString().trim();
         mRequestParam.weight = mEditPetWeight.getText().toString().trim();
+        mRequestParam.unit = mUnit;
+
         return mRequestParam;
     }
 
@@ -225,7 +228,7 @@ public class AddPetFragment extends BaseFragment {
         showLoadingDialog("正在上传...");
         mUploadPictureRequest = new UploadPictureRequest();
         mUploadPictureRequest.addEntityParam("photo", file);
-        mUploadPictureRequest.addEntityParam("userName", AccountManager.getUserInfo().userName);
+        mUploadPictureRequest.addEntityParam("userName", AccountManager.getUserName());
         mUploadPictureRequest.setRequestListener(new RequestListener<UploadResult>() {
             @Override
             public void onComplete() {

@@ -12,6 +12,6 @@ public class RequestParam {
     public int breed;
     public String birth;
     public String weight;
-    public String unit;
+    public int unit;
 
 }

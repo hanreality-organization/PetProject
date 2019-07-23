@@ -21,7 +21,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,//设置窗口全屏
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_layout);
@@ -35,7 +35,7 @@ public class SplashActivity extends BaseActivity {
             MMKVUtil.setBoolean("is_first_run", false);
             //TODO 第一次启动，可以做一些自定义的东西
         }
-        getWindow().getDecorView().postDelayed(new Runnable() {
+        getWindow().getDecorView().postDelayed(new Runnable() {//postDelayed:定时器，此处是2秒后执行;getDecorView():获取整个屏幕
             @Override
             public void run() {
                 if (AccountManager.isLoginned()) {
