@@ -31,7 +31,7 @@ public class PetManager {
 
             @Override
             public void onSuccess(PetModel result) {
-                if (result != null && result.success) {
+                if (result != null) {
                     EventBus.getDefault().post(result);
                 }
             }
