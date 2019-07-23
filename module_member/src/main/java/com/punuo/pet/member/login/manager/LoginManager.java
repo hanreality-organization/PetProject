@@ -14,7 +14,6 @@ import com.punuo.pet.member.login.request.WeChatLoginRequest;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
-import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -76,7 +75,6 @@ public class LoginManager {
                 }
 
                 if (result.success) {
-                    UserManager.getUserInfo(phone);
                     AccountManager.setSession(result.session);
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginSuccess();
@@ -180,7 +178,6 @@ public class LoginManager {
                     ToastUtils.showToast(result.message);
                 }
                 if (result.success) {
-                    UserManager.getUserInfo(phone);
                     AccountManager.setSession(result.session);
                     if (mLoginCallBack != null) {
                         mLoginCallBack.loginSuccess();
@@ -226,14 +223,8 @@ public class LoginManager {
                     ToastUtils.showToast(result.message);
                 }
                 if (result.success) {
-                    mLoginCallBack.loginSuccess();
-                    if (result.hasBindPhone) {
-                        //获取用户信息
-                        if (result.session != null) {
-                            UserManager.getUserInfo(result.session);
-                        }
-                        AccountManager.setSession(result.session);
-                    } else {
+                    AccountManager.setSession(result.session);
+                    if (!result.hasBindPhone) {
                         //绑定手机
                         Bundle params = new Bundle();
                         params.putString("openId", result.session);
@@ -241,6 +232,7 @@ public class LoginManager {
                                 .with(params)
                                 .navigation();
                     }
+                    mLoginCallBack.loginSuccess();
                 }
             }
 
