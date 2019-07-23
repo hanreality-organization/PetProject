@@ -39,7 +39,7 @@ public class WebViewFragment extends BaseFragment {
         mBaseHandler = mActivity.getBaseHandler();
         mFragmentView = inflater.inflate(R.layout.webview_fragment, container, false);
         mPullToRefreshWebView = mFragmentView.findViewById(R.id.pull_to_refresh);
-        mWebView = mPullToRefreshWebView.getRefreshableView();
+        mPullToRefreshWebView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         mWebView = mPullToRefreshWebView.getRefreshableView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -48,7 +48,7 @@ public class WebViewFragment extends BaseFragment {
             mStatusBar.requestLayout();
         }
         mUrl = getArguments().getString("url", "");
-
+        mWebView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         WebSettings settings = mWebView.getSettings();
         settings.setBuiltInZoomControls(false);
         settings.setSupportZoom(false);
