@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ScrollView>
+
     <include
         android:id="@+id/message_title"
         layout="@layout/module_title_layout"/>
@@ -44,7 +50,7 @@
             android:layout_marginEnd="60dp"
             android:textColor="#ffffff"
             android:textSize="20sp"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -55,7 +61,19 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="25dp"
             android:src="@drawable/rightarrow" />
-        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/comment_count2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/redrectangle"
+            android:text="66"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -82,20 +100,6 @@
             android:text="点赞"
             android:textSize="25dp"
             android:textColor="@color/black"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/comment_count2"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/redrectangle"
-            android:text="66"
-            android:layout_marginEnd="60dp"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:visibility="visible"
-            />
 
         <ImageView
             android:id="@+id/right_like"
@@ -144,7 +148,7 @@
             android:layout_marginEnd="60dp"
             android:textColor="#ffffff"
             android:textSize="20sp"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <ImageView

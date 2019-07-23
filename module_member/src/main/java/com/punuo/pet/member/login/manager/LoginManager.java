@@ -3,6 +3,7 @@ package com.punuo.pet.member.login.manager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.login.model.LoginResult;
@@ -68,6 +69,7 @@ public class LoginManager {
 
             @Override
             public void onSuccess(LoginResult result) {
+                Log.i("loginsuccess", "onSuccess: "+result);
                 if (result == null) {
                     return;
                 }

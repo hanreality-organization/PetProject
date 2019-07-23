@@ -127,7 +127,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
         mAddPetRequest.addUrlParam("birth", requestParams.birth);
         mAddPetRequest.addUrlParam("weight", requestParams.weight);
         mAddPetRequest.addUrlParam("unit",requestParams.unit);
-        mAddPetRequest.addUrlParam("userName", AccountManager.getUserInfo().userName);
+        mAddPetRequest.addUrlParam("userName", AccountManager.getUserName());
         mAddPetRequest.addUrlParam("unit", requestParams.unit);
         mAddPetRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
