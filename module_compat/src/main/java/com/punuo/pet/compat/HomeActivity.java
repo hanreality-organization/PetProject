@@ -20,6 +20,7 @@ import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -68,6 +69,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+        EventBus.getDefault().register(this);
     }
 
     private void init() {
@@ -155,5 +157,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         switchFragment(type);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
