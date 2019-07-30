@@ -4,22 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <ScrollView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ScrollView>
+        android:layout_height="50dp"
+        android:background="@color/white"/>
 
     <include
         android:id="@+id/message_title"
-        layout="@layout/module_title_layout"/>
+        layout="@layout/module_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/status_bar1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:id="@+id/comment"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -35,22 +41,22 @@
             android:text="评论"
             android:layout_toRightOf="@+id/image_comment"
             android:layout_centerVertical="true"
-            android:textSize="25dp"
+            android:textSize="16sp"
             android:layout_marginLeft="15dp"
             android:textColor="@color/black"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/comment_count1"
+            android:id="@+id/count1"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@drawable/redrectangle"
             android:text="2"
             android:layout_marginEnd="60dp"
             android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:visibility="gone"
+            android:textSize="16sp"
+            android:visibility="visible"
             />
 
         <ImageView
@@ -62,25 +68,18 @@
             android:layout_marginEnd="25dp"
             android:src="@drawable/rightarrow" />
 
-        <TextView
-            android:id="@+id/comment_count2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/redrectangle"
-            android:text="66"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:visibility="gone" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/like"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -98,8 +97,22 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/image_like"
             android:text="点赞"
-            android:textSize="25dp"
+            android:textSize="16sp"
             android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/count2"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/redrectangle"
+            android:text="5"
+            android:layout_marginEnd="60dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:visibility="visible"
+            />
 
         <ImageView
             android:id="@+id/right_like"
@@ -111,20 +124,26 @@
             android:src="@drawable/rightarrow" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
     <RelativeLayout
+        android:id="@+id/aite"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal"
-        android:id="@+id/aite"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
+
         <ImageView
-            android:layout_height="40dp"
-            android:layout_width="40dp"
             android:id="@+id/image_aite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/aite"
             android:layout_marginLeft="20dp"
-            />
+            android:src="@drawable/aite" />
 
         <TextView
             android:id="@+id/text_aite"
@@ -134,22 +153,21 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/image_aite"
             android:text=" @我"
-            android:textSize="25dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/count3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/comment_count"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="60dp"
             android:background="@drawable/redrectangle"
             android:text="12"
-            android:layout_marginEnd="60dp"
             android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:visibility="gone"
-            />
+            android:textSize="16sp"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/right_aite"
@@ -161,13 +179,17 @@
             android:src="@drawable/rightarrow" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/equipment_notify"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -185,7 +207,7 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/image_equipment_notify"
             android:text="设备通知"
-            android:textSize="25dp"
+            android:textSize="16sp"
             android:textColor="@color/black"/>
 
         <ImageView
@@ -198,12 +220,16 @@
             android:src="@drawable/rightarrow" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/tool_notify"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -221,7 +247,7 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/image_tool_notify"
             android:text="工具通知"
-            android:textSize="25dp"
+            android:textSize="16sp"
             android:textColor="@color/black"/>
 
         <ImageView
@@ -234,12 +260,16 @@
             android:src="@drawable/rightarrow" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/myissue"
-        android:layout_marginTop="2dp">
+        android:background="@color/white">
         <ImageView
             android:layout_height="40dp"
             android:layout_width="40dp"
@@ -257,7 +287,7 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/image_myissue"
             android:text="我的发布"
-            android:textSize="25dp"
+            android:textSize="16sp"
             android:textColor="@color/black"/>
 
         <ImageView
