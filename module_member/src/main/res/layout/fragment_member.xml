@@ -25,49 +25,51 @@
         <RelativeLayout
             android:id="@+id/base_information"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:orientation="horizontal"
-            android:background="@drawable/ic_base_information_bg">
+            android:background="@drawable/ic_base_infomation_bg">
 
             <RelativeLayout
+                android:id="@+id/information1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/information1">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
                 <ImageView
                     android:id="@+id/user_avater"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/ic_avater"/>
+                    android:src="@drawable/ic_avater" />
 
                 <TextView
                     android:id="@+id/user_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_toRightOf="@+id/user_avater"
                     android:layout_alignTop="@+id/user_avater"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/user_avater"
                     android:text="梦视科技007"
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
-                    android:id="@+id/user_id"
                     android:layout_below="@+id/user_nickname"
-                    android:layout_toRightOf="@+id/user_avater"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/user_avater"
                     android:text="ID:888888"
-                    android:textColor="@color/black"
-                    />
+                    android:textColor="@color/black" />
             </RelativeLayout>
 
             <LinearLayout
@@ -90,6 +92,10 @@
 
         </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
         <!--积分商城布局-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +108,8 @@
                 android:id="@+id/integral"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true">
 
                 <ImageView
                     android:id="@+id/image_integral"
@@ -127,7 +134,8 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:id="@+id/shop"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true">
 
                 <ImageView
                     android:id="@+id/image_shop"
@@ -161,7 +169,8 @@
             android:orientation="horizontal"
             android:id="@+id/zuji"
             android:background="@color/white"
-            android:layout_below="@+id/integral_shop">
+            android:layout_below="@+id/integral_shop"
+            android:clickable="true">
             <ImageView
                 android:layout_height="40dp"
                 android:layout_width="40dp"
@@ -202,7 +211,8 @@
             android:orientation="horizontal"
             android:id="@+id/collection"
             android:background="@color/white"
-            android:layout_below="@+id/zuji">
+            android:layout_below="@+id/zuji"
+            android:clickable="true">
             <ImageView
                 android:layout_height="40dp"
                 android:layout_width="40dp"
@@ -243,7 +253,8 @@
             android:orientation="horizontal"
             android:id="@+id/emjio"
             android:background="@color/white"
-            android:layout_below="@+id/collection">
+            android:layout_below="@+id/collection"
+            android:clickable="true">
             <ImageView
                 android:layout_height="40dp"
                 android:layout_width="40dp"
@@ -284,7 +295,8 @@
             android:orientation="horizontal"
             android:id="@+id/account"
             android:background="@color/white"
-            android:layout_below="@+id/emjio">
+            android:layout_below="@+id/emjio"
+            android:clickable="true">
             <ImageView
                 android:layout_height="40dp"
                 android:layout_width="40dp"
@@ -324,7 +336,8 @@
             android:layout_height="50dp"
             android:id="@+id/privacy"
             android:layout_below="@+id/account"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/image_privacy"
                 android:layout_width="40dp"
@@ -362,7 +375,8 @@
             android:layout_height="50dp"
             android:id="@+id/cache"
             android:layout_below="@+id/privacy"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/image_cache"
                 android:layout_width="40dp"
@@ -383,7 +397,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ram"
+                android:id="@+id/buff"
                 android:text="3M"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -400,7 +414,8 @@
             android:layout_height="50dp"
             android:id="@+id/about"
             android:layout_below="@+id/cache"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/image_about"
                 android:layout_width="40dp"
@@ -438,7 +453,8 @@
             android:layout_height="50dp"
             android:id="@+id/customerservice"
             android:layout_below="@+id/about"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/image_customerservice"
                 android:layout_width="40dp"
