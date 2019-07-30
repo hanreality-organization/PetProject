@@ -13,9 +13,9 @@ public class MemberRouter {
     public static final String ROUTER_BIND_PHONE_ACTIVITY = PREFIX + "/BindPhoneActivity";
     public static final String ROUTER_ADD_PET_ACTIVITY = PREFIX + "/AddPetActivity";
 
-    public static final String ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY = PREFIX + "AccountManagementActivity";
-    public static final String ROUTER_CHANGE_AVATER_ACTIVITY = PREFIX + "ChangeAvaterActivity";
-    public static final String ROUTER_SET_NICKNAME_ACTIVITY = PREFIX + "SetNicknameActivity";
-    public static final String ROUTER_SET_PASSWORD_ACTIVITY = PREFIX +"SetPasswordActivity";
+    public static final String ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY = PREFIX + "/AccountManagementActivity";
+    public static final String ROUTER_CHANGE_AVATER_ACTIVITY = PREFIX + "/ChangeAvaterActivity";
+    public static final String ROUTER_SET_NICKNAME_ACTIVITY = PREFIX + "/SetNicknameActivity";
+    public static final String ROUTER_SET_PASSWORD_ACTIVITY = PREFIX +"/SetPasswordActivity";
 
 }
