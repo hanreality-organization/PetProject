@@ -1,6 +1,7 @@
 package com.punuo.pet.member.login.activity;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +45,13 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
         initView();
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
+        View mStatusBar = findViewById(R.id.status_bar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
+            mStatusBar.setVisibility(View.VISIBLE);
+            mStatusBar.requestLayout();
+        }
     }
 
     private void initView() {
