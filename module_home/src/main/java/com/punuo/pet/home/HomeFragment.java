@@ -19,6 +19,7 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.TimeUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,7 +141,8 @@ public class HomeFragment extends BaseFragment {
         mPetInfoContainer.setVisibility(View.VISIBLE);
         PetData petData = model.mPets.get(position);
         ViewUtil.setText(mPetName, petData.petname);
-        ViewUtil.setText(mPetAge, petData.birth);
+        String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(petData.birth));
+        ViewUtil.setText(mPetAge, age);
         ViewUtil.setText(mPetWeight, String.valueOf(petData.weight));
     }
 

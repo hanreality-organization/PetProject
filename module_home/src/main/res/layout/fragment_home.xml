@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <View
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/header_container"
         android:orientation="horizontal"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:layout_marginLeft="12dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
@@ -70,13 +70,14 @@
             android:textColor="#666666"
             android:textSize="14sp" />
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/device_part"
             android:layout_width="match_parent"
             android:layout_height="145dp"
             android:layout_margin="12dp"
             android:scaleType="fitXY"
-            android:src="@drawable/home_ic_device" />
+            android:src="@drawable/home_ic_device"
+            app:riv_corner_radius="6dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,19 +99,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
 
-            <ImageView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/feed_pet"
                 android:layout_width="145dp"
                 android:layout_height="145dp"
-                android:layout_weight="1"
-                android:src="@drawable/home_ic_tool_1" />
+                android:src="@drawable/home_ic_tool_1"
+                app:riv_corner_radius="6dp"/>
 
-            <ImageView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/care_pet"
                 android:layout_width="145dp"
                 android:layout_height="145dp"
-                android:layout_weight="1"
-                android:src="@drawable/home_ic_tool_2" />
+                android:src="@drawable/home_ic_tool_2"
+                app:riv_corner_radius="6dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
