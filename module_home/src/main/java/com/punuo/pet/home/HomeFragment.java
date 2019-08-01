@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -40,6 +41,9 @@ public class HomeFragment extends BaseFragment {
     private View mPetInfo;
     private TextView mPetAge;
     private TextView mPetWeight;
+    private ImageView mDevicePart;
+    private View mFeetPet;
+    private View mCarePet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +65,9 @@ public class HomeFragment extends BaseFragment {
         mPetInfoContainer = mFragmentView.findViewById(R.id.home_pet_info_container);
         mAddPet = mFragmentView.findViewById(R.id.home_add_pet);
         mPetName = mFragmentView.findViewById(R.id.home_pet_name);
+        mDevicePart = mFragmentView.findViewById(R.id.device_part);
+        mFeetPet = mFragmentView.findViewById(R.id.feed_pet);
+        mCarePet = mFragmentView.findViewById(R.id.care_pet);
         mPetLoopHolder = PetLoopHolder.newInstance(getActivity(), mHeadContainer);
         mHeadContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
@@ -70,6 +77,24 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
                         .navigation();
+            }
+        });
+        mDevicePart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mFeetPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mCarePet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -84,7 +109,7 @@ public class HomeFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(final PetModel model) {
-        if (model == null || model.mPets.isEmpty()) {
+        if (model == null) {
             return;
         }
         mPetLoopHolder.updateView(model);
@@ -108,9 +133,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void updatePet(int position, PetModel model) {
+        if (model.mPets.isEmpty()) {
+            mPetInfoContainer.setVisibility(View.GONE);
+            return;
+        }
+        mPetInfoContainer.setVisibility(View.VISIBLE);
         PetData petData = model.mPets.get(position);
         ViewUtil.setText(mPetName, petData.petname);
-        mPetInfo.setVisibility(View.VISIBLE);
         ViewUtil.setText(mPetAge, petData.birth);
         ViewUtil.setText(mPetWeight, String.valueOf(petData.weight));
     }

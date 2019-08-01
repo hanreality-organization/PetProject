@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.punuo.pet.home.R;
@@ -26,6 +27,7 @@ public class PetLoopHolder {
     private ViewPager mViewPager;
     private ViewAdapter mViewAdapter;
     private View mRootView;
+    private TextView mEmptyText;
 
     public static PetLoopHolder newInstance(Context context, ViewGroup viewGroup) {
         return new PetLoopHolder(context,
@@ -43,9 +45,9 @@ public class PetLoopHolder {
     private PetLoopHolder(Context context, View itemView) {
         mRootView = itemView;
         mViewPager = itemView.findViewById(R.id.view_pager);
+        mEmptyText = itemView.findViewById(R.id.empty_text);
         mViewAdapter = new ViewAdapter(context);
         mViewPager.setAdapter(mViewAdapter);
-        mRootView.setVisibility(View.GONE); //默认隐藏
     }
 
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
@@ -56,10 +58,12 @@ public class PetLoopHolder {
 
     public void updateView(PetModel petModel) {
         if (petModel == null || petModel.mPets.isEmpty()) {
-            mRootView.setVisibility(View.GONE);
+            mViewPager.setVisibility(View.GONE);
+            mEmptyText.setVisibility(View.VISIBLE);
             return;
         }
-        mRootView.setVisibility(View.VISIBLE); //有数据显示
+        mEmptyText.setVisibility(View.GONE);
+        mViewPager.setVisibility(View.VISIBLE); //有数据显示
         mViewAdapter.reset(petModel.mPets);
         mViewAdapter.notifyDataSetChanged();
     }
