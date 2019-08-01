@@ -172,8 +172,8 @@
             android:layout_below="@+id/integral_shop"
             android:clickable="true">
             <ImageView
-                android:layout_height="40dp"
-                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
                 android:id="@+id/image_zuji"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -214,8 +214,8 @@
             android:layout_below="@+id/zuji"
             android:clickable="true">
             <ImageView
-                android:layout_height="40dp"
-                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
                 android:id="@+id/image_collection"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -256,8 +256,8 @@
             android:layout_below="@+id/collection"
             android:clickable="true">
             <ImageView
-                android:layout_height="40dp"
-                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
                 android:id="@+id/image_emjio"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -298,8 +298,8 @@
             android:layout_below="@+id/emjio"
             android:clickable="true">
             <ImageView
-                android:layout_height="40dp"
-                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
                 android:id="@+id/image_account"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -340,8 +340,8 @@
             android:clickable="true">
             <ImageView
                 android:id="@+id/image_privacy"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_privacy_bg"/>
@@ -379,8 +379,8 @@
             android:clickable="true">
             <ImageView
                 android:id="@+id/image_cache"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_cache_bg"/>
@@ -418,8 +418,8 @@
             android:clickable="true">
             <ImageView
                 android:id="@+id/image_about"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_about_bg"/>
@@ -457,8 +457,8 @@
             android:clickable="true">
             <ImageView
                 android:id="@+id/image_customerservice"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_customerservice_bg"/>

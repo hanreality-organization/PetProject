@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.punuo.pet.cirlce" />
+    package="com.punuo.pet.cirlce" >
+
+    <application>
+        <activity android:name=".CircleActivity" />
+    </application>
+</manifest>

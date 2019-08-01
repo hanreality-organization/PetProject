@@ -1,5 +1,6 @@
 package com.punuo.pet.compat;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 fragment = (Fragment) ARouter.getInstance().build(HomeRouter.ROUTER_HOME_FRAGMENT).navigation();
                 break;
             case TAB_TWO:
-                fragment = (Fragment) ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_FRAGMENT).navigation();
+                ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_ACTIVITY).navigation();
                 break;
             case TAB_THREE:
                 fragment = (Fragment) ARouter.getInstance().build(MessageRouter.ROUTER_MESSAGE_FRAGMENT).navigation();

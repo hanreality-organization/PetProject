@@ -55,5 +55,9 @@
             android:name="com.punuo.pet.activity.AboutActivity"
             android:screenOrientation="portrait"/>
 
+        <!--客服部分-->
+        <activity android:name="com.punuo.pet.activity.CustomerServiceActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>
