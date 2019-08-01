@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <View
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/header_container"
         android:orientation="horizontal"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -51,7 +50,7 @@
             android:layout_marginLeft="12dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
@@ -98,19 +97,32 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
             <ImageView
                 android:id="@+id/feed_pet"
                 android:layout_width="145dp"
                 android:layout_height="145dp"
-                android:layout_weight="1"
                 android:src="@drawable/home_ic_tool_1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/care_pet"
                 android:layout_width="145dp"
                 android:layout_height="145dp"
-                android:layout_weight="1"
                 android:src="@drawable/home_ic_tool_2" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
