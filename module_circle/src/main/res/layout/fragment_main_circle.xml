@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"/>
+
     <LinearLayout
         android:id="@+id/button_linear"
         android:layout_width="match_parent"
@@ -14,7 +19,7 @@
         <Button
             android:id="@+id/button_contacts"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/ic_contacts_bg" />
 
@@ -23,21 +28,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="我的圈" />
+            android:text="我的圈"
+            android:background="@drawable/button_sharp"/>
 
         <Button
             android:id="@+id/button_nearby"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="附近" />
+            android:text="附近"
+            android:background="@drawable/button_sharp"
+            />
 
         <Button
             android:id="@+id/button_world"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="世界" />
+            android:text="世界"
+            android:background="@drawable/button_sharp"/>
 
         <Button
             android:id="@+id/button_add"

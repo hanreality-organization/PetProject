@@ -6,5 +6,5 @@ package com.punuo.pet.router;
  **/
 public class CircleRouter {
     private static final String PREFIX = "/circle";
-    public static final String ROUTER_CIRCLE_ACTIVITY = PREFIX + "/CircleActivity";
+    public static final String ROUTER_CIRCLE_FRAGMENT=PREFIX+"/CircleFragment";
 }

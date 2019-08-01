@@ -35,9 +35,9 @@
                         android:hint="搜索"/>
                     <ImageView
                         android:id="@+id/image_search"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="130dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_search_bg"
                         />
@@ -47,17 +47,19 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"/>
+                android:layout_height="5dp"
+                android:background="#F0F0F0"/>
 
             <!--滑动展示图片-->
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:background="@drawable/pet_three"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"/>
+                android:layout_height="10dp"
+                android:background="#F0F0F0"/>
 
             <!--话题排行-->
             <RelativeLayout

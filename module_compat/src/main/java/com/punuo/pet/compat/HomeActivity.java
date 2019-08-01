@@ -120,7 +120,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 fragment = (Fragment) ARouter.getInstance().build(HomeRouter.ROUTER_HOME_FRAGMENT).navigation();
                 break;
             case TAB_TWO:
-                ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_ACTIVITY).navigation();
+                fragment = (Fragment) ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_FRAGMENT).navigation();
                 break;
             case TAB_THREE:
                 fragment = (Fragment) ARouter.getInstance().build(MessageRouter.ROUTER_MESSAGE_FRAGMENT).navigation();

@@ -2,6 +2,6 @@
     package="com.punuo.pet.cirlce" >
 
     <application>
-        <activity android:name=".CircleActivity" />
+
     </application>
 </manifest>
