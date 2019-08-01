@@ -21,7 +21,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -103,13 +102,14 @@ public class PullToRefreshWebView extends PullToRefreshBase<WebView> {
 			webView = new ScrollChangedListenableWebView(context, attrs);
 		}
 
+		webView.getSettings().setAllowFileAccess(false);
+
 		webView.setId(R.id.webview);
 		return webView;
 	}
 
 	@Override
 	protected boolean isReadyForPullStart() {
-		Log.i("han.chen", "isReadyForPullStart: "+ (mRefreshableView.getScrollY() == 0));
 		return mRefreshableView.getScrollY() == 0;
 	}
 
