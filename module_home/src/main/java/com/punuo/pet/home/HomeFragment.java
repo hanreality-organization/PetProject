@@ -54,6 +54,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this, mFragmentView);
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -63,7 +64,6 @@ public class HomeFragment extends BaseFragment {
         }
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
-        ButterKnife.bind(this, mFragmentView);
         return mFragmentView;
     }
 
@@ -74,7 +74,6 @@ public class HomeFragment extends BaseFragment {
         mPetName = mFragmentView.findViewById(R.id.home_pet_name);
         mDevicePart = mFragmentView.findViewById(R.id.device_part);
         mFeetPet = mFragmentView.findViewById(R.id.feed_pet);
-        mCarePet = mFragmentView.findViewById(R.id.care_pet);
         mPetLoopHolder = PetLoopHolder.newInstance(getActivity(), mHeadContainer);
         mHeadContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
