@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/module_title_layout"/>
+    <include layout="@layout/module_title_layout" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/connect_img"
+        android:layout_width="360dp"
+        android:layout_height="490dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/home_ic_connect_device" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_above="@+id/next_text"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:text="长按wifi按钮'5秒'\n直到听到滴滴声"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/next_text"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:background="#888888"
+        android:gravity="center"
+        android:text="我已经长按"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
