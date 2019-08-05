@@ -1,76 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <View
+        android:id="@+id/status_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"/>
+        android:layout_height="20dp"
+        android:background="@color/white"
+        android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/button_linear"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="44dp"
+        android:background="@color/white"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_contacts"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/ic_contacts_bg" />
+        <ImageView
+            android:id="@+id/iv_contacts"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_contacts_bg" />
 
-        <Button
-            android:id="@+id/button_mycircle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="我的圈"
-            android:background="@drawable/button_sharp"/>
-
-        <Button
-            android:id="@+id/button_nearby"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="附近"
-            android:background="@drawable/button_sharp"
-            />
-
-        <Button
-            android:id="@+id/button_world"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="世界"
-            android:background="@drawable/button_sharp"/>
-
-        <Button
-            android:id="@+id/button_add"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/ic_add_bg"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/resource"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:orientation="horizontal"
-        >
+        <com.punuo.sys.sdk.view.PagerSlidingTabStrip
+            android:id="@+id/circle_tab"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/iv_add"
+            android:layout_toRightOf="@+id/iv_contacts"
+            android:background="@color/white"
+            android:textSize="15sp"
+            app:pstsDividerColor="@android:color/transparent"
+            app:pstsIndicatorColor="#FF1A1A"
+            app:pstsIndicatorHeight="2dp"
+            app:pstsIndicatorSmoothOpen="true"
+            app:pstsShouldExpand="true"
+            app:pstsTabPaddingLeftRight="12dp"
+            app:pstsTextColorSelect="#FF1A1A"
+            app:pstsUnderlineHeight="0px" />
 
         <ImageView
-            android:id="@+id/image1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/iv_add"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_add_bg" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/circle_viewpager"
