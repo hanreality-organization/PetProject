@@ -5,7 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.router.HomeRouter;
@@ -28,6 +31,8 @@ public class ConnectDeviceActivity extends BaseSwipeBackActivity {
     ImageView mBack;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
+    @BindView(R2.id.next_text)
+    TextView mNextText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +52,42 @@ public class ConnectDeviceActivity extends BaseSwipeBackActivity {
         mTitle.setText("开始连接设备");
         mSubTitle.setVisibility(View.VISIBLE);
         mSubTitle.setText("下一步");
+        mNextText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goNext();
+            }
+        });
+        mSubTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goNext();
+            }
+        });
+    }
+
+    private void goNext() {
+        ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_RESULT_ACTIVITY)
+                .navigation(this, new NavigationCallback() {
+                    @Override
+                    public void onFound(Postcard postcard) {
+
+                    }
+
+                    @Override
+                    public void onLost(Postcard postcard) {
+
+                    }
+
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onInterrupt(Postcard postcard) {
+
+                    }
+                });
     }
 }

@@ -22,6 +22,7 @@ import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.TimeUtils;
+import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +60,7 @@ public class HomeFragment extends BaseFragment {
     private PetLoopHolder mPetLoopHolder;
     private TextView mPetAge;
     private TextView mPetWeight;
+    private PetData mCurrentPetData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +100,13 @@ public class HomeFragment extends BaseFragment {
         mFeedPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mCurrentPetData == null) {
+                    ToastUtils.showToast("暂无宠物信息，请添加宠物");
+                } else {
+                    ARouter.getInstance().build(HomeRouter.ROUTER_FEED_ACTIVITY)
+                            .withParcelable("petData", mCurrentPetData)
+                            .navigation();
+                }
             }
         });
         mCarePet.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +156,11 @@ public class HomeFragment extends BaseFragment {
             return;
         }
         mPetInfoContainer.setVisibility(View.VISIBLE);
-        PetData petData = model.mPets.get(position);
-        ViewUtil.setText(mPetName, petData.petname);
-        String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(petData.birth));
+        mCurrentPetData = model.mPets.get(position);
+        ViewUtil.setText(mPetName, mCurrentPetData.petname);
+        String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(mCurrentPetData.birth));
         ViewUtil.setText(mPetAge, age);
-        ViewUtil.setText(mPetWeight, String.valueOf(petData.weight));
+        ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight));
     }
 
     @Override
