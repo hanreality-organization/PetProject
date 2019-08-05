@@ -1,102 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/cicle_scrollview"
+    <!--宠友们发布的内容-->
+    <com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
+        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/relative_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!--搜索框布局-->
-                <RelativeLayout
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-                    <EditText
-                        android:id="@+id/edit_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/searchsharp"
-                        android:gravity="center"
-                        android:hint="搜索"/>
-                    <ImageView
-                        android:id="@+id/image_search"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/ic_search_bg"
-                        />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#F0F0F0"/>
-
-            <!--滑动展示图片-->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@drawable/pet_three"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#F0F0F0"/>
-
-            <!--话题排行-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:id="@+id/text_equipment_notify"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:text="话题排行"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
-
-                <ImageView
-                    android:id="@+id/right_zuji"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="25dp"
-                    android:background="@drawable/rightarrow"/>
-            </RelativeLayout>
-
-            <!--宠友们发布的内容-->
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

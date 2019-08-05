@@ -1,7 +1,6 @@
 package com.punuo.pet.cirlce.fragment;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,9 +14,9 @@ import android.widget.LinearLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.cirlce.R;
 import com.punuo.pet.cirlce.adapter.CircleFragmentPagerAdapter;
+import com.punuo.pet.cirlce.mycircle.MyCircleFragment;
 import com.punuo.pet.router.CircleRouter;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import java.util.ArrayList;
 
