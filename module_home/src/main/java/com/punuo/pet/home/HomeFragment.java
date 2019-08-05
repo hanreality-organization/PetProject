@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -40,16 +41,24 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment {
     @BindView(R2.id.care_pet)
     RoundedImageView mCarePet;
-    private ViewGroup mHeadContainer;
+    @BindView(R2.id.header_container)
+    LinearLayout mHeaderContainer;
+    @BindView(R2.id.home_pet_info_container)
+    LinearLayout mPetInfoContainer;
+    @BindView(R2.id.home_add_pet)
+    ImageView mAddPet;
+    @BindView(R2.id.home_pet_name)
+    TextView mPetName;
+    @BindView(R2.id.device_part)
+    RoundedImageView mDevicePart;
+    @BindView(R2.id.device_container)
+    LinearLayout mDeviceContainer;
+    @BindView(R2.id.feed_pet)
+    RoundedImageView mFeedPet;
+
     private PetLoopHolder mPetLoopHolder;
-    private TextView mPetName;
-    private View mAddPet;
-    private ViewGroup mPetInfoContainer;
-    private View mPetInfo;
     private TextView mPetAge;
     private TextView mPetWeight;
-    private ImageView mDevicePart;
-    private View mFeetPet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,14 +77,8 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initView() {
-        mHeadContainer = mFragmentView.findViewById(R.id.header_container);
-        mPetInfoContainer = mFragmentView.findViewById(R.id.home_pet_info_container);
-        mAddPet = mFragmentView.findViewById(R.id.home_add_pet);
-        mPetName = mFragmentView.findViewById(R.id.home_pet_name);
-        mDevicePart = mFragmentView.findViewById(R.id.device_part);
-        mFeetPet = mFragmentView.findViewById(R.id.feed_pet);
-        mPetLoopHolder = PetLoopHolder.newInstance(getActivity(), mHeadContainer);
-        mHeadContainer.addView(mPetLoopHolder.getRootView());
+        mPetLoopHolder = PetLoopHolder.newInstance(getActivity(), mHeaderContainer);
+        mHeaderContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
 
         mAddPet.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +94,7 @@ public class HomeFragment extends BaseFragment {
 
             }
         });
-        mFeetPet.setOnClickListener(new View.OnClickListener() {
+        mFeedPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -106,7 +109,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initPetInfo() {
-        mPetInfo = LayoutInflater.from(getActivity()).inflate(R.layout.home_pet_info_layout,
+        View mPetInfo = LayoutInflater.from(getActivity()).inflate(R.layout.home_pet_info_layout,
                 mPetInfoContainer, false);
         mPetInfoContainer.addView(mPetInfo);
         mPetAge = mPetInfo.findViewById(R.id.pet_age);
