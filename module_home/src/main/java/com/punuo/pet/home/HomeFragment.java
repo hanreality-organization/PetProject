@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.home.view.PetLoopHolder;
 import com.punuo.pet.model.PetData;
@@ -26,6 +27,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by han.chen.
@@ -34,6 +38,8 @@ import org.greenrobot.eventbus.ThreadMode;
  **/
 @Route(path = HomeRouter.ROUTER_HOME_FRAGMENT)
 public class HomeFragment extends BaseFragment {
+    @BindView(R2.id.care_pet)
+    RoundedImageView mCarePet;
     private ViewGroup mHeadContainer;
     private PetLoopHolder mPetLoopHolder;
     private TextView mPetName;
@@ -44,7 +50,6 @@ public class HomeFragment extends BaseFragment {
     private TextView mPetWeight;
     private ImageView mDevicePart;
     private View mFeetPet;
-    private View mCarePet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class HomeFragment extends BaseFragment {
         }
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
+        ButterKnife.bind(this, mFragmentView);
         return mFragmentView;
     }
 
