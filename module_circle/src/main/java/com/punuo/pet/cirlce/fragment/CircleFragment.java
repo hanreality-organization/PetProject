@@ -28,7 +28,7 @@ import java.util.ArrayList;
 @Route(path = CircleRouter.ROUTER_CIRCLE_FRAGMENT)
 public class CircleFragment extends BaseFragment implements View.OnClickListener,ViewPager.OnPageChangeListener{
 
-    Button button1;
+//    Button button1;
     Button button2;
     Button button3;
     Button button4;
@@ -58,19 +58,19 @@ public class CircleFragment extends BaseFragment implements View.OnClickListener
     //初始化布局
     public void initView(){
         myViewpager = mFragmentView.findViewById(R.id.circle_viewpager);
-        button1 = mFragmentView.findViewById(R.id.button_contacts);
+//        button1 = mFragmentView.findViewById(R.id.button_contacts);
         button2= mFragmentView.findViewById(R.id.button_mycircle);
         button3 = mFragmentView.findViewById(R.id.button_nearby);
         button4 = mFragmentView.findViewById(R.id.button_world);
         button5 =mFragmentView.findViewById(R.id.button_add);
 
         //初始化按钮数组
-        btnArgs = new Button[]{button1,button2,button3,button4,button5};
+        btnArgs = new Button[]{button2,button3,button4,button5};
         //指示标签设置成蓝色
         cursor = mFragmentView.findViewById(R.id.image1);
         cursor.setBackgroundColor(Color.BLUE);
 
-        button1.setOnClickListener(this);
+//        button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
@@ -78,7 +78,7 @@ public class CircleFragment extends BaseFragment implements View.OnClickListener
         myViewpager.setOnPageChangeListener(this);
 
         fragments = new ArrayList<Fragment>();
-        fragments.add(new ContactsFragment());
+//        fragments.add(new ContactsFragment());
         fragments.add(new MyCircleFragment());
         fragments.add(new NearbyFragment());
         fragments.add(new WorldFragment());
@@ -95,10 +95,6 @@ public class CircleFragment extends BaseFragment implements View.OnClickListener
     }
 
     public void resetButtonColor(){
-//        button2.setBackgroundColor(Color.parseColor("#DCDCDC"));
-//        button3.setBackgroundColor(Color.parseColor("#DCDCDC"));
-//        button4.setBackgroundColor(Color.parseColor("#DCDCDC"));
-
         button2.setTextColor(Color.BLACK);
         button3.setTextColor(Color.BLACK);
         button4.setTextColor(Color.BLACK);
@@ -108,7 +104,7 @@ public class CircleFragment extends BaseFragment implements View.OnClickListener
 
         //widthArgs的实例化
         if(widthArgs==null){
-            widthArgs = new int[]{button1.getWidth(),button2.getWidth(),button3.getWidth(),button4.getWidth(),button5.getWidth()};
+            widthArgs = new int[]{button2.getWidth(),button3.getWidth(),button4.getWidth(),button5.getWidth()};
         }
 
         //每次滑动首先重置按钮的颜色
@@ -116,26 +112,27 @@ public class CircleFragment extends BaseFragment implements View.OnClickListener
         //将滑动到的当前按钮设置成蓝色
         btnArgs[position].setTextColor(Color.BLUE);
         cursorAnim(position);
-    }
+    } 
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id==R.id.button_contacts){
+//        if(id==R.id.button_contacts){
+//            myViewpager.setCurrentItem(0);
+//            cursorAnim(0);
+//    }
+        if(id==R.id.button_mycircle){
             myViewpager.setCurrentItem(0);
             cursorAnim(0);
-        } else if(id==R.id.button_mycircle){
+        }else if(id==R.id.button_nearby){
             myViewpager.setCurrentItem(1);
             cursorAnim(1);
-        }else if(id==R.id.button_nearby){
+        }else if(id==R.id.button_world){
             myViewpager.setCurrentItem(2);
             cursorAnim(2);
-        }else if(id==R.id.button_world){
+        }else if(id==R.id.button_add){
             myViewpager.setCurrentItem(3);
             cursorAnim(3);
-        }else if(id==R.id.button_add){
-            myViewpager.setCurrentItem(4);
-            cursorAnim(4);
         }
     }
 

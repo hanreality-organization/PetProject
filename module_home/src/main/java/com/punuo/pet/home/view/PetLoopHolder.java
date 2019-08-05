@@ -30,12 +30,7 @@ public class PetLoopHolder {
     private TextView mEmptyText;
 
     public static PetLoopHolder newInstance(Context context, ViewGroup viewGroup) {
-        return new PetLoopHolder(context,
-                LayoutInflater.from(context).inflate(
-                        R.layout.home_recycle_item_loopmodule,
-                        viewGroup,
-                        false
-                ));
+        return new PetLoopHolder(context, LayoutInflater.from(context).inflate(R.layout.home_recycle_item_loopmodule, viewGroup, false));
     }
 
     public View getRootView() {
