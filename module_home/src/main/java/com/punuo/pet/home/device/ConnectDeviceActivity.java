@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.callback.NavigationCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
@@ -66,7 +68,26 @@ public class ConnectDeviceActivity extends BaseSwipeBackActivity {
 
     private void goNext() {
         ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_RESULT_ACTIVITY)
-                .navigation();
-        finish();
+                .navigation(this, new NavigationCallback() {
+                    @Override
+                    public void onFound(Postcard postcard) {
+
+                    }
+
+                    @Override
+                    public void onLost(Postcard postcard) {
+
+                    }
+
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onInterrupt(Postcard postcard) {
+
+                    }
+                });
     }
 }
