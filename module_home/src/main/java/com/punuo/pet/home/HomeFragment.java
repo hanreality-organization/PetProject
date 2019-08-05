@@ -91,7 +91,8 @@ public class HomeFragment extends BaseFragment {
         mDevicePart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_DEVICE_ACTIVITY)
+                        .navigation();
             }
         });
         mFeedPet.setOnClickListener(new View.OnClickListener() {
