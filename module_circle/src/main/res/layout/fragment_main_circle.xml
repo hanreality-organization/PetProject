@@ -16,12 +16,6 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_contacts"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/ic_contacts_bg" />
 
         <Button
             android:id="@+id/button_mycircle"
