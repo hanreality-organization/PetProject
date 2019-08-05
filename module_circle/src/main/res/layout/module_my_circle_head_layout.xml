@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/relative_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="44dp">
 
         <EditText
             android:id="@+id/edit_search"
@@ -16,9 +16,9 @@
             android:layout_margin="4dp"
             android:background="@drawable/searchsharp"
             android:drawableLeft="@drawable/ic_search_bg"
-            android:gravity="center"
             android:hint="搜索"
-            android:paddingLeft="10dp" />
+            android:paddingLeft="10dp"
+            android:textSize="14sp" />
 
     </LinearLayout>
     <!--滑动展示图片-->
