@@ -34,6 +34,10 @@ public class FeedActivity extends BaseSwipeBackActivity {
     RoundedImageView mPetAvatar;
     @BindView(R2.id.pet_nick)
     TextView mPetNick;
+    @BindView(R2.id.home_feed_edit)
+    TextView mHomeFeedEdit;
+    @BindView(R2.id.home_feed_more)
+    TextView mHomeFeedMore;
 
     @Autowired(name = "petData")
     PetData mPetData;
@@ -59,6 +63,17 @@ public class FeedActivity extends BaseSwipeBackActivity {
             Glide.with(this).load(mPetData.avatar).into(mPetAvatar);
             ViewUtil.setText(mPetNick, mPetData.petname);
         }
+        mHomeFeedMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        mHomeFeedEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
