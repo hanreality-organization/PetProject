@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created by han.chen.
  * Date on 2019-08-05.
  **/
-public class PagerSlidingTabStrip extends HorizontalScrollView {
+public class PagerSlidingTabStrip extends HorizontalScrollView {//当做工具类来使用，实现标签滑动跟踪等功能
 
     public static final int DRAWABLE_TOP = 0;
     public static final int DRAWABLE_LEFT = 1;

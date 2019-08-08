@@ -4,7 +4,144 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/publish_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/circle_user_avater"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_user_avater_bg"/>
+
+        <TextView
+            android:id="@+id/circle_user_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/date"
+            android:gravity="center"
+            android:text="用户昵称" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/circle_user_avater"
+            android:text="发帖时间"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/follow"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_follow_bg"/>
+
+        <EditText
+            android:id="@+id/post"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="60dp"
+            />
+
+
+        <android.support.v7.widget.RecyclerViewView
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post"
+            android:layout_alignLeft="@+id/post">
+        </android.support.v7.widget.RecyclerViewView>
+
+        <!--收藏部分-->
+        <RelativeLayout
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/grid"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/iamge_favorite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/post_favorite_bg"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:layout_toRightOf="@+id/iamge_favorite"/>
+
+        </RelativeLayout>
+
+        <!--评论部分-->
+        <RelativeLayout
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/favorite"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/iamge_comment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/post_comment_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iamge_comment"
+                android:text="评论" />
+
+        </RelativeLayout>
+
+        <!--点赞部分-->
+        <RelativeLayout
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/favorite"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/iamge_like"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/post_like_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iamge_like"
+                android:text="点赞" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+    <!--<TextView
         android:id="@+id/item_text"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -16,6 +153,6 @@
         android:gravity="center"
         android:text="item 1"
         android:textColor="#333333"
-        android:textSize="16sp" />
+        android:textSize="16sp" />-->
 
 </LinearLayout>

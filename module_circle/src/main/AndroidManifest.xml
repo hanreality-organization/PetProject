@@ -8,5 +8,10 @@
         <activity
             android:name=".activity.ContactActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".publish.activity.PublishActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
+
 </manifest>

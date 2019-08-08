@@ -25,8 +25,7 @@ public class HeadModule {
     private ThemeAdapter mThemeAdapter;
 
     public HeadModule(Context context, ViewGroup parent) {
-        mRootView = LayoutInflater.from(context)
-                .inflate(R.layout.module_my_circle_head_layout, parent, false);
+        mRootView = LayoutInflater.from(context).inflate(R.layout.module_my_circle_head_layout, parent, false);
         ButterKnife.bind(this, mRootView);
         mThemeList.setLayoutManager(new GridLayoutManager(context, 2));
         mThemeAdapter = new ThemeAdapter(context);

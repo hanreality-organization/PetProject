@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private  RelativeLayout mPrivacy;
     private RelativeLayout mAbout;
     private RelativeLayout mCustomer;
+    private Button mcheck;
 
 
 
@@ -63,7 +65,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initView() {
-
+        mcheck = mFragmentView.findViewById(R.id.check);
         mExitButton = mFragmentView.findViewById(R.id.exit_button);
         mAddPetButton = mFragmentView.findViewById(R.id.add_pet_button);
         mNickname = mFragmentView.findViewById(R.id.user_nickname);
@@ -77,6 +79,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
         mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
 
+        mcheck.setOnClickListener(this);
         mExitButton.setOnClickListener(this);
         mAddPetButton.setOnClickListener(this);
         mAccount.setOnClickListener(this);
@@ -144,20 +147,23 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View view) {
         int id = view.getId();
 
-        if(id == R.id.exit_button){
+        if(id == R.id.exit_button){//退出登录
             logout(AccountManager.getSession());
-        } else if(id == R.id.add_pet_button){
+        } else if(id == R.id.add_pet_button){//添加宠物信息
             ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
-        } else if(id == R.id.account){
+        }else if(id==R.id.check){//签到
+            mcheck.setText("已签到");
+            mcheck.setBackgroundResource(R.drawable.button_check_nor);
+        } else if(id == R.id.account){//账户管理
             ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if(id==R.id.privacy){
+        } else if(id==R.id.privacy){//隐私
             ARouter.getInstance().build(MemberRouter.ROUTER_PRIVACY_ACTIVITY).navigation();
-        } else if(id==R.id.cache){
+        } else if(id==R.id.cache){//清除缓存
             DataClearUtil.cleanAllCache(getActivity());
             mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-        }else if(id==R.id.about){
+        }else if(id==R.id.about){//关于我们
             ARouter.getInstance().build(MemberRouter.ROUTER_ABOUT_ACTIVITY).navigation();
-        }else if(id == R.id.customerservice){
+        }else if(id == R.id.customerservice){//客服
             ARouter.getInstance().build(MemberRouter.ROUTER_CUETOMERSERVICE).navigation();
         }
 

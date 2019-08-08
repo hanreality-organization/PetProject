@@ -52,8 +52,7 @@ public class CircleFragment extends BaseFragment {
 
     //初始化布局
     public void initView() {
-        mCircleTabFragmentPagerAdapter =
-                new CircleTabFragmentPagerAdapter(getChildFragmentManager());
+        mCircleTabFragmentPagerAdapter = new CircleTabFragmentPagerAdapter(getChildFragmentManager());
         mCircleViewpager.setAdapter(mCircleTabFragmentPagerAdapter);
         mCircleTab.setViewPager(mCircleViewpager);
 
@@ -65,10 +64,10 @@ public class CircleFragment extends BaseFragment {
             }
         });
 
-        mIvAdd.setOnClickListener(new View.OnClickListener() {
+        mIvAdd.setOnClickListener(  new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(CircleRouter.ROUTER_ADD_ACTIVITY)
+                ARouter.getInstance().build(CircleRouter.ROUTER_PUBLISH_ACTIVITY)
                         .navigation();
             }
         });
