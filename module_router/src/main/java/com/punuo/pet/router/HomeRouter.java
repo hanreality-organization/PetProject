@@ -10,4 +10,5 @@ public class HomeRouter {
     public static final String ROUTER_CONNECT_DEVICE_ACTIVITY = PREFIX + "/ConnectDeviceActivity";
     public static final String ROUTER_CONNECT_RESULT_ACTIVITY = PREFIX + "/ConnectResultActivity";
     public static final String ROUTER_FEED_ACTIVITY = PREFIX + "/FeedActivity";
+    public static final String ROUTER_CARE_ACTIVITY = PREFIX + "/CareActivity";
 }

@@ -112,7 +112,9 @@ public class HomeFragment extends BaseFragment {
         mCarePet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(HomeRouter.ROUTER_CARE_ACTIVITY)
+                        .withParcelable("petData", mCurrentPetData)
+                        .navigation();
             }
         });
     }
