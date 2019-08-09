@@ -11,6 +11,15 @@
         <activity
             android:name=".publish.activity.PublishActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.ChoosePictureActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.ImageGridActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.PhotoActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
