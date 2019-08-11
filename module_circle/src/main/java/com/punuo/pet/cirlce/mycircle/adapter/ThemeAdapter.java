@@ -15,7 +15,7 @@ import java.util.List;
  * Created by han.chen.
  * Date on 2019-08-05.
  **/
-public class ThemeAdapter extends RecyclerView.Adapter<ThemeVH> {
+public class ThemeAdapter extends RecyclerView.Adapter<ThemeVH> {//话题的适配器
     private Context mContext;
     private List<ThemeItem> mThemeItems;
 

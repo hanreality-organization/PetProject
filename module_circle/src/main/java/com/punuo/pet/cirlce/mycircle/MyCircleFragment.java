@@ -45,14 +45,14 @@ public class MyCircleFragment extends BaseFragment {
     }
 
     private void initView() {
-        mPullToRefreshRecyclerView.setMode(PullToRefreshBase.Mode.DISABLED);
+        mPullToRefreshRecyclerView.setMode(PullToRefreshBase.Mode.DISABLED);//设置刷新模式
         mRecyclerView = mPullToRefreshRecyclerView.getRefreshableView();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mHeadContainer = new LinearLayout(getActivity());
         mHeadContainer.setOrientation(LinearLayout.VERTICAL);
         mMyCircleAdapter = new MyCircleAdapter(getActivity(), new ArrayList<CircleItem>());
-        mMyCircleAdapter.setHeaderView(mHeadContainer);
+        mMyCircleAdapter.setHeaderView(mHeadContainer);//设置头部布局
         mRecyclerView.setAdapter(mMyCircleAdapter);
 
         initHeader();

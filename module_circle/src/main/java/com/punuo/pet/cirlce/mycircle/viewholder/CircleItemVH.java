@@ -19,8 +19,10 @@ import butterknife.ButterKnife;
  **/
 public class CircleItemVH extends BaseViewHolder<CircleItem> {
 
-    @BindView(R2.id.item_text)
-    TextView mItemText;
+
+
+//    @BindView(R2.id.item_text)
+//    TextView mItemText;
 
     public CircleItemVH(Context context, ViewGroup parent) {
         super(LayoutInflater.from(context).inflate(R.layout.circle_item_layout, parent, false));
@@ -29,6 +31,6 @@ public class CircleItemVH extends BaseViewHolder<CircleItem> {
 
     @Override
     protected void bindData(CircleItem circleItem, int position) {
-        mItemText.setText("item " + position);
+//        mItemText.setText("item " + position);
     }
 }
