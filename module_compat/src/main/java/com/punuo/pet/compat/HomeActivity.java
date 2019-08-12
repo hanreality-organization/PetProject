@@ -1,6 +1,5 @@
 package com.punuo.pet.compat;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,10 +14,16 @@ import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
+import com.punuo.sip.SipUserManager;
+import com.punuo.sip.model.RegisterData;
+import com.punuo.sip.request.SipGetUserIdRequest;
+import com.punuo.sip.request.SipRegisterRequest;
+import com.punuo.sip.request.SipRequestListener;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.model.UserInfo;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
@@ -82,9 +87,54 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         switchFragment(TAB_ONE);
     }
 
+    private void getSipUserID() {
+        SipGetUserIdRequest getUserIdRequest = new SipGetUserIdRequest();
+        getUserIdRequest.setSipRequestListener(new SipRequestListener<RegisterData>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(RegisterData result) {
+                if (result == null) {
+                    return;
+                }
+                sipRegister(result);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        SipUserManager.getInstance().addRequest(getUserIdRequest);
+    }
+
+    private void sipRegister(RegisterData data) {
+        SipRegisterRequest registerRequest = new SipRegisterRequest(data);
+        registerRequest.setSipRequestListener(new SipRequestListener<Object>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        SipUserManager.getInstance().addRequest(registerRequest);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UserInfo userInfo) {
-
+        getSipUserID();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
