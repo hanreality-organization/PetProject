@@ -2,19 +2,23 @@ package com.punuo.pet.compat;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.CircleRouter;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
+import com.punuo.sip.HeartBeatHelper;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.ReRegisterEvent;
 import com.punuo.sip.model.RegisterData;
 import com.punuo.sip.request.SipGetUserIdRequest;
 import com.punuo.sip.request.SipRegisterRequest;
@@ -50,13 +54,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View[] mTabBars = new View[TAB_COUNT];
     private View mPostView;
 
+    public static final int MSG_HEART_BEAR_VALUE = 1;
+    private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
         mMyFragmentManager = new MyFragmentManager(this);
         init();
-
+        mHeartBeatTaskResumeProcessor = new HeartBeatTaskResumeProcessor(mBaseHandler);
+        mHeartBeatTaskResumeProcessor.onCreate();
         StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);//StatusBarUtil：状态栏工具类
         mPostView = getWindow().getDecorView();
         mPostView.post(new Runnable() {//view.post():1.子线程更UI,2.获取View的宽高
@@ -121,7 +129,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onSuccess(Object result) {
-
+                //sip登陆注册成功 开启心跳保活
+                if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
+                    mBaseHandler.sendEmptyMessageAtTime(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
+                }
             }
 
             @Override
@@ -143,6 +154,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
                     .navigation();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ReRegisterEvent event) {
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        getSipUserID();
     }
 
     private void initTabBars() {
@@ -215,8 +232,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        switch (msg.what) {
+            case MSG_HEART_BEAR_VALUE:
+                if (AccountManager.isLoginned()) {
+                    HeartBeatHelper.heartBeat();
+                    mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
+                }
+                break;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mHeartBeatTaskResumeProcessor != null) {
+            mHeartBeatTaskResumeProcessor.onDestroy();
+        }
     }
 }

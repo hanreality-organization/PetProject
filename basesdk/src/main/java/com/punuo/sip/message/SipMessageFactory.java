@@ -2,7 +2,6 @@ package com.punuo.sip.message;
 
 import android.text.TextUtils;
 
-import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
 
 import org.zoolu.sip.address.NameAddress;
@@ -37,25 +36,6 @@ public class SipMessageFactory extends MessageFactory {
             message.setBody(CONTENT_TYPE, body);
         }
         return message;
-    }
-
-    /**
-     * 注册第一步
-     * @return
-     */
-    public static Message createFirstRegisterRequest() {
-        return createRegisterRequest(SipUserManager.getInstance(), sipURL,
-                SipConfig.getServerAddress(), SipConfig.getUserRegisterAddress(), contact);
-    }
-    /**
-     * 注册第二步
-     * @return
-     */
-    public static Message createSecondRegisterRequest(String body) {
-        Message msg = createRegisterRequest(SipUserManager.getInstance(), sipURL,
-                SipConfig.getServerAddress(), SipConfig.getUserNormalAddress(), contact);
-        msg.setBody(CONTENT_TYPE, body);
-        return msg;
     }
 
     public static Message createNotifyRequest(NameAddress to, NameAddress from, String body) {

@@ -1,12 +1,10 @@
 package com.punuo.sip.request;
 
-import com.punuo.sip.SipConfig;
 import com.punuo.sip.model.RegisterData;
 import com.punuo.sys.sdk.sercet.SHA1;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.zoolu.sip.address.NameAddress;
 
 import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 
@@ -20,16 +18,6 @@ public class SipRegisterRequest extends BaseSipRequest<Object> {
     public SipRegisterRequest(RegisterData data) {
         setSipRequestType(SipRequestType.Register);
         mRegisterData = data;
-    }
-
-    @Override
-    public NameAddress getDestNameAddress() {
-        return SipConfig.getServerAddress();
-    }
-
-    @Override
-    public NameAddress getLocalNameAddress() {
-        return SipConfig.getUserNormalAddress();
     }
 
     @Override

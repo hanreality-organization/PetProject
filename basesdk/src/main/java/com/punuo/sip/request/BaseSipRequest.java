@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipMessageProcessor;
 import com.punuo.sip.message.SipMessageFactory;
 import com.punuo.sys.sdk.httplib.JsonUtil;
@@ -21,7 +22,7 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
  * Created by han.chen.
  * Date on 2019-08-12.
  **/
-public abstract class BaseSipRequest<T> implements SipMessageProcessor<T> {
+public class BaseSipRequest<T> implements SipMessageProcessor<T> {
     private SipRequestType mSipRequestType;
     private SipRequestListener<T> mSipRequestListener;
 
@@ -42,21 +43,27 @@ public abstract class BaseSipRequest<T> implements SipMessageProcessor<T> {
      *
      * @return NameAddress
      */
-    public abstract NameAddress getDestNameAddress();
+    public NameAddress getDestNameAddress() {
+        return SipConfig.getServerAddress();
+    }
 
     /**
      * 获取本地地址
      *
      * @return NameAddress
      */
-    public abstract NameAddress getLocalNameAddress();
+    public NameAddress getLocalNameAddress() {
+        return SipConfig.getUserNormalAddress();
+    }
 
     /**
      * 获取消息体
      *
      * @return String
      */
-    public abstract String getBody();
+    public String getBody() {
+        return null;
+    }
 
 
     @Override

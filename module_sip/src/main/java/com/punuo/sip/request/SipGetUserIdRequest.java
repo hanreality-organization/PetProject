@@ -17,17 +17,7 @@ public class SipGetUserIdRequest extends BaseSipRequest<RegisterData> {
     }
 
     @Override
-    public NameAddress getDestNameAddress() {
-        return SipConfig.getServerAddress();
-    }
-
-    @Override
     public NameAddress getLocalNameAddress() {
         return SipConfig.getUserRegisterAddress();
-    }
-
-    @Override
-    public String getBody() {
-        return null;
     }
 }
