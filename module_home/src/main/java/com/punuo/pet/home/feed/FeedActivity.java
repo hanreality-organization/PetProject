@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by han.chen.
  * Date on 2019-08-05.
+ * 健康护理
  **/
 @Route(path = HomeRouter.ROUTER_FEED_ACTIVITY)
 public class FeedActivity extends BaseSwipeBackActivity {
@@ -34,6 +35,10 @@ public class FeedActivity extends BaseSwipeBackActivity {
     RoundedImageView mPetAvatar;
     @BindView(R2.id.pet_nick)
     TextView mPetNick;
+    @BindView(R2.id.home_feed_edit)
+    TextView mHomeFeedEdit;
+    @BindView(R2.id.home_feed_more)
+    TextView mHomeFeedMore;
 
     @Autowired(name = "petData")
     PetData mPetData;
@@ -41,7 +46,7 @@ public class FeedActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.home_activity_feed);
         ARouter.getInstance().inject(this);
         ButterKnife.bind(this);
         initView();
@@ -59,6 +64,17 @@ public class FeedActivity extends BaseSwipeBackActivity {
             Glide.with(this).load(mPetData.avatar).into(mPetAvatar);
             ViewUtil.setText(mPetNick, mPetData.petname);
         }
+        mHomeFeedMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        mHomeFeedEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

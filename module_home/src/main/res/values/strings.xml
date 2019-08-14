@@ -2,4 +2,6 @@
     <string name="app_name">module_home</string>
     <string name="update_status">正在更新连接状态，请稍后</string>
     <string name="connect_tip">请尽量使您的设备靠近路由器，并确保网络环境良好</string>
+    <string name="feed_tip">每日建议喂食</string>
+    <string name="feed_text">我的喂食方案</string>
 </resources>

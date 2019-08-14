@@ -40,7 +40,6 @@ public class AccountManager {
     public static UserInfo getUserInfo() {
         if (sUserInfo == null) {
             sUserInfo = (UserInfo) JsonUtil.fromJson(MMKVUtil.getString("wsq_pref_user"), UserInfo.class);
-            Log.i("suserinfo", "getUserInfo: "+sUserInfo);
             sUserInfo = sUserInfo == null ? new UserInfo() : sUserInfo;
         }
 
@@ -49,7 +48,6 @@ public class AccountManager {
 
     public static String getUserName() {
         String userName = getUserInfo().userName;
-        Log.i("username", "getUserName: "+getUserInfo().userName);
         if (TextUtils.isEmpty(userName)) {
             userName = getSession();
         }
@@ -65,7 +63,6 @@ public class AccountManager {
         if (TextUtils.isEmpty(sSession)) {
             sSession = MMKVUtil.getString("wsq_pref_session");
         }
-        Log.i("ssession", "getSession: "+sSession);
         return sSession;
     }
 

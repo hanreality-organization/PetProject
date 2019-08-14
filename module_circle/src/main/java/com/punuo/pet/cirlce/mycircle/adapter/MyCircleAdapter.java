@@ -26,7 +26,7 @@ public class MyCircleAdapter extends BaseRecyclerViewAdapter<CircleItem> {
             CircleItem circleItem = new CircleItem();
             mData.add(circleItem);
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged();//适配器内容改变时，刷新每个item中的内容
     }
 
     @Override

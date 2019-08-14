@@ -1,0 +1,66 @@
+[
+  {
+    "icon": "",
+    "label": "洗澡清洁",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "体检",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "买宠物粮",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "体内驱虫",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "体外驱虫",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "疫苗注射",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "美容护理",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  },
+  {
+    "icon": "",
+    "label": "溜宠",
+    "petName": "",
+    "date": "",
+    "needAlarm": false,
+    "repeatCycle": "day"
+  }
+]
