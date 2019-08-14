@@ -131,7 +131,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             public void onSuccess(Object result) {
                 //sip登陆注册成功 开启心跳保活
                 if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
-                    mBaseHandler.sendEmptyMessageAtTime(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
+                    mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
                 }
             }
 
