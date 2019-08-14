@@ -37,7 +37,7 @@ public class ConnectDeviceActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connect_device_activity);
+        setContentView(R.layout.home_connect_device_activity);
         ButterKnife.bind(this);
         initView();
     }
@@ -67,7 +67,7 @@ public class ConnectDeviceActivity extends BaseSwipeBackActivity {
     }
 
     private void goNext() {
-        ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_RESULT_ACTIVITY)
+        ARouter.getInstance().build(HomeRouter.ROUTER_BLUETOOTH_ACTIVITY)
                 .navigation(this, new NavigationCallback() {
                     @Override
                     public void onFound(Postcard postcard) {

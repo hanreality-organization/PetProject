@@ -46,7 +46,7 @@ public class FeedActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.home_activity_feed);
         ARouter.getInstance().inject(this);
         ButterKnife.bind(this);
         initView();

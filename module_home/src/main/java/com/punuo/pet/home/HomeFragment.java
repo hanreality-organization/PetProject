@@ -64,7 +64,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mFragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        mFragmentView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, mFragmentView);
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);

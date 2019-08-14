@@ -37,7 +37,7 @@ public class CareActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_care);
+        setContentView(R.layout.home_activity_care);
         ARouter.getInstance().inject(this);
         ButterKnife.bind(this);
         initView();
