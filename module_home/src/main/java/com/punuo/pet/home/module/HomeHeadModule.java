@@ -126,9 +126,15 @@ public class HomeHeadModule {
         mCarePet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_CARE_ACTIVITY)
-                        .withParcelable("petData", mCurrentPetData)
-                        .navigation();
+//                if (mCurrentPetData == null) {
+//                    ToastUtils.showToast("暂无宠物信息，请添加宠物");
+//                } else {
+//                    ARouter.getInstance().build(HomeRouter.ROUTER_CARE_ACTIVITY)
+//                            .withParcelable("petData", mCurrentPetData)
+//                            .navigation();
+//                }
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
+                            .navigation();
             }
         });
     }
