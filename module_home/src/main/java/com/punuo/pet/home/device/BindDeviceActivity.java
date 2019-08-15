@@ -7,7 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -16,6 +17,7 @@ import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.request.BindDeviceRequest;
 import com.punuo.pet.home.device.request.CheckBindDeviceRequest;
 import com.punuo.pet.home.device.request.JoinGroupRequest;
+import com.punuo.pet.home.device.request.UnBindDeviceRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -41,15 +43,29 @@ import permissions.dispatcher.RuntimePermissions;
 public class BindDeviceActivity extends BaseSwipeBackActivity {
     private static final int QR_SCAN_REQUEST_CODE = 1;
 
-    @BindView(R2.id.scan_code)
-    Button mScanCode;
+
+    @BindView(R2.id.title)
+    TextView mTitle;
+    @BindView(R2.id.back)
+    ImageView mBack;
+    @BindView(R2.id.sub_title)
+    TextView mSubTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_bind_device_activity);
         ButterKnife.bind(this);
-        mScanCode.setOnClickListener(new View.OnClickListener() {
+        mTitle.setText("设备列表");
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mSubTitle.setVisibility(View.VISIBLE);
+        mSubTitle.setText("添加设备");
+        mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BindDeviceActivityPermissionsDispatcher.openScanWithCheck(BindDeviceActivity.this);
@@ -185,5 +201,36 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(mCheckBindDeviceRequest);
+    }
+
+    private UnBindDeviceRequest mUnBindDeviceRequest;
+
+    private void unBindDevice(String devId) {
+        if (mUnBindDeviceRequest != null && !mUnBindDeviceRequest.isFinish()) {
+            return;
+        }
+        mUnBindDeviceRequest = new UnBindDeviceRequest();
+        mUnBindDeviceRequest.addUrlParam("devid", devId);
+        mUnBindDeviceRequest.addUrlParam("username", AccountManager.getUserName());
+        mUnBindDeviceRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                if (result == null) {
+                    return;
+                }
+                ToastUtils.showToast(result.message);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mUnBindDeviceRequest);
     }
 }
