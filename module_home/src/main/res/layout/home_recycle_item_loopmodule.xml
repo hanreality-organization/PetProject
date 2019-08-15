@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -18,4 +18,11 @@
         android:textSize="14sp"
         android:textColor="#666666"
         android:text="暂未添加宠物信息，请点击右上角添加宠物信息"/>
-</LinearLayout>
+
+    <com.punuo.sys.sdk.view.loading.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="200dp"/>
+
+</RelativeLayout>

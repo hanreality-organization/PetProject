@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.punuo.pet.home.R;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
+import com.punuo.sys.sdk.view.loading.LoadingView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PetLoopHolder {
     private ViewAdapter mViewAdapter;
     private View mRootView;
     private TextView mEmptyText;
+    private LoadingView mLoadingView;
 
     public static PetLoopHolder newInstance(Context context, ViewGroup viewGroup) {
         return new PetLoopHolder(context, LayoutInflater.from(context).inflate(R.layout.home_recycle_item_loopmodule, viewGroup, false));
@@ -41,8 +43,10 @@ public class PetLoopHolder {
         mRootView = itemView;
         mViewPager = itemView.findViewById(R.id.view_pager);
         mEmptyText = itemView.findViewById(R.id.empty_text);
+        mLoadingView = itemView.findViewById(R.id.loading_view);
         mViewAdapter = new ViewAdapter(context);
         mViewPager.setAdapter(mViewAdapter);
+        mLoadingView.start();
     }
 
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
@@ -52,6 +56,7 @@ public class PetLoopHolder {
     }
 
     public void updateView(PetModel petModel) {
+        mLoadingView.stop();
         if (petModel == null || petModel.mPets.isEmpty()) {
             mViewPager.setVisibility(View.GONE);
             mEmptyText.setVisibility(View.VISIBLE);

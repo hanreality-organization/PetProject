@@ -36,4 +36,14 @@ public class LoadingView extends FrameLayout {
         mCircleView.setDiameter(defaultDiameter);
         mCircleView.setStrokeWidth(defaultStrokeWidth);
     }
+
+    public void stop() {
+        setVisibility(GONE);
+        mCircleView.stop();
+    }
+
+    public void start() {
+        setVisibility(VISIBLE);
+        mCircleView.start();
+    }
 }
