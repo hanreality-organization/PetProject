@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +16,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.device.adapter.DeviceInfoAdapter;
+import com.punuo.pet.home.device.event.UnBindDeviceEvent;
+import com.punuo.pet.home.device.model.DeviceInfo;
+import com.punuo.pet.home.device.model.DeviceModel;
 import com.punuo.pet.home.device.request.BindDeviceRequest;
 import com.punuo.pet.home.device.request.CheckBindDeviceRequest;
+import com.punuo.pet.home.device.request.GetBindDeviceRequest;
 import com.punuo.pet.home.device.request.JoinGroupRequest;
-import com.punuo.pet.home.device.request.UnBindDeviceRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -27,6 +33,13 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +63,12 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
     ImageView mBack;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
+    @BindView(R2.id.device_list)
+    RecyclerView mDeviceList;
+    @BindView(R2.id.text_empty)
+    TextView mTextEmpty;
+
+    private DeviceInfoAdapter mDeviceInfoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +90,15 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
                 BindDeviceActivityPermissionsDispatcher.openScanWithCheck(BindDeviceActivity.this);
             }
         });
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mDeviceList.setLayoutManager(layoutManager);
+        mDeviceInfoAdapter = new DeviceInfoAdapter(this, new ArrayList<DeviceInfo>());
+        mDeviceList.setAdapter(mDeviceInfoAdapter);
+        refresh();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
@@ -103,8 +131,62 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         }
     }
 
-    private void refresh() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnBindDeviceEvent event) {
+        refresh();
+    }
+
+    private void updateView(List<DeviceInfo> deviceInfoList) {
+        if (deviceInfoList == null || deviceInfoList.isEmpty()) {
+            mTextEmpty.setVisibility(View.VISIBLE);
+            mDeviceList.setVisibility(View.GONE);
+            return;
+        }
+        mDeviceList.setVisibility(View.VISIBLE);
+        mTextEmpty.setVisibility(View.GONE);
+        mDeviceInfoAdapter.appentData(deviceInfoList);
+    }
+
+    private void refresh() {
+        getDeviceInfo();
+    }
+
+    private GetBindDeviceRequest mGetBindDeviceRequest;
+
+    private void getDeviceInfo() {
+        if (mGetBindDeviceRequest != null && !mGetBindDeviceRequest.isFinish()) {
+            return;
+        }
+        mGetBindDeviceRequest = new GetBindDeviceRequest();
+        mGetBindDeviceRequest.addUrlParam("username", AccountManager.getUserName());
+        mGetBindDeviceRequest.setRequestListener(new RequestListener<DeviceModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(DeviceModel result) {
+                if (result == null) {
+                    return;
+                }
+                updateView(result.mDeviceInfoList);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetBindDeviceRequest);
     }
 
     private BindDeviceRequest mBindDeviceRequest;
@@ -128,6 +210,9 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
                     return;
                 }
                 ToastUtils.showToast(result.message);
+                if (result.success) {
+                    refresh();
+                }
             }
 
             @Override
@@ -159,6 +244,9 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
                     return;
                 }
                 ToastUtils.showToast(result.message);
+                if (result.success) {
+                    refresh();
+                }
             }
 
             @Override
@@ -201,36 +289,5 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(mCheckBindDeviceRequest);
-    }
-
-    private UnBindDeviceRequest mUnBindDeviceRequest;
-
-    private void unBindDevice(String devId) {
-        if (mUnBindDeviceRequest != null && !mUnBindDeviceRequest.isFinish()) {
-            return;
-        }
-        mUnBindDeviceRequest = new UnBindDeviceRequest();
-        mUnBindDeviceRequest.addUrlParam("devid", devId);
-        mUnBindDeviceRequest.addUrlParam("username", AccountManager.getUserName());
-        mUnBindDeviceRequest.setRequestListener(new RequestListener<BaseModel>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(BaseModel result) {
-                if (result == null) {
-                    return;
-                }
-                ToastUtils.showToast(result.message);
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mUnBindDeviceRequest);
     }
 }

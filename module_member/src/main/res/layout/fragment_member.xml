@@ -585,15 +585,15 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
 
-        <!--添加宠物-->
+        <!--设备列表-->
         <TextView
-            android:id="@+id/add_pet_button"
+            android:id="@+id/dev_list"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_below="@+id/customerservice"
             android:background="@color/white"
             android:gravity="center"
-            android:text="添加宠物信息"
+            android:text="设备列表"
             android:textColor="#333333"
             android:textSize="16sp" />
 
