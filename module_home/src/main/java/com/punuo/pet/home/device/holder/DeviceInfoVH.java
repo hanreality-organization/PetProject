@@ -13,6 +13,7 @@ import com.punuo.pet.home.device.event.UnBindDeviceEvent;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.request.UnBindDeviceRequest;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
@@ -40,8 +41,11 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
     @BindView(R2.id.device_time)
     TextView mDeviceTime;
 
+    protected Context mContext;
+
     public DeviceInfoVH(Context context, ViewGroup parent) {
         super(LayoutInflater.from(context).inflate(R.layout.home_recycle_dev_item, parent, false));
+        mContext = context;
         ButterKnife.bind(this, itemView);
     }
 
@@ -62,6 +66,9 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
     private void unBindDevice(String devId) {
         if (mUnBindDeviceRequest != null && !mUnBindDeviceRequest.isFinish()) {
             return;
+        }
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).showLoadingDialog("解绑设备中...");
         }
         mUnBindDeviceRequest = new UnBindDeviceRequest();
         mUnBindDeviceRequest.addUrlParam("devid", devId);

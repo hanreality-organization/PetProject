@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_layout"
+        android:overScrollMode="never"
         android:paddingTop="12dp" />
 
     <TextView
@@ -21,7 +22,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/title_layout"
         android:gravity="center"
-        android:text="暂无设备信息，请绑定设备"
+        android:text="@string/home_empty_device_str"
         android:textColor="#666666"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -95,6 +95,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         mDeviceList.setLayoutManager(layoutManager);
         mDeviceInfoAdapter = new DeviceInfoAdapter(this, new ArrayList<DeviceInfo>());
         mDeviceList.setAdapter(mDeviceInfoAdapter);
+        showLoadingDialog("加载中...");
         refresh();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -125,6 +126,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
                 if (data != null) {
                     String result = data.getStringExtra("result");
                     Log.v("BindDeviceActivity", "result = " + result);
+                    showLoadingDialog("绑定设备中...");
                     checkBindDevice(result);
                 }
             }
@@ -170,7 +172,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         mGetBindDeviceRequest.setRequestListener(new RequestListener<DeviceModel>() {
             @Override
             public void onComplete() {
-
+                dismissLoadingDialog();
             }
 
             @Override
