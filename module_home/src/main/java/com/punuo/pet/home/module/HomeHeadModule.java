@@ -107,7 +107,7 @@ public class HomeHeadModule {
         mDevicePart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_DEVICE_ACTIVITY)
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
                         .navigation();
             }
         });

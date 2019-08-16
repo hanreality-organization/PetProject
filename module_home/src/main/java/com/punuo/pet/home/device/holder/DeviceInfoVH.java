@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.event.UnBindDeviceEvent;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.request.UnBindDeviceRequest;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -57,6 +59,13 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
             @Override
             public void onClick(View v) {
                 unBindDevice(deviceInfo.devid);
+            }
+        });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_DEVICE_ACTIVITY)
+                        .navigation();
             }
         });
     }

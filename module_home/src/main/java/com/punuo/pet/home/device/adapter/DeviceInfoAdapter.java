@@ -21,7 +21,7 @@ public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<DeviceInfo> {
         super(context, data);
     }
 
-    public void appentData(List<DeviceInfo> devices) {
+    public void appendData(List<DeviceInfo> devices) {
         mData.clear();
         if (devices != null) {
             mData.addAll(devices);

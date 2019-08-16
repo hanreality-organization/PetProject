@@ -584,23 +584,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
-
-        <!--设备列表-->
-        <TextView
-            android:id="@+id/dev_list"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_below="@+id/customerservice"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="设备列表"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"/>
-
         <!--退出登录-->
         <TextView
             android:id="@+id/exit_button"

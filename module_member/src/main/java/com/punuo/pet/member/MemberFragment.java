@@ -35,7 +35,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
     private ImageView mBack;
     private TextView mExitButton;
-    private TextView mDevlist;
     private TextView mNickname;
     private ImageView mAvater;
     private TextView mBuff;
@@ -67,7 +66,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private void initView() {
         mcheck = mFragmentView.findViewById(R.id.check);
         mExitButton = mFragmentView.findViewById(R.id.exit_button);
-        mDevlist = mFragmentView.findViewById(R.id.dev_list);
         mNickname = mFragmentView.findViewById(R.id.user_nickname);
         mAvater = mFragmentView.findViewById(R.id.user_avater);
         mAccount = mFragmentView.findViewById(R.id.account);
@@ -81,7 +79,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
         mcheck.setOnClickListener(this);
         mExitButton.setOnClickListener(this);
-        mDevlist.setOnClickListener(this);
         mAccount.setOnClickListener(this);
         mCache.setOnClickListener(this);
         mPrivacy.setOnClickListener(this);
@@ -149,9 +146,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
         if(id == R.id.exit_button){//退出登录
             logout(AccountManager.getSession());
-        } else if(id == R.id.dev_list){//设备列表
-            ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
-        }else if(id==R.id.check){//签到
+        } else if(id==R.id.check){//签到
             mcheck.setText("已签到");
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
         } else if(id == R.id.account){//账户管理

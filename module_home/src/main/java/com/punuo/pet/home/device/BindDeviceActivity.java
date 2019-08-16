@@ -154,7 +154,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         }
         mDeviceList.setVisibility(View.VISIBLE);
         mTextEmpty.setVisibility(View.GONE);
-        mDeviceInfoAdapter.appentData(deviceInfoList);
+        mDeviceInfoAdapter.appendData(deviceInfoList);
     }
 
     private void refresh() {
