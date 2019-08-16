@@ -245,6 +245,7 @@ public class WifiConnectActivity extends BaseActivity {
                 if (ptoMessage != null) {
                     ToastUtils.showToast(ptoMessage.msg);
                     if (ptoMessage.type == Constants.SUCCESS) {
+                        setResult(RESULT_OK);
                         finish();
                     }
                 }

@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.punuo.pet.home.wifi.model.WifiMessage;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 /**
  * Created by han.chen.
@@ -127,7 +126,6 @@ public class WifiController {
                     NetworkInfo.State state = info.getState();
                     if (state == NetworkInfo.State.DISCONNECTED) {
                         Log.v("WifiController", "Wifi断开，尝试连接");
-                        ToastUtils.showToast("Wifi断开，尝试连接");
                         if (isClient) {
                             mClientWifiListener.OnClientDisConnect();
                         } else {
