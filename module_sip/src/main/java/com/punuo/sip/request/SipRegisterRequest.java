@@ -26,8 +26,7 @@ public class SipRegisterRequest extends BaseSipRequest<Object> {
             return null;
         }
         RegisterData.NegotiateResponse response = mRegisterData.mNegotiateResponse;
-        //TODO 快捷登陆的账号如果没有设置过密码的 会sip注册失败,后续改成密码是固定的即可。
-        String password = SHA1.getInstance().hashData(response.salt + "123456");
+        String password = SHA1.getInstance().hashData(response.salt + "");
         password = SHA1.getInstance().hashData(response.seed + password);
         JSONObject body = new JSONObject();
         JSONObject value = new JSONObject();
