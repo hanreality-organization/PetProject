@@ -112,6 +112,7 @@ public class BaseSipRequest<T> implements SipMessageProcessor<T> {
                 return SipMessageFactory.createRegisterRequest(getDestNameAddress(), getLocalNameAddress(), getBody());
             case Subscribe:
             case Notify:
+                return SipMessageFactory.createNotifyRequest(getDestNameAddress(), getLocalNameAddress(), getBody());
             case Invite:
             case Options:
             case Bye:

@@ -16,5 +16,6 @@ public class HomeRouter {
     public static final String ROUTER_BLUETOOTH_ACTIVITY = PREFIX + "/BlueToothActivity";
     public static final String ROUTER_WIFI_CONNECT_ACTIVITY = PREFIX + "/WifiConnectActivity";
     public static final String ROUTER_BIND_DEVICE_ACTIVITY = PREFIX + "/BindDeviceActivity";
+    public static final String ROUTER_DEVICE_CONTROL_ACTIVITY = PREFIX + "/DeviceControlActivity";
 
 }
