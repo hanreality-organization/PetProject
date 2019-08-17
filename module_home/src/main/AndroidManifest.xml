@@ -46,9 +46,5 @@
             android:name=".feed.AddFeedPlanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".device.DeviceControlActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
     </application>
 </manifest>
