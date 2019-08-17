@@ -21,4 +21,10 @@
         android:layout_centerVertical="true"
         android:text="右" />
 
+    <Button
+        android:id="@+id/get_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取称重信息"/>
+
 </RelativeLayout>

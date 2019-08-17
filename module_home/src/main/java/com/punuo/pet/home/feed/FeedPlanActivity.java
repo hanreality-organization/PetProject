@@ -2,6 +2,7 @@ package com.punuo.pet.home.feed;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +17,17 @@ import com.bumptech.glide.Glide;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sip.SipUserManager;
+import com.punuo.sip.request.SipControlDeviceRequest;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,8 +60,13 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     TextView mDateText;
     @BindView(R2.id.date_select_btn)
     Button mDateSelectBtn;
+    @BindView(R2.id.edit_feed_plan)
+    TextView mEditFeedPlan;
+    @BindView(R2.id.feed_right_now)
+    TextView mFeedRightNow;
 
     private DatePickerDialog mDatePickerDialog;
+    private String mLastOperate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +119,28 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
         String today = format.format(calendar.getTime());
         mDateText.setText(today);
+
+        mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 跳转编辑喂食计划页面
+            }
+        });
+        mFeedRightNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 转动云台
+                if (!TextUtils.isEmpty(mLastOperate)) {
+                    mLastOperate = TextUtils.equals(mLastOperate, "left") ? "right" : "left";
+                } else {
+                    mLastOperate = "right";
+                }
+                for (int i = 0; i < 500; i++) {
+                    operateControl(mLastOperate);
+                }
+                operateControl("stop");
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -141,6 +176,38 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                 //TODO add
             }
         });
+    }
+
+    private void operateControl(String operate) {
+        SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate);
+        SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
+    }
+
+    private GetWeightInfoRequest mGetWeightInfoRequest;
+    private void getWeightInfo(String devId) {
+        if (mGetWeightInfoRequest != null && !mGetWeightInfoRequest.isFinish()) {
+            return;
+        }
+        mGetWeightInfoRequest = new GetWeightInfoRequest();
+        mGetWeightInfoRequest.addUrlParam("username", AccountManager.getUserName());
+        mGetWeightInfoRequest.addUrlParam("devid", devId);
+        mGetWeightInfoRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetWeightInfoRequest);
     }
 
     @Override

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/module_title_layout" />
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/module_title_layout" />
 
     <HorizontalScrollView
+        android:id="@+id/hs_pet_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/title_layout"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp">
 
         <LinearLayout
@@ -24,8 +28,10 @@
     </HorizontalScrollView>
 
     <LinearLayout
+        android:id="@+id/time_pick_container"
         android:layout_width="match_parent"
         android:layout_height="44dp"
+        android:layout_below="@+id/hs_pet_container"
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -57,6 +63,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/time_pick_container"
         android:paddingTop="25dp"
         android:paddingBottom="25dp">
 
@@ -98,8 +105,50 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#999999"
         android:layout_marginLeft="48dp"
-        android:layout_marginRight="48dp"/>
+        android:layout_marginRight="48dp"
+        android:background="#999999" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/edit_feed_plan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="编辑计划"
+                android:textColor="#333333"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/feed_right_now"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="立即出粮"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
