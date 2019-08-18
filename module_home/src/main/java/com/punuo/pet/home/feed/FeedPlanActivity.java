@@ -2,8 +2,8 @@ package com.punuo.pet.home.feed;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -66,7 +66,6 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     TextView mFeedRightNow;
 
     private DatePickerDialog mDatePickerDialog;
-    private String mLastOperate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,19 +125,15 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                 //TODO 跳转编辑喂食计划页面
             }
         });
-        mFeedRightNow.setOnClickListener(new View.OnClickListener() {
+        mFeedRightNow.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                //TODO 转动云台
-                if (!TextUtils.isEmpty(mLastOperate)) {
-                    mLastOperate = TextUtils.equals(mLastOperate, "left") ? "right" : "left";
-                } else {
-                    mLastOperate = "right";
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    operateControl("left");
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    operateControl("stop");
                 }
-                for (int i = 0; i < 500; i++) {
-                    operateControl(mLastOperate);
-                }
-                operateControl("stop");
+                return true;
             }
         });
     }
