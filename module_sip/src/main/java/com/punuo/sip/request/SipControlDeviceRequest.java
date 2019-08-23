@@ -15,16 +15,18 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
  **/
 public class SipControlDeviceRequest extends BaseSipRequest<Object> {
     private String mOperate;
+    private String mDevId;
 
-    public SipControlDeviceRequest(String operate) {
+    public SipControlDeviceRequest(String operate, String devId) {
         setSipRequestType(SipRequestType.Notify);
         mOperate = operate;
+        mDevId = devId;
     }
 
     @Override
     public NameAddress getDestNameAddress() {
-        SipURL remote = new SipURL("321000000200150001", SipConfig.getServerIp(), SipConfig.getPort());
-        return new NameAddress("321000000200150001", remote);
+        SipURL remote = new SipURL(mDevId, SipConfig.getServerIp(), SipConfig.getPort());
+        return new NameAddress(mDevId, remote);
     }
 
     @Override

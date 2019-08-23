@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
@@ -22,17 +23,25 @@ import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.model.MediaData;
+import com.punuo.sip.model.QueryData;
 import com.punuo.sip.request.SipControlDeviceRequest;
+import com.punuo.sip.request.SipMediaRequest;
+import com.punuo.sip.request.SipQueryRequest;
+import com.punuo.sip.request.SipRequestListener;
+import com.punuo.sip.video.VideoInfoManager;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.zoolu.sip.message.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,17 +73,24 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     TextView mEditFeedPlan;
     @BindView(R2.id.feed_right_now)
     TextView mFeedRightNow;
+    @BindView(R2.id.look_video)
+    TextView mLookVideo;
 
     private DatePickerDialog mDatePickerDialog;
+
+    @Autowired(name = "devId")
+    String devId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_feed_plan_activity);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
         initView();
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
+        devId = "310023001139940001";
     }
 
     private void initView() {
@@ -136,6 +152,68 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                 return true;
             }
         });
+
+        mLookVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVideo(devId);
+            }
+        });
+    }
+
+    private void startVideo(String devId) {
+        queryMediaInfo(devId);
+    }
+
+    private void queryMediaInfo(final String devId) {
+        SipQueryRequest sipQueryRequest = new SipQueryRequest(devId);
+        sipQueryRequest.setSipRequestListener(new SipRequestListener<QueryData>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(QueryData result, Message message) {
+                if (result == null) {
+                    return;
+                }
+                VideoInfoManager.init(result);
+                inviteMedia(devId);
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        SipUserManager.getInstance().addRequest(sipQueryRequest);
+    }
+
+    private void inviteMedia(String devId) {
+        SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
+        sipMediaRequest.setSipRequestListener(new SipRequestListener<MediaData>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(MediaData result, Message message) {
+                if (result == null) {
+                    return;
+                }
+                VideoInfoManager.init(result);
+                //TODO 开启接收视频
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        SipUserManager.getInstance().addRequest(sipMediaRequest);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -174,11 +252,12 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     }
 
     private void operateControl(String operate) {
-        SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate);
+        SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate, devId);
         SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
     }
 
     private GetWeightInfoRequest mGetWeightInfoRequest;
+
     private void getWeightInfo(String devId) {
         if (mGetWeightInfoRequest != null && !mGetWeightInfoRequest.isFinish()) {
             return;
