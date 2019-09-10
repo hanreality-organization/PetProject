@@ -16,17 +16,17 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/selector_one"
             android:scaleType="fitCenter" />
 
-        <!--<TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="首页"
+            android:text="@string/tab_first"
             android:textColor="@drawable/home_bottom_text_color_selector"
-            android:textSize="10sp" />-->
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,18 +38,18 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/selector_two"
             android:scaleType="fitCenter" />
 
-        <!--<TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="宠友圈"
+            android:text="@string/tab_second"
             android:textColor="@drawable/home_bottom_text_color_selector"
-            android:textSize="10sp" />-->
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,17 +61,17 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/selector_three"
             android:scaleType="fitCenter" />
 
-        <!--<TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="消息"
+            android:text="@string/tab_third"
             android:textColor="@drawable/home_bottom_text_color_selector"
-            android:textSize="10sp" />-->
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -83,17 +83,17 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/selector_four"
             android:scaleType="fitCenter" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的"
+            android:text="@string/tab_four"
             android:textColor="@drawable/home_bottom_text_color_selector"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -106,14 +106,14 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/selector_five"
             android:scaleType="fitCenter" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
     </LinearLayout>
 </LinearLayout>
