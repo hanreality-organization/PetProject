@@ -9,19 +9,23 @@
 
         <activity android:name=".login.activity.RegisterAccountActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".login.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".login.activity.BindPhoneActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".pet.AddPetActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
