@@ -42,7 +42,7 @@ public class HomeHeadModule {
     @BindView(R2.id.device_part)
     RoundedImageView mDevicePart;
     @BindView(R2.id.device_container)
-    LinearLayout mDeviceContainer;
+    ViewGroup mDeviceContainer;
     @BindView(R2.id.feed_pet)
     RoundedImageView mFeedPet;
     @BindView(R2.id.care_pet)
