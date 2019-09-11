@@ -12,9 +12,14 @@ import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.feed.model.FeedingAdviceModel;
+import com.punuo.pet.home.feed.request.GetFeedingAdviceRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import butterknife.BindView;
@@ -39,9 +44,14 @@ public class FeedActivity extends BaseSwipeBackActivity {
     TextView mHomeFeedEdit;
     @BindView(R2.id.home_feed_more)
     TextView mHomeFeedMore;
+    @BindView(R2.id.sub_title)
+    TextView mSubTitle;
+    @BindView(R2.id.feed_value)
+    TextView mFeedValue;
 
     @Autowired(name = "petData")
     PetData mPetData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +70,15 @@ public class FeedActivity extends BaseSwipeBackActivity {
                 onBackPressed();
             }
         });
+        mSubTitle.setVisibility(View.VISIBLE);
+        mSubTitle.setText("查看喂食计划");
+        mSubTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_FEED_PLAN_ACTIVITY)
+                        .navigation();
+            }
+        });
         if (mPetData != null) {
             Glide.with(this).load(mPetData.avatar).into(mPetAvatar);
             ViewUtil.setText(mPetNick, mPetData.petname);
@@ -76,5 +95,37 @@ public class FeedActivity extends BaseSwipeBackActivity {
 
             }
         });
+        getFeedAdvice();
+    }
+
+    private GetFeedingAdviceRequest mGetFeedingAdviceRequest;
+
+    private void getFeedAdvice() {
+        if (mGetFeedingAdviceRequest != null && !mGetFeedingAdviceRequest.isFinish()) {
+            return;
+        }
+        mGetFeedingAdviceRequest = new GetFeedingAdviceRequest();
+        mGetFeedingAdviceRequest.addUrlParam("petname", mPetData.petname);
+        mGetFeedingAdviceRequest.addUrlParam("username", AccountManager.getUserName());
+        mGetFeedingAdviceRequest.setRequestListener(new RequestListener<FeedingAdviceModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(FeedingAdviceModel result) {
+                if (result == null) {
+                    return;
+                }
+                ViewUtil.setText(mFeedValue, result.mFeedingAdvice);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetFeedingAdviceRequest);
     }
 }

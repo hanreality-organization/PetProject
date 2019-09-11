@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/pet_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:riv_corner_radius="30dp" />
+
+    <TextView
+        android:id="@+id/pet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        tools:text="诺诺" />
+
+</LinearLayout>

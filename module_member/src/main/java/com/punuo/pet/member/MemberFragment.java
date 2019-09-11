@@ -9,12 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.request.LogoutRequest;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
@@ -35,7 +35,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
     private ImageView mBack;
     private TextView mExitButton;
-    private TextView mAddPetButton;
     private TextView mNickname;
     private ImageView mAvater;
     private TextView mBuff;
@@ -67,7 +66,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private void initView() {
         mcheck = mFragmentView.findViewById(R.id.check);
         mExitButton = mFragmentView.findViewById(R.id.exit_button);
-        mAddPetButton = mFragmentView.findViewById(R.id.add_pet_button);
         mNickname = mFragmentView.findViewById(R.id.user_nickname);
         mAvater = mFragmentView.findViewById(R.id.user_avater);
         mAccount = mFragmentView.findViewById(R.id.account);
@@ -81,7 +79,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
         mcheck.setOnClickListener(this);
         mExitButton.setOnClickListener(this);
-        mAddPetButton.setOnClickListener(this);
         mAccount.setOnClickListener(this);
         mCache.setOnClickListener(this);
         mPrivacy.setOnClickListener(this);
@@ -149,9 +146,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
         if(id == R.id.exit_button){//退出登录
             logout(AccountManager.getSession());
-        } else if(id == R.id.add_pet_button){//添加宠物信息
-            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
-        }else if(id==R.id.check){//签到
+        } else if(id==R.id.check){//签到
             mcheck.setText("已签到");
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
         } else if(id == R.id.account){//账户管理

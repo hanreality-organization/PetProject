@@ -104,7 +104,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
 
             @Override
-            public void onSuccess(RegisterData result) {
+            public void onSuccess(RegisterData result, org.zoolu.sip.message.Message message) {
                 if (result == null) {
                     return;
                 }
@@ -128,7 +128,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
 
             @Override
-            public void onSuccess(Object result) {
+            public void onSuccess(Object result, org.zoolu.sip.message.Message message) {
                 //sip登陆注册成功 开启心跳保活
                 if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
                     mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);

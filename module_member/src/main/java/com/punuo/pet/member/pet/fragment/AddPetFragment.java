@@ -38,7 +38,6 @@ import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -99,14 +98,7 @@ public class AddPetFragment extends BaseFragment {
                         .forResult(PictureConfig.CHOOSE_REQUEST);
             }
         });
-
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setSpinnerArray(checkedId);
-            }
-        });
-        setSpinnerArray(mRadioGroup.getCheckedRadioButtonId());
+        setSpinnerArray();
 
         mEditPetBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,20 +133,9 @@ public class AddPetFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 根据选择的宠物类型,变换可以选择的宠物品种
-     * @param checkedId
-     */
-    private void setSpinnerArray(int checkedId) {
-        List<String> entries = new ArrayList<>();
-        if (checkedId == R.id.radio_dog) {
-            String[] dogArray = getResources().getStringArray(R.array.dogTypeArray);
-            entries = Arrays.asList(dogArray);
-        } else if (checkedId == R.id.radio_cat) {
-            String[] dogArray = getResources().getStringArray(R.array.catTypeArray);
-            entries = Arrays.asList(dogArray);
-        }
-        mPetType = 1; // 重置默认类型为1;
+    private void setSpinnerArray() {
+        String[] dogArray = getResources().getStringArray(R.array.catTypeArray);
+        List<String> entries = Arrays.asList(dogArray);
         mPetAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_dropdown_item, entries);
         mEditPetType.setAdapter(mPetAdapter);
         mEditPetType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -194,10 +175,10 @@ public class AddPetFragment extends BaseFragment {
 
     public RequestParam getRequestParam() {
         int checkedRadioButtonId = mRadioGroup.getCheckedRadioButtonId();
-        if (checkedRadioButtonId == R.id.radio_dog) {
-            mRequestParam.type = 1;
-        } else if (checkedRadioButtonId == R.id.radio_cat) {
-            mRequestParam.type = 2;
+        if (checkedRadioButtonId == R.id.radio_male) {
+            mRequestParam.sex = 1;
+        } else if (checkedRadioButtonId == R.id.radio_female) {
+            mRequestParam.sex = 2;
         }
 
         mRequestParam.photo = mPetAvatar;

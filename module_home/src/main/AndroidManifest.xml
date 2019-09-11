@@ -8,31 +8,43 @@
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
-    <application>
+    <application android:supportsRtl="true">
 
         <activity
             android:name=".device.ConnectDeviceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".device.ConnectResultActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".feed.FeedActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".care.CareActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".bluetooth.BlueToothActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".wifi.WifiConnectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".device.BindDeviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".feed.FeedPlanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".feed.AddFeedPlanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
     </application>
 </manifest>
