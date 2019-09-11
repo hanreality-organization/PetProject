@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:background="@drawable/home_white_card_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/device_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@color/bg_base"
+        app:riv_corner_radius="15dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/device_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:paddingLeft="12dp"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            tools:text="设备id" />
+
+        <TextView
+            android:id="@+id/device_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:includeFontPadding="false"
+            android:paddingLeft="12dp"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            tools:text="设备绑定时间" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/device_unbind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_unbind_bg"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:paddingLeft="15dp"
+        android:paddingTop="4dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="4dp"
+        android:text="解绑"
+        android:textColor="#FF1A1A"
+        android:textSize="14sp" />
+
+</LinearLayout>

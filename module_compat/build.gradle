@@ -19,12 +19,6 @@ android {
         }
     }
 
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -39,5 +33,5 @@ dependencies {
     api project(':basesdk')
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
-
+    implementation project(':module_sip')
 }

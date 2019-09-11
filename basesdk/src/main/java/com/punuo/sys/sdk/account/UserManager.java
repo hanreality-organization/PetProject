@@ -34,7 +34,6 @@ public class UserManager {
                 }
                 if (result.userInfo != null) {
                     AccountManager.setUserInfo(result.userInfo);
-                    EventBus.getDefault().post(result.userInfo);
                 }
             }
 

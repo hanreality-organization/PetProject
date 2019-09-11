@@ -42,7 +42,7 @@ public class ConnectResultActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connect_result_activity);
+        setContentView(R.layout.home_connect_result_activity);
         ButterKnife.bind(this);
         initView();
     }

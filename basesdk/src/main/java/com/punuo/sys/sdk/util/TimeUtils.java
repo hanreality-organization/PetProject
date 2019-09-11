@@ -69,6 +69,12 @@ public class TimeUtils {
         return date;
     }
 
+    public static String formatMills(long mills) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        Date date = new Date(mills);
+        return format.format(date);
+    }
+
     public static int calAgeMonth(String dateStr) {
         return calAgeMonth(parseDateToMills(dateStr));
     }

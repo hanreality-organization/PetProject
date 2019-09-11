@@ -37,6 +37,7 @@ import com.punuo.pet.cirlce.publish.helpclass.FriendReLoadEvent;
 import com.punuo.pet.cirlce.publish.helpclass.ICallBack;
 import com.punuo.pet.cirlce.publish.request.UploadPostRequest;
 import com.punuo.pet.cirlce.publish.util.CommonUtil;
+import com.punuo.pet.cirlce.publish.util.FileUtils;
 import com.punuo.pet.router.CircleRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
@@ -69,7 +70,6 @@ public class PublishActivity extends BaseSwipeBackActivity {
     EditText mEditText;
     @BindView(R2.id.grid_view)
     RecyclerView mGridView;
-
     private GridImageAdapter mGridImageAdapter;
 
     @Override
@@ -125,8 +125,8 @@ public class PublishActivity extends BaseSwipeBackActivity {
         showLoadingDialog("正在片压缩图...");
         List<String> tempList = new ArrayList<>();
         for (int i = 0; i < selectBitmap.size(); i++) {
-            Bitmap bitmap = com.punuo.pet.cirlce.publish.util.FileUtils.compressBitmap(selectBitmap.get(i));
-            String temp = com.punuo.pet.cirlce.publish.util.FileUtils.saveBitmap(bitmap, String.valueOf(System.currentTimeMillis()));
+            Bitmap bitmap = FileUtils.compressBitmap(selectBitmap.get(i));
+            String temp = FileUtils.saveBitmap(bitmap, String.valueOf(System.currentTimeMillis()));
             tempList.add(temp);
         }
         return tempList;
@@ -163,7 +163,7 @@ public class PublishActivity extends BaseSwipeBackActivity {
             @Override
             public void onComplete() {
                 dismissLoadingDialog();
-
+                FileUtils.deleteCircleDir();
             }
 
             @Override
