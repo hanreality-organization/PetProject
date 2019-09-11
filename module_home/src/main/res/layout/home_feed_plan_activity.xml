@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,89 +28,14 @@
 
     </HorizontalScrollView>
 
-    <LinearLayout
-        android:id="@+id/time_pick_container"
+    <com.loonggg.weekcalendar.view.WeekCalendar
+        android:id="@+id/calendar_week"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@+id/hs_pet_container"
-        android:layout_marginTop="12dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/date_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/feed_gray_card_bg"
-            android:gravity="center"
-            android:textColor="#333333"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            tools:text="2019年12月21日" />
-
-        <Button
-            android:id="@+id/date_select_btn"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/feed_date_select_bg"
-            android:text="选择"
-            android:textColor="@color/white" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/center_container"
-        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/time_pick_container"
-        android:paddingTop="25dp"
-        android:paddingBottom="25dp">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:background="@drawable/feed_gray_circle_bg">
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/look_video"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:background="@drawable/feed_green_circle_bg"
-            android:gravity="center"
-            android:text="查看视频"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@+id/center_container"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="48dp"
-        android:background="#999999" />
+        android:layout_below="@+id/hs_pet_container"
+        app:daysSelectedBackground="@drawable/feed_date_select_bg"
+        app:daysTextColor="#333333" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,37 +44,54 @@
         android:layout_marginBottom="40dp"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/edit_feed_plan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="6dp"
+                android:src="#FF1A1A"/>
 
             <TextView
-                android:id="@+id/edit_feed_plan"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="编辑计划"
                 android:textColor="#333333"
                 android:textStyle="bold" />
-        </FrameLayout>
+        </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/feed_right_now"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="6dp"
+                android:src="#8BC34A"/>
 
             <TextView
-                android:id="@+id/feed_right_now"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="立即出粮"
-                android:textColor="#4CAF50"
+                android:textColor="#8BC34A"
                 android:textStyle="bold" />
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

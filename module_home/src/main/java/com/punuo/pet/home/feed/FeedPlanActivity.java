@@ -1,12 +1,9 @@
 package com.punuo.pet.home.feed;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
@@ -36,16 +34,13 @@ import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.zoolu.sip.message.Message;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,18 +60,12 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     TextView mSubTitle;
     @BindView(R2.id.pet_container)
     LinearLayout mPetContainer;
-    @BindView(R2.id.date_text)
-    TextView mDateText;
-    @BindView(R2.id.date_select_btn)
-    Button mDateSelectBtn;
+    @BindView(R2.id.calendar_week)
+    WeekCalendar mWeekCalendar;
     @BindView(R2.id.edit_feed_plan)
-    TextView mEditFeedPlan;
+    View mEditFeedPlan;
     @BindView(R2.id.feed_right_now)
-    TextView mFeedRightNow;
-    @BindView(R2.id.look_video)
-    TextView mLookVideo;
-
-    private DatePickerDialog mDatePickerDialog;
+    View mFeedRightNow;
 
     @Autowired(name = "devId")
     String devId;
@@ -110,31 +99,12 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                         .navigation();
             }
         });
-        mDateSelectBtn.setOnClickListener(new View.OnClickListener() {
+        mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
-            public void onClick(View v) {
-                if (mDatePickerDialog != null && mDatePickerDialog.isShowing()) {
-                    return;
-                }
-                Calendar calendar = Calendar.getInstance();
-                int yy = calendar.get(Calendar.YEAR);
-                int mm = calendar.get(Calendar.MONTH);
-                int dd = calendar.get(Calendar.DAY_OF_MONTH);
-                mDatePickerDialog = new DatePickerDialog(FeedPlanActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = getResources().getString(R.string.date, year, month + 1, dayOfMonth);
-                        mDateText.setText(date);
-                    }
-                }, yy, mm, dd);
-                mDatePickerDialog.show();
+            public void onDateClick(String s) {
+                ToastUtils.showToast(s);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
-        String today = format.format(calendar.getTime());
-        mDateText.setText(today);
-
         mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,13 +120,6 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                     operateControl("stop");
                 }
                 return true;
-            }
-        });
-
-        mLookVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startVideo(devId);
             }
         });
     }
