@@ -1,4 +1,4 @@
-package com.punuo.pet.home.feed.model;
+package com.punuo.pet.feed.model;
 
 /**
  * Created by han.chen.

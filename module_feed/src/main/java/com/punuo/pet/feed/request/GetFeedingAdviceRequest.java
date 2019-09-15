@@ -1,6 +1,6 @@
-package com.punuo.pet.home.feed.request;
+package com.punuo.pet.feed.request;
 
-import com.punuo.pet.home.feed.model.FeedingAdviceModel;
+import com.punuo.pet.feed.model.FeedingAdviceModel;
 import com.punuo.sys.sdk.httplib.BaseRequest;
 
 /**

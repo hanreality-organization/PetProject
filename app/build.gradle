@@ -53,4 +53,5 @@ dependencies {
     api project(':module_message')
     api project(':module_member')
     api project(':module_circle')
+    api project(':module_feed')
 }

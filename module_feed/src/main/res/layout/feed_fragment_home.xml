@@ -7,41 +7,63 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="gone" />
+
     <include
         android:id="@+id/title_layout"
-        layout="@layout/module_title_layout" />
+        layout="@layout/module_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/status_bar" />
 
-    <HorizontalScrollView
-        android:id="@+id/hs_pet_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_container"
+        android:layout_below="@+id/title_layout">
 
         <LinearLayout
-            android:id="@+id/pet_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" />
+            android:orientation="vertical">
 
-    </HorizontalScrollView>
+            <HorizontalScrollView
+                android:id="@+id/hs_pet_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp">
 
-    <com.loonggg.weekcalendar.view.WeekCalendar
-        android:id="@+id/calendar_week"
-        android:layout_width="match_parent"
-        android:layout_marginTop="6dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hs_pet_container"
-        app:daysSelectedBackground="@drawable/feed_date_select_bg"
-        app:daysTextColor="#333333" />
+                <LinearLayout
+                    android:id="@+id/pet_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <com.loonggg.weekcalendar.view.WeekCalendar
+                android:id="@+id/calendar_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:daysSelectedBackground="@drawable/feed_date_select_bg"
+                app:daysTextColor="#333333" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/bottom_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -56,7 +78,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="6dp"
-                android:src="#FF1A1A"/>
+                android:src="#FF1A1A" />
 
             <TextView
 
@@ -81,7 +103,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="6dp"
-                android:src="#8BC34A"/>
+                android:src="#8BC34A" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -1,9 +1,10 @@
-package com.punuo.pet.home.feed;
+package com.punuo.pet.feed;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,12 +15,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
-import com.punuo.pet.home.R;
-import com.punuo.pet.home.R2;
-import com.punuo.pet.home.feed.request.GetWeightInfoRequest;
+import com.punuo.pet.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
-import com.punuo.pet.router.HomeRouter;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.MediaData;
 import com.punuo.sip.model.QueryData;
@@ -29,11 +28,12 @@ import com.punuo.sip.request.SipQueryRequest;
 import com.punuo.sip.request.SipRequestListener;
 import com.punuo.sip.video.VideoInfoManager;
 import com.punuo.sys.sdk.account.AccountManager;
-import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
@@ -47,11 +47,10 @@ import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
- * Date on 2019-08-16.
+ * Date on 2019-09-12.
  **/
-@Route(path = HomeRouter.ROUTER_FEED_PLAN_ACTIVITY)
-public class FeedPlanActivity extends BaseSwipeBackActivity {
-
+@Route(path = FeedRouter.ROUTER_FEED_HOME_FRAGMENT)
+public class FeedFragment extends BaseFragment {
     @BindView(R2.id.title)
     TextView mTitle;
     @BindView(R2.id.back)
@@ -71,34 +70,26 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     String devId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_feed_plan_activity);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
         ARouter.getInstance().inject(this);
+        ButterKnife.bind(this, mFragmentView);
         initView();
+        View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
+            mStatusBar.setVisibility(View.VISIBLE);
+            mStatusBar.requestLayout();
+        }
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
         devId = "310023001139940001";
+        return mFragmentView;
     }
 
     private void initView() {
         mTitle.setText("梦视科技喂食器");
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mSubTitle.setText("新增喂食计划");
-        mSubTitle.setVisibility(View.VISIBLE);
-        mSubTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY)
-                        .navigation();
-            }
-        });
+        mBack.setVisibility(View.GONE);
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
             public void onDateClick(String s) {
@@ -111,15 +102,10 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
                 //TODO 跳转编辑喂食计划页面
             }
         });
-        mFeedRightNow.setOnTouchListener(new View.OnTouchListener() {
+        mFeedRightNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    operateControl("left");
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    operateControl("stop");
-                }
-                return true;
+            public void onClick(View v) {
+                //TODO 调用云台旋转
             }
         });
     }
@@ -191,7 +177,8 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
         mPetContainer.removeAllViews();
         for (int i = 0; i < petModel.mPets.size(); i++) {
             PetData petData = petModel.mPets.get(i);
-            View view = LayoutInflater.from(this).inflate(R.layout.feed_pet_info_item, mPetContainer, false);
+            View view = LayoutInflater.from(getActivity()).
+                    inflate(R.layout.feed_pet_info_item, mPetContainer, false);
             ImageView avatar = view.findViewById(R.id.pet_avatar);
             TextView petName = view.findViewById(R.id.pet_name);
             Glide.with(this).load(petData.avatar).into(avatar);
@@ -204,7 +191,8 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
             });
             mPetContainer.addView(view);
         }
-        View view = LayoutInflater.from(this).inflate(R.layout.feed_add_item, mPetContainer, false);
+        View view = LayoutInflater.from(getActivity())
+                .inflate(R.layout.feed_add_item, mPetContainer, false);
         mPetContainer.addView(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,8 +236,8 @@ public class FeedPlanActivity extends BaseSwipeBackActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
 }
