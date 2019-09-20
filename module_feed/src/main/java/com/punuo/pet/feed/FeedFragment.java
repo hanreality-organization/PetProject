@@ -26,7 +26,7 @@ import com.punuo.sip.request.SipControlDeviceRequest;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sip.request.SipQueryRequest;
 import com.punuo.sip.request.SipRequestListener;
-import com.punuo.sip.video.VideoInfoManager;
+import com.punuo.sip.video.H264Config;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -127,7 +127,7 @@ public class FeedFragment extends BaseFragment {
                 if (result == null) {
                     return;
                 }
-                VideoInfoManager.init(result);
+                H264Config.initQueryData(result);
                 inviteMedia(devId);
 
             }
@@ -153,7 +153,7 @@ public class FeedFragment extends BaseFragment {
                 if (result == null) {
                     return;
                 }
-                VideoInfoManager.init(result);
+                H264Config.initMediaData(result);
                 //TODO 开启接收视频
             }
 
