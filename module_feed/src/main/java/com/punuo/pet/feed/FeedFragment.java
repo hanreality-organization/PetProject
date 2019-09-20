@@ -20,19 +20,12 @@ import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.MediaData;
-import com.punuo.sip.model.QueryData;
 import com.punuo.sip.request.SipControlDeviceRequest;
-import com.punuo.sip.request.SipMediaRequest;
-import com.punuo.sip.request.SipQueryRequest;
-import com.punuo.sip.request.SipRequestListener;
-import com.punuo.sip.video.H264Config;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
-import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
@@ -40,7 +33,6 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.zoolu.sip.message.Message;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,61 +100,6 @@ public class FeedFragment extends BaseFragment {
                 //TODO 调用云台旋转
             }
         });
-    }
-
-    private void startVideo(String devId) {
-        queryMediaInfo(devId);
-    }
-
-    private void queryMediaInfo(final String devId) {
-        SipQueryRequest sipQueryRequest = new SipQueryRequest(devId);
-        sipQueryRequest.setSipRequestListener(new SipRequestListener<QueryData>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(QueryData result, Message message) {
-                if (result == null) {
-                    return;
-                }
-                H264Config.initQueryData(result);
-                inviteMedia(devId);
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-                HandlerExceptionUtils.handleException(e);
-            }
-        });
-        SipUserManager.getInstance().addRequest(sipQueryRequest);
-    }
-
-    private void inviteMedia(String devId) {
-        SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
-        sipMediaRequest.setSipRequestListener(new SipRequestListener<MediaData>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(MediaData result, Message message) {
-                if (result == null) {
-                    return;
-                }
-                H264Config.initMediaData(result);
-                //TODO 开启接收视频
-            }
-
-            @Override
-            public void onError(Exception e) {
-                HandlerExceptionUtils.handleException(e);
-            }
-        });
-        SipUserManager.getInstance().addRequest(sipMediaRequest);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

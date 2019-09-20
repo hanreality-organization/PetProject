@@ -1,4 +1,6 @@
-package com.punuo.sip.video;
+package com.punuo.sys.app.video.stream;
+
+import android.util.Log;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -24,6 +26,7 @@ public class MediaRtpReceiver implements RTPAppIntf {
     private int tempNalLen = 0;
     private int preSeq;
     private boolean isPacketLost = true;
+    private SendActivePacket mSendActivePacket;
 
     public MediaRtpReceiver(String networkAddress, int remoteRtpPort) throws SocketException {
         DatagramSocket rtpSocket = new DatagramSocket();
@@ -43,6 +46,9 @@ public class MediaRtpReceiver implements RTPAppIntf {
 //                AudioTrack.MODE_STREAM
 //        );
 //        VideoInfo.track.play();
+        //开启视频心跳包活
+        mSendActivePacket = new SendActivePacket();
+        mSendActivePacket.startThread();
     }
 
     @Override
@@ -67,11 +73,6 @@ public class MediaRtpReceiver implements RTPAppIntf {
 //            VideoInfo.track.write(audioData, 0, frameSizeG711);
         }
     }
-
-    public void endSession() {
-        mRTPSession.endSession();
-    }
-
     @Override
     public void userEvent(int type, Participant[] participant) {
 
@@ -85,13 +86,6 @@ public class MediaRtpReceiver implements RTPAppIntf {
     @Override
     public int frameSize(int payloadType) {
         return 1;
-    }
-
-    public void sendActivePacket(byte[] msg) {
-        mRTPSession.payloadType(0x7a);
-        for (int i = 0; i < 2; i++) {
-            mRTPSession.sendData(msg);
-        }
     }
 
     public void getNalDm365(byte[] data, int seqNum, int len) {
@@ -190,5 +184,52 @@ public class MediaRtpReceiver implements RTPAppIntf {
         MediaSample.getInstance().jumpNal();
         preSeq = seqNum;
         isPacketLost = true;
+    }
+
+    private void sendActivePacket(byte[] msg) {
+        mRTPSession.payloadType(0x7a);
+        for (int i = 0; i < 2; i++) {
+            mRTPSession.sendData(msg);
+        }
+    }
+
+    public void onDestory() {
+        mSendActivePacket.stopThread();
+        mRTPSession.endSession();
+    }
+
+    class SendActivePacket extends Thread {
+        private boolean running = false;
+        private byte[] msg = new byte[20];
+
+        public SendActivePacket() {
+            msg[0] = 0x00;
+            msg[1] = 0x01;
+            msg[2] = 0x00;
+            msg[3] = 0x10;
+            System.arraycopy(H264Config.getMagic(), 0, msg, 4, 16);
+        }
+
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    Log.d("SendActivePacket", "run: " + Thread.currentThread().getId());
+                    sendActivePacket(msg);
+                    sleep(20 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void startThread() {
+            running = true;
+            super.start();
+        }
+
+        public void stopThread() {
+            running = false;
+        }
     }
 }

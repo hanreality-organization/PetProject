@@ -15,7 +15,7 @@ import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.pet.router.MessageRouter;
+import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.HeartBeatHelper;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.event.ReRegisterEvent;
@@ -190,7 +190,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 fragment = (Fragment) ARouter.getInstance().build(FeedRouter.ROUTER_FEED_HOME_FRAGMENT).navigation();
                 break;
             case TAB_THREE:
-                fragment = (Fragment) ARouter.getInstance().build(MessageRouter.ROUTER_MESSAGE_FRAGMENT).navigation();
+                fragment = (Fragment) ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_FRAGMENT).navigation();
                 break;
             case TAB_FOUR:
                 fragment = (Fragment) ARouter.getInstance().build(MemberRouter.ROUTER_MEMBER_FRAGMENT).navigation();

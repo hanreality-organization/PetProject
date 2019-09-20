@@ -1,4 +1,4 @@
-package com.punuo.sip.video;
+package com.punuo.sys.app.video.stream;
 
 /**
  * Created by han.chen.

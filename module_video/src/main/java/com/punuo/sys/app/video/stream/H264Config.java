@@ -1,4 +1,4 @@
-package com.punuo.sip.video;
+package com.punuo.sys.app.video.stream;
 
 import com.punuo.sip.model.MediaData;
 import com.punuo.sip.model.QueryData;
@@ -27,9 +27,9 @@ public class H264Config {
      */
     public static int VIDEO_TYPE = 2;
 
-    private String rtpIp;
-    private int rtpPort;
-    private byte[] magic;
+    private static String rtpIp;
+    private static int rtpPort;
+    private static byte[] magic;
 
     public static void initQueryData(QueryData queryData) {
 
@@ -37,5 +37,9 @@ public class H264Config {
 
     public static void initMediaData(MediaData mediaData) {
 
+    }
+
+    public static byte[] getMagic() {
+        return magic;
     }
 }
