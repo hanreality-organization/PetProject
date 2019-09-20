@@ -1,4 +1,4 @@
-package com.punuo.pet.home.feed.request;
+package com.punuo.pet.feed.request;
 
 import com.punuo.sys.sdk.httplib.BaseRequest;
 import com.punuo.sys.sdk.model.BaseModel;

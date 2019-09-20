@@ -25,7 +25,8 @@
             android:id="@+id/pet_avatar"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:riv_corner_radius="35dp" />
+            app:riv_corner_radius="35dp"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/pet_nick"
@@ -39,14 +40,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/home_feed_task"
+        android:id="@+id/feed_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pet_info_container"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/home_white_card_bg"
+        android:background="@drawable/sdk_white_card_bg"
         android:orientation="vertical"
         android:paddingTop="30dp"
         android:paddingBottom="30dp">
@@ -94,11 +95,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/home_feed_task"
+        android:layout_below="@+id/feed_task"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/home_white_card_bg"
+        android:background="@drawable/sdk_white_card_bg"
         android:orientation="vertical"
         android:paddingBottom="30dp">
 
@@ -114,7 +115,7 @@
             android:textSize="17sp" />
 
         <TextView
-            android:id="@+id/home_feed_edit"
+            android:id="@+id/feed_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -139,7 +140,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/home_feed_daily"
+                android:id="@+id/feed_daily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -160,7 +161,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/home_feed_more"
+        android:id="@+id/feed_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

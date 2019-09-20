@@ -1,4 +1,4 @@
-package com.punuo.pet.home.feed;
+package com.punuo.pet.feed;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.punuo.pet.home.R;
-import com.punuo.pet.home.R2;
-import com.punuo.pet.router.HomeRouter;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
 import butterknife.BindView;
@@ -19,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by han.chen.
  * Date on 2019-08-16.
  **/
-@Route(path = HomeRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY)
+@Route(path = FeedRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY)
 public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
     @BindView(R2.id.title)
@@ -32,7 +30,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_add_feed_plan_activity);
+        setContentView(R.layout.feed_add_plan_activity);
         ButterKnife.bind(this);
 
         initView();

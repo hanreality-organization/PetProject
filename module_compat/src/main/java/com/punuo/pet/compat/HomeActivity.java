@@ -11,8 +11,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
 import com.punuo.pet.model.PetModel;
-import com.punuo.pet.router.CircleRouter;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.MessageRouter;
@@ -187,7 +187,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 fragment = (Fragment) ARouter.getInstance().build(HomeRouter.ROUTER_HOME_FRAGMENT).navigation();
                 break;
             case TAB_TWO:
-                fragment = (Fragment) ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_FRAGMENT).navigation();
+                fragment = (Fragment) ARouter.getInstance().build(FeedRouter.ROUTER_FEED_HOME_FRAGMENT).navigation();
                 break;
             case TAB_THREE:
                 fragment = (Fragment) ARouter.getInstance().build(MessageRouter.ROUTER_MESSAGE_FRAGMENT).navigation();
