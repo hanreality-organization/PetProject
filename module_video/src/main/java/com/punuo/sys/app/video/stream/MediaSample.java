@@ -11,7 +11,7 @@ public class MediaSample {
     public static final int LAST_PAGE = 3;
 
 
-    private int mediaStatus = 1;
+    private int mediaStatus = -1;
     private NalBuffer[] mNalBuffers;
     private int putNum;
 
@@ -55,5 +55,17 @@ public class MediaSample {
         mNalBuffers[putNum].writeLock();
         putNum++;
         putNum = putNum % 200;
+    }
+
+    public byte[] getReadableNalBuf(int index) {
+        return mNalBuffers[index].getReadableNalBuf();
+    }
+
+    public void readLock(int index) {
+        mNalBuffers[index].readLock();
+    }
+
+    public void cleanNalBuf(int index) {
+        mNalBuffers[index].cleanNalBuf();
     }
 }

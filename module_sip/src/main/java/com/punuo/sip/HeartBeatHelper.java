@@ -7,7 +7,6 @@ import com.punuo.sip.request.SipRequestListener;
 import com.punuo.sys.sdk.account.AccountManager;
 
 import org.greenrobot.eventbus.EventBus;
-import org.zoolu.sip.message.Message;
 
 /**
  * Created by han.chen.
@@ -29,7 +28,7 @@ public class HeartBeatHelper {
             }
 
             @Override
-            public void onSuccess(HeartBeatData result, Message message) {
+            public void onSuccess(HeartBeatData result) {
                 if (result == null) {
                     return;
                 }

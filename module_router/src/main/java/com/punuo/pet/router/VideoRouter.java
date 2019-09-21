@@ -7,4 +7,5 @@ package com.punuo.pet.router;
 public class VideoRouter {
     private static final String PREFIX = "/video";
     public static final String ROUTER_VIDEO_FRAGMENT = PREFIX + "/VideoFragment";
+    public static final String ROUTER_VIDEO_PLAY_ACTIVITY = PREFIX + "/VideoPlayActivity";
 }

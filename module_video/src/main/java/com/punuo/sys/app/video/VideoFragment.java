@@ -9,18 +9,15 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.MediaData;
 import com.punuo.sip.model.QueryData;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sip.request.SipQueryRequest;
 import com.punuo.sip.request.SipRequestListener;
-import com.punuo.sys.app.video.stream.H264Config;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
-
-import org.zoolu.sip.message.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,7 +70,7 @@ public class VideoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //TODO 全屏播放
-
+                startVideo(devId);
             }
         });
     }
@@ -97,7 +94,7 @@ public class VideoFragment extends BaseFragment {
             }
 
             @Override
-            public void onSuccess(QueryData result, Message message) {
+            public void onSuccess(QueryData result) {
                 if (result == null) {
                     return;
                 }
@@ -116,19 +113,17 @@ public class VideoFragment extends BaseFragment {
 
     private void inviteMedia(String devId) {
         SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
-        sipMediaRequest.setSipRequestListener(new SipRequestListener<MediaData>() {
+        sipMediaRequest.setSipRequestListener(new SipRequestListener<String>() {
             @Override
             public void onComplete() {
 
             }
 
             @Override
-            public void onSuccess(MediaData result, Message message) {
+            public void onSuccess(String result) {
                 if (result == null) {
                     return;
                 }
-                H264Config.initMediaData(result);
-                //TODO 开启接收视频
             }
 
             @Override

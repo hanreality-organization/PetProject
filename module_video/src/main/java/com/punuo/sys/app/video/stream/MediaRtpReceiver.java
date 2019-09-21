@@ -2,6 +2,8 @@ package com.punuo.sys.app.video.stream;
 
 import android.util.Log;
 
+import com.punuo.sip.H264Config;
+
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
@@ -47,8 +49,8 @@ public class MediaRtpReceiver implements RTPAppIntf {
 //        );
 //        VideoInfo.track.play();
         //开启视频心跳包活
-        mSendActivePacket = new SendActivePacket();
-        mSendActivePacket.startThread();
+//        mSendActivePacket = new SendActivePacket();
+//        mSendActivePacket.startThread();
     }
 
     @Override
@@ -193,9 +195,10 @@ public class MediaRtpReceiver implements RTPAppIntf {
         }
     }
 
-    public void onDestory() {
-        mSendActivePacket.stopThread();
+    public void onDestroy() {
+//        mSendActivePacket.stopThread();
         mRTPSession.endSession();
+        removeParticipant();
     }
 
     class SendActivePacket extends Thread {

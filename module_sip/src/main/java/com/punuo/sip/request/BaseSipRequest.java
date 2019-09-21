@@ -28,6 +28,7 @@ public class BaseSipRequest<T> implements SipMessageProcessor<T> {
     private Message mMessage;
     private int mCode;
     private String mReason;
+    private boolean hasResponse = true; //sip请求是否有response
 
     public BaseSipRequest() {
 
@@ -39,6 +40,14 @@ public class BaseSipRequest<T> implements SipMessageProcessor<T> {
 
     public void setSipRequestType(SipRequestType sipRequestType) {
         mSipRequestType = sipRequestType;
+    }
+
+    public void setHasResponse(boolean hasResponse) {
+        this.hasResponse = hasResponse;
+    }
+
+    public boolean hasResponse() {
+        return hasResponse;
     }
 
     public void setResponse(Message message, int code, String reason) {
@@ -95,7 +104,7 @@ public class BaseSipRequest<T> implements SipMessageProcessor<T> {
     private void deliverResponse(T data, Message message) {
         try {
             if (mSipRequestListener != null) {
-                mSipRequestListener.onSuccess(data, message);
+                mSipRequestListener.onSuccess(data);
                 mSipRequestListener.onComplete();
             }
         } catch (Exception e) {

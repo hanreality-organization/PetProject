@@ -3,9 +3,14 @@ package com.punuo.sip;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.punuo.sip.request.BaseSipRequest;
+import com.punuo.sip.service.SipServiceManager;
 import com.punuo.sys.sdk.httplib.ErrorTipException;
 
 import org.zoolu.sip.message.BaseSipResponses;
@@ -15,11 +20,16 @@ import org.zoolu.sip.provider.Transport;
 import org.zoolu.sip.provider.TransportConnId;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 /**
  * Created by han.chen.
@@ -104,6 +114,8 @@ public class SipUserManager extends SipProvider {
         if (sipRequest != null) {
             handleResponseMessage(sipRequest, msg);
             mRequestMap.remove(id);
+        } else {
+            handleRequest(msg);
         }
     }
 
@@ -119,6 +131,37 @@ public class SipUserManager extends SipProvider {
             default:
                 mSipExecutorDelivery.postError(sipRequest, message, new ErrorTipException(BaseSipResponses.reasonOf(code)));
                 break;
+        }
+    }
+
+    private void handleRequest(Message message) {
+        String body = message.getBody();
+        if (!TextUtils.isEmpty(body)) {
+            XmlToJson xmlToJson = new XmlToJson.Builder(body).build();
+            String parse = xmlToJson.toString();
+            Log.d("SipRequest", "deliverResponse: \n" + parse);
+            JsonElement data = null;
+            try {
+                data = new JsonParser().parse(parse);
+                handle(message, data);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void handle(Message message, JsonElement data) {
+        if (data == null) {
+            return;
+        }
+        if (data.isJsonObject()) {
+            JsonObject jsonObject = data.getAsJsonObject();
+            Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+            Iterator iterator = entrySet.iterator();
+            if (iterator.hasNext()) {
+                Map.Entry<String, JsonElement> next = (Map.Entry<String, JsonElement>) iterator.next();
+                SipServiceManager.getInstance().handleRequest(next.getKey(), next.getValue().toString(), message);
+            }
         }
     }
 }
