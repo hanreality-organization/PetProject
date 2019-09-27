@@ -1,8 +1,6 @@
 package com.punuo.sip;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -11,10 +9,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.service.SipServiceManager;
-import com.punuo.sys.sdk.httplib.ErrorTipException;
 
-import org.zoolu.sip.message.BaseSipResponses;
 import org.zoolu.sip.message.Message;
+import org.zoolu.sip.message.SipMethods;
 import org.zoolu.sip.provider.SipProvider;
 import org.zoolu.sip.provider.Transport;
 import org.zoolu.sip.provider.TransportConnId;
@@ -41,7 +38,7 @@ public class SipUserManager extends SipProvider {
     private static Context sContext;
     private ExecutorService mExecutorService;
     private static volatile SipUserManager sSipUserManager;
-    private static HashMap<TransportConnId, BaseSipRequest> mRequestMap;
+    private static HashMap<String, BaseSipRequest> mRequestMap;
 
     public static SipUserManager getInstance() {
         if (sContext == null) {
@@ -74,8 +71,11 @@ public class SipUserManager extends SipProvider {
         }
         Message message = sipRequest.build();
         if (message != null) {
-            TransportConnId id = sendMessage(message);
-            mRequestMap.put(id, sipRequest);
+            sendMessage(message);
+            if (sipRequest.hasResponse()) {
+                mRequestMap.put(sipRequest.getTargetResponse(), sipRequest);
+                sipRequest.startCounting();
+            }
         } else {
             Log.w(TAG, "build message is null");
         }
@@ -109,44 +109,40 @@ public class SipUserManager extends SipProvider {
     public synchronized void onReceivedMessage(Transport transport, Message msg) {
         Log.v(TAG, "<----------received sip message---------->");
         Log.v(TAG, msg.toString());
-        TransportConnId id = msg.getTransportConnId();
-        BaseSipRequest sipRequest = mRequestMap.get(id);
-        if (sipRequest != null) {
-            handleResponseMessage(sipRequest, msg);
-            mRequestMap.remove(id);
-        } else {
-            handleRequest(msg);
-        }
+        handleMessage(msg);
     }
 
-    private SipExecutorDelivery mSipExecutorDelivery = new SipExecutorDelivery(new Handler(Looper
-            .getMainLooper()));
-
-    private void handleResponseMessage(BaseSipRequest sipRequest, Message message) {
+    private void handleMessage(Message message) {
         int code = message.getStatusLine().getCode();
         switch (code) {
             case 200:
-                mSipExecutorDelivery.postResponse(sipRequest, message);
+                String body = message.getBody();
+                if (!TextUtils.isEmpty(body)) {
+                    XmlToJson xmlToJson = new XmlToJson.Builder(body).build();
+                    String parse = xmlToJson.toString();
+                    Log.d("SipRequest", "deliverResponse: \n" + parse);
+                    JsonElement data = null;
+                    try {
+                        data = new JsonParser().parse(parse);
+                        handle(message, data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    String method = message.getMethodId().toString();
+                    switch (method) { //不需要解析的可以加这里
+                        case SipMethods.ACK:
+                        case SipMethods.BYE:
+                            return;
+                        default:
+                            SipServiceManager.getInstance().handleRequest(method.toLowerCase(), "{}", message);
+                            return;
+                    }
+                }
                 break;
             default:
-                mSipExecutorDelivery.postError(sipRequest, message, new ErrorTipException(BaseSipResponses.reasonOf(code)));
+                SipServiceManager.getInstance().handleRequest("error", "{}", message);
                 break;
-        }
-    }
-
-    private void handleRequest(Message message) {
-        String body = message.getBody();
-        if (!TextUtils.isEmpty(body)) {
-            XmlToJson xmlToJson = new XmlToJson.Builder(body).build();
-            String parse = xmlToJson.toString();
-            Log.d("SipRequest", "deliverResponse: \n" + parse);
-            JsonElement data = null;
-            try {
-                data = new JsonParser().parse(parse);
-                handle(message, data);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -161,6 +157,11 @@ public class SipUserManager extends SipProvider {
             if (iterator.hasNext()) {
                 Map.Entry<String, JsonElement> next = (Map.Entry<String, JsonElement>) iterator.next();
                 SipServiceManager.getInstance().handleRequest(next.getKey(), next.getValue().toString(), message);
+                BaseSipRequest sipRequest = mRequestMap.get(next.getKey());
+                if (sipRequest != null) {
+                    sipRequest.response();
+                    mRequestMap.remove(next.getKey());
+                }
             }
         }
     }

@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
-import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.QueryData;
+import com.punuo.sip.model.QueryResponse;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sip.request.SipQueryRequest;
-import com.punuo.sip.request.SipRequestListener;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,6 +54,7 @@ public class VideoFragment extends BaseFragment {
             mStatusBar.requestLayout();
         }
         devId = "310023001139940001";
+        EventBus.getDefault().register(this);
         return mFragmentView;
     }
 
@@ -87,55 +89,22 @@ public class VideoFragment extends BaseFragment {
 
     private void queryMediaInfo(final String devId) {
         SipQueryRequest sipQueryRequest = new SipQueryRequest(devId);
-        sipQueryRequest.setSipRequestListener(new SipRequestListener<QueryData>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(QueryData result) {
-                if (result == null) {
-                    return;
-                }
-                H264Config.initQueryData(result);
-                inviteMedia(devId);
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-                HandlerExceptionUtils.handleException(e);
-            }
-        });
         SipUserManager.getInstance().addRequest(sipQueryRequest);
     }
 
     private void inviteMedia(String devId) {
         SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
-        sipMediaRequest.setSipRequestListener(new SipRequestListener<String>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(String result) {
-                if (result == null) {
-                    return;
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-                HandlerExceptionUtils.handleException(e);
-            }
-        });
         SipUserManager.getInstance().addRequest(sipMediaRequest);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(QueryResponse event) {
+        inviteMedia(devId);
     }
 }

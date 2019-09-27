@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
  * 已经统一做了response
  **/
 public abstract class NormalRequestService<T> implements SipRequestService {
+    protected final String TAG = "NormalRequestService";
     protected SipResponseRequest mSipResponseRequest;
 
     @Override
@@ -45,7 +46,6 @@ public abstract class NormalRequestService<T> implements SipRequestService {
     protected void onResponse(Message msg) {
         mSipResponseRequest.setResponse(msg, 200, "OK");
         mSipResponseRequest.setBody(getBody());
-        mSipResponseRequest.setHasResponse(false);
         SipUserManager.getInstance().addRequest(mSipResponseRequest);
     }
 

@@ -1,7 +1,6 @@
 package com.punuo.sip.request;
 
 import com.punuo.sip.SipConfig;
-import com.punuo.sip.model.QueryData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,12 +13,13 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
  * Created by han.chen.
  * Date on 2019-08-21.
  **/
-public class SipQueryRequest extends BaseSipRequest<QueryData> {
+public class SipQueryRequest extends BaseSipRequest {
     private String mDevId;
 
     public SipQueryRequest(String devId) {
         setSipRequestType(SipRequestType.Options);
         this.mDevId = devId;
+        setTargetResponse("query_response");
     }
 
     @Override

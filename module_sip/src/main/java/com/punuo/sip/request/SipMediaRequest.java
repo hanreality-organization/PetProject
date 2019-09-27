@@ -14,7 +14,7 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
  * Created by han.chen.
  * Date on 2019-08-23.
  **/
-public class SipMediaRequest extends BaseSipRequest<String> {
+public class SipMediaRequest extends BaseSipRequest {
     private String mDevId;
 
     public SipMediaRequest(String devId) {

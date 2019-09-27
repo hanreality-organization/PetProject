@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.model.MediaData;
+import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 
 import org.json.JSONException;
@@ -58,5 +59,10 @@ public class MediaService extends NormalRequestService<MediaData> {
     @Override
     protected void onError(Exception e) {
         HandlerExceptionUtils.handleException(e);
+    }
+
+    @Override
+    public void handleTimeOut(BaseSipRequest baseSipRequest) {
+
     }
 }

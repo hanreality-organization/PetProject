@@ -9,13 +9,14 @@ import org.zoolu.sip.address.SipURL;
  * Created by han.chen.
  * Date on 2019-09-21.
  **/
-public class SipByeRequest extends BaseSipRequest<Object> {
+public class SipByeRequest extends BaseSipRequest {
 
     private String mDevId;
 
     public SipByeRequest(String devId) {
         setSipRequestType(SipRequestType.Bye);
         mDevId = devId;
+        setHasResponse(false);
     }
 
     @Override

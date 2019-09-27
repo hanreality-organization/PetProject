@@ -13,12 +13,11 @@ import android.view.SurfaceView;
 import com.FFmpeg.ffmpeg;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.request.SipByeRequest;
-import com.punuo.sip.request.SipRequestListener;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
-import com.punuo.sip.H264Config;
 import com.punuo.sys.app.video.stream.MediaRtpReceiver;
 import com.punuo.sys.app.video.stream.MediaSample;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -197,22 +196,7 @@ public class VideoPlayActivity extends BaseActivity {
     private SipByeRequest mSipByeRequest;
     private void closeVideo() {
         mSipByeRequest = new SipByeRequest("310023001139940001");
-        mSipByeRequest.setSipRequestListener(new SipRequestListener<Object>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(Object result) {
-                finish();
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
         SipUserManager.getInstance().addRequest(mSipByeRequest);
+        finish();
     }
 }

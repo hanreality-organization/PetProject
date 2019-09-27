@@ -1,7 +1,7 @@
 package com.punuo.sip;
 
 import com.punuo.sip.model.MediaData;
-import com.punuo.sip.model.QueryData;
+import com.punuo.sip.model.QueryResponse;
 
 /**
  * Created by han.chen.
@@ -33,7 +33,7 @@ public class H264Config {
     public static int rtpPort;
     public static byte[] magic;
 
-    public static void initQueryData(QueryData queryData) {
+    public static void initQueryData(QueryResponse queryData) {
 
     }
 
