@@ -3,6 +3,7 @@ package com.punuo.sip.service;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.request.BaseSipRequest;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.zoolu.sip.message.Message;
@@ -23,12 +24,14 @@ public class DevNotifyService extends NormalRequestService<DevNotifyData> {
         if (result != null && result.mDevInfo != null) {
             String info = "devid = " + result.mDevInfo.devId + "live = " + result.mDevInfo.live;
             ToastUtils.showToast(info);
+
+            //TODO 根据后端返回的设备在线信息，再去做相应的UI展示
         }
     }
 
     @Override
     protected void onError(Exception e) {
-
+        HandlerExceptionUtils.handleException(e);
     }
 
     @Override

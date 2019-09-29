@@ -12,9 +12,9 @@ public class DevNotifyData {
 
     public static class DevInfo {
         @SerializedName("devid")
-        public String devId;
+        public String devId; //设备号
 
         @SerializedName("live")
-        public int live;
+        public int live; //是否在线， 0 / 掉线  1 / 在线
     }
 }
