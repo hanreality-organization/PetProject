@@ -1,6 +1,6 @@
 package com.punuo.sip.request;
 
-import com.punuo.sip.model.RegisterData;
+import com.punuo.sip.model.NegotiateResponse;
 import com.punuo.sys.sdk.sercet.SHA1;
 
 import org.json.JSONException;
@@ -11,23 +11,23 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 /**
  * Created by han.chen.
  * Date on 2019-08-12.
- * 提交密码
+ * 注册第二步
  **/
-public class SipRegisterRequest extends BaseSipRequest<Object> {
-    private RegisterData mRegisterData;
-    public SipRegisterRequest(RegisterData data) {
+public class SipRegisterRequest extends BaseSipRequest {
+    private NegotiateResponse mNegotiateResponse;
+    public SipRegisterRequest(NegotiateResponse data) {
         setSipRequestType(SipRequestType.Register);
-        mRegisterData = data;
+        setTargetResponse("login_response");
+        mNegotiateResponse = data;
     }
 
     @Override
     public String getBody() {
-        if (mRegisterData == null || mRegisterData.mNegotiateResponse == null) {
+        if (mNegotiateResponse == null) {
             return null;
         }
-        RegisterData.NegotiateResponse response = mRegisterData.mNegotiateResponse;
-        String password = SHA1.getInstance().hashData(response.salt + "");
-        password = SHA1.getInstance().hashData(response.seed + password);
+        String password = SHA1.getInstance().hashData(mNegotiateResponse.salt + "");
+        password = SHA1.getInstance().hashData(mNegotiateResponse.seed + password);
         JSONObject body = new JSONObject();
         JSONObject value = new JSONObject();
         try {

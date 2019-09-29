@@ -13,7 +13,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.feed.model.FeedingAdviceModel;
 import com.punuo.pet.feed.request.GetFeedingAdviceRequest;
 import com.punuo.pet.model.PetData;
-import com.punuo.pet.router.HomeRouter;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * Date on 2019-08-05.
  * 健康喂养
  **/
-@Route(path = HomeRouter.ROUTER_FEED_ACTIVITY)
+@Route(path = FeedRouter.ROUTER_FEED_HEALTH_ACTIVITY)
 public class FeedHealthActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.title)
     TextView mTitle;

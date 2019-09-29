@@ -2,9 +2,9 @@
 
 buildscript {
     repositories {
+        google()
         mavenCentral()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        google()
         jcenter()
     }
     dependencies {
@@ -17,14 +17,12 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com" }
-    }
-    repositories {
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        google()
     }
 }
 
