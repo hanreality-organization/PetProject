@@ -29,7 +29,9 @@ public class SipServiceManager implements BaseHandler.MessageHandler {
         }
         return sSipServiceManager;
     }
+
     private BaseHandler mBaseHandler;
+
     private SipServiceManager() {
         mBaseHandler = new BaseHandler(this);
     }
@@ -64,7 +66,7 @@ public class SipServiceManager implements BaseHandler.MessageHandler {
                 try {
                     Bundle bundle = msg.getData();
                     String key = bundle.getString("key");
-                    String jsonStr = bundle.getString("jsonStr","{}");
+                    String jsonStr = bundle.getString("jsonStr", "{}");
                     JsonElement jsonElement = new JsonParser().parse(jsonStr);
                     if (!TextUtils.isEmpty(key)) {
                         NormalRequestService service = (NormalRequestService) ARouter.getInstance()
@@ -87,6 +89,8 @@ public class SipServiceManager implements BaseHandler.MessageHandler {
                         service.handleTimeOut((BaseSipRequest) msg.obj);
                     }
                 }
+                break;
+            default:
                 break;
         }
 
