@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -60,9 +61,7 @@ public class VideoPlayActivity extends BaseActivity {
         initSurfaceViewSize();
         mSurfaceHolder = mSurfaceView.getHolder();
         mFFmpeg = new ffmpeg();
-        mFFmpeg.Init(H264Config.VIDEO_WIDTH, H264Config.VIDEO_HEIGHT);
-        mFFmpeg.DecoderNal(H264Config.SPS_MOBILE_DEVICE, 13, mPixel);
-        mFFmpeg.DecoderNal(H264Config.PPS_MOBILE_DEVICE, 9, mPixel);
+
         mFrameBitmap = Bitmap.createBitmap(H264Config.VIDEO_WIDTH, H264Config.VIDEO_HEIGHT, Bitmap.Config.RGB_565);
         try {
             mMediaRtpReceiver = new MediaRtpReceiver(H264Config.rtpIp, H264Config.rtpPort);
@@ -79,8 +78,8 @@ public class VideoPlayActivity extends BaseActivity {
     }
 
     private void playVideo() {
-//        mVideoDecoderThread = new VideoDecoderThread();
-//        mVideoDecoderThread.startDecoding();
+        mVideoDecoderThread = new VideoDecoderThread();
+        mVideoDecoderThread.startDecoding();
         if (!mBaseHandler.hasMessages(MSG_CHECK_VIDEO)) {
             mBaseHandler.sendEmptyMessageDelayed(MSG_CHECK_VIDEO, DELAY);
         }
@@ -89,7 +88,9 @@ public class VideoPlayActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mVideoDecoderThread.stopDecoding();
+        if (mVideoDecoderThread != null) {
+            mVideoDecoderThread.stopDecoding();
+        }
         closeVideo();
         mMediaRtpReceiver.onDestroy();
         try {
@@ -106,7 +107,9 @@ public class VideoPlayActivity extends BaseActivity {
 
         @Override
         public void run() {
-
+            mFFmpeg.Init(H264Config.VIDEO_WIDTH, H264Config.VIDEO_HEIGHT);
+            mFFmpeg.DecoderNal(H264Config.SPS_MOBILE_DEVICE, H264Config.SPS_MOBILE_DEVICE.length, mPixel);
+            mFFmpeg.DecoderNal(H264Config.PPS_MOBILE_DEVICE, H264Config.PPS_MOBILE_DEVICE.length, mPixel);
             while (running) {
                 byte[] nal = MediaSample.getInstance().getReadableNalBuf(index);
                 if (nal != null) {
@@ -114,6 +117,8 @@ public class VideoPlayActivity extends BaseActivity {
                         int iTemp = mFFmpeg.DecoderNal(nal, nal.length, mPixel);
                         if (iTemp > 0) {
                             drawFrameBitmap();
+                        } else {
+                            Log.i(TAG, "run: 解码失败");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -193,10 +198,9 @@ public class VideoPlayActivity extends BaseActivity {
         }
     }
 
-    private SipByeRequest mSipByeRequest;
     private void closeVideo() {
-        mSipByeRequest = new SipByeRequest("310023001139940001");
-        SipUserManager.getInstance().addRequest(mSipByeRequest);
+        SipByeRequest sipByeRequest = new SipByeRequest("310023001139940001");
+        SipUserManager.getInstance().addRequest(sipByeRequest);
         finish();
     }
 }

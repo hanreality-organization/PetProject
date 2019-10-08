@@ -18,6 +18,7 @@ import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.HeartBeatHelper;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.LoginFailEvent;
 import com.punuo.sip.event.ReRegisterEvent;
 import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.request.SipGetUserIdRequest;
@@ -50,6 +51,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private MyFragmentManager mMyFragmentManager;
     private View[] mTabBars = new View[TAB_COUNT];
     private View mPostView;
+    private boolean loginFailed = false;
 
     public static final int MSG_HEART_BEAR_VALUE = 1;
     private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
@@ -112,8 +114,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ReRegisterEvent event) {
+        if (loginFailed) {
+            loginFailed = false;
+            return;
+        }
         mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
         getSipUserID();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginFailEvent event) {
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        loginFailed = true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

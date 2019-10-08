@@ -49,8 +49,8 @@ public class MediaRtpReceiver implements RTPAppIntf {
 //        );
 //        VideoInfo.track.play();
         //开启视频心跳包活
-//        mSendActivePacket = new SendActivePacket();
-//        mSendActivePacket.startThread();
+        mSendActivePacket = new SendActivePacket();
+        mSendActivePacket.startThread();
     }
 
     @Override
@@ -66,6 +66,7 @@ public class MediaRtpReceiver implements RTPAppIntf {
                 int len = streamBufNode.getDataFrame().getTotalLength();
                 getNalDm365(data, seqNum, len);
                 MediaSample.getInstance().setMediaStatus(2);
+                Log.i("MediaRtpReceiver", "len:" + len + "  seqNum:" + seqNum);
             }
         } else if (frame.payloadType() == VOICE_PAY_LOAD_TYPE) {
 //            byte[] audioBuffer = new byte[frameSizeG711];
@@ -93,15 +94,18 @@ public class MediaRtpReceiver implements RTPAppIntf {
     public void getNalDm365(byte[] data, int seqNum, int len) {
         switch (frameParseDm365(data)) {
             case MediaSample.TOTAL_PAGE:
+                Log.i("MediaRtpReceiver", "getNalDm365: 整包");
                 addCompleteRtpPacketToTemp(data, seqNum, len);
                 copyFromTempToNal();
                 isPacketLost = false;
                 break;
             case MediaSample.FIRST_PAGE:
+                Log.i("MediaRtpReceiver", "getNalDm365: 首包");
                 addFirstRtpPacketToTemp(data, seqNum, len);
                 isPacketLost = false;
                 break;
             case MediaSample.CENTER_PAGE:
+                Log.i("MediaRtpReceiver", "getNalDm365: 中包");
                 if (!isPacketLost) {
                     if (preSeq + 1 == seqNum) {
                         addMiddleRtpPacketToTemp(data, seqNum, len);
@@ -111,6 +115,7 @@ public class MediaRtpReceiver implements RTPAppIntf {
                 }
                 break;
             case MediaSample.LAST_PAGE:
+                Log.i("MediaRtpReceiver", "getNalDm365: 末包");
                 if (!isPacketLost) {
                     if (preSeq + 1 == seqNum) {
                         addLastRtpPacketToTemp(data, seqNum, len);
@@ -196,7 +201,7 @@ public class MediaRtpReceiver implements RTPAppIntf {
     }
 
     public void onDestroy() {
-//        mSendActivePacket.stopThread();
+        mSendActivePacket.stopThread();
         mRTPSession.endSession();
         removeParticipant();
     }
