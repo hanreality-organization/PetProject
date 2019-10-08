@@ -18,6 +18,9 @@ android {
         targetSdkVersion gradle.sdk.targetSdkVersion
         versionCode gradle.sdk.versionCode
         versionName gradle.sdk.versionName
+        ndk {
+            abiFilters "armeabi"
+        }
     }
     buildTypes {
         release {
@@ -48,9 +51,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':basesdk')
-    api project(':module_home')
-    api project(':module_compat')
-    api project(':module_message')
-    api project(':module_member')
-    api project(':module_circle')
+    implementation project(':module_home')
+    implementation project(':module_compat')
+    implementation project(':module_message')
+    implementation project(':module_member')
+    implementation project(':module_circle')
+    implementation project(':module_feed')
+    implementation project(':module_video')
 }

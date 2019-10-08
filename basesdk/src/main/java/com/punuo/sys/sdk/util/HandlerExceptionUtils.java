@@ -27,13 +27,7 @@ public class HandlerExceptionUtils {
             err = R.string.error_json;
         } catch (ErrorTipException e) {
             String message = e.getMessage();
-            if (TextUtils.equals(message, "Unauthorized")) {
-                ToastUtils.showToast("设备登陆密码错误,临时提醒,快捷登陆的账号如果没有设置过密码的 会sip注册失败,后续改成密码是固定的即可。");
-            } else if (TextUtils.equals(message, "Payment Required")) {
-                ToastUtils.showToast("账号不存在");
-            } else if (TextUtils.equals(message, "Internal Server Error")) {
-                ToastUtils.showToast("服务器内部错误");
-            }
+            ToastUtils.showToast(message);
             return;
         } catch (Exception e) {
             String message = e.getMessage();

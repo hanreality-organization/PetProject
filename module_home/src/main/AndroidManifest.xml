@@ -19,10 +19,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
         <activity
-            android:name=".feed.FeedActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
             android:name=".care.CareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
@@ -36,14 +32,6 @@
             android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".device.BindDeviceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".feed.FeedPlanActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".feed.AddFeedPlanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
     </application>

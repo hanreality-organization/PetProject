@@ -16,6 +16,7 @@ import com.punuo.pet.home.R2;
 import com.punuo.pet.home.view.PetLoopHolder;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.util.TimeUtils;
@@ -117,7 +118,7 @@ public class HomeHeadModule {
                 if (mCurrentPetData == null) {
                     ToastUtils.showToast("暂无宠物信息，请添加宠物");
                 } else {
-                    ARouter.getInstance().build(HomeRouter.ROUTER_FEED_ACTIVITY)
+                    ARouter.getInstance().build(FeedRouter.ROUTER_FEED_HEALTH_ACTIVITY)
                             .withParcelable("petData", mCurrentPetData)
                             .navigation();
                 }
