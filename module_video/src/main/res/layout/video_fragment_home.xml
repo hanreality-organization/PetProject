@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -16,5 +17,165 @@
         layout="@layout/module_title_layout"
         android:layout_width="match_parent"
         android:layout_height="44dp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/ic_monitor_bg"/>
+
+    <!--视频基本控制布局-->
+    <LinearLayout
+        android:id="@+id/video_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/bg_down_voice"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/bg_add_voice"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_weight="2"
+            android:src="@drawable/bg_video_voice"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/bg_cut_video"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/bg_music"/>
+    </LinearLayout>
+
+    <!--记录进食视频-->
+    <LinearLayout
+        android:id="@+id/eat_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <RelativeLayout
+            android:id="@+id/video_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_video_one"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:background="@color/black"/>
+            <TextView
+                android:id="@+id/time_video1"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="记录时间"
+                android:layout_below="@+id/image_video_one" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/video_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/video_one">
+            <ImageView
+                android:id="@+id/image_video_two"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:src="@color/blue"/>
+            <TextView
+                android:id="@+id/time_video_two"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_video_two"
+                android:text="记录时间" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/video_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/video_two">
+            <ImageView
+                android:id="@+id/iamge_video_three"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:src="@color/black"/>
+
+            <TextView
+                android:id="@+id/time_video_three"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iamge_video_three"
+                android:text="记录时间" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--记录进食视频-->
+    <LinearLayout
+        android:id="@+id/eat_video_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <RelativeLayout
+            android:id="@+id/video_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_video_four"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:background="@color/black"/>
+            <TextView
+                android:id="@+id/time_video_four"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="记录时间"
+                android:layout_below="@+id/image_video_four" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/video_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/video_one">
+            <ImageView
+                android:id="@+id/image_video_five"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:src="@color/blue"/>
+            <TextView
+                android:id="@+id/time_video_five"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_video_five"
+                android:text="记录时间" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/video_six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/video_two">
+            <ImageView
+                android:id="@+id/iamge_video_six"
+                android:layout_width="135dp"
+                android:layout_height="80dp"
+                android:src="@color/black"/>
+
+            <TextView
+                android:id="@+id/time_video_six"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iamge_video_six"
+                android:text="记录时间" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

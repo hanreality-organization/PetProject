@@ -50,9 +50,6 @@
             android:screenOrientation="portrait"/>
 
         <!--隐私部分的活动-->
-        <activity
-            android:name="com.punuo.pet.activity.PrivacyActivity"
-            android:screenOrientation="portrait"/>
 
         <!--关于我们部分的活动-->
         <activity
@@ -61,6 +58,9 @@
 
         <!--客服部分-->
         <activity android:name="com.punuo.pet.activity.CustomerServiceActivity"
+            android:screenOrientation="portrait"/>
+        <!--修改个人信息-->
+        <activity android:name="com.punuo.pet.activity.EditUserInfoActivity"
             android:screenOrientation="portrait"/>
 
     </application>

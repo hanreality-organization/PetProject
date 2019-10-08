@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.sip.R2;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.QueryResponse;
 import com.punuo.sip.request.SipMediaRequest;
@@ -34,12 +36,13 @@ import butterknife.ButterKnife;
 @Route(path = VideoRouter.ROUTER_VIDEO_FRAGMENT)
 public class VideoFragment extends BaseFragment {
 
+
     @BindView(R2.id.title)
     TextView mTitle;
+    @BindView(R2.id.back)
+    ImageView mBack;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
-    @BindView(R2.id.back)
-    View mBack;
     private String devId;
 
     @Override
