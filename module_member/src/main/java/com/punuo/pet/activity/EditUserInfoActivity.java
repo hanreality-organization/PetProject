@@ -27,22 +27,17 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.ToastUtils;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @Route(path = MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY)
 public class EditUserInfoActivity extends BaseSwipeBackActivity {
 
-    @BindView(R2.id.title)
-    TextView title;
-    @BindView(R2.id.back)
-    ImageView back;
-    @BindView(R2.id.sub_title)
-    TextView subTitle;
 
     private AddUserInfoFragment mAddUserInfoFragment;
     private AddUserInfoRequest mAddUserInfoRequest;
+    TextView title;
+    TextView subTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +50,15 @@ public class EditUserInfoActivity extends BaseSwipeBackActivity {
     }
 
     public void init() {
+        title=(TextView)findViewById(R.id.title);
+        subTitle = (TextView)findViewById(R.id.sub_title);
         title.setText("修改个人信息");
         subTitle.setText("完成");
+        subTitle.setVisibility(View.VISIBLE);
     }
 
     public void loadFragment() {
+        mAddUserInfoFragment = new AddUserInfoFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.addToBackStack(null);
