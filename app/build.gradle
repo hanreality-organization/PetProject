@@ -18,9 +18,6 @@ android {
         targetSdkVersion gradle.sdk.targetSdkVersion
         versionCode gradle.sdk.versionCode
         versionName gradle.sdk.versionName
-        ndk {
-            abiFilters "armeabi"
-        }
     }
     buildTypes {
         release {
