@@ -20,6 +20,7 @@ public class SipMediaRequest extends BaseSipRequest {
     public SipMediaRequest(String devId) {
         setSipRequestType(SipRequestType.Invite);
         mDevId = devId;
+        setHasResponse(false);
     }
 
     @Override
