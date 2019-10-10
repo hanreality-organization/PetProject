@@ -71,4 +71,10 @@ public class QRScanActivity extends BaseSwipeBackActivity implements QRCodeView.
         mZBarView.stopCamera();
         super.onStop();
     }
+
+    @Override
+    protected void onDestroy() {
+        mZBarView.onDestroy();
+        super.onDestroy();
+    }
 }
