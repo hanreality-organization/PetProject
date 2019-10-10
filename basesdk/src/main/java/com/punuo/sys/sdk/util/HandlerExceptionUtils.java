@@ -26,7 +26,8 @@ public class HandlerExceptionUtils {
         } catch (NullPointerException e) {
             err = R.string.error_json;
         } catch (ErrorTipException e) {
-            ToastUtils.showToast(e.getMessage());
+            String message = e.getMessage();
+            ToastUtils.showToast(message);
             return;
         } catch (Exception e) {
             String message = e.getMessage();

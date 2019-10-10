@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.punuo.pet.feed">
+
+    <application>
+        <activity
+            android:name=".AddFeedPlanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".FeedHealthActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+    </application>
+</manifest>

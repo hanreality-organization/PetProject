@@ -13,57 +13,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="宠物类型"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="153dp"
-                    android:layout_height="186dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:src="@drawable/ic_pet_image" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <RadioButton
-                        android:id="@+id/radio_dog"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="狗" />
-
-                    <RadioButton
-                        android:id="@+id/radio_cat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="猫" />
-                </RadioGroup>
-
-            </LinearLayout>
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_pet_image" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="24dp"
-                android:paddingTop="12dp"
+                android:paddingTop="16dp"
                 android:paddingBottom="12dp">
 
                 <TextView
@@ -82,8 +43,7 @@
                     android:id="@+id/upload_btn"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginLeft="48dp"
-                    android:layout_toRightOf="@id/label_text"
+                    android:layout_centerHorizontal="true"
                     android:src="@drawable/ic_upload_pic" />
 
                 <TextView
@@ -150,6 +110,46 @@
                     android:layout_height="44dp"
                     android:background="@drawable/corner_edit_bg"
                     android:entries="@array/catTypeArray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:text="宠物品种"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="公" />
+
+                    <RadioButton
+                        android:id="@+id/radio_female"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="母" />
+                </RadioGroup>
             </LinearLayout>
 
             <LinearLayout

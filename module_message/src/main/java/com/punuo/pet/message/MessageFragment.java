@@ -71,15 +71,17 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         mToolNotify = mFragmentView.findViewById(R.id.tool_notify);
         mMyIssue = mFragmentView.findViewById(R.id.myissue);
         mTitle = mFragmentView.findViewById(R.id.title);
-        count1 = mFragmentView.findViewById(R.id.comment_count);
+        count1 = mFragmentView.findViewById(R.id.count1);
 
         mTitle.setText("消息");
+        /**
         if(commentCount != 0){
             count1.setText(String.valueOf(commentCount));
             count1.setVisibility(View.VISIBLE);
         }else{
             count1.setVisibility(View.INVISIBLE);
         }
+         */
 
     }
 

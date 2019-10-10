@@ -25,6 +25,9 @@ public class UserInfo implements Parcelable {
     @SerializedName("gender")
     public int gender;
 
+    @SerializedName("userid")
+    public String userId;
+
     public UserInfo() {
 
     }
@@ -35,6 +38,7 @@ public class UserInfo implements Parcelable {
         nickName = in.readString();
         birth = in.readString();
         gender = in.readInt();
+        userId = in.readString();
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
@@ -61,5 +65,6 @@ public class UserInfo implements Parcelable {
         dest.writeString(nickName);
         dest.writeString(birth);
         dest.writeInt(gender);
+        dest.writeString(userId);
     }
 }

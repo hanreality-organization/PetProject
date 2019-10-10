@@ -18,6 +18,9 @@ android {
         targetSdkVersion gradle.sdk.targetSdkVersion
         versionCode gradle.sdk.versionCode
         versionName gradle.sdk.versionName
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -30,8 +33,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     productFlavors {
 
@@ -40,14 +43,19 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':basesdk')
-    api project(':module_home')
-    api project(':module_compat')
-    api project(':module_message')
-    api project(':module_member')
-    api project(':module_circle')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':basesdk')
+    implementation project(':module_home')
+    implementation project(':module_compat')
+    implementation project(':module_message')
+    implementation project(':module_member')
+    implementation project(':module_circle')
+    implementation project(':module_feed')
+    implementation project(':module_video')
 }

@@ -123,7 +123,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
             return;
         }
         mAddPetRequest = new AddPetRequest();
-        mAddPetRequest.addUrlParam("type", requestParams.type);
+        mAddPetRequest.addUrlParam("sex", requestParams.sex);
         mAddPetRequest.addUrlParam("photo", requestParams.photo);
         mAddPetRequest.addUrlParam("petName", requestParams.petName);
         mAddPetRequest.addUrlParam("breed", requestParams.breed);
@@ -131,7 +131,6 @@ public class AddPetActivity extends BaseSwipeBackActivity {
         mAddPetRequest.addUrlParam("weight", requestParams.weight);
         mAddPetRequest.addUrlParam("unit",requestParams.unit);
         mAddPetRequest.addUrlParam("userName", AccountManager.getUserName());
-        mAddPetRequest.addUrlParam("unit", requestParams.unit);
         mAddPetRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
             public void onComplete() {

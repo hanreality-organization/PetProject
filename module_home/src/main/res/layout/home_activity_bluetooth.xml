@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/module_title_layout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/search_device"
+        android:layout_below="@+id/title_layout" />
+
+    <TextView
+        android:id="@+id/search_device"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="搜索设备"
+        android:background="@color/white"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+</RelativeLayout>

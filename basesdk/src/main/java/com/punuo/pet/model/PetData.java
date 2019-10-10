@@ -1,12 +1,15 @@
 package com.punuo.pet.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by han.chen.
  * Date on 2019-07-11.
  **/
-public class PetData {
+public class PetData implements Parcelable {
 
     /**
      * petname : miaomiao
@@ -35,4 +38,44 @@ public class PetData {
     public String unit;
     @SerializedName("birth")
     public String birth;
+
+    protected PetData(Parcel in) {
+        petname = in.readString();
+        avatar = in.readString();
+        type = in.readInt();
+        age = in.readInt();
+        breed = in.readInt();
+        weight = in.readDouble();
+        unit = in.readString();
+        birth = in.readString();
+    }
+
+    public static final Creator<PetData> CREATOR = new Creator<PetData>() {
+        @Override
+        public PetData createFromParcel(Parcel in) {
+            return new PetData(in);
+        }
+
+        @Override
+        public PetData[] newArray(int size) {
+            return new PetData[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(petname);
+        dest.writeString(avatar);
+        dest.writeInt(type);
+        dest.writeInt(age);
+        dest.writeInt(breed);
+        dest.writeDouble(weight);
+        dest.writeString(unit);
+        dest.writeString(birth);
+    }
 }

@@ -6,7 +6,7 @@ package com.punuo.pet.member.pet.model;
  **/
 public class RequestParam {
 
-    public int type;
+    public int sex;
     public String photo;
     public String petName;
     public int breed;

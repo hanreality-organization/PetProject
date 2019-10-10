@@ -9,24 +9,59 @@
 
         <activity android:name=".login.activity.RegisterAccountActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".login.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".login.activity.BindPhoneActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".pet.AddPetActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
             android:name="com.punuo.pet.wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <!--用户管理部分的活动-->
+        <activity
+            android:name="com.punuo.pet.activity.AccountManagementActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.punuo.pet.activity.ChangeAvaterActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.punuo.pet.activity.SetNicknameActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.punuo.pet.activity.SetPasswordActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--隐私部分的活动-->
+        <activity
+            android:name="com.punuo.pet.activity.PrivacyActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--关于我们部分的活动-->
+        <activity
+            android:name="com.punuo.pet.activity.AboutActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--客服部分-->
+        <activity android:name="com.punuo.pet.activity.CustomerServiceActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>

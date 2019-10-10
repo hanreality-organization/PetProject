@@ -1,2 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.punuo.pet.cirlce" />
+    package="com.punuo.pet.cirlce">
+
+    <application>
+        <activity
+            android:name=".activity.AddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".publish.activity.PublishActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.ChoosePictureActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.ImageGridActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".publish.activity.PhotoActivity"
+            android:screenOrientation="portrait"/>
+
+    </application>
+
+</manifest>

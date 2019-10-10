@@ -2,18 +2,26 @@ package com.punuo.pet.compat;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
 import com.punuo.pet.model.PetModel;
-import com.punuo.pet.router.CircleRouter;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.pet.router.MessageRouter;
+import com.punuo.pet.router.VideoRouter;
+import com.punuo.sip.HeartBeatHelper;
+import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.LoginFailEvent;
+import com.punuo.sip.event.ReRegisterEvent;
+import com.punuo.sip.model.LoginResponse;
+import com.punuo.sip.request.SipGetUserIdRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -43,6 +51,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private MyFragmentManager mMyFragmentManager;
     private View[] mTabBars = new View[TAB_COUNT];
     private View mPostView;
+    private boolean loginFailed = false;
+
+    public static final int MSG_HEART_BEAR_VALUE = 1;
+    private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home_layout);
         mMyFragmentManager = new MyFragmentManager(this);
         init();
-
+        mHeartBeatTaskResumeProcessor = new HeartBeatTaskResumeProcessor(mBaseHandler);
+        mHeartBeatTaskResumeProcessor.onCreate();
         StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);//StatusBarUtil：状态栏工具类
         mPostView = getWindow().getDecorView();
         mPostView.post(new Runnable() {//view.post():1.子线程更UI,2.获取View的宽高
@@ -81,9 +94,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         switchFragment(TAB_ONE);
     }
 
+    private void getSipUserID() {
+        SipGetUserIdRequest getUserIdRequest = new SipGetUserIdRequest();
+        SipUserManager.getInstance().addRequest(getUserIdRequest);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UserInfo userInfo) {
-
+        getSipUserID();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -91,6 +109,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (model.mPets == null || model.mPets.isEmpty()) {
             ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
                     .navigation();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ReRegisterEvent event) {
+        if (loginFailed) {
+            loginFailed = false;
+            return;
+        }
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        getSipUserID();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginFailEvent event) {
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        loginFailed = true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginResponse event) {
+        //sip登陆注册成功 开启心跳保活
+        if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
+            mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
         }
     }
 
@@ -119,10 +161,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 fragment = (Fragment) ARouter.getInstance().build(HomeRouter.ROUTER_HOME_FRAGMENT).navigation();
                 break;
             case TAB_TWO:
-                fragment = (Fragment) ARouter.getInstance().build(CircleRouter.ROUTER_CIRCLE_FRAGMENT).navigation();
+                fragment = (Fragment) ARouter.getInstance().build(FeedRouter.ROUTER_FEED_HOME_FRAGMENT).navigation();
                 break;
             case TAB_THREE:
-                fragment = (Fragment) ARouter.getInstance().build(MessageRouter.ROUTER_MESSAGE_FRAGMENT).navigation();
+                fragment = (Fragment) ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_FRAGMENT).navigation();
                 break;
             case TAB_FOUR:
                 fragment = (Fragment) ARouter.getInstance().build(MemberRouter.ROUTER_MEMBER_FRAGMENT).navigation();
@@ -164,8 +206,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        switch (msg.what) {
+            case MSG_HEART_BEAR_VALUE:
+                if (AccountManager.isLoginned()) {
+                    HeartBeatHelper.heartBeat();
+                    mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
+                }
+                break;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mHeartBeatTaskResumeProcessor != null) {
+            mHeartBeatTaskResumeProcessor.onDestroy();
+        }
     }
 }

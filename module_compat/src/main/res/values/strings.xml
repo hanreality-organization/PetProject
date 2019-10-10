@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">module_compat</string>
+    <string name="tab_first">首页</string>
+    <string name="tab_second">喂我</string>
+    <string name="tab_third">看我</string>
+    <string name="tab_four">我的</string>
 </resources>

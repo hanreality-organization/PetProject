@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.punuo.sys.sdk.view.CleanEditText
+        android:id="@+id/edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/home_edit_bg"
+        android:drawableRight="@drawable/ic_delete_grey"
+        android:hint="输入密码"
+        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
+        android:inputType="textPassword"
+        android:textSize="14sp" />
+</LinearLayout>

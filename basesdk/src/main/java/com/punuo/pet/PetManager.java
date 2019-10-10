@@ -43,4 +43,14 @@ public class PetManager {
         });
         HttpManager.addRequest(mGetPetInfoRequest);
     }
+
+    public static void getPetInfo(RequestListener<PetModel> requestListener) {
+        if (mGetPetInfoRequest != null && !mGetPetInfoRequest.isFinish()) {
+            return;
+        }
+        mGetPetInfoRequest = new GetPetInfoRequest();
+        mGetPetInfoRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetPetInfoRequest.setRequestListener(requestListener);
+        HttpManager.addRequest(mGetPetInfoRequest);
+    }
 }
