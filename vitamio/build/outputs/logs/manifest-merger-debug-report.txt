@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:1:1-12:12
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:1:1-12:12
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:1:1-12:12
+ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:1:1-12:12
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:1:1-12:12
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:1:1-12:12
 	package
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:2:5-29
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:2:5-29
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:1:11-69
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:1:11-69
 application
-ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:4:5-10:19
+ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:4:5-10:19
 activity#io.vov.vitamio.activity.InitActivity
-ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:5:9-9:63
+ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:5:9-9:63
 	android:launchMode
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:8:13-43
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:8:13-43
 	android:windowSoftInputMode
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:9:13-60
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:9:13-60
 	android:configChanges
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:7:13-113
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:7:13-113
 	android:name
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml:6:13-64
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml:6:13-64
 uses-sdk
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-		ADDED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
-		INJECTED from /Users/han.chen/android_code/PetProject/vitamio/AndroidManifest.xml
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+		ADDED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml
+		INJECTED from C:\Job\PET\PetProject\vitamio\AndroidManifest.xml

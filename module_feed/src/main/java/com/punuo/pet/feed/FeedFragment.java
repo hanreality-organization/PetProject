@@ -172,6 +172,16 @@ public class FeedFragment extends BaseFragment {
         HttpManager.addRequest(mGetWeightInfoRequest);
     }
 
+    /**
+     * 将收到的称重信息更新到UI
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEventBus(Integer quality){
+        if(quality != null){
+            //TODO 将获得称重信息更新到主界面的UI
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
