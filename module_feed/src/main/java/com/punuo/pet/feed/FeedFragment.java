@@ -80,7 +80,7 @@ public class FeedFragment extends BaseFragment {
         }
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
-        devId = "310023000100310001";
+        devId = "310023005801930001";
         return mFragmentView;
     }
 

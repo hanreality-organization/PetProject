@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name="com.punuo.sys.sdk.PnApplication"
         android:allowBackup="true"
