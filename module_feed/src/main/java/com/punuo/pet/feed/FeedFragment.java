@@ -105,12 +105,12 @@ public class FeedFragment extends BaseFragment {
                 //TODO 调用云台旋转
             }
         });
-//        mWifiState.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
-//            }
-//        });
+        mWifiState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_BLUETOOTH_ACTIVITY).navigation();
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
