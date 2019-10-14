@@ -177,7 +177,7 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(Integer quality){
-        if(quality != null){
+        if(quality >= 0){
             //TODO 将获得称重信息更新到主界面的UI
         }
     }
