@@ -2,8 +2,12 @@ package com.punuo.sip.request;
 
 import com.punuo.sip.SipConfig;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.zoolu.sip.address.NameAddress;
 import org.zoolu.sip.address.SipURL;
+
+import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 
 /**
  * Created by han.chen.
@@ -14,9 +18,22 @@ public class SipByeRequest extends BaseSipRequest {
     private String mDevId;
 
     public SipByeRequest(String devId) {
-        setSipRequestType(SipRequestType.Bye);
+        setSipRequestType(SipRequestType.Notify);
         mDevId = devId;
         setHasResponse(false);
+    }
+
+    @Override
+    public String getBody() {
+        JSONObject body = new JSONObject();
+        JSONObject value = new JSONObject();
+        try {
+            body.put("recvaddr", value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonToXml jsonToXml = new JsonToXml.Builder(body).build();
+        return jsonToXml.toFormattedString();
     }
 
     @Override
