@@ -101,6 +101,7 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //TODO 调用云台旋转
+
             }
         });
     }
@@ -185,6 +186,7 @@ public class FeedFragment extends BaseFragment {
         Log.i("wankui", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
     }
+
 
     @Override
     public void onDestroyView() {
