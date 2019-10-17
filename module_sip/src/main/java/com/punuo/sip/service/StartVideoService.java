@@ -1,8 +1,10 @@
 package com.punuo.sip.service;
 
+import android.text.TextUtils;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.sip.H264Config;
-import com.punuo.sip.model.QueryResponse;
+import com.punuo.sip.model.VideoData;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 
@@ -11,22 +13,22 @@ import org.zoolu.sip.message.Message;
 
 /**
  * Created by han.chen.
- * Date on 2019-09-23.
+ * Date on 2019-10-17.
  **/
-@Route(path = ServicePath.PATH_QUERY)
-public class QueryService extends NormalRequestService<QueryResponse> {
-
+@Route(path = ServicePath.PATH_START_VIDEO)
+public class StartVideoService extends NormalRequestService<VideoData> {
     @Override
     protected String getBody() {
         return null;
     }
 
     @Override
-    protected void onSuccess(Message msg, QueryResponse result) {
+    protected void onSuccess(Message msg, VideoData result) {
         if (result == null) {
             return;
         }
-        H264Config.initQueryData(result);
+        onResponse(msg);
+        H264Config.RTMP_STREAM = TextUtils.isEmpty(result.mVideoUrl) ? H264Config.RTMP_STREAM : result.mVideoUrl;
         EventBus.getDefault().post(result);
     }
 

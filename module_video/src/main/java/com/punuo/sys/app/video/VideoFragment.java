@@ -19,7 +19,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.QueryResponse;
+import com.punuo.sip.model.VideoData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.sdk.fragment.BaseFragment;
@@ -149,7 +149,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(QueryResponse event) {
+    public void onMessageEvent(VideoData event) {
         mAsyncTask = new MyAsyncTask(getActivity());
         mAsyncTask.execute();
     }
@@ -163,7 +163,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         try {
             // Create a new media player and set the listeners
             mMediaPlayer = new MediaPlayer(getActivity(), true);
-            mMediaPlayer.setDataSource("rtmp://101.69.255.130:1936/hls/live");
+            mMediaPlayer.setDataSource(H264Config.RTMP_STREAM);
             if (surface == null) {
                 surface = new Surface(surfaceTexture);
             }
