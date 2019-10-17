@@ -17,10 +17,28 @@
         layout="@layout/module_title_layout"
         android:layout_width="match_parent"
         android:layout_height="44dp" />
-    <ImageView
+
+    <TextureView
+        android:id="@+id/surface"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/ic_monitor_bg"/>
+        android:layout_height="200dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取视频"/>
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="停止" />
+    </RelativeLayout>
 
     <!--视频基本控制布局-->
     <LinearLayout
@@ -58,141 +76,7 @@
     </LinearLayout>
 
     <!--记录进食视频-->
-    <LinearLayout
-        android:id="@+id/eat_video"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-        <RelativeLayout
-            android:id="@+id/video_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/image_video_one"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:background="@color/black"/>
-            <TextView
-                android:id="@+id/time_video1"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:text="记录时间"
-                android:layout_below="@+id/image_video_one" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/video_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/video_one">
-            <ImageView
-                android:id="@+id/image_video_two"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:src="@color/blue"/>
-            <TextView
-                android:id="@+id/time_video_two"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image_video_two"
-                android:text="记录时间" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/video_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/video_two">
-            <ImageView
-                android:id="@+id/iamge_video_three"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:src="@color/black"/>
 
-            <TextView
-                android:id="@+id/time_video_three"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iamge_video_three"
-                android:text="记录时间" />
-        </RelativeLayout>
-    </LinearLayout>
 
-    <!--记录进食视频-->
-    <LinearLayout
-        android:id="@+id/eat_video_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-        <RelativeLayout
-            android:id="@+id/video_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/image_video_four"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:background="@color/black"/>
-            <TextView
-                android:id="@+id/time_video_four"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:text="记录时间"
-                android:layout_below="@+id/image_video_four" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/video_five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/video_one">
-            <ImageView
-                android:id="@+id/image_video_five"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:src="@color/blue"/>
-            <TextView
-                android:id="@+id/time_video_five"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image_video_five"
-                android:text="记录时间" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/video_six"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/video_two">
-            <ImageView
-                android:id="@+id/iamge_video_six"
-                android:layout_width="135dp"
-                android:layout_height="80dp"
-                android:src="@color/black"/>
-
-            <TextView
-                android:id="@+id/time_video_six"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iamge_video_six"
-                android:text="记录时间" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <TextureView
-        android:id="@+id/surface"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <Button
-        android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="获取视频"/>
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="停止"/>
 
 </LinearLayout>

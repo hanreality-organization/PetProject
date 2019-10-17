@@ -111,7 +111,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     private void initTextureView() {
         int width = CommonUtil.getWidth();
-        mTextureView.getLayoutParams().height = H264Config.VIDEO_WIDTH * width / H264Config.VIDEO_HEIGHT;
+        mTextureView.getLayoutParams().height = H264Config.VIDEO_WIDTH * width /H264Config.VIDEO_HEIGHT ;//H264Config.VIDEO_HEIGHT
         mTextureView.setRotation(180);
         mTextureView.setSurfaceTextureListener(this);
     }

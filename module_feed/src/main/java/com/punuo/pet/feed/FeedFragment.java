@@ -2,6 +2,7 @@ package com.punuo.pet.feed;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class FeedFragment extends BaseFragment {
 
     @Autowired(name = "devId")
     String devId;
+    @BindView(R2.id.remain)
+    TextView remain;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -176,15 +179,17 @@ public class FeedFragment extends BaseFragment {
      * 将收到的称重信息更新到UI
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventBus(Integer quality){
-        if(quality >= 0){
-            //TODO 将获得称重信息更新到主界面的UI
-        }
+    public void getEventBus(String quality) {
+
+        remain.setText(quality);
+        Log.i("wankui", "剩余粮食重量更新成功");
+        //TODO 将获得称重信息更新到主界面的UI
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+
     }
 }

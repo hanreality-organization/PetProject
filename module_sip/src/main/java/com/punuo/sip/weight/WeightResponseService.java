@@ -1,4 +1,4 @@
-package com.punuo.pet.feed.weight;
+package com.punuo.sip.weight;
 
 import android.util.Log;
 
@@ -20,7 +20,7 @@ public  class WeightResponseService extends NormalRequestService<WeightData> {
     @Override
     protected void onSuccess(Message msg, WeightData result) {
         Log.i(TAG, "成功获得称重信息");
-        int quality = result.quality;
+        String quality = result.quality;
         EventBus.getDefault().post(quality);
     }
 

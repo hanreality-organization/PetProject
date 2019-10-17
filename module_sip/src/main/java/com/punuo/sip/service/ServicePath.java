@@ -13,5 +13,5 @@ public class ServicePath {
     public static final String PATH_DEV_NOTIFY = "/sip/dev_notify";
 
     public static final String PATH_ERROR = "/sip/error";
-    public static final String PATH_WEIGHT_RESPONSE = "/sip/weight_response";
+    public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";
 }
