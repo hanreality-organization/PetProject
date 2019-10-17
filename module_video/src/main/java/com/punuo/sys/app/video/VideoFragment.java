@@ -21,8 +21,7 @@ import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.QueryResponse;
 import com.punuo.sip.request.SipByeRequest;
-import com.punuo.sip.request.SipMediaRequest;
-import com.punuo.sip.request.SipQueryRequest;
+import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
@@ -128,7 +127,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void startVideo(String devId) {
-        queryMediaInfo(devId);
+        requestVideo(devId);
     }
 
     private void initTitle() {
@@ -138,14 +137,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
 
-    private void queryMediaInfo(final String devId) {
-        SipQueryRequest sipQueryRequest = new SipQueryRequest(devId);
-        SipUserManager.getInstance().addRequest(sipQueryRequest);
-    }
-
-    private void inviteMedia(String devId) {
-        SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
-        SipUserManager.getInstance().addRequest(sipMediaRequest);
+    private void requestVideo(final String devId) {
+        SipVideoRequest sipVideoRequest = new SipVideoRequest(devId);
+        SipUserManager.getInstance().addRequest(sipVideoRequest);
     }
 
     @Override

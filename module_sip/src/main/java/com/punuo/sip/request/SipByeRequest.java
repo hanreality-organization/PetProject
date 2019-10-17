@@ -28,7 +28,7 @@ public class SipByeRequest extends BaseSipRequest {
         JSONObject body = new JSONObject();
         JSONObject value = new JSONObject();
         try {
-            body.put("recvaddr", value);
+            body.put("bye_m3u8", value);
         } catch (JSONException e) {
             e.printStackTrace();
         }
