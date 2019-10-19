@@ -102,6 +102,7 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //TODO 跳转编辑喂食计划页面
+                ARouter.getInstance().build(FeedRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY).navigation();
             }
         });
         mFeedRightNow.setOnClickListener(new View.OnClickListener() {

@@ -44,10 +44,6 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
         lp.width = display.getWidth()*4/5;// 设置dialog宽度为屏幕的4/5
         getWindow().setAttributes(lp);
         setCanceledOnTouchOutside(true);//点击外部Dialog消失
-//        //遍历控件id添加点击注册
-////        for(int id:listenedItem){
-////            findViewById(id).setOnClickListener(this);
-////        }
 
     }
 
