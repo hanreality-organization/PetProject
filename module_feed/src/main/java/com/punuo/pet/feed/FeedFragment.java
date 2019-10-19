@@ -85,7 +85,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
-        mTitle.setText("梦视科技喂食器");
+        mTitle.setText("梦视宠物喂食器");
         mBack.setVisibility(View.GONE);
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
@@ -108,7 +108,7 @@ public class FeedFragment extends BaseFragment {
         mWifiState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_BLUETOOTH_ACTIVITY).navigation();
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
     }
