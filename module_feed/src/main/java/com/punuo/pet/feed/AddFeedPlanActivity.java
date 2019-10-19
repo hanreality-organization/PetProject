@@ -32,7 +32,6 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_add_plan_activity);
         ButterKnife.bind(this);
-
         initView();
     }
 

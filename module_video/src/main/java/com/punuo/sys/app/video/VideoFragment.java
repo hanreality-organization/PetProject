@@ -16,13 +16,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.QueryResponse;
-import com.punuo.sip.request.SipMediaRequest;
-import com.punuo.sip.request.SipQueryRequest;
+import com.punuo.sip.model.VideoData;
+import com.punuo.sip.request.SipByeRequest;
+import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
@@ -83,7 +82,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
-        devId = "310023005801930001";
+        devId = "310023001301920001";
         EventBus.getDefault().register(this);
         return mFragmentView;
     }
@@ -97,37 +96,38 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             @Override
             public void onClick(View v) {
                 showLoadingDialog("正在获取视频...");
-                mAsyncTask = new MyAsyncTask(getActivity());
-                mAsyncTask.execute();
+                startVideo(devId);
             }
         });
         mStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 releaseMediaPlayer();
+                closeVideo();
             }
         });
     }
 
     private void initTextureView() {
         int width = CommonUtil.getWidth();
-        mTextureView.getLayoutParams().height = H264Config.VIDEO_WIDTH * width / H264Config.VIDEO_HEIGHT;
+        mTextureView.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width /H264Config.VIDEO_WIDTH ;//H264Config.VIDEO_HEIGHT
         mTextureView.setRotation(180);
         mTextureView.setSurfaceTextureListener(this);
     }
 
     private void initSubTitle() {
-        mSubTitle.setVisibility(View.VISIBLE);
+        mSubTitle.setVisibility(View.GONE);
         mSubTitle.setText("全屏");
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 全屏播放
-//                startVideo(devId);
-                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_PLAY_ACTIVITY)
-                        .navigation();
             }
         });
+    }
+
+    private void startVideo(String devId) {
+        requestVideo(devId);
     }
 
     private void initTitle() {
@@ -137,14 +137,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
 
-    private void queryMediaInfo(final String devId) {
-        SipQueryRequest sipQueryRequest = new SipQueryRequest(devId);
-        SipUserManager.getInstance().addRequest(sipQueryRequest);
-    }
-
-    private void inviteMedia(String devId) {
-        SipMediaRequest sipMediaRequest = new SipMediaRequest(devId);
-        SipUserManager.getInstance().addRequest(sipMediaRequest);
+    private void requestVideo(final String devId) {
+        SipVideoRequest sipVideoRequest = new SipVideoRequest(devId);
+        SipUserManager.getInstance().addRequest(sipVideoRequest);
     }
 
     @Override
@@ -154,15 +149,21 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(QueryResponse event) {
-        inviteMedia(devId);
+    public void onMessageEvent(VideoData event) {
+        mAsyncTask = new MyAsyncTask(getActivity());
+        mAsyncTask.execute();
+    }
+
+    private void closeVideo() {
+        SipByeRequest sipByeRequest = new SipByeRequest(devId);
+        SipUserManager.getInstance().addRequest(sipByeRequest);
     }
 
     private void playVideo(SurfaceTexture surfaceTexture) {
         try {
             // Create a new media player and set the listeners
             mMediaPlayer = new MediaPlayer(getActivity(), true);
-            mMediaPlayer.setDataSource("rtmp://101.69.255.130:1936/hls/live");
+            mMediaPlayer.setDataSource(H264Config.RTMP_STREAM);
             if (surface == null) {
                 surface = new Surface(surfaceTexture);
             }

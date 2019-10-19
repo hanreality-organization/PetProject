@@ -11,24 +11,21 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 
 /**
  * Created by han.chen.
- * Date on 2019-09-21.
+ * Date on 2019-10-17.
  **/
-public class SipByeRequest extends BaseSipRequest {
-
+public class SipVideoRequest extends BaseSipRequest {
     private String mDevId;
-
-    public SipByeRequest(String devId) {
+    public SipVideoRequest(String devId) {
         setSipRequestType(SipRequestType.Notify);
-        mDevId = devId;
+        this.mDevId = devId;
         setHasResponse(false);
     }
-
     @Override
     public String getBody() {
         JSONObject body = new JSONObject();
         JSONObject value = new JSONObject();
         try {
-            body.put("bye_m3u8", value);
+            body.put("start_m3u8", value);
         } catch (JSONException e) {
             e.printStackTrace();
         }
