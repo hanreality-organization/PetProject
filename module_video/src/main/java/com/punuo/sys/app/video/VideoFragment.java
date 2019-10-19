@@ -49,7 +49,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener,
-        TextureView.SurfaceTextureListener{
+        TextureView.SurfaceTextureListener {
 
     @BindView(R2.id.title)
     TextView mTitle;
@@ -69,6 +69,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     private String devId;
     private MyAsyncTask mAsyncTask;
     private BaseHandler mBaseHandler;
+    private boolean isPlaying = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
-        devId = "310023001301920001";
+        devId = "310023005801930001";
         EventBus.getDefault().register(this);
         return mFragmentView;
     }
@@ -104,14 +105,18 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View v) {
                 releaseMediaPlayer();
                 closeVideo();
+                isPlaying = false;
+                mPlay.setEnabled(true);
             }
         });
     }
 
     private void initTextureView() {
         int width = CommonUtil.getWidth();
-        mTextureView.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width /H264Config.VIDEO_WIDTH ;//H264Config.VIDEO_HEIGHT
-        mTextureView.setRotation(180);
+        mTextureView.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;//H264Config.VIDEO_HEIGHT
+        mTextureView.setRotation(90);
+        mTextureView.setScaleX((float) H264Config.VIDEO_HEIGHT / H264Config.VIDEO_WIDTH);
+        mTextureView.setScaleY((float) H264Config.VIDEO_WIDTH / H264Config.VIDEO_HEIGHT);
         mTextureView.setSurfaceTextureListener(this);
     }
 
@@ -179,6 +184,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         } catch (Exception e) {
             e.printStackTrace();
         }
+        isPlaying = true;
     }
 
     private void releaseMediaPlayer() {
@@ -193,6 +199,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         switch (msg.what) {
             case 0:
                 playVideo(mTextureView.getSurfaceTexture());
+                mPlay.setEnabled(false);
                 break;
             default:
                 break;
