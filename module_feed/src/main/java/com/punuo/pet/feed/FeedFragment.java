@@ -1,5 +1,6 @@
 package com.punuo.pet.feed;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,9 @@ import com.punuo.pet.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.request.SipControlDeviceRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
@@ -59,6 +62,8 @@ public class FeedFragment extends BaseFragment {
     View mEditFeedPlan;
     @BindView(R2.id.feed_right_now)
     View mFeedRightNow;
+    @BindView(R2.id.wifistate)
+    TextView mWifiState;
 
     @Autowired(name = "devId")
     String devId;
@@ -90,7 +95,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
-        mTitle.setText("梦视科技喂食器");
+        mTitle.setText("梦视宠物喂食器");
         mBack.setVisibility(View.GONE);
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
@@ -113,6 +118,12 @@ public class FeedFragment extends BaseFragment {
 
             }
         });
+        mWifiState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
+            }
+        });
     }
 
     public void showFeedDialog() {
@@ -123,6 +134,14 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PetModel petModel) {
         initPetInfo(petModel);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DevNotifyData result){
+        if(result.mDevInfo.live==0){
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+        if(result.mDevInfo.live==1){mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));}
     }
 
     private void initPetInfo(PetModel petModel) {
