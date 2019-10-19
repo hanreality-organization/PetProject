@@ -2,6 +2,8 @@ package com.punuo.pet.member;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +15,21 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.punuo.pet.member.pet.fragment.AddUserInfoFragment;
+import com.punuo.pet.member.pet.model.UserParam;
+import com.punuo.pet.member.pet.request.AddUserInfoRequest;
 import com.punuo.pet.member.request.LogoutRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.DataClearUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 
 /**
@@ -40,10 +47,13 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private TextView mBuff;
     private RelativeLayout mAccount;
     private RelativeLayout mCache;
-    private  RelativeLayout mPrivacy;
+    private  RelativeLayout mSystem;
     private RelativeLayout mAbout;
     private RelativeLayout mCustomer;
+    private RelativeLayout mEditInfo;
     private Button mcheck;
+
+
 
 
 
@@ -71,9 +81,10 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mAccount = mFragmentView.findViewById(R.id.account);
         mBuff = mFragmentView.findViewById(R.id.buff);
         mCache = mFragmentView.findViewById(R.id.cache);
-        mPrivacy = mFragmentView.findViewById(R.id.privacy);
+        mSystem = mFragmentView.findViewById(R.id.system_news);
         mAbout = mFragmentView.findViewById(R.id.about);
         mCustomer = mFragmentView.findViewById(R.id.customerservice);
+        mEditInfo = mFragmentView.findViewById(R.id.edit_info);
 
         mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
 
@@ -81,9 +92,10 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mExitButton.setOnClickListener(this);
         mAccount.setOnClickListener(this);
         mCache.setOnClickListener(this);
-        mPrivacy.setOnClickListener(this);
+        mSystem.setOnClickListener(this);
         mAbout.setOnClickListener(this);
         mCustomer.setOnClickListener(this);
+        mEditInfo.setOnClickListener(this);
 
 
 
@@ -151,8 +163,8 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
         } else if(id == R.id.account){//账户管理
             ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if(id==R.id.privacy){//隐私
-            ARouter.getInstance().build(MemberRouter.ROUTER_PRIVACY_ACTIVITY).navigation();
+        } else if(id==R.id.system_news){//隐私
+            ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
         } else if(id==R.id.cache){//清除缓存
             DataClearUtil.cleanAllCache(getActivity());
             mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
@@ -160,7 +172,9 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             ARouter.getInstance().build(MemberRouter.ROUTER_ABOUT_ACTIVITY).navigation();
         }else if(id == R.id.customerservice){//客服
             ARouter.getInstance().build(MemberRouter.ROUTER_CUETOMERSERVICE).navigation();
+        }else if(id == R.id.edit_info){//编辑个人信息
+            ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
         }
-
     }
+
 }

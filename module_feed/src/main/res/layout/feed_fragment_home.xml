@@ -22,10 +22,13 @@
         android:layout_below="@+id/status_bar" />
 
     <ScrollView
+        android:id="@+id/feed_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_container"
-        android:layout_below="@+id/title_layout">
+        android:layout_below="@+id/title_layout"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,6 +58,65 @@
                 android:layout_marginTop="6dp"
                 app:daysSelectedBackground="@drawable/feed_date_select_bg"
                 app:daysTextColor="#333333" />
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/weight_data">
+                <LinearLayout
+                    android:id="@+id/head"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="剩余"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="已出"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="计划"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/foot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/head"
+                    android:padding="10dp">
+                    <TextView
+                        android:id="@+id/remain"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"/>
+                    <TextView
+                        android:id="@+id/out"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"/>
+                    <TextView
+                        android:id="@+id/plan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -113,6 +175,7 @@
                 android:textColor="#8BC34A"
                 android:textStyle="bold" />
         </LinearLayout>
+
 
     </LinearLayout>
 

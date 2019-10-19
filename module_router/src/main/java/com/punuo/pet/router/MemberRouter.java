@@ -20,12 +20,15 @@ public class MemberRouter {
     public static final String ROUTER_SET_NICKNAME_ACTIVITY = PREFIX1 + "/SetNicknameActivity";
     public static final String ROUTER_SET_PASSWORD_ACTIVITY = PREFIX1 +"/SetPasswordActivity";
 
-    //隐私部分
-    public static final String ROUTER_PRIVACY_ACTIVITY = PREFIX1+"/PrivacyActivity";
+    //系统部分
+    public static final String ROUTER_SYSTEM_NEWS_ACTIVITY = PREFIX1+"/SystemNewsActivity";
 
     //关于我们
     public static final String ROUTER_ABOUT_ACTIVITY = PREFIX1+"/AboutACTIVITY";
 
     //客服
     public static final String ROUTER_CUETOMERSERVICE = PREFIX1+"/CustomerServiceActivity";
+
+    //修改个人信息
+    public static final String ROUTER_EDITUSERINFO_ACTIVITY = PREFIX1+"/EditUserInfoActivity";
 }
