@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,6 +65,12 @@ public class FeedFragment extends BaseFragment {
     @BindView(R2.id.remain)
     TextView remain;
 
+    private FeedDialog feedDialog;
+    private TextView mCount;
+    private TextView mSubCount;
+    private TextView mAddCount;
+    private Button mComplete;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
@@ -100,10 +107,16 @@ public class FeedFragment extends BaseFragment {
         mFeedRightNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showFeedDialog();
                 //TODO 调用云台旋转
 
             }
         });
+    }
+
+    public void showFeedDialog() {
+        feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now, new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
+        feedDialog.show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -187,11 +200,11 @@ public class FeedFragment extends BaseFragment {
         //TODO 将获得称重信息更新到主界面的UI
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
 
     }
+
 }
