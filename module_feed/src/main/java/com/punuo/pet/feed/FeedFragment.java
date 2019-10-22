@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.feed.feednow.FeedDialog;
 import com.punuo.pet.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -214,8 +215,9 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(String quality) {
-
-        remain.setText(quality);
+        float fQuality = Float.parseFloat(quality);
+        double lastQuality = fQuality/5.5;
+        remain.setText(lastQuality+"g ");
         Log.i("wankui", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
     }

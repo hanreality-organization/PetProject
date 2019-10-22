@@ -1,9 +1,11 @@
-package com.punuo.pet.feed;
+package com.punuo.pet.feed.feednow;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.net.sip.SipManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +13,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.punuo.pet.feed.R;
+import com.punuo.sip.SipUserManager;
+import com.punuo.sys.sdk.account.AccountManager;
 
 public class FeedDialog extends Dialog implements View.OnClickListener{
     //在构造方法里提前加载了样式
@@ -89,11 +95,18 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
             if(defaultCount==0){
                 return;
             }else{
-                //TODO 调动云台使其漏食
+                //TODO 调动云台使其出粮
+               String feedCount =  mCountText.getText().toString().trim();//获取到相应的份数
+               outGrain(feedCount);
             }
         }
     }
 
+    public void outGrain(String feedcount){//出粮
+        FeedNowSipRequest mFeedNowSipRequest = new FeedNowSipRequest(AccountManager.getUserName(),feedcount);
+        SipUserManager.getInstance().addRequest(mFeedNowSipRequest);
+        Log.i("wankui", "出粮请求发送中......");
+    }
 
 }
 
