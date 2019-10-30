@@ -66,7 +66,7 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
         }else if(id == R.id.set_nickname){
             ARouter.getInstance().build(MemberRouter.ROUTER_SET_NICKNAME_ACTIVITY).navigation();
         }else if(id == R.id.change_password){
-            ARouter.getInstance().build(MemberRouter.ROUTER_SET_PASSWORD_ACTIVITY).navigation();
+            ARouter.getInstance().build(MemberRouter.ROUTER_CHANGE_PASSWORD_ACTIVITY).navigation();
         }else if(id == R.id.back){
             scrollToFinishActivity();
         }

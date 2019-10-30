@@ -49,7 +49,9 @@
             android:name="com.punuo.pet.activity.SetPasswordActivity"
             android:screenOrientation="portrait"/>
 
-        <!--隐私部分的活动-->
+        <!--系统消息的活动-->
+        <activity android:name="com.punuo.pet.activity.SystemNewsActivity"
+            android:screenOrientation="portrait"/>
 
         <!--关于我们部分的活动-->
         <activity
