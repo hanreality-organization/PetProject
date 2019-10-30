@@ -61,7 +61,7 @@ public class ProcessTasks {
             NameAddress mUserNormalAddress;
             @Override
             public String getServerIp() {
-                return "101.69.255.134";
+                return "39.98.36.250";//101.69.255.134
             }
 
             @Override

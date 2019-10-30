@@ -87,7 +87,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
         int id = view.getId();
         if(id==R.id.sub_count){
             if (defaultCount>0) {
-                mCountText.setText((defaultCount -= 1) + "份");
+                mCountText.setText((defaultCount -= 1)+"份");
             }else {return;}
         }else if(id==R.id.add_count){
             mCountText.setText((defaultCount+=1)+"份");
@@ -105,7 +105,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
     public void outGrain(String feedcount){//出粮
         FeedNowSipRequest mFeedNowSipRequest = new FeedNowSipRequest(AccountManager.getUserName(),feedcount);
         SipUserManager.getInstance().addRequest(mFeedNowSipRequest);
-        Log.i("wankui", "出粮请求发送中......");
+        Log.i("feed", "出粮请求发送中......");
     }
 
 }

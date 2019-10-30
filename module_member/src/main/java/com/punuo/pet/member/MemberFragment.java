@@ -163,7 +163,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
         } else if(id == R.id.account){//账户管理
             ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if(id==R.id.system_news){//隐私
+        } else if(id==R.id.system_news){//系统消息
             ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
         } else if(id==R.id.cache){//清除缓存
             DataClearUtil.cleanAllCache(getActivity());

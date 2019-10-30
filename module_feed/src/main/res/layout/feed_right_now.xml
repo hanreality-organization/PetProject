@@ -35,7 +35,7 @@
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="喂食量"/>
+                android:text="喂食量(份)"/>
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="50dp"

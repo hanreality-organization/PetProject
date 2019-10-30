@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.service.NormalRequestService;
 import com.punuo.sip.service.ServicePath;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
@@ -20,6 +21,7 @@ public  class WeightResponseService extends NormalRequestService<WeightData> {
     @Override
     protected void onSuccess(Message msg, WeightData result) {
         Log.i(TAG, "成功获得称重信息");
+        ToastUtils.showToast("成功获得称重信息");
         String quality = result.quality;
         EventBus.getDefault().post(quality);
     }
