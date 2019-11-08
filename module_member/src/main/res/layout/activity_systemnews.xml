@@ -10,29 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bar_grey"/>
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/buy_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_bg_purchase_grain"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_bg_purchase_grain"
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/text_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="购粮"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_toRightOf="@+id/buy_image"
             android:layout_marginLeft="20dp"
@@ -80,23 +76,25 @@
         android:background="@color/bar_grey"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/feed_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_bg_feed_grain"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
+            android:src="@drawable/ic_bg_feed_grain"
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/text_feed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="喂食"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_toRightOf="@+id/feed_image"
             android:layout_marginLeft="20dp"

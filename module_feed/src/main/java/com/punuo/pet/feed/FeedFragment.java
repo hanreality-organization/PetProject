@@ -27,6 +27,7 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.request.SipControlDeviceRequest;
+import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -213,6 +214,7 @@ public class FeedFragment extends BaseFragment {
     /**
      * 将收到的称重信息更新到UI
      */
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(String quality) {
         float fQuality = Float.parseFloat(quality);
@@ -220,6 +222,14 @@ public class FeedFragment extends BaseFragment {
         remain.setText(lastQuality+"g ");
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getInitQuality(String initQuality){
+        float fQuality = Float.parseFloat(initQuality);
+        double lastQuality = Math.round((fQuality/5.5));//对结果四舍五入
+        remain.setText(lastQuality+"g ");
+        Log.i("weight", "剩余粮食获取成功");
     }
 
     @Override
