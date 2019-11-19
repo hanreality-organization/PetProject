@@ -3,6 +3,8 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.feednow.FeedDialog;
+import com.punuo.pet.feed.plan.MyPlanAdapter;
+import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -40,6 +44,9 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -126,6 +133,14 @@ public class FeedFragment extends BaseFragment {
                 ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
+
+        //TODO 测试RecyclerView展示喂食计划
+        initPlan();
+        RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        MyPlanAdapter adapter = new MyPlanAdapter(planList);
+        recyclerView.setAdapter(adapter);
     }
 
     public void showFeedDialog() {
@@ -211,6 +226,17 @@ public class FeedFragment extends BaseFragment {
         HttpManager.addRequest(mGetWeightInfoRequest);
     }
 
+    //TODO 测试RecyclerView展示喂食计划
+    private List<Plan> planList = new ArrayList<>();
+
+    private void  initPlan(){
+        Plan breakfast = new Plan("7:30","breakfast","3");
+        planList.add(breakfast);
+        Plan lunch = new Plan("12:00","lunch","4");
+        planList.add(lunch);
+        Plan dinner = new Plan("5:30","dinner","3");
+        planList.add(dinner);
+    }
     /**
      * 将收到的称重信息更新到UI
      */

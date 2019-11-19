@@ -39,14 +39,10 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.punuo.pet.activity.ChangeAvaterActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name="com.punuo.pet.activity.SetNicknameActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.punuo.pet.activity.SetPasswordActivity"
+            android:name="com.punuo.pet.activity.ChangePasswordActivity"
             android:screenOrientation="portrait"/>
 
         <!--系统消息的活动-->

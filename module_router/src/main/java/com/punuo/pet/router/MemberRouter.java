@@ -16,7 +16,6 @@ public class MemberRouter {
 
     //账号管理部分
     public static final String ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY = PREFIX1 + "/AccountManagementActivity";
-    public static final String ROUTER_CHANGE_AVATER_ACTIVITY = PREFIX1+ "/ChangeAvaterActivity";
     public static final String ROUTER_SET_NICKNAME_ACTIVITY = PREFIX1 + "/SetNicknameActivity";
     public static final String ROUTER_CHANGE_PASSWORD_ACTIVITY = PREFIX1 +"/ChangePasswordActivity";
 

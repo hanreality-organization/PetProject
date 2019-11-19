@@ -82,6 +82,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
 //        listener.OnCenterItemClick(this,v);
 //    }
 
+    private int outCount;
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -100,6 +101,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
                outGrain(feedCount);
             }
         }
+        outCount+=defaultCount;//TODO 无法实现统计一天内的喂食份数；
     }
 
     public void outGrain(String feedcount){//出粮
