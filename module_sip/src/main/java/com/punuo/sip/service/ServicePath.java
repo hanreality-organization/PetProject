@@ -19,4 +19,7 @@ public class ServicePath {
     public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";//喂食之后更新剩余粮食UI,手机端必须在线才能收到返回信息并成功更新
 
     public static final String  PATH_FEEDNOW_RESPONSE = "/sip/feed_now_response";
+
+    public static final String PLAN_TOSIP = "/sip/feed_plan_response";
+
 }

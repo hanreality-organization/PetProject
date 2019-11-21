@@ -21,8 +21,10 @@ import com.bumptech.glide.Glide;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.feednow.FeedDialog;
+import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.MyPlanAdapter;
 import com.punuo.pet.feed.plan.Plan;
+import com.punuo.pet.feed.plan.PlanModel;
 import com.punuo.pet.feed.request.GetWeightInfoRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -136,11 +138,6 @@ public class FeedFragment extends BaseFragment {
 
         //TODO 测试RecyclerView展示喂食计划
         initPlan();
-        RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        MyPlanAdapter adapter = new MyPlanAdapter(planList);
-        recyclerView.setAdapter(adapter);
     }
 
     public void showFeedDialog() {
@@ -227,15 +224,50 @@ public class FeedFragment extends BaseFragment {
     }
 
     //TODO 测试RecyclerView展示喂食计划
-    private List<Plan> planList = new ArrayList<>();
+//    private List<Plan> planList = new ArrayList<>();
+//    private void  initPlan(){
+//        Plan breakfast = new Plan("7:30","breakfast","3");
+//        planList.add(breakfast);
+//        Plan lunch = new Plan("12:00","lunch","4");
+//        planList.add(lunch);
+//        Plan dinner = new Plan("5:30","dinner","3");
+//        planList.add(dinner);
+//    }
 
-    private void  initPlan(){
-        Plan breakfast = new Plan("7:30","breakfast","3");
-        planList.add(breakfast);
-        Plan lunch = new Plan("12:00","lunch","4");
-        planList.add(lunch);
-        Plan dinner = new Plan("5:30","dinner","3");
-        planList.add(dinner);
+    private List<Plan> planList = new ArrayList<>();
+    private GetPlanRequest mGetPlanRequest;
+    public void initPlan(){
+        if(mGetPlanRequest!=null&&mGetPlanRequest.isFinish()){
+            return;
+        }
+        mGetPlanRequest = new GetPlanRequest();
+        mGetPlanRequest.addUrlParam("userName",AccountManager.getUserName());
+        mGetPlanRequest.setRequestListener(new RequestListener<PlanModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(PlanModel result) {
+//                if(planList!=null){
+//                    planList.clear();
+//                    planList.addAll(result.mPlanList);
+//
+                    RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    MyPlanAdapter adapter = new MyPlanAdapter(result.mPlanList);
+                    recyclerView.setAdapter(adapter);
+//                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetPlanRequest);
     }
     /**
      * 将收到的称重信息更新到UI
