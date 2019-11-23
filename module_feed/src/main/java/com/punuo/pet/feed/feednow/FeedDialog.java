@@ -27,7 +27,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
     private TextView mSubCountText;
     private TextView mAddCountText;
     private Button mComplete;
-    int defaultCount = 3;
+    public static int defaultCount = 3;
     public FeedDialog(Context context,int layoutResID,int[] listenedItem){
         super(context, R.style.MyDialog);//加载dialog的样式
         this.context = context;
@@ -99,6 +99,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
                 //TODO 调动云台使其出粮
                String feedCount =  mCountText.getText().toString().trim();//获取到相应的份数
                outGrain(feedCount);
+               dismiss();
             }
         }
         outCount+=defaultCount;//TODO 无法实现统计一天内的喂食份数；

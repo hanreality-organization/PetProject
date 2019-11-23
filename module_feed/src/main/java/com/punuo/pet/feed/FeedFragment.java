@@ -3,13 +3,13 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,11 +21,11 @@ import com.bumptech.glide.Glide;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.feednow.FeedDialog;
+import com.punuo.pet.feed.model.GetRemainderModel;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.MyPlanAdapter;
-import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
-import com.punuo.pet.feed.request.GetWeightInfoRequest;
+import com.punuo.pet.feed.request.GetRemainderRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
@@ -33,12 +33,10 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.request.SipControlDeviceRequest;
-import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
@@ -46,9 +44,6 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,17 +70,18 @@ public class FeedFragment extends BaseFragment {
     View mFeedRightNow;
     @BindView(R2.id.wifistate)
     TextView mWifiState;
-
     @Autowired(name = "devId")
     String devId;
-    @BindView(R2.id.remain)
-    TextView remain;
+    @BindView(R2.id.remainder)
+    TextView remainder;
+    @BindView(R2.id.out)
+    TextView out;
+    @BindView(R2.id.plan)
+    TextView plan;
 
     private FeedDialog feedDialog;
-    private TextView mCount;
-    private TextView mSubCount;
-    private TextView mAddCount;
-    private Button mComplete;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,22 +98,37 @@ public class FeedFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
         devId = "310023005801930001";
+
+        //TODO 不起作用的刷新
+        swipeRefreshLayout = mFragmentView.findViewById(R.id.feed_swipe);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPlan();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         return mFragmentView;
     }
 
     private void initView() {
         mTitle.setText("梦视宠物喂食器");
         mBack.setVisibility(View.GONE);
+        out.setText("0");
+        remainder.setText("0.0");
+
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
             public void onDateClick(String s) {
                 ToastUtils.showToast(s);
             }
         });
+
         mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转编辑喂食计划页面
                 ARouter.getInstance().build(FeedRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY).navigation();
             }
         });
@@ -125,8 +136,6 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 showFeedDialog();
-                //TODO 调用云台旋转
-
             }
         });
         mWifiState.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +145,15 @@ public class FeedFragment extends BaseFragment {
             }
         });
 
-        //TODO 测试RecyclerView展示喂食计划
         initPlan();
     }
 
     public void showFeedDialog() {
         feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now, new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
         feedDialog.show();
+
+//        feedDialog.setOnCenterItemClickListener((FeedDialog.OnCenterItemClickListener) this);
+        //TODO dialog中的数据更新碎片UI
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -151,11 +162,13 @@ public class FeedFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(DevNotifyData result){
-        if(result.mDevInfo.live==0){
+    public void onMessageEvent(DevNotifyData result) {
+        if (result.mDevInfo.live == 0) {
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
         }
-        if(result.mDevInfo.live==1){mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));}
+        if (result.mDevInfo.live == 1) {
+            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        }
     }
 
     private void initPetInfo(PetModel petModel) {
@@ -195,53 +208,15 @@ public class FeedFragment extends BaseFragment {
         SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
     }
 
-    private GetWeightInfoRequest mGetWeightInfoRequest;
 
-    private void getWeightInfo(String devId) {
-        if (mGetWeightInfoRequest != null && !mGetWeightInfoRequest.isFinish()) {
-            return;
-        }
-        mGetWeightInfoRequest = new GetWeightInfoRequest();
-        mGetWeightInfoRequest.addUrlParam("username", AccountManager.getUserName());
-        mGetWeightInfoRequest.addUrlParam("devid", devId);
-        mGetWeightInfoRequest.setRequestListener(new RequestListener<BaseModel>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(BaseModel result) {
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mGetWeightInfoRequest);
-    }
-
-    //TODO 测试RecyclerView展示喂食计划
-//    private List<Plan> planList = new ArrayList<>();
-//    private void  initPlan(){
-//        Plan breakfast = new Plan("7:30","breakfast","3");
-//        planList.add(breakfast);
-//        Plan lunch = new Plan("12:00","lunch","4");
-//        planList.add(lunch);
-//        Plan dinner = new Plan("5:30","dinner","3");
-//        planList.add(dinner);
-//    }
-
-    private List<Plan> planList = new ArrayList<>();
     private GetPlanRequest mGetPlanRequest;
-    public void initPlan(){
-        if(mGetPlanRequest!=null&&mGetPlanRequest.isFinish()){
+
+    public void initPlan() {
+        if (mGetPlanRequest != null && mGetPlanRequest.isFinish()) {
             return;
         }
         mGetPlanRequest = new GetPlanRequest();
-        mGetPlanRequest.addUrlParam("userName",AccountManager.getUserName());
+        mGetPlanRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetPlanRequest.setRequestListener(new RequestListener<PlanModel>() {
             @Override
             public void onComplete() {
@@ -250,16 +225,13 @@ public class FeedFragment extends BaseFragment {
 
             @Override
             public void onSuccess(PlanModel result) {
-//                if(planList!=null){
-//                    planList.clear();
-//                    planList.addAll(result.mPlanList);
-//
-                    RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-                    MyPlanAdapter adapter = new MyPlanAdapter(result.mPlanList);
-                    recyclerView.setAdapter(adapter);
-//                }
+
+                RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+                MyPlanAdapter adapter = new MyPlanAdapter(result.mPlanList);
+                recyclerView.setAdapter(adapter);
+                plan.setText(result.feedCountSum);
             }
 
             @Override
@@ -269,6 +241,38 @@ public class FeedFragment extends BaseFragment {
         });
         HttpManager.addRequest(mGetPlanRequest);
     }
+
+    //TODO 初始化剩余重量
+    private GetRemainderRequest mGetRemainderRequest;
+
+    public void getRemainderQuality(String username) {
+        if (mGetRemainderRequest != null && mGetRemainderRequest.isFinish()) {
+            return;
+        }
+        mGetRemainderRequest = new GetRemainderRequest();
+        mGetRemainderRequest.addUrlParam("userName", username);
+        mGetRemainderRequest.setRequestListener(new RequestListener<GetRemainderModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(GetRemainderModel result) {
+                if (result == null) {
+                    return;
+                }
+                remainder.setText(result.mRemainder);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetRemainderRequest);
+    }
+
     /**
      * 将收到的称重信息更新到UI
      */
@@ -276,17 +280,17 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(String quality) {
         float fQuality = Float.parseFloat(quality);
-        double lastQuality = Math.round((fQuality/5.5));//对结果四舍五入
-        remain.setText(lastQuality+"g ");
+        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
+        remainder.setText(String.valueOf(lastQuality));
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getInitQuality(String initQuality){
+    public void getInitQuality(String initQuality) {
         float fQuality = Float.parseFloat(initQuality);
-        double lastQuality = Math.round((fQuality/5.5));//对结果四舍五入
-        remain.setText(lastQuality+"g ");
+        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
+        remainder.setText(String.valueOf(lastQuality));
         Log.i("weight", "剩余粮食获取成功");
     }
 
@@ -294,7 +298,7 @@ public class FeedFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
-
     }
+
 
 }

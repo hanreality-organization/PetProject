@@ -10,4 +10,9 @@ public class PlanModel extends BaseModel {
     @SerializedName("feedplans")
      public List<Plan> mPlanList;
 
+    @SerializedName("sum")
+    public String feedCountSum;
+
+    @SerializedName("plansum")
+    public String planSum;
 }
