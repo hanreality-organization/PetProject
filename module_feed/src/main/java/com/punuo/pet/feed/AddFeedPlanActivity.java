@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.MyPlanAdapter;
 import com.punuo.pet.feed.plan.Plan;
@@ -29,8 +28,6 @@ import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,8 +43,8 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     TextView mTitle;
     @BindView(R2.id.back)
     ImageView mBack;
-    @BindView(R2.id.pet_list)
-    RecyclerView mPetList;
+    @BindView(R2.id.recycler_editPlan)
+    RecyclerView mEditPlan;
     @BindView(R2.id.sub_title)
     TextView subTitle;
 
@@ -61,11 +58,13 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     private RelativeLayout timeSelect;
     private TextView mPlanSum;
     private TextView mFeedCountSum;
-    Button mButton;
+    private Button mButton;
     private TextView addPlanCount;
     private TextView lessPlanCount;
     private int defaultPlanCount = 3;
     private long selectDateMills = 0;
+    private MyPlanAdapter mMyPlanAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,6 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         mTitle.setText("喂食计划");
         mFeedCountSum =(TextView) findViewById(R.id.feed_count_sum);
         mPlanSum = (TextView) findViewById(R.id.plan_sum);
-        addPlanData();
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +113,6 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
             }
         });
 
-
         mButton = (Button) findViewById(R.id.button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +127,18 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
                 }else if(planCount.length()==0){
                     ToastUtils.showToast("请输入份数");
                 }
-                savePlanToSip(String.valueOf(selectDateMills), planName, planCount, AccountManager.getUserName());
+                savePlanToSip(String.valueOf(selectDateMills / 1000), planName, planCount, AccountManager.getUserName());
                 Log.i("plan", "喂食计划发送中... ");
                 scrollToFinishActivity();
             }
         });
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(AddFeedPlanActivity.this);
+        mEditPlan.setLayoutManager(layoutManager);
+        mMyPlanAdapter = new MyPlanAdapter(this, new ArrayList<Plan>());
+        mEditPlan.setAdapter(mMyPlanAdapter);
+
+        addPlanData();
 
     }
 
@@ -160,14 +164,13 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSuccess(PlanModel result) {
-                RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_editPlan);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(AddFeedPlanActivity.this);
-                recyclerView.setLayoutManager(layoutManager);
-                MyPlanAdapter adapter = new MyPlanAdapter(result.mPlanList);
-                recyclerView.setAdapter(adapter);
+                if (result == null || result.mPlanList == null) {
+                    return;
+                }
+                mMyPlanAdapter.clear();
+                mMyPlanAdapter.addAll(result.mPlanList);
+                mMyPlanAdapter.notifyDataSetChanged();
                 mFeedCountSum.setText(result.feedCountSum);
-//                    Log.i("plan", result.mPlanList.size()+"");
-//                    mPlanSum.setText(String.valueOf(result.mPlanList.size()));
                 mPlanSum.setText(result.planSum);
             }
 

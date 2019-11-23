@@ -24,6 +24,7 @@ import com.punuo.pet.feed.feednow.FeedDialog;
 import com.punuo.pet.feed.model.GetRemainderModel;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.MyPlanAdapter;
+import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
 import com.punuo.pet.feed.request.GetRemainderRequest;
 import com.punuo.pet.model.PetData;
@@ -44,6 +45,8 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,9 +81,12 @@ public class FeedFragment extends BaseFragment {
     TextView out;
     @BindView(R2.id.plan)
     TextView plan;
+    @BindView(R2.id.recycler_plan)
+    RecyclerView mRecyclerPlan;
 
     private FeedDialog feedDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private MyPlanAdapter mMyPlanAdapter;
 
 
     @Override
@@ -114,6 +120,11 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerPlan.setLayoutManager(layoutManager);
+        mMyPlanAdapter = new MyPlanAdapter(getActivity(), new ArrayList<Plan>());
+        mRecyclerPlan.setAdapter(mMyPlanAdapter);
         mTitle.setText("梦视宠物喂食器");
         mBack.setVisibility(View.GONE);
         out.setText("0");
@@ -225,12 +236,12 @@ public class FeedFragment extends BaseFragment {
 
             @Override
             public void onSuccess(PlanModel result) {
-
-                RecyclerView recyclerView = (RecyclerView) mFragmentView.findViewById(R.id.recycler_plan);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                MyPlanAdapter adapter = new MyPlanAdapter(result.mPlanList);
-                recyclerView.setAdapter(adapter);
+                if (result == null || result.mPlanList == null) {
+                    return;
+                }
+                mMyPlanAdapter.clear();
+                mMyPlanAdapter.addAll(result.mPlanList);
+                mMyPlanAdapter.notifyDataSetChanged();
                 plan.setText(result.feedCountSum);
             }
 

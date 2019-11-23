@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 public class Plan {
 
     @SerializedName("time")
-    private String planTime;
+    private long planTime;
     @SerializedName("name")
     private String planName;
     @SerializedName("count")
     private String planCount;
 
-    public Plan(String planTime,String planName,String planCount){
+    public Plan(long planTime,String planName,String planCount){
         this.planTime = planTime;
         this.planName = planName;
         this.planCount = planCount;
     }
 
-    public String getPlanTime() {
+    public long getPlanTime() {
         return planTime;
     }
 
