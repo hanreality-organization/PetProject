@@ -219,6 +219,9 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
                 Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, 2019);
+                calendar.set(Calendar.MONTH, 1);
+                calendar.set(Calendar.DAY_OF_MONTH,1);
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
