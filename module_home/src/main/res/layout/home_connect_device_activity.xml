@@ -21,7 +21,7 @@
         android:layout_above="@+id/next_text"
         android:gravity="center"
         android:lineSpacingMultiplier="1.3"
-        android:text="长按wifi按钮'5秒'\n直到听到滴滴声"
+        android:text="按下wifi按钮\n看到灯光闪烁"
         android:textColor="#333333"
         android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
         android:layout_alignParentBottom="true"
         android:background="#888888"
         android:gravity="center"
-        android:text="我已经长按"
+        android:text="我已经按下"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
