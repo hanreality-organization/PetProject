@@ -37,7 +37,7 @@ public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
         }
 
         public void bindData(Plan plan) {
-            Date date = new Date(plan.getPlanTime());
+            Date date = new Date(plan.getPlanTime()*1000);
             planTime.setText(mSimpleDateFormat.format(date));
             planName.setText(plan.getPlanName());
             planCount.setText(plan.getPlanCount());

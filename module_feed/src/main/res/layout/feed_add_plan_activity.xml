@@ -54,7 +54,7 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:text="3"
+                    android:text="0"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -63,7 +63,7 @@
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/black" />
             </LinearLayout>
 

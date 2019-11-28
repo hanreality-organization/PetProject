@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.punuo.pet.feed.FeedFragment;
 import com.punuo.pet.feed.R;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sys.sdk.account.AccountManager;

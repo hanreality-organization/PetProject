@@ -85,7 +85,6 @@ public class FeedFragment extends BaseFragment {
     RecyclerView mRecyclerPlan;
 
     private FeedDialog feedDialog;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private MyPlanAdapter mMyPlanAdapter;
 
 
@@ -104,17 +103,6 @@ public class FeedFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
         devId = "310023005801930001";
-
-        //TODO 不起作用的刷新
-        swipeRefreshLayout = mFragmentView.findViewById(R.id.feed_swipe);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initPlan();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
 
         return mFragmentView;
     }
@@ -157,14 +145,12 @@ public class FeedFragment extends BaseFragment {
         });
 
         initPlan();
+        getRemainderQuality(AccountManager.getUserName());
     }
 
     public void showFeedDialog() {
         feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now, new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
         feedDialog.show();
-
-//        feedDialog.setOnCenterItemClickListener((FeedDialog.OnCenterItemClickListener) this);
-        //TODO dialog中的数据更新碎片UI
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -273,7 +259,7 @@ public class FeedFragment extends BaseFragment {
                 if (result == null) {
                     return;
                 }
-                remainder.setText(result.mRemainder);
+                remainder.setText(result.mRemainder.time1);
             }
 
             @Override

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     private TimePicker timePicker;
     private TextView timeSelectText;
     private TextView timeSure;
-    private TextView mealName;
+    private EditText mealName;
     private TextView countSelect;
     private RelativeLayout timeSelect;
     private TextView mPlanSum;
@@ -88,7 +89,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         });
 
         timeSelectText = (TextView) findViewById(R.id.time_select_text);
-        mealName = (TextView) findViewById(R.id.meal_name);
+        mealName = (EditText) findViewById(R.id.meal_name);
         countSelect = (TextView) findViewById(R.id.count_select);
         countSelect.setHint("选择份数");
         countSelect.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +139,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         mMyPlanAdapter = new MyPlanAdapter(this, new ArrayList<Plan>());
         mEditPlan.setAdapter(mMyPlanAdapter);
 
-        addPlanData();
+        initPlanData();
 
     }
 
@@ -150,7 +151,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
 
     private GetPlanRequest mGetPlanRequest;
-    public void addPlanData(){
+    public void initPlanData(){
         if(mGetPlanRequest!=null&&mGetPlanRequest.isFinish()){
             return;
         }
