@@ -86,10 +86,10 @@ public class FeedFragment extends BaseFragment {
 
     private FeedDialog feedDialog;
     private MyPlanAdapter mMyPlanAdapter;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
         ARouter.getInstance().inject(this);
         ButterKnife.bind(this, mFragmentView);
@@ -104,11 +104,35 @@ public class FeedFragment extends BaseFragment {
         PetManager.getPetInfo();
         devId = "310023005801930001";
 
+        swipeRefreshLayout = (SwipeRefreshLayout)mFragmentView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        getActivity().runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+//                                initPlan();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
         return mFragmentView;
     }
 
     private void initView() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerPlan.setLayoutManager(layoutManager);
         mMyPlanAdapter = new MyPlanAdapter(getActivity(), new ArrayList<Plan>());
@@ -259,7 +283,7 @@ public class FeedFragment extends BaseFragment {
                 if (result == null) {
                     return;
                 }
-                remainder.setText(result.mRemainder.time1);
+                remainder.setText(result.mRemainder.remainder);
             }
 
             @Override

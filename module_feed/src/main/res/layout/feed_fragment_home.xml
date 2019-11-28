@@ -125,15 +125,20 @@
                 android:layout_marginTop="10dp"
                 android:background="#DCDCDC" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_plan"
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center_horizontal"/>
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"/>
+                </android.support.v4.widget.SwipeRefreshLayout>
+
 
         </LinearLayout>
     </ScrollView>
