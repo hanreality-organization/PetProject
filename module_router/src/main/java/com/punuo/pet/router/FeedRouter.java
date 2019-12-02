@@ -9,4 +9,5 @@ public class FeedRouter {
     public static final String ROUTER_ADD_FEED_PLAN_ACTIVITY = PREFIX + "/AddFeedPlanActivity";
     public static final String ROUTER_FEED_HOME_FRAGMENT = PREFIX + "/FeedFragment";
     public static final String ROUTER_FEED_HEALTH_ACTIVITY = PREFIX + "/FeedHealthActivity";
+    public static final String ROUTER_FEED_ABOUT = PREFIX+"/FeedAboutActivity";
 }

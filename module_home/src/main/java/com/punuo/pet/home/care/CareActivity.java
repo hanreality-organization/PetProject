@@ -15,13 +15,16 @@ import com.punuo.pet.home.R2;
 import com.punuo.pet.home.care.adapter.CareAdapter;
 import com.punuo.pet.home.care.model.CareData;
 import com.punuo.pet.home.care.model.CareModel;
+import com.punuo.pet.home.care.request.GetCareRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
-import com.punuo.sys.sdk.httplib.JsonUtil;
-import com.punuo.sys.sdk.util.CommonUtil;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.util.ToastUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,12 +68,46 @@ public class CareActivity extends BaseSwipeBackActivity {
             }
         });
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+//        mCareList.setLayoutManager(layoutManager);
+//        String careDefault = CommonUtil.getAssetsData("care_default.json");
+//        CareModel careModel = JsonUtil.fromJson(careDefault, CareModel.class);
+//        mCareAdapter = new CareAdapter(this, careModel == null ? new ArrayList<CareData>() : careModel.mCareDataList);
+//        mCareList.setAdapter(mCareAdapter);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
         mCareList.setLayoutManager(layoutManager);
-        String careDefault = CommonUtil.getAssetsData("care_default.json");
-        CareModel careModel = JsonUtil.fromJson(careDefault, CareModel.class);
-        mCareAdapter = new CareAdapter(this, careModel == null ?
-                new ArrayList<CareData>() : careModel.mCareDataList);
+        mCareAdapter = new CareAdapter(this,mCareData);
         mCareList.setAdapter(mCareAdapter);
+    }
+
+    private List<CareData> mCareData;
+    private GetCareRequest mGetCareRequest;
+    private void initGridView(){
+        if (mGetCareRequest!=null&&mGetCareRequest.isFinish()){
+            return;
+        }
+        mGetCareRequest = new GetCareRequest();
+        mGetCareRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetCareRequest.setRequestListener(new RequestListener<CareModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(CareModel result) {
+                if (result==null){
+                    ToastUtils.showToast("获取到的数据为空");
+                }
+                mCareData = result.mCareDataList;
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetCareRequest);
     }
 }
