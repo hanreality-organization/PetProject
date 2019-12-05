@@ -14,6 +14,8 @@ public class ServicePath {
 
     public static final String PATH_ERROR = "/sip/error";
     public static final String PATH_START_VIDEO = "/sip/start_video";
+    public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";
+    public static final String PATH_ONLINE="/sip/is_online_response";
 
 
     public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";//喂食之后更新剩余粮食UI,手机端必须在线才能收到返回信息并成功更新

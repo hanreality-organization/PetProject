@@ -33,7 +33,9 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipControlDeviceRequest;
+import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -170,11 +172,13 @@ public class FeedFragment extends BaseFragment {
 
         initPlan();
         getRemainderQuality(AccountManager.getUserName());
+        IsonLine();
     }
 
     public void showFeedDialog() {
         feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now, new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
         feedDialog.show();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -190,6 +194,15 @@ public class FeedFragment extends BaseFragment {
         if (result.mDevInfo.live == 1) {
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(OnLineData result){
+        int live=Integer.parseInt(result.live);
+        if(live==1){
+            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        }
+           else{ mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));}
     }
 
     private void initPetInfo(PetModel petModel) {
@@ -230,6 +243,10 @@ public class FeedFragment extends BaseFragment {
     }
 
 
+    private void IsonLine(){
+        SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
+        SipUserManager.getInstance().addRequest(sipOnLineRequest);
+    }
     private GetPlanRequest mGetPlanRequest;
 
     public void initPlan() {
@@ -321,5 +338,5 @@ public class FeedFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-
+    }
 }
