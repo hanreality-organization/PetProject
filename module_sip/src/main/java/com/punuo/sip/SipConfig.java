@@ -10,7 +10,7 @@ public class SipConfig {
 
     private static ISipConfig sSipConfig;
     //服务器ip
-    private static String host = "39.98.36.250";
+    private static String host = "39.98.36.250";//101.69.255.134
     //端口号
     private static int port = 6061;
     //服务器Id

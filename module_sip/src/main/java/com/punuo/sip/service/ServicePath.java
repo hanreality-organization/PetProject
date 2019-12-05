@@ -16,4 +16,9 @@ public class ServicePath {
     public static final String PATH_START_VIDEO = "/sip/start_video";
     public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";
     public static final String PATH_ONLINE="/sip/is_online_response";
+
+    public static final String  PATH_FEEDNOW_RESPONSE = "/sip/feed_now_response";
+
+    public static final String PLAN_TOSIP = "/sip/feed_plan_response";
+
 }

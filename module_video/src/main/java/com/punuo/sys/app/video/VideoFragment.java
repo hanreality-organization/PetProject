@@ -83,7 +83,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
-        devId = "310023005801930001";
+        devId = "310023001301920001";
         EventBus.getDefault().register(this);
         return mFragmentView;
     }

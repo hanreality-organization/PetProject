@@ -3,6 +3,7 @@ package com.punuo.pet.member;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,9 +54,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private RelativeLayout mEditInfo;
     private Button mcheck;
 
-
-
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +69,39 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             statusBar.requestLayout();
         }
 
+        /**
+         * 计划准备用于修改个人信息后的刷新，但是没起到作用。暂且保留
+         */
+        swipeRefreshLayout = mFragmentView.findViewById(R.id.swipe);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //设置用户头像
+                                String avater = AccountManager.getUserInfo().avatar;
+                                Glide.with(getActivity()).load(avater).into(mAvater);
+
+                                //设置用户昵称
+                                String nickname = AccountManager.getUserInfo().nickName;
+                                mNickname.setText(nickname);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
         return mFragmentView;
     }
 
@@ -163,7 +195,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
         } else if(id == R.id.account){//账户管理
             ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if(id==R.id.system_news){//隐私
+        } else if(id==R.id.system_news){//系统消息
             ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
         } else if(id==R.id.cache){//清除缓存
             DataClearUtil.cleanAllCache(getActivity());

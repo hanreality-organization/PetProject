@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="gone" />
+
+    <include layout = "@layout/module_title_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="建议喂食量的科学依据"
+                android:background="#4682B4"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textColor="#000000"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="\u3000\u3000宠物用于维持每日正常生命活动的能量需要也被称为维持的能量需要，
+此状态下能量仅用于维持生命的基本代谢及必要的活动。梦视以维持的能量需要为基础，结合宠物的年龄、体重、生理状态等各种影响因素进行合理评估和调整，
+最终得出为每个宠物量身定制的日粮参考喂食量。如果您的宠物比较活泼，活动量较大，喂食量可以在建议喂食量的基础上稍作添加。"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+            <TextView
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="了解健康与饮食的关系"
+                android:background="#4682B4"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:gravity="center_horizontal"/>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="\u3000\u3000宠物的喂养是宠物生活中比较重要的一个环节，和宠物的健康息息相关。"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/food_select"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\u3000\u3000宠物的食物建议以优质的宠物粮食为主，人食是不建议喂宠物的，另外有的主人每天
+以肉类为主，这也是不提倡的。过分的溺爱宠物，因为宠物乞求的眼神而给宠物喂人食，频繁的喂食肉类和零食，这些都会导致宠物挑食，
+到最后发现宠物一到吃饭就来脾气，甚至把零食和肉类换了个遍宠物也不买账，这时候就晚了。选择一款优质的粮食，保持固定的食物是有必要的。"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/feed_forbid"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\u3000\u3000给宠物鸡骨头做零食？给它们带核的水果或坚果？no，no，no，这些都是需要杜绝的行为。鸡骨等坚硬的骨头
+或玩具咬碎后会变成尖细的碎片，进入宠物肠道后有可能会导致宠物的胃肠出血，胃肠穿孔，肠道堵塞等严重后果。而一些坚果、带核水果宠物囫囵吞下后会成为
+引发肠梗塞的隐患；另外，主人要牢记一些宠物本身绝对不能吃的食物，比如对于狗狗来说，就有洋葱、葡萄、巧克力、高脂肪食物等。"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:src="@drawable/feed_diet"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\u3000\u3000饮食量的控制对主人来说可以称为一种责任，宠物都是贪心的，特别是小狗，面对这些对自己该吃多少完全没有办法
+把握的小家伙，主人可不能任由它们的来者不拒。合理控制饮食量，养成规律的喂食习惯十分重要。首先，不能过食，也就是暴饮暴食，这在狗狗身上比较多见。我们喂食通常都是干粮食
+如果不加以节制的话宠物会吃大量这样的粮食，然后喝水后食物进一步膨胀，可以明显看到宠物的肚皮鼓的厉害，这时候宠物会表现难受，哼唧，最后主人只能心疼地去求助兽医。另外
+，过食还可能会导致胃肠不耐受甚至胃肠炎等问题，出现拉稀，呕吐甚至便便带血带黏液等问题。如果喝水不足或者驶入大量干硬的骨头等食物还会造成便秘等问题。短时间或者偶尔的饥饿
+不会对宠物的健康造成太大的伤害，但是长期处于饥饿状态的宠物会出现营养不良和能量的摄入不能维持生长和生活所需等一系列问题，出现消瘦，抵抗力下降等隐患。因此保持合理的喂食
+量是十分有必要的。合理的喂食量，配合规律的喂养习惯可以保证宠物更好的成长和生活。一般推荐小猫小狗每天定时喂食3-4次，成年宠物根据具体情况控制在2-3次为宜，对于一些猫咪
+如果其能很好地控制自己的进食量也可以采取自由采食的方法。饮食量可以参考建议喂食量，并节后宠物的具体情况合理控制，一般宠物进食后腹部稍有充盈感即可，成长期或怀孕哺乳
+的宠物可以适当增加。绝育后或肥胖宠物可以酌情减少，建议量为正常的3/4左右。"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

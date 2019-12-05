@@ -42,8 +42,8 @@ public class CareViewHolder extends BaseViewHolder<CareData> {
 
     @Override
     protected void bindData(CareData careData, int position) {
-        Glide.with(itemView.getContext()).load(careData.icon).into(mCareIcon);
-        ViewUtil.setText(mCareName, careData.label);
+//        Glide.with(itemView.getContext()).load(careData.icon).into(mCareIcon);
+//        ViewUtil.setText(mCareName, careData.label);
         ViewUtil.setText(mCarePetName, careData.petName);
         ViewUtil.setText(mCareDate, TimeUtils.formatMills(careData.date * 1000));
     }

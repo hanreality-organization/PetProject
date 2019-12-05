@@ -189,7 +189,6 @@ public class HomeHeadModule {
         ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight));
     }
 
-
     private GetFoodfrequencyRequest mGetFoodfrequencyRequest;
 
     public void getFoodfrequency(){
