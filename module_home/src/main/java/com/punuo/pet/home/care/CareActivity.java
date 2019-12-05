@@ -1,8 +1,10 @@
 package com.punuo.pet.home.care;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,6 +70,7 @@ public class CareActivity extends BaseSwipeBackActivity {
                 onBackPressed();
             }
         });
+        initGridView();
 
 //        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 //        mCareList.setLayoutManager(layoutManager);
@@ -74,21 +78,21 @@ public class CareActivity extends BaseSwipeBackActivity {
 //        CareModel careModel = JsonUtil.fromJson(careDefault, CareModel.class);
 //        mCareAdapter = new CareAdapter(this, careModel == null ? new ArrayList<CareData>() : careModel.mCareDataList);
 //        mCareList.setAdapter(mCareAdapter);
-
         GridLayoutManager layoutManager = new GridLayoutManager(this,2);
         mCareList.setLayoutManager(layoutManager);
-        mCareAdapter = new CareAdapter(this,mCareData);
+        mCareAdapter = new CareAdapter(this,new ArrayList<CareData>());
         mCareList.setAdapter(mCareAdapter);
+
     }
 
-    private List<CareData> mCareData;
     private GetCareRequest mGetCareRequest;
     private void initGridView(){
         if (mGetCareRequest!=null&&mGetCareRequest.isFinish()){
             return;
         }
         mGetCareRequest = new GetCareRequest();
-        mGetCareRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetCareRequest.addUrlParam("username", AccountManager.getUserName());
+        mGetCareRequest.addUrlParam("petname","王斌弟弟");
         mGetCareRequest.setRequestListener(new RequestListener<CareModel>() {
             @Override
             public void onComplete() {
@@ -100,7 +104,10 @@ public class CareActivity extends BaseSwipeBackActivity {
                 if (result==null){
                     ToastUtils.showToast("获取到的数据为空");
                 }
-                mCareData = result.mCareDataList;
+                Log.i("care", "成功获取到care数据 ");
+                mCareAdapter.clear();
+                mCareAdapter.addAll(result.mCareDataList);
+                mCareAdapter.notifyDataSetChanged();
             }
 
             @Override

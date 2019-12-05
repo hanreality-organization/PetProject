@@ -17,16 +17,36 @@ public class CareData {
      * repeatCycle : day
      */
 
-    @SerializedName("icon")
-    public String icon;
-    @SerializedName("label")
-    public String label;
-    @SerializedName("petName")
+//    @SerializedName("icon")
+//    public String icon;
+    @SerializedName("carename")
+    public String careName;
+    @SerializedName("petname")
     public String petName;
     @SerializedName("date")
     public long date;
-    @SerializedName("needAlarm")
-    public boolean needAlarm;
-    @SerializedName("repeatCycle")
-    public String repeatCycle;
+//    @SerializedName("needAlarm")
+//    public boolean needAlarm;
+//    @SerializedName("repeatCycle")
+//    public String repeatCycle;
+
+    public CareData(String icon,String label,String petName,long date){
+//        this.icon = icon;
+        this.careName = label;
+        this.petName = petName;
+        this.date = date;
+    }
+
+    public String getIcon(){
+        return "";
+    }
+    public String getCareName(){
+        return careName;
+    }
+    public String getPetName(){
+        return petName;
+    }
+    public long getDate(){
+        return date;
+    }
 }

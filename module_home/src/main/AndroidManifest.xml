@@ -34,5 +34,31 @@
             android:name=".device.BindDeviceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
+
+        <!--日常护理子项活动-->
+        <activity android:name=".care.item_activity.BathActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.BeautyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.BuyFoodActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.CheckupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.DewormingVivoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.DewormingVitroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.VaccineActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".care.item_activity.WalkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
     </application>
 </manifest>

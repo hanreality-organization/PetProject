@@ -250,9 +250,8 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginEnd="25dp"
-                        android:background="@drawable/rightarrow"/>
+                        android:background="@drawable/rightarrow" />
                 </RelativeLayout>
 
                 <View
