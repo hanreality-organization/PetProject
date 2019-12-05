@@ -24,7 +24,9 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipControlDeviceRequest;
+import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -114,6 +116,7 @@ public class FeedFragment extends BaseFragment {
                 ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
+        IsonLine();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -127,6 +130,15 @@ public class FeedFragment extends BaseFragment {
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
         }
         if(result.mDevInfo.live==1){mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));}
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(OnLineData result){
+        int live=Integer.parseInt(result.live);
+        if(live==1){
+            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        }
+           else{ mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));}
     }
 
     private void initPetInfo(PetModel petModel) {
@@ -164,6 +176,11 @@ public class FeedFragment extends BaseFragment {
     private void operateControl(String operate) {
         SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate, devId);
         SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
+    }
+
+    private void IsonLine(){
+        SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
+        SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
 
     private GetWeightInfoRequest mGetWeightInfoRequest;
