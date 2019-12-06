@@ -1,6 +1,9 @@
 package com.punuo.pet.home.device;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +11,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +62,7 @@ import permissions.dispatcher.RuntimePermissions;
  **/
 @RuntimePermissions
 @Route(path = HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
-public class BindDeviceActivity extends BaseSwipeBackActivity {
+public class BindDeviceActivity extends BaseSwipeBackActivity implements View.OnClickListener{
     private static final int QR_SCAN_REQUEST_CODE = 1;
 
 
@@ -68,6 +77,12 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.text_empty)
     TextView mTextEmpty;
 
+
+    private TextView saoma;
+    private TextView shoudong;
+    private TextView cancel;
+    private View inflate;
+    private Dialog dialog;
     private DeviceInfoAdapter mDeviceInfoAdapter;
 
     @Override
@@ -87,7 +102,11 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BindDeviceActivityPermissionsDispatcher.openScanWithCheck(BindDeviceActivity.this);
+                try {
+                    show(v);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -161,6 +180,32 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
         getDeviceInfo();
     }
 
+    public void show(View view){
+        dialog = new Dialog(this,R.style.ActionSheetDialogStyle);
+        //填充对话框的布局
+        inflate = LayoutInflater.from(this).inflate(R.layout.home_dialog_layout, null);
+        //初始化控件
+        saoma=inflate.findViewById(R.id.tv_saoma);
+        shoudong=inflate.findViewById(R.id.tv_shoudong);
+        cancel=inflate.findViewById(R.id.cancel);
+        saoma.setOnClickListener(this);
+        shoudong.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        Display display=getWindowManager().getDefaultDisplay();
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        //获得窗体的属性
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width=(int)display.getWidth();
+        lp.y = 20;//设置Dialog距离底部的距离
+         // 将属性设置给窗体
+        dialogWindow.setAttributes(lp);
+        dialog.show();//显示对话框
+    }
     private GetBindDeviceRequest mGetBindDeviceRequest;
 
     private void getDeviceInfo() {
@@ -291,5 +336,32 @@ public class BindDeviceActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(mCheckBindDeviceRequest);
+    }
+    private String devId;
+    @Override
+    public void onClick(View view) {
+        int id=view.getId();
+
+        if(id==R.id.tv_saoma){
+            BindDeviceActivityPermissionsDispatcher.openScanWithCheck(BindDeviceActivity.this);
+            dialog.dismiss();
+        }else if(id==R.id.tv_shoudong){
+            final EditText editText=new EditText(this);
+            new AlertDialog.Builder(this).setTitle("请输入设备号").setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    devId=editText.getText().toString();
+                    checkBindDevice(devId);
+                    dialog.dismiss();
+                }
+            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            }).show();
+        }else if(id==R.id.cancel){
+            dialog.dismiss();
+        }
     }
 }
