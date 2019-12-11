@@ -3,6 +3,7 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.feednow.FeedDialog;
@@ -85,6 +88,9 @@ public class FeedFragment extends BaseFragment {
     TextView plan;
     @BindView(R2.id.recycler_plan)
     RecyclerView mRecyclerPlan;
+//    @BindView(R2.id.pull_to_refresh_feed)
+//    PullToRefreshRecyclerView mPullToRefreshRecyclerView;
+
 
     private FeedDialog feedDialog;
     private MyPlanAdapter mMyPlanAdapter;
@@ -106,28 +112,27 @@ public class FeedFragment extends BaseFragment {
         PetManager.getPetInfo();
         devId = "310023005801930001";
 
-        swipeRefreshLayout = (SwipeRefreshLayout)mFragmentView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) mFragmentView.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Thread(new Runnable() {
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        initPlan();
+//                        Log.i("plan", "重新刷新 ");
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                }).start();
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        getActivity().runOnUiThread(new Runnable(){
-                            @Override
-                            public void run() {
-//                                initPlan();
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
+                        initPlan();
+                        Log.i("plan", "重新刷新 ");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
-                }).start();
+                }, 3000);
             }
         });
 
@@ -135,6 +140,8 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
+//        mPullToRefreshRecyclerView.setMode(PullToRefreshBase.Mode.DISABLED);//设置刷新模式
+//        mRecyclerPlan = mPullToRefreshRecyclerView.getRefreshableView();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerPlan.setLayoutManager(layoutManager);
         mMyPlanAdapter = new MyPlanAdapter(getActivity(), new ArrayList<Plan>());
@@ -143,6 +150,14 @@ public class FeedFragment extends BaseFragment {
         mBack.setVisibility(View.GONE);
         out.setText("0");
         remainder.setText("0.0");
+
+//        mPullToRefreshRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
+//            @Override
+//            public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+//                initPlan();
+//                mPullToRefreshRecyclerView.onRefreshComplete();
+//            }
+//        });
 
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
@@ -197,12 +212,13 @@ public class FeedFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(OnLineData result){
-        int live=Integer.parseInt(result.live);
-        if(live==1){
+    public void onMessageEvent(OnLineData result) {
+        int live = Integer.parseInt(result.live);
+        if (live == 1) {
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        } else {
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
         }
-           else{ mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));}
     }
 
     private void initPetInfo(PetModel petModel) {
@@ -243,10 +259,11 @@ public class FeedFragment extends BaseFragment {
     }
 
 
-    private void IsonLine(){
-        SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
+    private void IsonLine() {
+        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
+
     private GetPlanRequest mGetPlanRequest;
 
     public void initPlan() {

@@ -50,7 +50,15 @@
             android:text="计划时间"
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/date_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/arrow"
+            android:layout_marginRight="10dp" />
         <ImageView
+            android:id="@+id/arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
