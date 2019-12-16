@@ -63,16 +63,13 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
     public void init(){
         mTitle = (TextView) findViewById(R.id.title);
         mBack = (ImageView) findViewById(R.id.back);
-        mAvater = (ImageView) findViewById(R.id.image_change_avater);
         mNickname = (TextView) findViewById(R.id.text_nickname);
-        mChangeAvater = (RelativeLayout)findViewById(R.id.change_avater);
         mSetNickname  = (RelativeLayout)findViewById(R.id.set_nickname);
         mChangePassword = (RelativeLayout)findViewById(R.id.change_password);
 
         mTitle.setText("账号管理");
 
         mBack.setOnClickListener(this);
-        mChangeAvater.setOnClickListener(this);
         mSetNickname.setOnClickListener(this);
         mChangePassword.setOnClickListener(this);
 
@@ -88,9 +85,7 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.change_avater){
-            //TODO 利用dialog，未完成
-        }else if(id == R.id.set_nickname){
+        if(id == R.id.set_nickname){
             ARouter.getInstance().build(MemberRouter.ROUTER_SET_NICKNAME_ACTIVITY).navigation();
         }else if(id == R.id.change_password){
             ARouter.getInstance().build(MemberRouter.ROUTER_CHANGE_PASSWORD_ACTIVITY).navigation();

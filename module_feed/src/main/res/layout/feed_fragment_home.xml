@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="立即出粮"
+                android:text="快速加餐"
                 android:textColor="#8BC34A"
                 android:textStyle="bold" />
         </LinearLayout>

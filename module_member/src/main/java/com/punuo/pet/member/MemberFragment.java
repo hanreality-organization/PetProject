@@ -38,8 +38,8 @@ import butterknife.Unbinder;
 @Route(path = MemberRouter.ROUTER_MEMBER_FRAGMENT)
 public class MemberFragment extends BaseFragment implements View.OnClickListener {
 
-    @BindView(R2.id.shop)
-    RelativeLayout mShop;
+//    @BindView(R2.id.shop)
+//    RelativeLayout mShop;
     Unbinder unbinder;
     private ImageView mBack;
     private TextView mExitButton;
@@ -53,6 +53,8 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private RelativeLayout mCustomer;
     private RelativeLayout mEditInfo;
     private Button mcheck;
+
+    private RelativeLayout mshop;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -118,6 +120,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mAbout = mFragmentView.findViewById(R.id.about);
         mCustomer = mFragmentView.findViewById(R.id.customerservice);
         mEditInfo = mFragmentView.findViewById(R.id.edit_info);
+        mshop = mFragmentView.findViewById(R.id.shop);
 
         mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
 
@@ -129,7 +132,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mAbout.setOnClickListener(this);
         mCustomer.setOnClickListener(this);
         mEditInfo.setOnClickListener(this);
-
+        mshop.setOnClickListener(this);
 
         //设置用户头像
         String avater = AccountManager.getUserInfo().avatar;
@@ -144,6 +147,13 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         //积分商城
         String url = "";
         IntentUtil.openWebViewActivity(getActivity(),url);
+
+//        mShop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
+//            }
+//        });
     }
 
 
@@ -210,6 +220,9 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             ARouter.getInstance().build(MemberRouter.ROUTER_CUETOMERSERVICE).navigation();
         } else if (id == R.id.edit_info) {//编辑个人信息
             ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
+        }
+        else  if (id==R.id.shop){
+            ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
         }
     }
 

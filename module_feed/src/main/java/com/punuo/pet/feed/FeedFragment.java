@@ -39,6 +39,7 @@ import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipControlDeviceRequest;
 import com.punuo.sip.request.SipOnLineRequest;
+import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -128,7 +129,8 @@ public class FeedFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initPlan();
+//                        initPlan();
+                        mFragmentView.invalidate();
                         Log.i("plan", "重新刷新 ");
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -333,9 +335,9 @@ public class FeedFragment extends BaseFragment {
      */
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventBus(String quality) {
-        float fQuality = Float.parseFloat(quality);
-        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
+    public void getEventBus(WeightData data) {
+        float fQuality = Float.parseFloat(data.quality);
+        double lastQuality = Math.round((-(fQuality - 1170)/ 5.88));//对结果四舍五入
         remainder.setText(String.valueOf(lastQuality));
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI

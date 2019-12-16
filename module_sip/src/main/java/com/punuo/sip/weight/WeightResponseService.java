@@ -22,8 +22,8 @@ public  class WeightResponseService extends NormalRequestService<WeightData> {
     protected void onSuccess(Message msg, WeightData result) {
         Log.i(TAG, "成功获得称重信息");
         ToastUtils.showToast("成功获得称重信息");
-        String quality = result.quality;
-        EventBus.getDefault().post(quality);
+//        String quality = result.quality;
+        EventBus.getDefault().post(result);
     }
 
     @Override

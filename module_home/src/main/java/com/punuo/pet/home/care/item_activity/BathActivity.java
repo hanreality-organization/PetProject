@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -15,8 +16,13 @@ import android.widget.TimePicker;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.care.request.SaveBathTimeRequest;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import java.util.Calendar;
@@ -46,8 +52,8 @@ public class BathActivity extends BaseSwipeBackActivity {
     Calendar cal = Calendar.getInstance();
     Calendar calendar = Calendar.getInstance();
     long dateAndTime;
-    String dataSelect;
-    String timeSelect;
+    private static String dataSelect;
+    private static String timeSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +82,9 @@ public class BathActivity extends BaseSwipeBackActivity {
             @Override
             public void onClick(View v) {
                 setDate();
-                dateSelectText.setText(dataSelect+" "+timeSelect);
             }
         });
+        dateSelectText.setText(dataSelect+" "+timeSelect);
     }
 
     public void setDate() {
@@ -89,7 +95,7 @@ public class BathActivity extends BaseSwipeBackActivity {
 
                 dataSelect = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
                 calendar.set(Calendar.YEAR,year);
-                calendar.set(Calendar.MONTH,monthOfYear+1);
+                calendar.set(Calendar.MONTH,monthOfYear);
                 setTime();
             }
         }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
@@ -106,8 +112,39 @@ public class BathActivity extends BaseSwipeBackActivity {
                 calendar.set(Calendar.MINUTE,minute);
                 calendar.set(Calendar.MILLISECOND,0);
                 dateAndTime = calendar.getTimeInMillis();
+                Log.i("setTime", ""+dateAndTime);
+                saveBathTime(dateAndTime);
             }
         },cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true).show();
+    }
+
+    //TODO 将设置的时间上传到数据库的路径
+    private SaveBathTimeRequest mSaveBathTimeRequest;
+    public void saveBathTime(long time){
+        Log.i("bath", "Bath时间戳"+dateAndTime);
+        if(mSaveBathTimeRequest != null &&mSaveBathTimeRequest.isFinish()){
+            return;
+        }
+        mSaveBathTimeRequest = new SaveBathTimeRequest();
+        mSaveBathTimeRequest.addUrlParam("username", AccountManager.getUserName());
+        mSaveBathTimeRequest.addUrlParam("bathTime",time);
+        mSaveBathTimeRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                Log.i("bath", result.message);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mSaveBathTimeRequest);
     }
 
     @Override

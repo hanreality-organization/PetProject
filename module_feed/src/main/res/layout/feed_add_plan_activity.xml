@@ -31,7 +31,7 @@
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="喂食份数(份/10g)"
+                    android:text="喂食份数(10g/份)"
                     android:textColor="@color/black" />
             </LinearLayout>
 
