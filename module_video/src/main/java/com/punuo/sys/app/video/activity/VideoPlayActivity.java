@@ -25,6 +25,7 @@ import io.vov.vitamio.MediaPlayer;
 /**
  * Created by han.chen.
  * Date on 2019-09-20.
+ *
  **/
 @Route(path = VideoRouter.ROUTER_VIDEO_PLAY_ACTIVITY)
 public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnBufferingUpdateListener,
