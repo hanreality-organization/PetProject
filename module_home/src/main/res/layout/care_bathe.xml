@@ -83,6 +83,7 @@
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/bath_alarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="不提前"
@@ -114,6 +115,7 @@
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/bath_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="无"
@@ -145,6 +147,7 @@
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/bath_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="小白"

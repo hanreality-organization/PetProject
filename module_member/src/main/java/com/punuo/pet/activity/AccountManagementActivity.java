@@ -75,7 +75,7 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
 
         //头像
         String avater = AccountManager.getUserInfo().avatar;
-        Glide.with(this).load(avater).into(mAvater);
+//        Glide.with(this).load(avater).into(mAvater);
         //昵称
         String nickname = AccountManager.getUserInfo().nickName;
         mNickname.setText(nickname);

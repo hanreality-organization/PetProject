@@ -19,8 +19,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.loonggg.weekcalendar.view.WeekCalendar;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.feednow.FeedDialog;
@@ -34,6 +32,7 @@ import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.OnLineData;
@@ -250,7 +249,7 @@ public class FeedFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add
+                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
             }
         });
     }
@@ -337,7 +336,7 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
         float fQuality = Float.parseFloat(data.quality);
-        double lastQuality = Math.round((-(fQuality - 1170)/ 5.88));//对结果四舍五入
+        double lastQuality = Math.round((-(fQuality - 1170) / 5.88));//对结果四舍五入
         remainder.setText(String.valueOf(lastQuality));
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
