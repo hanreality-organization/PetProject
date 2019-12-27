@@ -24,4 +24,5 @@ public class HomeRouter {
     public static final String ROUTER_CARE_BEAUTY_ACTIVITY = PREFIX+"/BeautyActivity";
     public static final String ROUTER_CARE_WALK_ACTIVITY = PREFIX+"/WalkActivity";
 
+    public static final String ROUTER_HOTSPOT_CONNECT_WIFI=PREFIX+"/HotSpotConnectWifi";
 }
