@@ -16,7 +16,7 @@ import java.util.TimerTask;
  * Created by han.chen.
  * Date on 2019-08-12.
  **/
-public class BaseSipRequest {
+public abstract class BaseSipRequest {
     private SipRequestType mSipRequestType;
     private Message mMessage;
     private int mCode;

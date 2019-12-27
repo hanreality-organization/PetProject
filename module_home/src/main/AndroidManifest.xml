@@ -34,7 +34,9 @@
             android:name=".device.BindDeviceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-
+        <activity android:name=".wifi.HotSpotConnectWifi"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"/>
         <!--日常护理子项活动-->
         <activity android:name=".care.item_activity.BathActivity"
             android:screenOrientation="portrait"

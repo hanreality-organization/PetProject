@@ -1,5 +1,6 @@
 package com.punuo.pet.feed;
 
+
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,7 +90,6 @@ public class FeedFragment extends BaseFragment {
     private FeedDialog feedDialog;
     private MyPlanAdapter mMyPlanAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
@@ -241,7 +241,6 @@ public class FeedFragment extends BaseFragment {
         SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate, devId);
         SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
     }
-
 
     private void IsonLine(){
         SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
