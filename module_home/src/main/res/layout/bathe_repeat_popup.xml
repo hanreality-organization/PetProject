@@ -7,14 +7,14 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="每周重复"
+        android:text="每周"
         android:layout_centerHorizontal="true"
         android:background="@drawable/frame"/>
     <TextView
-        android:id="@+id/half_month"
+        android:id="@+id/two_weeks"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="每半月重复"
+        android:text="每两周"
         android:gravity="center"
         android:layout_below="@+id/one_week"
         android:layout_centerHorizontal="true"
@@ -23,9 +23,9 @@
         android:id="@+id/one_month"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="每月重复"
+        android:text="每月"
         android:gravity="center"
-        android:layout_below="@+id/half_month"
+        android:layout_below="@+id/two_weeks"
         android:layout_centerHorizontal="true"
         android:background="@drawable/frame"/>
 </RelativeLayout>

@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <permission android:name="android.permission.STATUS_BAR_SERVICE"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -60,5 +61,12 @@
         <activity android:name=".care.item_activity.WalkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
+        <receiver android:name=".care.broadcast.BathAlarmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.punuo.pet.home.ALARM_ONE"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

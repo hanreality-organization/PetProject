@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.punuo.pet.home.R;
-import com.punuo.pet.home.care.model.PetData;
+import com.punuo.pet.model.PetData;
+import com.punuo.pet.model.PetModel;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class PetRelevanceAdapter extends BaseRecyclerViewAdapter {
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
         PetData petData = mPetList.get(position);
         if (baseViewHolder instanceof PetListViewHolder){
-            ((PetListViewHolder) baseViewHolder).petName.setText(petData.petName);
+            ((PetListViewHolder) baseViewHolder).petName.setText(petData.petname);
         }
 
     }
@@ -80,6 +80,6 @@ public class PetRelevanceAdapter extends BaseRecyclerViewAdapter {
     }
 
     public String getPetName(int position){
-        return mPetList.get(position).getPetName();
+        return mPetList.get(position).petname;
     }
 }
