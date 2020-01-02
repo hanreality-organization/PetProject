@@ -64,7 +64,7 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_CONNECT_DEVICE_ACTIVITY)
+                ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI)
                         .navigation();
             }
         });

@@ -7,15 +7,6 @@
     <include
         android:id="@+id/title_layout"
         layout="@layout/module_title_layout" />
-    <Button
-        android:id="@+id/hotspot_wifi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="热点连接WiFi"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:layout_alignParentBottom="true"
-        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/device_list"
         android:layout_width="match_parent"
