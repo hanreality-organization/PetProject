@@ -13,8 +13,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="请先将自己的手机热点设置成说明书中的指定热点"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="热点名：admin   热点密码：12345678"
+        android:textColor="#333333" />
+    <Button
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
         android:gravity="center"
-        android:text="请确认设备已连上指定热点再输入WiFi名和密码"
+        android:text="去设置热点"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="1、设置完热点后请长按设备开机键"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="2、等待大约30秒后在下面输入想要连接的WiFi名和密码"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="3、若设备一直没有连上热点就按下WiFi指示灯下的重置键"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="4、当设备WiFi指示灯常亮后按下WiFi指示灯下的重置键"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="5、当弹出devid（设备号）=1字样时点击连接"
+        android:textColor="#333333" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="left"
+        android:text="6、当显示连接成功后请关闭热点"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -75,7 +143,14 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
         android:gravity="center"
-        android:text="发送"
+        android:text="连接"
         />
-
+    <TextView
+        android:id="@+id/connected_wifi_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:gravity="center"
+        android:textColor="#333333" />
 </LinearLayout>

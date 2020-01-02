@@ -77,8 +77,6 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
     RecyclerView mDeviceList;
     @BindView(R2.id.text_empty)
     TextView mTextEmpty;
-    @BindView(R2.id.hotspot_wifi)
-    Button mhotspot_wifi;
 
     private TextView saoma;
     private TextView shoudong;
@@ -109,12 +107,6 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
-        mhotspot_wifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
