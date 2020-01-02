@@ -61,5 +61,8 @@
         <activity android:name="com.punuo.pet.activity.EditUserInfoActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name="com.punuo.pet.activity.TestActivtity"
+            android:screenOrientation="portrait"/>`
+
     </application>
 </manifest>

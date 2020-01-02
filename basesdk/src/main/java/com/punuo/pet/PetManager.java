@@ -1,5 +1,7 @@
 package com.punuo.pet;
 
+import android.util.Log;
+
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.request.GetPetInfoRequest;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -33,6 +35,7 @@ public class PetManager {
             public void onSuccess(PetModel result) {
                 if (result != null) {
                     EventBus.getDefault().post(result);
+                    Log.i("Pet", "请求pet数据成功 ");
                 }
             }
 

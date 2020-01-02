@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.punuo.sys.sdk.util.DeviceHelper;
 import com.tencent.mmkv.MMKV;
 
@@ -39,5 +41,11 @@ public class PnApplication extends Application {
             ARouter.openDebug();
         }
         ARouter.init(this);
+        initImageLoader();
+    }
+
+    private void initImageLoader() {
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(configuration);
     }
 }

@@ -17,8 +17,8 @@ public class CareData {
      * repeatCycle : day
      */
 
-//    @SerializedName("icon")
-//    public String icon;
+    @SerializedName("picture")
+    public String icon;
     @SerializedName("carename")
     public String careName;
     @SerializedName("petname")
@@ -31,14 +31,14 @@ public class CareData {
 //    public String repeatCycle;
 
     public CareData(String icon,String label,String petName,long date){
-//        this.icon = icon;
+        this.icon = icon;
         this.careName = label;
         this.petName = petName;
         this.date = date;
     }
 
     public String getIcon(){
-        return "";
+        return icon;
     }
     public String getCareName(){
         return careName;
