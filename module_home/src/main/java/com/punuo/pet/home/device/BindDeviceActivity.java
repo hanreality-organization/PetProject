@@ -28,6 +28,7 @@ import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter;
 import com.punuo.pet.home.device.event.UnBindDeviceEvent;
+import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.model.DeviceModel;
 import com.punuo.pet.home.device.request.BindDeviceRequest;
@@ -175,7 +176,9 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         mDeviceInfoAdapter.appendData(deviceInfoList);
     }
 
+    BindDevidSuccess bindDevidSuccess=new BindDevidSuccess();
     private void refresh() {
+        EventBus.getDefault().post(bindDevidSuccess);
         getDeviceInfo();
     }
 
@@ -336,7 +339,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         });
         HttpManager.addRequest(mCheckBindDeviceRequest);
     }
-    private String devId;
+    public String devId;
     @Override
     public void onClick(View view) {
         int id=view.getId();

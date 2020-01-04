@@ -25,4 +25,6 @@ public class ServicePath {
     public static final String PATH_WIFI_CONNECTED="/sip/dev_wifi_response";
     //发送WiFi信息成功的回应
     public static final String PATH_SEND_WIFI_MESSAGE="/sip/set_wifi_response";
+    //重置成功的回应
+    public static final String PATH_RESET="/sip/dev_reset";
 }

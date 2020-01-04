@@ -14,16 +14,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
 import com.punuo.sip.request.SipByeRequest;
+import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
+import com.punuo.sys.app.video.activity.model.deviddata;
+import com.punuo.sys.app.video.activity.request.GetdevidRequest;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
@@ -66,6 +75,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     Button mStop;
     @BindView(R2.id.play_music)
     View playMusic;
+    @BindView(R2.id.reset)
+    Button mReset;
 
     private MediaPlayer mMediaPlayer;
     private Surface surface;
@@ -79,6 +90,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
         mBaseHandler = new BaseHandler(this);
+        Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
+        getdevid();
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -86,7 +99,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
-        devId = "310023001301920001";
         EventBus.getDefault().register(this);
         return mFragmentView;
     }
@@ -110,6 +122,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 closeVideo();
                 isPlaying = false;
                 mPlay.setEnabled(true);
+            }
+        });
+        mReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SipResetRequest sipResetRequest=new SipResetRequest();
+                SipUserManager.getInstance().addRequest(sipResetRequest);
             }
         });
         playMusic.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +186,45 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     public void onMessageEvent(VideoData event) {
         mAsyncTask = new MyAsyncTask(getActivity());
         mAsyncTask.execute();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ResetData result) {
+        Toast.makeText(getActivity(),"重置成功",Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BindDevidSuccess result){
+        getdevid();
+    }
+
+    private GetdevidRequest mGetdevidRequest;
+    public void getdevid(){
+        if (mGetdevidRequest!= null && !mGetdevidRequest.isFinish()) {
+            return;
+        }
+        mGetdevidRequest=new GetdevidRequest();
+        mGetdevidRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetdevidRequest.setRequestListener(new RequestListener<deviddata>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(deviddata result) {
+                if (result == null) {
+                    return;
+                }
+                devId=result.devid;
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetdevidRequest);
     }
 
     private void closeVideo() {
