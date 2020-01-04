@@ -202,7 +202,9 @@ public class FeedFragment extends BaseFragment {
         if(live==1){
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
         }
-           else{ mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));}
+        if(live==0){
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
     }
 
     private void initPetInfo(PetModel petModel) {
