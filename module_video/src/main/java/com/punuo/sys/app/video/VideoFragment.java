@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
@@ -63,6 +64,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     Button mPlay;
     @BindView(R2.id.stop)
     Button mStop;
+    @BindView(R2.id.play_music)
+    View playMusic;
 
     private MediaPlayer mMediaPlayer;
     private Surface surface;
@@ -107,6 +110,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 closeVideo();
                 isPlaying = false;
                 mPlay.setEnabled(true);
+            }
+        });
+        playMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
+                        .navigation();
             }
         });
     }
