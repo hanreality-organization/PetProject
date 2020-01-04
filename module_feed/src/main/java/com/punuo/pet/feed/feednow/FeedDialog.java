@@ -42,7 +42,7 @@ public class FeedDialog extends Dialog implements View.OnClickListener{
         //提前设置Dialog的一些样式
         Window dialogWindow = getWindow();
         dialogWindow.setGravity(Gravity.CENTER);//设置dialog显示居中
-        //dialogWindow.setWindowAnimations();设置动画效果
+//        dialogWindow.setWindowAnimations();//设置动画效果
         setContentView(layoutResID);
         initDialog();
         WindowManager windowManager = ((Activity)context).getWindowManager();

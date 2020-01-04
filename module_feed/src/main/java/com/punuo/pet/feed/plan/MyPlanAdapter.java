@@ -3,13 +3,20 @@ package com.punuo.pet.feed.plan;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.punuo.pet.feed.R;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +26,8 @@ import java.util.Locale;
 
 public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
 
+    private  OnItemLongClickListener onItemLongClickListener;
+
     public MyPlanAdapter(Context context, List<Plan> data) {
         super(context, data);
     }
@@ -27,6 +36,8 @@ public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
         TextView planTime;
         TextView planName;
         TextView planCount;
+        RadioButton check_box;
+        LinearLayout root_view;
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         public PlanViewHolder(View view) {
@@ -34,6 +45,9 @@ public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
             planTime = view.findViewById(R.id.plan_time);
             planName = view.findViewById(R.id.plan_name);
             planCount = view.findViewById(R.id.plan_count);
+            check_box = view.findViewById(R.id.checkbox);
+            root_view = view.findViewById(R.id.root_view);
+
         }
 
         public void bindData(Plan plan) {
@@ -46,7 +60,19 @@ public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
 
     @Override
     public RecyclerView.ViewHolder onCreateBasicItemViewHolder(ViewGroup parent, int viewType) {
-        return new PlanViewHolder(LayoutInflater.from(mContext).inflate(R.layout.feed_plan_item, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.feed_plan_item,parent,false);
+        final PlanViewHolder viewHolder = new PlanViewHolder(view);
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int layoutPosition = viewHolder.getLayoutPosition();
+                if (onItemLongClickListener !=null){
+                    onItemLongClickListener.OnItemLongClick(layoutPosition);
+                }
+                return true;
+            }
+        });
+        return viewHolder;
     }
 
     @Override
@@ -65,4 +91,28 @@ public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
     public int getBasicItemCount() {
         return mData == null ? 0 : mData.size();
     }
+
+    //删除Plan
+    public void removePlan(int position){
+        mData.remove(position);
+        notifyDataSetChanged();
+    }
+
+    //获取到对应位置的计划名称
+    public String getPlanName(int position){
+        String delPlanName = mData.get(position).getPlanName();
+        return delPlanName;
+    }
+
+    //定义长按接口
+    public interface OnItemLongClickListener{
+        void OnItemLongClick(int position);
+    }
+
+    //定义长按接口的实现
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener){
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+
 }

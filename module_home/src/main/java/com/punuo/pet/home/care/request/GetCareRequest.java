@@ -6,7 +6,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
 public class GetCareRequest extends BaseRequest<CareModel> {
 
     public GetCareRequest(){
-        setRequestPath("/shower/getShowerPlan");
+        setRequestPath("/dailycare/getCareInfo");
         setRequestType(RequestType.GET);
     }
 }

@@ -2,9 +2,7 @@ package com.punuo.pet.member;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +14,20 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.punuo.pet.member.pet.fragment.AddUserInfoFragment;
-import com.punuo.pet.member.pet.model.UserParam;
-import com.punuo.pet.member.pet.request.AddUserInfoRequest;
 import com.punuo.pet.member.request.LogoutRequest;
-import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
-import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.DataClearUtil;
+import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
-import com.punuo.sys.sdk.util.ToastUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -39,8 +36,11 @@ import com.punuo.sys.sdk.util.ToastUtils;
  * 我的页面
  **/
 @Route(path = MemberRouter.ROUTER_MEMBER_FRAGMENT)
-public class MemberFragment extends BaseFragment implements View.OnClickListener{
+public class MemberFragment extends BaseFragment implements View.OnClickListener {
 
+//    @BindView(R2.id.shop)
+//    RelativeLayout mShop;
+    Unbinder unbinder;
     private ImageView mBack;
     private TextView mExitButton;
     private TextView mNickname;
@@ -48,11 +48,13 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     private TextView mBuff;
     private RelativeLayout mAccount;
     private RelativeLayout mCache;
-    private  RelativeLayout mSystem;
+    private RelativeLayout mSystem;
     private RelativeLayout mAbout;
     private RelativeLayout mCustomer;
     private RelativeLayout mEditInfo;
     private Button mcheck;
+
+    private RelativeLayout mshop;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -102,6 +104,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
                 }).start();
             }
         });
+        unbinder = ButterKnife.bind(this, mFragmentView);
         return mFragmentView;
     }
 
@@ -117,6 +120,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mAbout = mFragmentView.findViewById(R.id.about);
         mCustomer = mFragmentView.findViewById(R.id.customerservice);
         mEditInfo = mFragmentView.findViewById(R.id.edit_info);
+        mshop = mFragmentView.findViewById(R.id.shop);
 
         mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
 
@@ -128,8 +132,7 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mAbout.setOnClickListener(this);
         mCustomer.setOnClickListener(this);
         mEditInfo.setOnClickListener(this);
-
-
+        mshop.setOnClickListener(this);
 
         //设置用户头像
         String avater = AccountManager.getUserInfo().avatar;
@@ -140,12 +143,22 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         mNickname.setText(nickname);
 
         //设置用户ID
+
+        //积分商城
+        String url = "";
+        IntentUtil.openWebViewActivity(getActivity(),url);
+
+//        mShop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
+//            }
+//        });
     }
 
 
-
-
     private LogoutRequest mLogoutRequest;
+
     public void logout(String userName) {
         if (mLogoutRequest != null && !mLogoutRequest.isFinish()) {
             return;
@@ -182,30 +195,34 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
 
-        if(id == R.id.exit_button){//退出登录
+        if (id == R.id.exit_button) {//退出登录
             logout(AccountManager.getSession());
-        } else if(id==R.id.check){//签到
+        } else if (id == R.id.check) {//签到
             mcheck.setText("已签到");
             mcheck.setBackgroundResource(R.drawable.button_check_nor);
-        } else if(id == R.id.account){//账户管理
+        } else if (id == R.id.account) {//账户管理
             ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if(id==R.id.system_news){//系统消息
+        } else if (id == R.id.system_news) {//系统消息
             ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
-        } else if(id==R.id.cache){//清除缓存
+        } else if (id == R.id.cache) {//清除缓存
             DataClearUtil.cleanAllCache(getActivity());
             mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-        }else if(id==R.id.about){//关于我们
+        } else if (id == R.id.about) {//关于我们
             ARouter.getInstance().build(MemberRouter.ROUTER_ABOUT_ACTIVITY).navigation();
-        }else if(id == R.id.customerservice){//客服
+        } else if (id == R.id.customerservice) {//客服
             ARouter.getInstance().build(MemberRouter.ROUTER_CUETOMERSERVICE).navigation();
-        }else if(id == R.id.edit_info){//编辑个人信息
+        } else if (id == R.id.edit_info) {//编辑个人信息
             ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
+        }
+        else  if (id==R.id.shop){
+            ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
         }
     }
 
