@@ -8,4 +8,5 @@ public class VideoRouter {
     private static final String PREFIX = "/video";
     public static final String ROUTER_VIDEO_FRAGMENT = PREFIX + "/VideoFragment";
     public static final String ROUTER_VIDEO_PLAY_ACTIVITY = PREFIX + "/VideoPlayActivity";
+    public static final String ROUTER_MUSIC_CHOOSE_ACTIVITY = PREFIX + "/MusicChooseActivity";
 }

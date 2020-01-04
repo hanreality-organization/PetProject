@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
@@ -72,6 +73,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     Button mPlay;
     @BindView(R2.id.stop)
     Button mStop;
+    @BindView(R2.id.play_music)
+    View playMusic;
     @BindView(R2.id.reset)
     Button mReset;
 
@@ -126,6 +129,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View view) {
                 SipResetRequest sipResetRequest=new SipResetRequest();
                 SipUserManager.getInstance().addRequest(sipResetRequest);
+            }
+        });
+        playMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
+                        .navigation();
             }
         });
     }
