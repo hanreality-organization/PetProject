@@ -24,7 +24,10 @@ import com.punuo.pet.home.device.model.ChartData3;
 import com.punuo.pet.home.device.request.GetFoodfrequencyRequest;
 import com.punuo.pet.home.device.request.GetFoodnumberRequest;
 import com.punuo.pet.home.device.request.GetSurplusfoodRequest;
+import com.punuo.pet.home.view.GlideImageLoader;
 import com.punuo.pet.home.view.PetLoopHolder;
+import com.punuo.pet.home.view.model.RotationChartData;
+import com.punuo.pet.home.view.request.GetRotationChart;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
@@ -33,10 +36,10 @@ import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.TimeUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
+import com.youth.banner.Banner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,8 +60,6 @@ public class HomeHeadModule {
     ImageView mHomeAddPet;
     @BindView(R2.id.home_pet_name)
     TextView mHomePetName;
-//    @BindView(R2.id.device_part)
-//    RoundedImageView mDevicePart;
     @BindView(R2.id.device_container)
     ViewGroup mDeviceContainer;
     @BindView(R2.id.feed_pet)
@@ -67,6 +68,8 @@ public class HomeHeadModule {
     RoundedImageView mCarePet;
     @BindView(R2.id.chart_container)
     LinearLayout mChartContainer;
+    @BindView(R2.id.bander)
+    Banner banner;
 
     private View mRootView;
     private PetLoopHolder mPetLoopHolder;
@@ -78,6 +81,7 @@ public class HomeHeadModule {
     protected Spinner spinner;
     private String[] ChartX=new String[4]; //柱状图水平坐标
     private int[] Chartdata=new int[4];//柱状图值
+    List<String> images=new ArrayList();
 
     public HomeHeadModule(Context context, ViewGroup parent) {
         mContext = context;
@@ -88,6 +92,7 @@ public class HomeHeadModule {
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
         spinner = mRootView.findViewById(R.id.space1);
+        getrotationchart();
         getFoodfrequency();
     }
 
@@ -143,13 +148,7 @@ public class HomeHeadModule {
                         .navigation();
             }
         });
-//        mDeviceContainer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
-//                        .navigation();
-//            }
-//        });
+
         mFeedPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,6 +308,35 @@ public class HomeHeadModule {
         HttpManager.addRequest(mGetSurplusfoodRequest);
     }
 
+    private GetRotationChart mGetRotationChart;
+    public void getrotationchart(){
+        if (mGetRotationChart != null && !mGetRotationChart.isFinish()) {
+            return;
+        }
+        mGetRotationChart=new GetRotationChart();
+        mGetRotationChart.addUrlParam("userName", AccountManager.getUserName());
+        mGetRotationChart.setRequestListener(new RequestListener<RotationChartData>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(RotationChartData result) {
+                images=result.image;
+                banner.setImageLoader(new GlideImageLoader());
+                banner.setImages(images);
+                banner.setDelayTime(2000);
+                banner.start();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetRotationChart);
+    }
     //绘制柱状图函数
     private void barChart1() {
         String[] xLabel = {"",ChartX[3],ChartX[2],ChartX[1],ChartX[0]};
