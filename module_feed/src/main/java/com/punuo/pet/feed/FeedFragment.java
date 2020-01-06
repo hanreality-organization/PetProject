@@ -4,6 +4,7 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,11 +33,13 @@ import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.pet.router.MemberRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipControlDeviceRequest;
 import com.punuo.sip.request.SipOnLineRequest;
+import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -86,6 +89,9 @@ public class FeedFragment extends BaseFragment {
     TextView plan;
     @BindView(R2.id.recycler_plan)
     RecyclerView mRecyclerPlan;
+//    @BindView(R2.id.pull_to_refresh_feed)
+//    PullToRefreshRecyclerView mPullToRefreshRecyclerView;
+
 
     private FeedDialog feedDialog;
     private MyPlanAdapter mMyPlanAdapter;
@@ -106,28 +112,28 @@ public class FeedFragment extends BaseFragment {
         PetManager.getPetInfo();
         devId = "310023005801930001";
 
-        swipeRefreshLayout = (SwipeRefreshLayout)mFragmentView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) mFragmentView.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Thread(new Runnable() {
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        initPlan();
+//                        Log.i("plan", "重新刷新 ");
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                }).start();
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        getActivity().runOnUiThread(new Runnable(){
-                            @Override
-                            public void run() {
-//                                initPlan();
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
+//                        initPlan();
+                        mFragmentView.invalidate();
+                        Log.i("plan", "重新刷新 ");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
-                }).start();
+                }, 3000);
             }
         });
 
@@ -135,6 +141,8 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
+//        mPullToRefreshRecyclerView.setMode(PullToRefreshBase.Mode.DISABLED);//设置刷新模式
+//        mRecyclerPlan = mPullToRefreshRecyclerView.getRefreshableView();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerPlan.setLayoutManager(layoutManager);
         mMyPlanAdapter = new MyPlanAdapter(getActivity(), new ArrayList<Plan>());
@@ -143,6 +151,14 @@ public class FeedFragment extends BaseFragment {
         mBack.setVisibility(View.GONE);
         out.setText("0");
         remainder.setText("0.0");
+
+//        mPullToRefreshRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
+//            @Override
+//            public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+//                initPlan();
+//                mPullToRefreshRecyclerView.onRefreshComplete();
+//            }
+//        });
 
         mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
@@ -197,10 +213,12 @@ public class FeedFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(OnLineData result){
-        int live=Integer.parseInt(result.live);
-        if(live==1){
+    public void onMessageEvent(OnLineData result) {
+        int live = Integer.parseInt(result.live);
+        if (live == 1) {
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        } else {
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
         }
         if(live==0){
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
@@ -234,7 +252,7 @@ public class FeedFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add
+                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
             }
         });
     }
@@ -248,6 +266,7 @@ public class FeedFragment extends BaseFragment {
         SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
+
     private GetPlanRequest mGetPlanRequest;
 
     public void initPlan() {
@@ -317,9 +336,9 @@ public class FeedFragment extends BaseFragment {
      */
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventBus(String quality) {
-        float fQuality = Float.parseFloat(quality);
-        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
+    public void getEventBus(WeightData data) {
+        float fQuality = Float.parseFloat(data.quality);
+        double lastQuality = Math.round((-(fQuality - 1170) / 5.88));//对结果四舍五入
         remainder.setText(String.valueOf(lastQuality));
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI

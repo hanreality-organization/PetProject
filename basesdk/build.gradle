@@ -62,4 +62,5 @@ dependencies {
     api 'com.github.loonggg:WeekCalendar:v1.4'
     api project(':module_router')
     api project(':vitamio')
+    api 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 }

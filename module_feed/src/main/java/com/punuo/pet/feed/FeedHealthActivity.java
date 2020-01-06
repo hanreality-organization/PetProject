@@ -98,6 +98,7 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
         if (mGetFeedingAdviceRequest != null && !mGetFeedingAdviceRequest.isFinish()) {
             return;
         }
+
         mGetFeedingAdviceRequest = new GetFeedingAdviceRequest();
         mGetFeedingAdviceRequest.addUrlParam("petname", mPetData.petname);
         mGetFeedingAdviceRequest.addUrlParam("username", AccountManager.getUserName());

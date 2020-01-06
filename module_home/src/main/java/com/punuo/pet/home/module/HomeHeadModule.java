@@ -33,6 +33,7 @@ import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -46,6 +47,8 @@ import butterknife.ButterKnife;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * Created by han.chen.
  * Date on 2019-08-15.
@@ -182,6 +185,7 @@ public class HomeHeadModule {
         }
         mHomePetInfoContainer.setVisibility(View.VISIBLE);
         mCurrentPetData = model.mPets.get(position);
+        Constant.petData = mCurrentPetData;
         ViewUtil.setText(mHomePetName, mCurrentPetData.petname);
         String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(mCurrentPetData.birth));
         ViewUtil.setText(mPetAge, age);

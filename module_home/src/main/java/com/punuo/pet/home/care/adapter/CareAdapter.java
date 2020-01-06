@@ -11,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.care.holder.CareViewHolder;
 import com.punuo.pet.home.care.model.CareData;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
 
 import org.w3c.dom.Text;
@@ -32,6 +35,7 @@ import java.util.logging.SimpleFormatter;
 public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
 
     private List<CareData> mCareDataList;
+    SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm", Locale.getDefault());
 
     public CareAdapter(Context context,List<CareData> data) {
         super(context,data);
@@ -43,7 +47,7 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
         TextView careName;
         TextView petName;
         TextView careDate;
-        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm", Locale.getDefault());
+//        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm", Locale.getDefault());
 
         public CareHolder(View view){
             super(view);
@@ -54,12 +58,13 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
             careDate = (TextView)view.findViewById(R.id.care_date);
         }
 
-        public void bindData(CareData careData) {
-            Date date = new Date(careData.getDate()*1000);
-            careName.setText(careData.careName);
-            petName.setText(careData.getPetName());
-            careDate.setText(mSimpleDateFormat.format(date));
-        }
+//        public void bindData(CareData careData) {
+//            Date date = new Date(careData.getDate()*1000);
+//            careName.setText(careData.careName);
+//            petName.setText(careData.getPetName());
+//            careDate.setText(mSimpleDateFormat.format(date));
+//            ImageLoader.getInstance().displayImage("http://pet.qinqingonline.com"+);
+//        }
     }
 
 
@@ -73,7 +78,7 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
                 int position = holder.getAdapterPosition();
                 Log.i("care", "点击的位置"+position);
                 if (position==0){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_BATH_ACTIVITY).navigation();
-                }else if (position==1){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_CHECKUP_ACTIVITY).navigation();
+                }else if (position==1){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_CHECKUP_ACTIVITY).withParcelable("petData", Constant.petData).navigation();
                 }else if (position==2){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_BUY_FOOD_ACTIVITY).navigation();
                 }else if (position==3){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_IN_VIVO_ACTIVITY).navigation();
                 }else if (position==4){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_IN_VITRO_ACTIVITY).navigation();
@@ -90,7 +95,15 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
         CareData careData = mCareDataList.get(position);
         if(baseViewHolder instanceof CareHolder) {
-            ((CareHolder) baseViewHolder).bindData(careData); }
+//            ((CareHolder) baseViewHolder).bindData(careData); }
+            Date date = new Date(careData.getDate()*1000);
+            ((CareHolder) baseViewHolder).careName.setText(careData.careName);
+            ((CareHolder) baseViewHolder).petName.setText(careData.getPetName());
+            ((CareHolder) baseViewHolder).careDate.setText(mSimpleDateFormat.format(date));
+//            ImageLoader.getInstance().displayImage(mCareDataList.get(position).icon,((CareHolder) baseViewHolder).icon);
+            Log.i("icon", ""+mCareDataList.get(position).icon);
+            Glide.with(mContext).load(mCareDataList.get(position).icon).into(((CareHolder) baseViewHolder).icon);
+        }
     }
 
     @Override
