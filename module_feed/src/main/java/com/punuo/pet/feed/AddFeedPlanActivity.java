@@ -263,7 +263,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     //删除计划之后，设备端需要在第二天重新获取计划时才能重新设置alarm，即删除操作后的相关alarm需要在第二天开始响应
     private DeletePlanRequest mDeletePlanRequest;
     public void deletePlan(String deleteName){
-        if (mDeletePlanRequest!=null && mDeletePlanRequest.isFinish()){
+        if (mDeletePlanRequest!=null && !mDeletePlanRequest.isFinish()){
             return;
         }
         mDeletePlanRequest = new DeletePlanRequest();

@@ -73,7 +73,7 @@ public class SetNicknameActivity extends SwipeBackActivity {
 
     private ChangeNickRequest mChangeNickRequest;
     public void setNickName(String username,String nickname){
-        if(mChangeNickRequest != null&& mChangeNickRequest.isFinished){
+        if(mChangeNickRequest != null&& !mChangeNickRequest.isFinish()){
             return;
         }
         mChangeNickRequest = new ChangeNickRequest();

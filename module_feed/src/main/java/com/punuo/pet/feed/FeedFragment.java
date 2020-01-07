@@ -308,7 +308,7 @@ public class FeedFragment extends BaseFragment {
      */
     private GetRemainderRequest mGetRemainderRequest;
     public void getRemainderQuality(String username) {
-        if (mGetRemainderRequest != null && mGetRemainderRequest.isFinish()) {
+        if (mGetRemainderRequest != null && !mGetRemainderRequest.isFinish()) {
             return;
         }
         mGetRemainderRequest = new GetRemainderRequest();
@@ -337,7 +337,7 @@ public class FeedFragment extends BaseFragment {
      */
     private GetOutedRequest mGetOutedRequest;
     public void getOutedCount(){
-        if (mGetOutedRequest!=null&&mGetOutedRequest.isFinish()){
+        if (mGetOutedRequest!=null&&!mGetOutedRequest.isFinish()){
             return;
         }
         mGetOutedRequest =  new GetOutedRequest();

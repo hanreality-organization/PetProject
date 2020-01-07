@@ -291,7 +291,7 @@ public class DewormingVivoActivity extends BaseSwipeBackActivity {
 
     private SaveInnerRequest mSaveInnerRequest;
     public void saveInnerInfo() {
-        if (mSaveInnerRequest != null && mSaveInnerRequest.isFinish()) {
+        if (mSaveInnerRequest != null && !mSaveInnerRequest.isFinish()) {
             return;
         }
         mSaveInnerRequest = new SaveInnerRequest();

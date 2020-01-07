@@ -128,7 +128,7 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
     private GetPlanRequest mGetPlanRequest;
 
     public void getMyFrequency() {
-        if (mGetPlanRequest != null && mGetPlanRequest.isFinish()) {
+        if (mGetPlanRequest != null && !mGetPlanRequest.isFinish()) {
             return;
         }
         mGetPlanRequest = new GetPlanRequest();

@@ -285,7 +285,7 @@ public class VaccineActivity extends BaseSwipeBackActivity {
 
     private SaveVaccineRequest mSaveVaccineRequest;
     public void saveVaccineInfo(){
-        if (mSaveVaccineRequest != null && mSaveVaccineRequest.isFinish()) {
+        if (mSaveVaccineRequest != null && !mSaveVaccineRequest.isFinish()) {
             return;
         }
         mSaveVaccineRequest = new SaveVaccineRequest();

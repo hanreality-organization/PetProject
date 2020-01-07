@@ -286,7 +286,7 @@ public class WalkActivity extends BaseSwipeBackActivity {
 
     private SaveWalkRequest mSaveWalkRequest;
     public void saveWalkInfo(){
-        if (mSaveWalkRequest != null && mSaveWalkRequest.isFinish()) {
+        if (mSaveWalkRequest != null && !mSaveWalkRequest.isFinish()) {
             return;
         }
         mSaveWalkRequest = new SaveWalkRequest();
