@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.request.LogoutRequest;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -56,54 +57,16 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
 
     private RelativeLayout mshop;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_member, container, false);
-
         initView();
-
         View statusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             statusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
             statusBar.setVisibility(View.VISIBLE);
             statusBar.requestLayout();
         }
-
-        /**
-         * 计划准备用于修改个人信息后的刷新，但是没起到作用。暂且保留
-         */
-        swipeRefreshLayout = mFragmentView.findViewById(R.id.swipe);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(200);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //设置用户头像
-                                String avater = AccountManager.getUserInfo().avatar;
-                                Glide.with(getActivity()).load(avater).into(mAvater);
-
-                                //设置用户昵称
-                                String nickname = AccountManager.getUserInfo().nickName;
-                                mNickname.setText(nickname);
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
-                    }
-                }).start();
-            }
-        });
         unbinder = ButterKnife.bind(this, mFragmentView);
         return mFragmentView;
     }
@@ -142,18 +105,6 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
         String nickname = AccountManager.getUserInfo().nickName;
         mNickname.setText(nickname);
 
-        //设置用户ID
-
-        //积分商城
-        String url = "";
-        IntentUtil.openWebViewActivity(getActivity(),url);
-
-//        mShop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                    ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
-//            }
-//        });
     }
 
 
@@ -222,7 +173,9 @@ public class MemberFragment extends BaseFragment implements View.OnClickListener
             ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
         }
         else  if (id==R.id.shop){
-            ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
+//            ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
+            ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
+                    .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
         }
     }
 
