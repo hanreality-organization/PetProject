@@ -233,7 +233,7 @@ public class FeedFragment extends BaseFragment {
     private GetRemainderRequest mGetRemainderRequest;
 
     public void getRemainderQuality() {
-        if (mGetRemainderRequest != null && mGetRemainderRequest.isFinish()) {
+        if (mGetRemainderRequest != null && !mGetRemainderRequest.isFinish()) {
             return;
         }
         mGetRemainderRequest = new GetRemainderRequest();
@@ -262,7 +262,7 @@ public class FeedFragment extends BaseFragment {
      */
     private GetOutedRequest mGetOutedRequest;
     public void getOutedCount(){
-        if (mGetOutedRequest!=null&&mGetOutedRequest.isFinish()){
+        if (mGetOutedRequest!=null && !mGetOutedRequest.isFinish()){
             return;
         }
         mGetOutedRequest =  new GetOutedRequest();
@@ -275,7 +275,7 @@ public class FeedFragment extends BaseFragment {
 
             @Override
             public void onSuccess(OutedModel result) {
-                out.setText(result.outedCount);
+                mFeedHeadModule.updateOutCount(result.outedCount);
             }
 
             @Override
@@ -293,7 +293,7 @@ public class FeedFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
-        remainder.setText(data.quality);
+        mFeedHeadModule.updateRemainder(data.quality);
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
     }
