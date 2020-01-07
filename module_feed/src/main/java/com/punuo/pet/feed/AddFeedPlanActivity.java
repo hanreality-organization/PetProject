@@ -15,11 +15,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.punuo.pet.feed.adapter.FeedViewAdapter;
 import com.punuo.pet.feed.plan.DeletePlanRequest;
-import com.punuo.pet.feed.plan.DeletePlanSipRequest;
 import com.punuo.pet.feed.plan.GetPlanRequest;
-import com.punuo.pet.feed.plan.MyPlanAdapter;
 import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
 import com.punuo.pet.feed.plan.PlanToSipRequest;
@@ -72,7 +70,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     private TextView lessPlanCount;
     private int defaultPlanCount = 3;
     private long selectDateMills = 0;
-    private MyPlanAdapter mMyPlanAdapter;
+    private FeedViewAdapter mFeedViewAdapter;
 
 
     @Override
@@ -147,18 +145,18 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(AddFeedPlanActivity.this);
         mEditPlan.setLayoutManager(layoutManager);
-        mMyPlanAdapter = new MyPlanAdapter(this, new ArrayList<Plan>());
-        mEditPlan.setAdapter(mMyPlanAdapter);
+        mFeedViewAdapter = new FeedViewAdapter(this, new ArrayList<Plan>());
+        mEditPlan.setAdapter(mFeedViewAdapter);
 
         //删除功能
-        mMyPlanAdapter.setOnItemLongClickListener(new MyPlanAdapter.OnItemLongClickListener() {
+        mFeedViewAdapter.setOnItemLongClickListener(new FeedViewAdapter.OnItemLongClickListener() {
             @Override
             public void OnItemLongClick(int position) {
-                String delName =  mMyPlanAdapter.getPlanName(position);
+                String delName =  mFeedViewAdapter.getPlanName(position);
                 Log.i("plan", delName);
                 deletePlan(delName);
                 Log.i("plan", "删除操作执行");
-//                mMyPlanAdapter.removePlan(position);
+//                mFeedViewAdapter.removePlan(position);
                 scrollToFinishActivity();
             }
         });
@@ -193,9 +191,9 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
                 if (result == null || result.mPlanList == null) {
                     return;
                 }
-                mMyPlanAdapter.clear();
-                mMyPlanAdapter.addAll(result.mPlanList);
-                mMyPlanAdapter.notifyDataSetChanged();
+                mFeedViewAdapter.clear();
+                mFeedViewAdapter.addAll(result.mPlanList);
+                mFeedViewAdapter.notifyDataSetChanged();
                 mFeedCountSum.setText(result.feedCountSum);
                 mPlanSum.setText(result.planSum);
             }
