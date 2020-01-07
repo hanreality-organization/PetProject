@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.punuo.sys.sdk.model.BaseModel;
 
 public class OutedModel extends BaseModel {
-    @SerializedName("outed")
+    @SerializedName("totalamount")
     public int outedCount;
 }

@@ -18,6 +18,7 @@ public class Constant {
      * 首页选中的pet
      */
     public static PetData petData;
+
     /**
      * 日常护理中九种不同搭配的alarm的action和目标时间。
      */

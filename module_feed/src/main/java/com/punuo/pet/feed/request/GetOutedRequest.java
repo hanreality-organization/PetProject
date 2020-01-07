@@ -5,7 +5,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
 
 public class GetOutedRequest extends BaseRequest<OutedModel> {
     public GetOutedRequest(){
-        setRequestPath("/");
+        setRequestPath("/totalfeedamount/getTotalFeedAmount");
         setRequestType(RequestType.GET);
     }
 }
