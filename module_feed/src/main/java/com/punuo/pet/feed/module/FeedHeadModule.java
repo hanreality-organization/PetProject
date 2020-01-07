@@ -98,4 +98,8 @@ public class FeedHeadModule {
     public void updatePlan(String feedCountSum) {
         mPlan.setText(feedCountSum);
     }
+
+    public void updateOutCount(int outedCount) {
+        mOut.setText(String.valueOf(outedCount));
+    }
 }
