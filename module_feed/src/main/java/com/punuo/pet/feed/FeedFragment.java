@@ -79,7 +79,7 @@ public class FeedFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private FeedHeadModule mFeedHeadModule;
-
+    private static String devid;
     private FeedDialog feedDialog;
     private FeedViewAdapter mFeedViewAdapter;
 
@@ -269,16 +269,16 @@ public class FeedFragment extends BaseFragment {
             return;
         }
         mGetOutedRequest =  new GetOutedRequest();
-        mGetOutedRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetOutedRequest.addUrlParam("userName",AccountManager.getUserName());
         mGetOutedRequest.setRequestListener(new RequestListener<OutedModel>() {
             @Override
             public void onComplete() {
 
             }
-
             @Override
             public void onSuccess(OutedModel result) {
                 mFeedHeadModule.updateOutCount(result.outedCount);
+                Log.i("amount", String.valueOf(result.outedCount));
             }
 
             @Override
@@ -289,16 +289,13 @@ public class FeedFragment extends BaseFragment {
         HttpManager.addRequest(mGetOutedRequest);
     }
 
-
     /**
      * 将收到的称重信息更新到UI
      */
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
         mFeedHeadModule.updateRemainder(data.quality);
         Log.i("weight", "剩余粮食重量更新成功");
-        //TODO 将获得称重信息更新到主界面的UI
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)

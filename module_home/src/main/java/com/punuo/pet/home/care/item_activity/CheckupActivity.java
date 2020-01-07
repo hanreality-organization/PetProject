@@ -294,7 +294,7 @@ public class CheckupActivity extends BaseSwipeBackActivity {
 
     private SaveCheckRequest mSaveCheckRequest;
     private void saveCheckInfo(){
-        if(mSaveCheckRequest!=null&&mSaveCheckRequest.isFinish()){
+        if(mSaveCheckRequest!=null&&!mSaveCheckRequest.isFinish()){
             return;
         }
         mSaveCheckRequest = new SaveCheckRequest();

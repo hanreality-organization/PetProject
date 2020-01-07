@@ -296,7 +296,7 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
 
     private SaveBuyRequest mSaveBuyRequest;
     public void saveBuyInfo(){
-        if (mSaveBuyRequest != null && mSaveBuyRequest.isFinish()) {
+        if (mSaveBuyRequest != null && !mSaveBuyRequest.isFinish()) {
             return;
         }
         mSaveBuyRequest = new SaveBuyRequest();

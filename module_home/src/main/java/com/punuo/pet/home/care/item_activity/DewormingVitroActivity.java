@@ -282,7 +282,7 @@ public class DewormingVitroActivity extends BaseSwipeBackActivity {
 
     private SaveOuterRequest mSaveOuterRequest;
     public void saveOuterInfo(){
-        if (mSaveOuterRequest != null && mSaveOuterRequest.isFinish()) {
+        if (mSaveOuterRequest != null && !mSaveOuterRequest.isFinish()) {
             return;
         }
         mSaveOuterRequest = new SaveOuterRequest();

@@ -228,7 +228,7 @@ public class BathActivity extends BaseSwipeBackActivity {
     private SaveBathRequest mSaveBathRequest;
 
     public void saveBathInfo() {
-        if (mSaveBathRequest != null && mSaveBathRequest.isFinish()) {
+        if (mSaveBathRequest != null && !mSaveBathRequest.isFinish()) {
             return;
         }
         mSaveBathRequest = new SaveBathRequest();

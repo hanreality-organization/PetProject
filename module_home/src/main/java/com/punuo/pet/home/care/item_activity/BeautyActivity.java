@@ -286,7 +286,7 @@ public class BeautyActivity extends BaseSwipeBackActivity {
 
     private SaveBeautyRequest mSaveBeautyRequest;
     public void saveBeautyInfo() {
-        if (mSaveBeautyRequest != null && mSaveBeautyRequest.isFinish()) {
+        if (mSaveBeautyRequest != null && !mSaveBeautyRequest.isFinish()) {
             return;
         }
         mSaveBeautyRequest = new SaveBeautyRequest();
