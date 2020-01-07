@@ -146,6 +146,9 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 getPlan();
+                getRemainderQuality();
+                getOutedCount();
+                IsonLine();
             }
         });
 

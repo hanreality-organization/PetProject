@@ -2,33 +2,33 @@ package com.punuo.pet.member;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.Glide;
-import com.punuo.pet.member.request.LogoutRequest;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
+import com.punuo.pet.member.adapter.MemberHomeAdapter;
+import com.punuo.pet.member.module.MemberHeadModule;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.httplib.HttpManager;
-import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.model.BaseModel;
-import com.punuo.sys.sdk.util.DataClearUtil;
-import com.punuo.sys.sdk.util.IntentUtil;
+import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 /**
@@ -37,146 +37,66 @@ import butterknife.Unbinder;
  * 我的页面
  **/
 @Route(path = MemberRouter.ROUTER_MEMBER_FRAGMENT)
-public class MemberFragment extends BaseFragment implements View.OnClickListener {
+public class MemberFragment extends BaseFragment {
 
-//    @BindView(R2.id.shop)
+    //    @BindView(R2.id.shop)
 //    RelativeLayout mShop;
-    Unbinder unbinder;
-    private ImageView mBack;
-    private TextView mExitButton;
-    private TextView mNickname;
-    private ImageView mAvater;
-    private TextView mBuff;
-    private RelativeLayout mAccount;
-    private RelativeLayout mCache;
-    private RelativeLayout mSystem;
-    private RelativeLayout mAbout;
-    private RelativeLayout mCustomer;
-    private RelativeLayout mEditInfo;
-    private Button mcheck;
-
-    private RelativeLayout mshop;
+    @BindView(R2.id.status_bar)
+    View mStatusBar;
+    @BindView(R2.id.pull_to_refresh)
+    PullToRefreshRecyclerView mPullToRefresh;
+    private RecyclerView mRecyclerView;
+    private MemberHomeAdapter mMemberHomeAdapter;
+    private MemberHeadModule mMemberHeadModule;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_member, container, false);
+        ButterKnife.bind(this, mFragmentView);
         initView();
-        View statusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            statusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
-            statusBar.setVisibility(View.VISIBLE);
-            statusBar.requestLayout();
+            mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
+            mStatusBar.setVisibility(View.VISIBLE);
+            mStatusBar.requestLayout();
         }
-        unbinder = ButterKnife.bind(this, mFragmentView);
+        EventBus.getDefault().register(this);
         return mFragmentView;
     }
 
     private void initView() {
-        mcheck = mFragmentView.findViewById(R.id.check);
-        mExitButton = mFragmentView.findViewById(R.id.exit_button);
-        mNickname = mFragmentView.findViewById(R.id.user_nickname);
-        mAvater = mFragmentView.findViewById(R.id.user_avater);
-        mAccount = mFragmentView.findViewById(R.id.account);
-        mBuff = mFragmentView.findViewById(R.id.buff);
-        mCache = mFragmentView.findViewById(R.id.cache);
-        mSystem = mFragmentView.findViewById(R.id.system_news);
-        mAbout = mFragmentView.findViewById(R.id.about);
-        mCustomer = mFragmentView.findViewById(R.id.customerservice);
-        mEditInfo = mFragmentView.findViewById(R.id.edit_info);
-        mshop = mFragmentView.findViewById(R.id.shop);
+        mPullToRefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mRecyclerView = mPullToRefresh.getRefreshableView();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mMemberHomeAdapter = new MemberHomeAdapter(getActivity(), new ArrayList<String>());
+        LinearLayout headView = new LinearLayout(getActivity());
+        headView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        headView.setOrientation(LinearLayout.VERTICAL);
+        mMemberHomeAdapter.setHeaderView(headView);
+        mMemberHeadModule = new MemberHeadModule(getActivity(), headView);
+        headView.addView(mMemberHeadModule.getView());
 
-        mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-
-        mcheck.setOnClickListener(this);
-        mExitButton.setOnClickListener(this);
-        mAccount.setOnClickListener(this);
-        mCache.setOnClickListener(this);
-        mSystem.setOnClickListener(this);
-        mAbout.setOnClickListener(this);
-        mCustomer.setOnClickListener(this);
-        mEditInfo.setOnClickListener(this);
-        mshop.setOnClickListener(this);
-
-        //设置用户头像
-        String avater = AccountManager.getUserInfo().avatar;
-        Glide.with(getActivity()).load(avater).into(mAvater);
-
-        //设置用户昵称
-        String nickname = AccountManager.getUserInfo().nickName;
-        mNickname.setText(nickname);
-
-    }
-
-
-    private LogoutRequest mLogoutRequest;
-
-    public void logout(String userName) {
-        if (mLogoutRequest != null && !mLogoutRequest.isFinish()) {
-            return;
-        }
-        showLoadingDialog("正在退出...");
-        mLogoutRequest = new LogoutRequest();
-        mLogoutRequest.addUrlParam("userName", userName);
-        mLogoutRequest.setRequestListener(new RequestListener<BaseModel>() {
+        mRecyclerView.setAdapter(mMemberHomeAdapter);
+        mPullToRefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
-            public void onComplete() {
-                dismissLoadingDialog();
-            }
-
-            @Override
-            public void onSuccess(BaseModel result) {
-                if (result == null) {
-                    return;
-                }
-                if (result.success) {
-                    AccountManager.clearAccountData();
-                    ARouter.getInstance().build(MemberRouter.ROUTER_LOGIN_ACTIVITY).navigation();
-                    getActivity().finish();
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
+            public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                //TODO 添加你的刷新逻辑
+                UserManager.getUserInfo(AccountManager.getUserName());
             }
         });
-        HttpManager.addRequest(mLogoutRequest);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-
-        if (id == R.id.exit_button) {//退出登录
-            logout(AccountManager.getSession());
-        } else if (id == R.id.check) {//签到
-            mcheck.setText("已签到");
-            mcheck.setBackgroundResource(R.drawable.button_check_nor);
-        } else if (id == R.id.account) {//账户管理
-            ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-        } else if (id == R.id.system_news) {//系统消息
-            ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
-        } else if (id == R.id.cache) {//清除缓存
-            DataClearUtil.cleanAllCache(getActivity());
-            mBuff.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-        } else if (id == R.id.about) {//关于我们
-            ARouter.getInstance().build(MemberRouter.ROUTER_ABOUT_ACTIVITY).navigation();
-        } else if (id == R.id.customerservice) {//客服
-            ARouter.getInstance().build(MemberRouter.ROUTER_CUETOMERSERVICE).navigation();
-        } else if (id == R.id.edit_info) {//编辑个人信息
-            ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UserInfo userInfo) {
+        if (mMemberHeadModule != null) {
+            mMemberHeadModule.updateUserInfo(userInfo);
         }
-        else  if (id==R.id.shop){
-//            ARouter.getInstance().build(MemberRouter.ROUTER_TEST_ACTIVITY).navigation();
-            ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                    .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
-        }
+        mPullToRefresh.onRefreshComplete();
     }
-
 }
