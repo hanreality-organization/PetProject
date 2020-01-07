@@ -1,9 +1,8 @@
-package com.punuo.pet.feed.plan;
+package com.punuo.pet.feed.adapter;
 
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.punuo.pet.feed.R;
-import com.punuo.sys.sdk.httplib.HttpManager;
-import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.pet.feed.plan.Plan;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,11 +20,11 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MyPlanAdapter extends BaseRecyclerViewAdapter<Plan> {
+public class FeedViewAdapter extends BaseRecyclerViewAdapter<Plan> {
 
     private  OnItemLongClickListener onItemLongClickListener;
 
-    public MyPlanAdapter(Context context, List<Plan> data) {
+    public FeedViewAdapter(Context context, List<Plan> data) {
         super(context, data);
     }
 
