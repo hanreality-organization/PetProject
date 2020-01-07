@@ -25,9 +25,11 @@ import com.punuo.pet.feed.adapter.FeedViewAdapter;
 import com.punuo.pet.feed.feednow.FeedDialog;
 import com.punuo.pet.feed.model.GetRemainderModel;
 import com.punuo.pet.feed.module.FeedHeadModule;
+import com.punuo.pet.feed.model.OutedModel;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
+import com.punuo.pet.feed.request.GetOutedRequest;
 import com.punuo.pet.feed.request.GetRemainderRequest;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
@@ -149,6 +151,7 @@ public class FeedFragment extends BaseFragment {
 
         getPlan();
         getRemainderQuality();
+        getOutedCount();
         IsonLine();
     }
 
@@ -224,7 +227,9 @@ public class FeedFragment extends BaseFragment {
         HttpManager.addRequest(mGetPlanRequest);
     }
 
-    //TODO 初始化剩余重量
+    /**
+     * 初始化剩余重量
+     */
     private GetRemainderRequest mGetRemainderRequest;
 
     public void getRemainderQuality() {
@@ -238,7 +243,6 @@ public class FeedFragment extends BaseFragment {
             public void onComplete() {
 
             }
-
             @Override
             public void onSuccess(GetRemainderModel result) {
                 if (result == null) {
@@ -246,7 +250,6 @@ public class FeedFragment extends BaseFragment {
                 }
                 mFeedHeadModule.updateRemainder(result.mRemainder.remainder);
             }
-
             @Override
             public void onError(Exception e) {
 
@@ -254,6 +257,35 @@ public class FeedFragment extends BaseFragment {
         });
         HttpManager.addRequest(mGetRemainderRequest);
     }
+    /**
+     * 显示计划中已经出了的粮食份数
+     */
+    private GetOutedRequest mGetOutedRequest;
+    public void getOutedCount(){
+        if (mGetOutedRequest!=null&&mGetOutedRequest.isFinish()){
+            return;
+        }
+        mGetOutedRequest =  new GetOutedRequest();
+        mGetOutedRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetOutedRequest.setRequestListener(new RequestListener<OutedModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(OutedModel result) {
+                out.setText(result.outedCount);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetOutedRequest);
+    }
+
 
     /**
      * 将收到的称重信息更新到UI
@@ -261,24 +293,18 @@ public class FeedFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
-        float fQuality = Float.parseFloat(data.quality);
-        double lastQuality = Math.round((-(fQuality - 1170) / 5.88));//对结果四舍五入
-        if (mFeedHeadModule != null) {
-            mFeedHeadModule.updateRemainder(String.valueOf(lastQuality));
-        }
+        remainder.setText(data.quality);
         Log.i("weight", "剩余粮食重量更新成功");
         //TODO 将获得称重信息更新到主界面的UI
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getInitQuality(String initQuality) {
-        float fQuality = Float.parseFloat(initQuality);
-        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
-        if (mFeedHeadModule != null) {
-            mFeedHeadModule.updateRemainder(String.valueOf(lastQuality));
-        }
-        Log.i("weight", "剩余粮食获取成功");
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void getInitQuality(String initQuality) {
+//        float fQuality = Float.parseFloat(initQuality);
+//        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
+//        remainder.setText(String.valueOf(lastQuality));
+//        Log.i("weight", "剩余粮食获取成功");
+//    }
 
     @Override
     public void onDestroyView() {

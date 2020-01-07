@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <include layout="@layout/module_title_layout" />
 
     <TextView
@@ -74,7 +78,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="5、当弹出devid（设备号）=1字样时点击连接"
+        android:text="5、当弹出devid（设备号）live=1字样时点击连接"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -153,4 +157,13 @@
         android:layout_marginLeft="6dp"
         android:gravity="center"
         android:textColor="#333333" />
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/home_dev_button"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        />
+    </LinearLayout>
+</ScrollView>

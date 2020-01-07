@@ -51,8 +51,12 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_below="@+id/header_container"
-        android:orientation="vertical" />
-
+        android:orientation="vertical" >
+        <com.youth.banner.Banner
+            android:id="@+id/bander"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/device_container"
         android:layout_width="match_parent"
@@ -60,7 +64,7 @@
         android:layout_below="@+id/home_ads_container"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/label_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -78,11 +82,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="185dp"
+            android:layout_alignParentRight="true"
             android:entries="@array/home_spinner"
             android:theme="@style/spinner_style"
             />
-        </LinearLayout>
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/chart_container"
             android:layout_width="match_parent"
