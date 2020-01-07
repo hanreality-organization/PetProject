@@ -68,7 +68,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.punuo.pet.home.ALARM_ONE"/>
+                <action android:name="com.punuo.pet.home.ALARM_TWO"/>
+                <action android:name="com.punuo.pet.home.ALARM_THREE"/>
+                <action android:name="com.punuo.pet.home.ALARM_FOUR"/>
+                <action android:name="com.punuo.pet.home.ALARM_FIVE"/>
+                <action android:name="com.punuo.pet.home.ALARM_SIX"/>
+                <action android:name="com.punuo.pet.home.ALARM_SEVEN"/>
+                <action android:name="com.punuo.pet.home.ALARM_EIGHT"/>
             </intent-filter>
         </receiver>
+
     </application>
 </manifest>

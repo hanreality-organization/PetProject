@@ -1,25 +1,57 @@
 package com.punuo.pet.home.care.item_activity;
 
+import android.app.ActionBar;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.punuo.pet.PetManager;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.care.adapter.PetRelevanceAdapter;
+import com.punuo.pet.home.care.model.AlarmInfoModel;
+import com.punuo.pet.home.care.request.GetCheckInfoRequest;
+import com.punuo.pet.home.care.request.SaveCheckRequest;
+import com.punuo.pet.model.PetData;
+import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sys.sdk.Constant;
+import com.punuo.sys.sdk.PnApplication;
+import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.httplib.HttpManager;
+import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +83,22 @@ public class CheckupActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.set_check_pet)
     RelativeLayout setCheckPet;
 
+    private static String dateText;
+    private static String timeText;
+    private static long checkAlarmTime;
+    private PopupWindow aPopupWindow;
+    private PopupWindow rPopupWindow;
+    private PopupWindow pPopupWindow;
+
+    private static List<PetData> mPetNameList;
+    private RecyclerView recyclerView;
+    private final static String type = "体检";
+    private final static String TAG = "check";
+    private HashMap<String,PendingIntent> hashMap = new HashMap<>();
+    public static AlarmManager checkAlarmManager;
+    public static PendingIntent checkPendingIntent;
+    public static int day;
+
     //两个工具calendar
     private Calendar calendar = Calendar.getInstance();
     Calendar cd = Calendar.getInstance();
@@ -78,54 +126,293 @@ public class CheckupActivity extends BaseSwipeBackActivity {
                 scrollToFinishActivity();
             }
         });
+        subTitle.setVisibility(View.VISIBLE);
         subTitle.setText("保存");
+        initData();
         subTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 保存所有数据并设置相应的闹钟
+                saveCheckInfo();
+                setCheckAlarm(checkAlarmTime);
             }
         });
         setCheckTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 设置时间
+                setDate();
             }
         });
         setCheckAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 设置是否提醒
+                showAlarmPopupWindow();
             }
         });
         setCheckRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 设置重复周期
+                showRepeatPopupWindow();
             }
         });
         setCheckPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 设置关联宠物
+                PetManager.getPetInfo();
+                showPetPopupWindow();
             }
         });
+    }
+
+    /**
+     * 初始化显示
+     */
+    public void initData(){
+//        checkPetnameText.setText(Constant.petData.petname);
+        getCheckInfo(Constant.petData.petname);
     }
 
     public void setDate(){
         DatePickerDialog dpd = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                checkTimeText.setText(year+"-"+month+1+"-"+dayOfMonth);
                 calendar.set(Calendar.YEAR,year);
                 calendar.set(Calendar.MONTH,month);
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                dateText = year+"-"+month+1+"-"+dayOfMonth;
                 setTime();
             }
         },cd.get(Calendar.YEAR),cd.get(Calendar.MONTH),cd.get(Calendar.DAY_OF_MONTH));
+        dpd.show();
     }
 
     public void setTime(){
+         new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                String h = i<10? "0"+i:i+"";
+                String m = i1<10? "0"+i1: i1+"";
+                timeText = h+":"+m;
+                checkTimeText.setText(dateText+" "+timeText);
+                calendar.set(Calendar.HOUR_OF_DAY,i);
+                calendar.set(Calendar.MILLISECOND,i1);
+                checkAlarmTime = calendar.getTimeInMillis();
+                Constant.checkDateAndTime = checkAlarmTime;
+                checkTimeText.setText(dateText+" "+timeText);
+            }
+        },cd.get(Calendar.HOUR_OF_DAY),cd.get(Calendar.MINUTE),true).show();
+    }
 
+    public void showAlarmPopupWindow() {
+        View contenView = LayoutInflater.from(this).inflate(R.layout.bathe_alarm_popup, null);
+        aPopupWindow = new PopupWindow(contenView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+        aPopupWindow.setAnimationStyle(R.style.DialogWindowStyle);
+        aPopupWindow.setContentView(contenView);
+
+        TextView tv1 = (TextView) contenView.findViewById(R.id.bath_yes);
+        TextView tv2 = (TextView) contenView.findViewById(R.id.bath_no);
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAlarmText.setText("提醒");
+                aPopupWindow.dismiss();
+            }
+        });
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAlarmText.setText("不提醒");
+                aPopupWindow.dismiss();
+            }
+        });
+
+        aPopupWindow.showAtLocation(contenView,Gravity.BOTTOM,0,0);
+    }
+
+    public void showRepeatPopupWindow() {
+        View contenView = LayoutInflater.from(this).inflate(R.layout.bathe_repeat_popup, null);
+        rPopupWindow = new PopupWindow(contenView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+        rPopupWindow.setAnimationStyle(R.style.DialogWindowStyle);
+        rPopupWindow.setContentView(contenView);
+
+        TextView tv1 = (TextView) contenView.findViewById(R.id.one_week);
+        TextView tv2 = (TextView) contenView.findViewById(R.id.two_weeks);
+        TextView tv3 = (TextView) contenView.findViewById(R.id.one_month);
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkRepeatText.setText("每周");
+                rPopupWindow.dismiss();
+            }
+        });
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkRepeatText.setText("每两周");
+                rPopupWindow.dismiss();
+            }
+        });
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkRepeatText.setText("每月");
+                rPopupWindow.dismiss();
+            }
+        });
+        //显示PopupWindow
+        rPopupWindow.showAtLocation(contenView, Gravity.BOTTOM, 0, 0);
+    }
+
+    public void showPetPopupWindow() {
+        View contenView = LayoutInflater.from(this).inflate(R.layout.bathe_list, null);
+        recyclerView = (RecyclerView) contenView.findViewById(R.id.bathe_recylcer);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        final PetRelevanceAdapter adapter = new PetRelevanceAdapter(this,mPetNameList);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListenrt(new PetRelevanceAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                String petName = adapter.getPetName(position);
+                checkPetnameText.setText(petName);
+                //TODO 需要在点击不同的宠物名时获取对应的信息
+                getCheckInfo(petName);
+                pPopupWindow.dismiss();
+            }
+        });
+
+        pPopupWindow = new PopupWindow(contenView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+        pPopupWindow.setAnimationStyle(R.style.DialogWindowStyle);
+        pPopupWindow.setContentView(contenView);
+
+        //显示PopupWindow
+        pPopupWindow.showAtLocation(contenView, Gravity.BOTTOM, 0, 0);
+    }
+
+    private SaveCheckRequest mSaveCheckRequest;
+    private void saveCheckInfo(){
+        if(mSaveCheckRequest!=null&&mSaveCheckRequest.isFinish()){
+            return;
+        }
+        mSaveCheckRequest = new SaveCheckRequest();
+        mSaveCheckRequest.addUrlParam("username", AccountManager.getUserName());
+        mSaveCheckRequest.addUrlParam("type",type);
+        mSaveCheckRequest.addUrlParam("petname",checkPetnameText.getText().toString());
+        mSaveCheckRequest.addUrlParam("time",checkTimeText.getText().toString());
+        mSaveCheckRequest.addUrlParam("remind",checkAlarmText.getText().toString());
+        mSaveCheckRequest.addUrlParam("period",checkRepeatText.getText().toString());
+        mSaveCheckRequest.setRequestListener(new RequestListener<BaseModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel result) {
+                ToastUtils.showToast(result.message);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mSaveCheckRequest);
+    }
+
+    private GetCheckInfoRequest mGetCheckInfoRequest;
+    public void getCheckInfo(final String petName){
+        if (mGetCheckInfoRequest!=null&&!mGetCheckInfoRequest.isFinish()){
+            return;
+        }
+        mGetCheckInfoRequest = new GetCheckInfoRequest();
+        mGetCheckInfoRequest.addUrlParam("username", AccountManager.getUserName());
+        mGetCheckInfoRequest.addUrlParam("type",type);
+        mGetCheckInfoRequest.addUrlParam("petname",petName);
+        mGetCheckInfoRequest.setRequestListener(new RequestListener<AlarmInfoModel>() {
+            @Override
+            public void onComplete() {
+            }
+
+            @Override
+            public void onSuccess(AlarmInfoModel result) {
+                checkTimeText.setText(result.time);
+                checkAlarmText.setText(result.remind);
+                checkRepeatText.setText(result.period);
+                checkPetnameText.setText(petName);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetCheckInfoRequest);
+    }
+
+    public void setCheckAlarm(Long targetTime){
+        String key = String.valueOf(targetTime);
+         int checkRequestCode = key.hashCode();
+        PendingIntent targetIntent = hashMap.get(key);
+        if (targetIntent!=null){
+            targetIntent.cancel();
+            hashMap.remove(key);
+        }
+        Intent intent = new Intent();
+        intent.setAction(Constant.ALARM_TWO);
+        checkPendingIntent = PendingIntent.getBroadcast(this,checkRequestCode,intent,0);
+        checkAlarmManager = (AlarmManager) PnApplication.getInstance().getSystemService(Context.ALARM_SERVICE);
+        if(checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每周")){
+            day = 7;
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">M");
+            }else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">KITKAT");
+            }else{
+                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*day,checkPendingIntent);
+            }
+            hashMap.put(key,targetIntent);
+        }
+        if (checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每两周")){
+            day= 14;
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">M");
+            }else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">KITKAT");
+            }else{
+                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*day,checkPendingIntent);
+            }
+            hashMap.put(key,targetIntent);
+        }
+        if (checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每月")){
+            day = 30;
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">M");
+            }else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
+                Log.i(TAG, ">KITKAT");
+            }else{
+                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*30,checkPendingIntent);
+            }
+            hashMap.put(key,targetIntent);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PetModel petModel){
+        mPetNameList = new ArrayList<>();
+        if (mPetNameList!=null){
+            mPetNameList.clear();
+        }
+        mPetNameList.addAll(petModel.mPets);
     }
 
     @Override

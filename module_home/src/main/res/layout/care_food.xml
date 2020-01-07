@@ -49,7 +49,14 @@
             android:text="计划时间"
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/buy_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/buytime_arrow"
+            />
         <ImageView
+            android:id="@+id/buytime_arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
@@ -70,13 +77,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提前提醒"
+            android:text="是否提醒"
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/buy_alarm_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="不提前"
             android:layout_toLeftOf="@+id/alarm_arrow"
             android:layout_marginRight="5dp"
             android:layout_centerVertical="true"/>
@@ -105,9 +112,9 @@
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/buy_repeat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="无"
             android:layout_toLeftOf="@+id/repeat_arrow"
             android:layout_marginRight="5dp"
             android:layout_centerVertical="true"/>
@@ -136,9 +143,9 @@
             android:textColor="@color/black"
             android:layout_centerVertical="true"/>
         <TextView
+            android:id="@+id/buy_pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="小白"
             android:layout_toLeftOf="@+id/pet_arrow"
             android:layout_marginRight="5dp"
             android:layout_centerVertical="true"/>

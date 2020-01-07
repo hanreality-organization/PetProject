@@ -78,7 +78,7 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
                 int position = holder.getAdapterPosition();
                 Log.i("care", "点击的位置"+position);
                 if (position==0){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_BATH_ACTIVITY).navigation();
-                }else if (position==1){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_CHECKUP_ACTIVITY).withParcelable("petData", Constant.petData).navigation();
+                }else if (position==1){ ARouter.getInstance().build(HomeRouter.ROUTER_CARE_CHECKUP_ACTIVITY).navigation();
                 }else if (position==2){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_BUY_FOOD_ACTIVITY).navigation();
                 }else if (position==3){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_IN_VIVO_ACTIVITY).navigation();
                 }else if (position==4){ARouter.getInstance().build(HomeRouter.ROUTER_CARE_IN_VITRO_ACTIVITY).navigation();
