@@ -50,8 +50,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -288,7 +290,7 @@ public class DewormingVitroActivity extends BaseSwipeBackActivity {
         mSaveOuterRequest = new SaveOuterRequest();
         mSaveOuterRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveOuterRequest.addUrlParam("type",type);
-        mSaveOuterRequest.addUrlParam("time", outerTimeText.getText().toString());
+        mSaveOuterRequest.addUrlParam("time", outerDateAndTime);
         mSaveOuterRequest.addUrlParam("remind",outerAlarmText.getText().toString());
         mSaveOuterRequest.addUrlParam("period",outerRepeatText.getText().toString());
         mSaveOuterRequest.addUrlParam("petname",outerPetName.getText().toString());
@@ -327,7 +329,9 @@ public class DewormingVitroActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                outerTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                outerTimeText.setText(simpleDateFormat.format(date));
                 outerAlarmText.setText(result.remind);
                 outerRepeatText.setText(result.period);
                 outerPetName.setText(petName);

@@ -50,8 +50,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -291,7 +293,7 @@ public class VaccineActivity extends BaseSwipeBackActivity {
         mSaveVaccineRequest = new SaveVaccineRequest();
         mSaveVaccineRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveVaccineRequest.addUrlParam("type",type);
-        mSaveVaccineRequest.addUrlParam("time", vaccineTimeText.getText().toString());
+        mSaveVaccineRequest.addUrlParam("time", vaccineAlarmTime);
         mSaveVaccineRequest.addUrlParam("remind",vaccineAlarmText.getText().toString());
         mSaveVaccineRequest.addUrlParam("period",vaccineRepeatText.getText().toString());
         mSaveVaccineRequest.addUrlParam("petname",vaccinePetName.getText().toString());
@@ -330,7 +332,9 @@ public class VaccineActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                vaccineTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                vaccineTimeText.setText(simpleDateFormat.format(date));
                 vaccineAlarmText.setText(result.remind);
                 vaccineRepeatText.setText(result.period);
                 vaccinePetName.setText(petName);

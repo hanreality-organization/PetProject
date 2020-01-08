@@ -1,6 +1,7 @@
 package com.punuo.pet.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.R2;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +32,13 @@ public class SystemNewsActivity extends SwipeBackActivity {
 
     public void initView(){
         title.setText("系统消息");
+        ToastUtils.showToast("该功能善未完善");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollToFinishActivity();
+            }
+        });
     }
 
     @Override

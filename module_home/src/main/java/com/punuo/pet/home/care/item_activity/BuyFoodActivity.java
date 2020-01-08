@@ -52,8 +52,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -302,7 +304,7 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
         mSaveBuyRequest = new SaveBuyRequest();
         mSaveBuyRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveBuyRequest.addUrlParam("type",type);
-        mSaveBuyRequest.addUrlParam("time", buyTimeText.getText().toString());
+        mSaveBuyRequest.addUrlParam("time", buyFoodAlarmTime);
         mSaveBuyRequest.addUrlParam("remind",buyAlarmText.getText().toString());
         mSaveBuyRequest.addUrlParam("period",buyRepeatText.getText().toString());
         mSaveBuyRequest.addUrlParam("petname",buyPetName.getText().toString());
@@ -341,7 +343,9 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                buyTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                buyTimeText.setText(simpleDateFormat.format(date));
                 buyAlarmText.setText(result.remind);
                 buyRepeatText.setText(result.period);
                 buyPetName.setText(petName);

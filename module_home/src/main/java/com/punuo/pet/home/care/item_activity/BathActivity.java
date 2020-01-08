@@ -234,7 +234,7 @@ public class BathActivity extends BaseSwipeBackActivity {
         mSaveBathRequest = new SaveBathRequest();
         mSaveBathRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveBathRequest.addUrlParam("type",type);
-        mSaveBathRequest.addUrlParam("time", dateSelectText.getText().toString());
+        mSaveBathRequest.addUrlParam("time", bathDateAndTime);
         mSaveBathRequest.addUrlParam("remind",bathAlarm.getText().toString());
         mSaveBathRequest.addUrlParam("period",bathRepeat.getText().toString());
         mSaveBathRequest.addUrlParam("petname",bathPet.getText().toString());
@@ -427,9 +427,9 @@ public class BathActivity extends BaseSwipeBackActivity {
             @Override
             public void onSuccess(AlarmInfoModel result) {
                 Log.i(TAG, result.message);
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
-//                Date date = new Date(result.time);
-                dateSelectText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                dateSelectText.setText(simpleDateFormat.format(date));
                 bathAlarm.setText(result.remind);
                 bathRepeat.setText(result.period);
                 bathPet.setText(petName);

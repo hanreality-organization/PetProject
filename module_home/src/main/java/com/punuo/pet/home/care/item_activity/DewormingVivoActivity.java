@@ -50,8 +50,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -297,7 +299,7 @@ public class DewormingVivoActivity extends BaseSwipeBackActivity {
         mSaveInnerRequest = new SaveInnerRequest();
         mSaveInnerRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveInnerRequest.addUrlParam("type",type);
-        mSaveInnerRequest.addUrlParam("time", innerTimeText.getText().toString());
+        mSaveInnerRequest.addUrlParam("time", innerAlarmTime);
         mSaveInnerRequest.addUrlParam("remind",innerAlarmText.getText().toString());
         mSaveInnerRequest.addUrlParam("period",innerRepeatText.getText().toString());
         mSaveInnerRequest.addUrlParam("petname",innerPetName.getText().toString());
@@ -334,7 +336,9 @@ public class DewormingVivoActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                innerTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                innerTimeText.setText(simpleDateFormat.format(date));
                 innerAlarmText.setText(result.remind);
                 innerRepeatText.setText(result.period);
                 innerPetName.setText(petName);
