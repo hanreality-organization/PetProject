@@ -50,8 +50,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -292,7 +294,7 @@ public class WalkActivity extends BaseSwipeBackActivity {
         mSaveWalkRequest = new SaveWalkRequest();
         mSaveWalkRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveWalkRequest.addUrlParam("type",type);
-        mSaveWalkRequest.addUrlParam("time", walkTimeText.getText().toString());
+        mSaveWalkRequest.addUrlParam("time", walkDateAndTime);
         mSaveWalkRequest.addUrlParam("remind",walkAlarmText.getText().toString());
         mSaveWalkRequest.addUrlParam("period",walkRepeatText.getText().toString());
         mSaveWalkRequest.addUrlParam("petname",walkPetName.getText().toString());
@@ -331,7 +333,9 @@ public class WalkActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                walkTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                walkTimeText.setText(simpleDateFormat.format(date));
                 walkAlarmText.setText(result.remind);
                 walkRepeatText.setText(result.period);
                 walkPetName.setText(petName);

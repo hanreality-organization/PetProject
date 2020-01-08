@@ -47,6 +47,7 @@ public class FeedHeadModule {
         ButterKnife.bind(this, mView);
         mOut.setText("0");
         mRemainder.setText("0.0");
+        mPlan.setText("0");
         mCalendarWeek.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
             public void onDateClick(String s) {

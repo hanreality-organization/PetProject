@@ -48,8 +48,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -301,7 +303,7 @@ public class CheckupActivity extends BaseSwipeBackActivity {
         mSaveCheckRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveCheckRequest.addUrlParam("type",type);
         mSaveCheckRequest.addUrlParam("petname",checkPetnameText.getText().toString());
-        mSaveCheckRequest.addUrlParam("time",checkTimeText.getText().toString());
+        mSaveCheckRequest.addUrlParam("time",checkAlarmTime);
         mSaveCheckRequest.addUrlParam("remind",checkAlarmText.getText().toString());
         mSaveCheckRequest.addUrlParam("period",checkRepeatText.getText().toString());
         mSaveCheckRequest.setRequestListener(new RequestListener<BaseModel>() {
@@ -339,7 +341,9 @@ public class CheckupActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                checkTimeText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                checkTimeText.setText(simpleDateFormat.format(date));
                 checkAlarmText.setText(result.remind);
                 checkRepeatText.setText(result.period);
                 checkPetnameText.setText(petName);

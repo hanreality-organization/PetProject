@@ -50,8 +50,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -292,7 +294,7 @@ public class BeautyActivity extends BaseSwipeBackActivity {
         mSaveBeautyRequest = new SaveBeautyRequest();
         mSaveBeautyRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveBeautyRequest.addUrlParam("type",type);
-        mSaveBeautyRequest.addUrlParam("time", beautyTimeText.getText().toString());
+        mSaveBeautyRequest.addUrlParam("time", beautyDateAndTime);
         mSaveBeautyRequest.addUrlParam("remind",beautyAlarmText.getText().toString());
         mSaveBeautyRequest.addUrlParam("period",beautyRepeatText.getText().toString());
         mSaveBeautyRequest.addUrlParam("petname",beautyPetName.getText().toString());
@@ -331,7 +333,9 @@ public class BeautyActivity extends BaseSwipeBackActivity {
                 }
                 @Override
                 public void onSuccess(AlarmInfoModel result) {
-                    beautyTimeText.setText(result.time);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                    Date date = new Date(result.time);
+                    beautyTimeText.setText(simpleDateFormat.format(date));
                     beautyAlarmText.setText(result.remind);
                     beautyRepeatText.setText(result.period);
                     beautyPetName.setText(petName);

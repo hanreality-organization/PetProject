@@ -242,9 +242,8 @@ public class FeedFragment extends BaseFragment {
         mGetRemainderRequest = new GetRemainderRequest();
         mGetRemainderRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetRemainderRequest.setRequestListener(new RequestListener<GetRemainderModel>() {
-            @Override
-            public void onComplete() {
-
+                @Override
+                public void onComplete() {
             }
             @Override
             public void onSuccess(GetRemainderModel result) {
@@ -255,7 +254,6 @@ public class FeedFragment extends BaseFragment {
             }
             @Override
             public void onError(Exception e) {
-
             }
         });
         HttpManager.addRequest(mGetRemainderRequest);
@@ -278,7 +276,6 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onSuccess(OutedModel result) {
                 mFeedHeadModule.updateOutCount(result.outedCount);
-                Log.i("amount", String.valueOf(result.outedCount));
             }
 
             @Override
