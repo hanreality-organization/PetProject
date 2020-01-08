@@ -12,7 +12,6 @@ import com.punuo.pet.router.VideoRouter;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
 import com.punuo.sys.app.video.adapter.VideoAdapter;
-import com.punuo.sys.app.video.model.VideoItem;
 import com.punuo.sys.app.video.model.VideoModel;
 import com.punuo.sys.app.video.request.GetVideoListRequest;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -22,7 +21,6 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +37,8 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
 
-    private VideoAdapter mvideoAdapter;
-    private static List<String> pathlist=new ArrayList<>();
+    private VideoAdapter mVideoAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +49,7 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
     }
 
     private void getData() {
-        GetVideoListRequest getVideoListRequest=new GetVideoListRequest();
+        GetVideoListRequest getVideoListRequest = new GetVideoListRequest();
         getVideoListRequest.addUrlParam("userName", AccountManager.getUserName());
         getVideoListRequest.setRequestListener(new RequestListener<VideoModel>() {
             @Override
@@ -64,9 +62,9 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
                 if (result == null) {
                     return;
                 }
-                 if(result.videolist!=null){
-                   pathlist=result.videolist;
-                 }
+                if (result.videolist != null) {
+                    mVideoAdapter.addData(result.videolist);
+                }
             }
 
             @Override
@@ -77,17 +75,17 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
         HttpManager.addRequest(getVideoListRequest);
     }
 
-    public void initView(){
+    public void initView() {
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        mTitle.setText("选择视频" );
+        mTitle.setText("选择视频");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mVideoList.setLayoutManager(layoutManager);
-        mvideoAdapter=new VideoAdapter(this,pathlist);
-        mVideoList.setAdapter(mvideoAdapter);
+        mVideoAdapter = new VideoAdapter(this, new ArrayList<String>());
+        mVideoList.setAdapter(mVideoAdapter);
     }
 }
