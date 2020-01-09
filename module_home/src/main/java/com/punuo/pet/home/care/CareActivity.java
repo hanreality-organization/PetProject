@@ -87,7 +87,7 @@ public class CareActivity extends BaseSwipeBackActivity {
 
     private GetCareRequest mGetCareRequest;
     private void initGridView(){
-        if (mGetCareRequest!=null&&mGetCareRequest.isFinish()){
+        if (mGetCareRequest!=null&&!mGetCareRequest.isFinish()){
             return;
         }
         mGetCareRequest = new GetCareRequest();

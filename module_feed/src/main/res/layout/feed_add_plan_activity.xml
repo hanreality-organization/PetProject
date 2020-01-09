@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/module_title_layout" />
+    <include layout="@layout/module_title_layout"
+        android:id="@+id/plan_title"/>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/plan_title">
             <LinearLayout
                 android:id="@+id/feed_plan_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp">
 
                 <TextView
@@ -38,6 +42,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_below="@+id/feed_plan_head"
                 android:layout_marginTop="10dp"
                 android:background="@color/white">
@@ -62,34 +68,41 @@
                     android:textColor="@color/black" />
             </LinearLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     <View
-            android:layout_width="300dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:background="@color/black" />
+        android:id="@+id/splite_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/bar_grey"
+        android:layout_below="@+id/head"/>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_editPlan"
-            android:layout_marginTop="20dp"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+        android:id="@+id/recycler_editPlan"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/splite_line"/>
 
     <LinearLayout
         android:id="@+id/timeSelect"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="10dp"
+        android:layout_below="@+id/recycler_editPlan"
         android:visibility="visible">
 
             <TextView
                 android:id="@+id/time_select_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:background="@drawable/date_select_frame"
                 android:gravity="center"
                 android:hint="输入时间"
@@ -97,8 +110,9 @@
 
             <EditText
                 android:id="@+id/meal_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/date_select_frame"
                 android:gravity="center"
@@ -107,8 +121,9 @@
 
             <TextView
                 android:id="@+id/less_plan_count"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="-"
@@ -116,8 +131,9 @@
 
             <TextView
                 android:id="@+id/count_select"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:hint="选择份数"
                 android:background="@drawable/date_select_frame"
                 android:gravity="center"
@@ -125,8 +141,9 @@
 
             <TextView
                 android:id="@+id/add_plan_count"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="+"
                 android:textSize="30sp" />
@@ -139,7 +156,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_below="@+id/timeSelect">
 
         <TimePicker
             android:id="@+id/time_picker"
@@ -162,9 +180,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/feed_green_circle_bg"
+        android:layout_below="@+id/time_select"
+        android:layout_centerHorizontal="true"
         android:text="新增计划"
         android:visibility="visible" />
+    <TextView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/tips"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:text="小提示：若删除某项计划，长按该计划即可删除！" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -8,7 +8,7 @@ import java.util.List;
 public class AlarmInfoModel extends BaseModel {
 
         @SerializedName("time")
-        public String time;
+        public long time;
         @SerializedName("remind")
         public String remind;
         @SerializedName("period")

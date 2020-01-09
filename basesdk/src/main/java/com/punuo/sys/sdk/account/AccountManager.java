@@ -1,7 +1,6 @@
 package com.punuo.sys.sdk.account;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.punuo.sys.sdk.httplib.JsonUtil;
 import com.punuo.sys.sdk.model.UserInfo;
@@ -18,8 +17,6 @@ public class AccountManager {
     private static boolean sIsLogined = false;
     private static String sSession = "";
     private static UserInfo sUserInfo = null;
-
-
     public static boolean isLoginned() {
         if (!sIsLogined || TextUtils.isEmpty(sSession)) {
             sSession = MMKVUtil.getString("wsq_pref_session");
@@ -74,4 +71,6 @@ public class AccountManager {
         MMKVUtil.removeData("wsq_pref_session");
         MMKVUtil.removeData("wsq_pref_user");
     }
+
+
 }

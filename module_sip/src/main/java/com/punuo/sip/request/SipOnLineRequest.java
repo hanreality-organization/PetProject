@@ -8,6 +8,7 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 public class SipOnLineRequest extends BaseSipRequest{
     public SipOnLineRequest(){
         setSipRequestType(SipRequestType.Notify);
+        setTargetResponse("is_online_response");
     }
 
     @Override

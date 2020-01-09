@@ -89,6 +89,7 @@ public class BathActivity extends BaseSwipeBackActivity {
     TextView bathPet;
 
     private static final String TAG = "bath";
+    private final String type = "洗澡清洁";
     Calendar cal = Calendar.getInstance();
     private static Calendar calendar = Calendar.getInstance();
     private static long bathDateAndTime;
@@ -103,6 +104,7 @@ public class BathActivity extends BaseSwipeBackActivity {
     public static PendingIntent pendingIntent;
     private static List<PetData> mPetNameList;
     private HashMap<String,PendingIntent> hashMap = new HashMap<>();
+    public static int day;
 
     @Autowired(name = "petData")
     PetData mPetData;
@@ -140,7 +142,7 @@ public class BathActivity extends BaseSwipeBackActivity {
                 /**
                  *保存设置的数据信息到服务器并设置相应的alarm
                  */
-                saveBathInfo("洗澡清洁");
+                saveBathInfo();
                 setBathAlarm(bathDateAndTime);
             }
         });
@@ -188,7 +190,6 @@ public class BathActivity extends BaseSwipeBackActivity {
         /**
          * 初始化显示
          */
-        bathPet.setText(Constant.petData.petname);
         getBathInfo(Constant.petData.petname);
     }
 
@@ -226,14 +227,14 @@ public class BathActivity extends BaseSwipeBackActivity {
 
     private SaveBathRequest mSaveBathRequest;
 
-    public void saveBathInfo(String type) {
-        if (mSaveBathRequest != null && mSaveBathRequest.isFinish()) {
+    public void saveBathInfo() {
+        if (mSaveBathRequest != null && !mSaveBathRequest.isFinish()) {
             return;
         }
         mSaveBathRequest = new SaveBathRequest();
         mSaveBathRequest.addUrlParam("username", AccountManager.getUserName());
         mSaveBathRequest.addUrlParam("type",type);
-        mSaveBathRequest.addUrlParam("time", dateSelectText.getText().toString());
+        mSaveBathRequest.addUrlParam("time", bathDateAndTime);
         mSaveBathRequest.addUrlParam("remind",bathAlarm.getText().toString());
         mSaveBathRequest.addUrlParam("period",bathRepeat.getText().toString());
         mSaveBathRequest.addUrlParam("petname",bathPet.getText().toString());
@@ -328,7 +329,6 @@ public class BathActivity extends BaseSwipeBackActivity {
             @Override
             public void OnItemClick(int position) {
                 String petName = adapter.getPetName(position);
-                Log.i("bath", petName);
                 bathPet.setText(petName);
                 getBathInfo(petName);
                 pPopupWindow.dismiss();
@@ -347,15 +347,20 @@ public class BathActivity extends BaseSwipeBackActivity {
     public void setBathAlarm(Long targetTime){
         String key = String.valueOf(targetTime);
         PendingIntent targetIntent = hashMap.get(key);
+        int requestCode = key.hashCode();
         if (targetIntent!=null){
             targetIntent.cancel();
             hashMap.remove(key);
         }
         Intent intent = new Intent();
         intent.setAction(Constant.ALARM_ONE);
-        pendingIntent = PendingIntent.getBroadcast(this,0,intent,0);
+        pendingIntent = PendingIntent.getBroadcast(this,requestCode,intent,0);
         mAlarmManager = (AlarmManager) PnApplication.getInstance().getSystemService(Context.ALARM_SERVICE);
+        if (bathAlarm.getText().toString().equals("不提醒")){
+            return;
+        }
         if(bathAlarm.getText().toString().equals("提醒")&&bathRepeat.getText().toString().equals("每周")){
+            day = 7;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 mAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">M");
@@ -363,11 +368,12 @@ public class BathActivity extends BaseSwipeBackActivity {
                 mAlarmManager.setExact(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">KITKAT");
             }else{
-                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*7,pendingIntent);
+                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*day,pendingIntent);
             }
             hashMap.put(key,targetIntent);
         }
         if (bathAlarm.getText().toString().equals("提醒")&&bathRepeat.getText().toString().equals("每两周")){
+            day=14;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 mAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">M");
@@ -375,11 +381,12 @@ public class BathActivity extends BaseSwipeBackActivity {
                 mAlarmManager.setExact(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">KITKAT");
             }else{
-                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*14,pendingIntent);
+                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*day,pendingIntent);
             }
             hashMap.put(key,targetIntent);
         }
         if (bathAlarm.getText().toString().equals("提醒")&&bathRepeat.getText().toString().equals("每月")){
+            day = 30;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 mAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">M");
@@ -387,7 +394,7 @@ public class BathActivity extends BaseSwipeBackActivity {
                 mAlarmManager.setExact(AlarmManager.RTC_WAKEUP,bathDateAndTime,pendingIntent);
                 Log.i(TAG, ">KITKAT");
             }else{
-                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*14,pendingIntent);
+                mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,bathDateAndTime,AlarmManager.INTERVAL_DAY*day,pendingIntent);
             }
             hashMap.put(key,targetIntent);
         }
@@ -405,13 +412,13 @@ public class BathActivity extends BaseSwipeBackActivity {
 
     private GetBathInfoRequest mGetBathInfoRequest;
     public void getBathInfo(final String petName){
-        if (mGetBathInfoRequest!=null&&mGetBathInfoRequest.isFinish()){
+        if (mGetBathInfoRequest!=null&&!mGetBathInfoRequest.isFinish()){
             return;
         }
         mGetBathInfoRequest = new GetBathInfoRequest();
         mGetBathInfoRequest.addUrlParam("username",AccountManager.getUserName());
         mGetBathInfoRequest.addUrlParam("petname",petName);
-        mGetBathInfoRequest.addUrlParam("type","洗澡清洁");
+        mGetBathInfoRequest.addUrlParam("type",type);
         mGetBathInfoRequest.setRequestListener(new RequestListener<AlarmInfoModel>() {
             @Override
             public void onComplete() {
@@ -420,11 +427,12 @@ public class BathActivity extends BaseSwipeBackActivity {
             @Override
             public void onSuccess(AlarmInfoModel result) {
                 Log.i(TAG, result.message);
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
-//                Date date = new Date(result.time);
-                dateSelectText.setText(result.time);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                Date date = new Date(result.time);
+                dateSelectText.setText(simpleDateFormat.format(date));
                 bathAlarm.setText(result.remind);
                 bathRepeat.setText(result.period);
+                bathPet.setText(petName);
             }
             @Override
             public void onError(Exception e) {
