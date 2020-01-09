@@ -36,6 +36,7 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sip.weight.WeightData;
@@ -192,8 +193,57 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
-    private void IsonLine() {
-        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginResponse event) {
+        int live=Integer.parseInt(event.live);
+        if (live == 1) {
+            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
+        }
+        if(live==0){
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+    }
+
+    private void initPetInfo(PetModel petModel) {
+        if (petModel == null || petModel.mPets == null) {
+            return;
+        }
+        mPetContainer.removeAllViews();
+        for (int i = 0; i < petModel.mPets.size(); i++) {
+            PetData petData = petModel.mPets.get(i);
+            View view = LayoutInflater.from(getActivity()).
+                    inflate(R.layout.feed_pet_info_item, mPetContainer, false);
+            ImageView avatar = view.findViewById(R.id.pet_avatar);
+            TextView petName = view.findViewById(R.id.pet_name);
+            Glide.with(this).load(petData.avatar).into(avatar);
+            ViewUtil.setText(petName, petData.petname);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mPetContainer.addView(view);
+        }
+        View view = LayoutInflater.from(getActivity())
+                .inflate(R.layout.feed_add_item, mPetContainer, false);
+        mPetContainer.addView(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
+            }
+        });
+    }
+
+    private void operateControl(String operate) {
+        SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate, devId);
+        SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
+    }
+
+    private void IsonLine(){
+        SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
 

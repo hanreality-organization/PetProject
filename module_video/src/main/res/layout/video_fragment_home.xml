@@ -69,11 +69,13 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:src="@drawable/bg_add_voice"/>
-        <ImageView
+        <Button
+            android:id="@+id/play_video"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="60dp"
             android:layout_weight="2"
-            android:src="@drawable/bg_video_voice"/>
+            android:background="@drawable/shape"
+            android:text="移动侦测"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="60dp"

@@ -77,6 +77,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View playMusic;
     @BindView(R2.id.reset)
     Button mReset;
+    @BindView(R2.id.play_video)
+    Button mplayvideo;
 
     private MediaPlayer mMediaPlayer;
     private Surface surface;
@@ -135,6 +137,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
+                        .navigation();
+            }
+        });
+        mplayvideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
                         .navigation();
             }
         });
