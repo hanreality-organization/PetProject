@@ -205,43 +205,6 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
-    private void initPetInfo(PetModel petModel) {
-        if (petModel == null || petModel.mPets == null) {
-            return;
-        }
-        mPetContainer.removeAllViews();
-        for (int i = 0; i < petModel.mPets.size(); i++) {
-            PetData petData = petModel.mPets.get(i);
-            View view = LayoutInflater.from(getActivity()).
-                    inflate(R.layout.feed_pet_info_item, mPetContainer, false);
-            ImageView avatar = view.findViewById(R.id.pet_avatar);
-            TextView petName = view.findViewById(R.id.pet_name);
-            Glide.with(this).load(petData.avatar).into(avatar);
-            ViewUtil.setText(petName, petData.petname);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            mPetContainer.addView(view);
-        }
-        View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.feed_add_item, mPetContainer, false);
-        mPetContainer.addView(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
-            }
-        });
-    }
-
-    private void operateControl(String operate) {
-        SipControlDeviceRequest sipControlDeviceRequest = new SipControlDeviceRequest(operate, devId);
-        SipUserManager.getInstance().addRequest(sipControlDeviceRequest);
-    }
-
     private void IsonLine(){
         SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
