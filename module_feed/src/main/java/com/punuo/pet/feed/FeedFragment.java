@@ -36,6 +36,7 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipControlDeviceRequest;
 import com.punuo.sip.request.SipOnLineRequest;
@@ -219,6 +220,17 @@ public class FeedFragment extends BaseFragment {
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
         } else {
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+        if(live==0){
+            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginResponse event) {
+        int live=Integer.parseInt(event.live);
+        if (live == 1) {
+            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
         }
         if(live==0){
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
