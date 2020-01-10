@@ -13,6 +13,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
 import com.punuo.sip.request.SipByeRequest;
+import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
@@ -79,6 +81,10 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     Button mReset;
     @BindView(R2.id.play_video)
     Button mplayvideo;
+    @BindView(R2.id.add_voice)
+    View add_voice;
+    @BindView(R2.id.down_voice)
+    View down_voice;
 
     private MediaPlayer mMediaPlayer;
     private Surface surface;
@@ -145,6 +151,20 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View view) {
                 ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
                         .navigation();
+            }
+        });
+        down_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SipControlVolumeRequest sipControlVolumeRequest=new SipControlVolumeRequest("lower");
+                SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
+            }
+        });
+        add_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SipControlVolumeRequest sipControlVolumeRequest=new SipControlVolumeRequest("raise");
+                SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
     }
