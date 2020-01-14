@@ -333,7 +333,7 @@ public class BeautyActivity extends BaseSwipeBackActivity {
                 }
                 @Override
                 public void onSuccess(AlarmInfoModel result) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     Date date = new Date(result.time);
                     beautyTimeText.setText(simpleDateFormat.format(date));
                     beautyAlarmText.setText(result.remind);

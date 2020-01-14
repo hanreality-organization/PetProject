@@ -45,8 +45,6 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
         View careView;
         ImageView icon;
         TextView careName;
-        TextView petName;
-        TextView careDate;
 //        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm", Locale.getDefault());
 
         public CareHolder(View view){
@@ -54,8 +52,6 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
             careView = view;
             icon = (ImageView)view.findViewById(R.id.care_icon);
             careName = (TextView)view.findViewById(R.id.care_name);
-            petName = (TextView)view.findViewById(R.id.care_pet_name);
-            careDate = (TextView)view.findViewById(R.id.care_date);
         }
 
 //        public void bindData(CareData careData) {
@@ -98,8 +94,6 @@ public class CareAdapter extends BaseRecyclerViewAdapter<CareData> {
 //            ((CareHolder) baseViewHolder).bindData(careData); }
             Date date = new Date(careData.getDate()*1000);
             ((CareHolder) baseViewHolder).careName.setText(careData.careName);
-            ((CareHolder) baseViewHolder).petName.setText(careData.getPetName());
-            ((CareHolder) baseViewHolder).careDate.setText(mSimpleDateFormat.format(date));
 //            ImageLoader.getInstance().displayImage(mCareDataList.get(position).icon,((CareHolder) baseViewHolder).icon);
             Log.i("icon", ""+mCareDataList.get(position).icon);
             Glide.with(mContext).load(mCareDataList.get(position).icon).into(((CareHolder) baseViewHolder).icon);

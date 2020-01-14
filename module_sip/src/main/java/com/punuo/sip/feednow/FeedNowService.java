@@ -22,7 +22,7 @@ public class FeedNowService extends NormalRequestService<FeedNotifyData> {
         Log.i("feed", "出粮请求成功发送 ");
         if(result != null){
             String response = "from"+result.userName+";"+"to"+result.devId+"feed_count"+result.feedCount;
-            ToastUtils.showToast(response);
+            Log.i("feed", response);
         }
     }
 

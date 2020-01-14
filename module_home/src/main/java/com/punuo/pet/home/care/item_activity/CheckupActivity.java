@@ -49,6 +49,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -100,10 +101,10 @@ public class CheckupActivity extends BaseSwipeBackActivity {
     public static AlarmManager checkAlarmManager;
     public static PendingIntent checkPendingIntent;
     public static int day;
-
     //两个工具calendar
     private Calendar calendar = Calendar.getInstance();
     Calendar cd = Calendar.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,32 +236,24 @@ public class CheckupActivity extends BaseSwipeBackActivity {
     }
 
     public void showRepeatPopupWindow() {
-        View contenView = LayoutInflater.from(this).inflate(R.layout.bathe_repeat_popup, null);
+        View contenView = LayoutInflater.from(this).inflate(R.layout.repeat_popup, null);
         rPopupWindow = new PopupWindow(contenView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
         rPopupWindow.setAnimationStyle(R.style.DialogWindowStyle);
         rPopupWindow.setContentView(contenView);
 
-        TextView tv1 = (TextView) contenView.findViewById(R.id.one_week);
-        TextView tv2 = (TextView) contenView.findViewById(R.id.two_weeks);
-        TextView tv3 = (TextView) contenView.findViewById(R.id.one_month);
+        TextView tv1 = (TextView) contenView.findViewById(R.id.half_year);
+        TextView tv2 = (TextView) contenView.findViewById(R.id.one_year);
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRepeatText.setText("每周");
+                checkRepeatText.setText("每半年");
                 rPopupWindow.dismiss();
             }
         });
         tv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkRepeatText.setText("每两周");
-                rPopupWindow.dismiss();
-            }
-        });
-        tv3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkRepeatText.setText("每月");
+                checkRepeatText.setText("每年");
                 rPopupWindow.dismiss();
             }
         });
@@ -341,7 +334,7 @@ public class CheckupActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = new Date(result.time);
                 checkTimeText.setText(simpleDateFormat.format(date));
                 checkAlarmText.setText(result.remind);
@@ -369,8 +362,8 @@ public class CheckupActivity extends BaseSwipeBackActivity {
         intent.setAction(Constant.ALARM_TWO);
         checkPendingIntent = PendingIntent.getBroadcast(this,checkRequestCode,intent,0);
         checkAlarmManager = (AlarmManager) PnApplication.getInstance().getSystemService(Context.ALARM_SERVICE);
-        if(checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每周")){
-            day = 7;
+        if(checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每半年")){
+            day = 183;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
                 Log.i(TAG, ">M");
@@ -378,12 +371,12 @@ public class CheckupActivity extends BaseSwipeBackActivity {
                 checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
                 Log.i(TAG, ">KITKAT");
             }else{
-                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*day,checkPendingIntent);
+                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,day*AlarmManager.INTERVAL_DAY,checkPendingIntent);
             }
             hashMap.put(key,targetIntent);
         }
-        if (checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每两周")){
-            day= 14;
+        if (checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每年")){
+            day = 365;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
                 Log.i(TAG, ">M");
@@ -391,20 +384,7 @@ public class CheckupActivity extends BaseSwipeBackActivity {
                 checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
                 Log.i(TAG, ">KITKAT");
             }else{
-                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*day,checkPendingIntent);
-            }
-            hashMap.put(key,targetIntent);
-        }
-        if (checkAlarmText.getText().toString().equals("提醒")&&checkRepeatText.getText().toString().equals("每月")){
-            day = 30;
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
-                Log.i(TAG, ">M");
-            }else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,checkAlarmTime,checkPendingIntent);
-                Log.i(TAG, ">KITKAT");
-            }else{
-                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,AlarmManager.INTERVAL_DAY*30,checkPendingIntent);
+                checkAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,checkAlarmTime,day*AlarmManager.INTERVAL_DAY,checkPendingIntent);
             }
             hashMap.put(key,targetIntent);
         }

@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/care_icon"
             android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/care_name"
@@ -27,32 +27,5 @@
             android:textColor="#333333"
             android:textSize="15sp"
             tools:text="洗澡清洁" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/care_pet_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="#333333"
-                android:textSize="14sp"
-                tools:text="宠物名称" />
-
-            <TextView
-                android:id="@+id/care_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333333"
-                android:textSize="14sp"
-                tools:text="5月1日   18:00" />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

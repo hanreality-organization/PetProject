@@ -142,7 +142,7 @@ public class BathAlarmBroadcastReceiver extends BroadcastReceiver {
                     manager.notify(0, builder.build());
                     Log.i("check", "消息推送啦!!");
                 }
-                CheckupActivity.checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,Constant.checkDateAndTime+ AlarmManager.INTERVAL_DAY*CheckupActivity.day,CheckupActivity.checkPendingIntent);
+                CheckupActivity.checkAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,Constant.checkDateAndTime+ CheckupActivity.day*AlarmManager.INTERVAL_DAY,CheckupActivity.checkPendingIntent);
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
@@ -179,7 +179,7 @@ public class BathAlarmBroadcastReceiver extends BroadcastReceiver {
                     manager.notify(0, builder.build());
                     Log.i("check", "消息推送啦!!");
                 }
-                CheckupActivity.checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,Constant.checkDateAndTime+AlarmManager.INTERVAL_DAY*CheckupActivity.day,CheckupActivity.checkPendingIntent);
+                CheckupActivity.checkAlarmManager.setExact(AlarmManager.RTC_WAKEUP,Constant.checkDateAndTime+CheckupActivity.day*AlarmManager.INTERVAL_DAY,CheckupActivity.checkPendingIntent);
             }
         }
 
