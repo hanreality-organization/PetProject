@@ -343,7 +343,7 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = new Date(result.time);
                 buyTimeText.setText(simpleDateFormat.format(date));
                 buyAlarmText.setText(result.remind);

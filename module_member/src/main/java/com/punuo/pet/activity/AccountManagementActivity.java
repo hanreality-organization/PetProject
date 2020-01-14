@@ -65,17 +65,11 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
         mBack = (ImageView) findViewById(R.id.back);
         mNickname = (TextView) findViewById(R.id.text_nickname);
         mSetNickname  = (RelativeLayout)findViewById(R.id.set_nickname);
-        mChangePassword = (RelativeLayout)findViewById(R.id.change_password);
-
         mTitle.setText("账号管理");
 
         mBack.setOnClickListener(this);
         mSetNickname.setOnClickListener(this);
-        mChangePassword.setOnClickListener(this);
 
-        //头像
-        String avater = AccountManager.getUserInfo().avatar;
-//        Glide.with(this).load(avater).into(mAvater);
         //昵称
         String nickname = AccountManager.getUserInfo().nickName;
         mNickname.setText(nickname);
@@ -87,9 +81,7 @@ public class AccountManagementActivity extends BaseSwipeBackActivity implements 
         int id = view.getId();
         if(id == R.id.set_nickname){
             ARouter.getInstance().build(MemberRouter.ROUTER_SET_NICKNAME_ACTIVITY).navigation();
-        }else if(id == R.id.change_password){
-            ARouter.getInstance().build(MemberRouter.ROUTER_CHANGE_PASSWORD_ACTIVITY).navigation();
-        }else if(id == R.id.back){
+        } else if(id == R.id.back){
             scrollToFinishActivity();
         }
     }

@@ -333,7 +333,7 @@ public class WalkActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = new Date(result.time);
                 walkTimeText.setText(simpleDateFormat.format(date));
                 walkAlarmText.setText(result.remind);
