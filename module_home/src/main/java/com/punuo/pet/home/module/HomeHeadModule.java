@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
@@ -43,11 +42,11 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
@@ -95,7 +94,12 @@ public class HomeHeadModule {
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
         spinner = mRootView.findViewById(R.id.space1);
-        getrotationchart();
+        getRotationChart();
+        getFoodfrequency();
+    }
+
+    public void refresh() {
+        getRotationChart();
         getFoodfrequency();
     }
 
@@ -134,9 +138,18 @@ public class HomeHeadModule {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = spinner.getSelectedItem().toString();
-                if("出粮频率".equals(str)){ mChartContainer.removeAllViews();getFoodfrequency(); }
-                if("出粮克数".equals(str)){ mChartContainer.removeAllViews();getFoodnumber(); }
-                if("剩余克数".equals(str)){ mChartContainer.removeAllViews();getSurplusfood(); }
+                if ("出粮频率".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getFoodfrequency();
+                }
+                if ("出粮克数".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getFoodnumber();
+                }
+                if ("剩余克数".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getSurplusfood();
+                }
             }
 
             @Override
@@ -313,7 +326,7 @@ public class HomeHeadModule {
     }
 
     private GetRotationChart mGetRotationChart;
-    public void getrotationchart(){
+    public void getRotationChart(){
         if (mGetRotationChart != null && !mGetRotationChart.isFinish()) {
             return;
         }
