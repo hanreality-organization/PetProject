@@ -427,7 +427,7 @@ public class BathActivity extends BaseSwipeBackActivity {
             @Override
             public void onSuccess(AlarmInfoModel result) {
                 Log.i(TAG, result.message);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = new Date(result.time);
                 dateSelectText.setText(simpleDateFormat.format(date));
                 bathAlarm.setText(result.remind);

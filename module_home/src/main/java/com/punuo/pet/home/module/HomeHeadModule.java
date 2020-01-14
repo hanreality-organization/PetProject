@@ -41,6 +41,7 @@ import com.punuo.sys.sdk.util.TimeUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 import com.youth.banner.Banner;
+import com.youth.banner.Transformer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -329,6 +330,7 @@ public class HomeHeadModule {
                 images=result.image;
                 banner.setImageLoader(new GlideImageLoader());
                 banner.setImages(images);
+                banner.setBannerAnimation(Transformer.DepthPage);
                 banner.setDelayTime(2000);
                 banner.start();
             }

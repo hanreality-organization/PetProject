@@ -82,7 +82,6 @@ public class CareActivity extends BaseSwipeBackActivity {
         mCareList.setLayoutManager(layoutManager);
         mCareAdapter = new CareAdapter(this,new ArrayList<CareData>());
         mCareList.setAdapter(mCareAdapter);
-
     }
 
     private GetCareRequest mGetCareRequest;

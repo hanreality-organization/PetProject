@@ -22,6 +22,7 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import butterknife.ButterKnife;
 
@@ -37,7 +38,7 @@ public class MemberHeadModule {
     private ImageView mAvatar;
     private Button mCheck;
     private Context mContext;
-
+    private TextView mId;
     public View getView() {
         return mView;
     }
@@ -53,10 +54,10 @@ public class MemberHeadModule {
         mCheck = mView.findViewById(R.id.check);
         TextView exitButton = mView.findViewById(R.id.exit_button);
         mNickname = mView.findViewById(R.id.user_nickname);
+        mId = mView.findViewById(R.id.user_id);
         mAvatar = mView.findViewById(R.id.user_avater);
         RelativeLayout account = mView.findViewById(R.id.account);
         RelativeLayout cache = mView.findViewById(R.id.cache);
-        RelativeLayout system = mView.findViewById(R.id.system_news);
         RelativeLayout about = mView.findViewById(R.id.about);
         RelativeLayout customer = mView.findViewById(R.id.customerservice);
         RelativeLayout editInfo = mView.findViewById(R.id.edit_info);
@@ -68,29 +69,18 @@ public class MemberHeadModule {
         Glide.with(mContext).load(AccountManager.getUserInfo().avatar).into(mAvatar);
         //设置用户昵称
         mNickname.setText(AccountManager.getUserInfo().nickName);
+        mId.setText(AccountManager.getUserName());
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logout(AccountManager.getSession());
             }
         });
-        mCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCheck.setText("已签到");
-                mCheck.setBackgroundResource(R.drawable.button_check_nor);
-            }
-        });
+
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
-            }
-        });
-        system.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_SYSTEM_NEWS_ACTIVITY).navigation();
             }
         });
         cache.setOnClickListener(new View.OnClickListener() {

@@ -229,32 +229,24 @@ public class VaccineActivity extends BaseSwipeBackActivity {
         aPopupWindow.showAtLocation(contenView, Gravity.BOTTOM, 0, 0);
     }
     public void showRepeatPopupWindow(){
-        View contenView = LayoutInflater.from(this).inflate(R.layout.bathe_repeat_popup, null);
+        View contenView = LayoutInflater.from(this).inflate(R.layout.repeat_popup, null);
         rPopupWindow = new PopupWindow(contenView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
         rPopupWindow.setAnimationStyle(R.style.DialogWindowStyle);
         rPopupWindow.setContentView(contenView);
 
-        TextView tv1 = (TextView) contenView.findViewById(R.id.one_week);
-        TextView tv2 = (TextView) contenView.findViewById(R.id.two_weeks);
-        TextView tv3 = (TextView) contenView.findViewById(R.id.one_month);
+        TextView tv1 = (TextView) contenView.findViewById(R.id.half_year);
+        TextView tv2 = (TextView) contenView.findViewById(R.id.one_year);
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vaccineRepeatText.setText("每周");
+                vaccineRepeatText.setText("每半年");
                 rPopupWindow.dismiss();
             }
         });
         tv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vaccineRepeatText.setText("每两周");
-                rPopupWindow.dismiss();
-            }
-        });
-        tv3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vaccineRepeatText.setText("每月");
+                vaccineRepeatText.setText("每年");
                 rPopupWindow.dismiss();
             }
         });
@@ -332,7 +324,7 @@ public class VaccineActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = new Date(result.time);
                 vaccineTimeText.setText(simpleDateFormat.format(date));
                 vaccineAlarmText.setText(result.remind);
@@ -359,8 +351,8 @@ public class VaccineActivity extends BaseSwipeBackActivity {
         intent.setAction(Constant.ALARM_SIX);
         vaccinePendingIntent = PendingIntent.getBroadcast(this,checkRequestCode,intent,0);
         vaccineAlarmManager = (AlarmManager) PnApplication.getInstance().getSystemService(Context.ALARM_SERVICE);
-        if(vaccineAlarmText.getText().toString().equals("提醒")&&vaccineRepeatText.getText().toString().equals("每周")){
-            day = 7;
+        if(vaccineAlarmText.getText().toString().equals("提醒")&&vaccineRepeatText.getText().toString().equals("每半年")){
+            day = 183;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 vaccineAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,targetTime,vaccinePendingIntent);
                 Log.i(TAG, ">M");
@@ -372,8 +364,8 @@ public class VaccineActivity extends BaseSwipeBackActivity {
             }
             hashMap.put(key,targetIntent);
         }
-        if (vaccineAlarmText.getText().toString().equals("提醒")&&vaccineRepeatText.getText().toString().equals("每两周")){
-            day= 14;
+        if (vaccineAlarmText.getText().toString().equals("提醒")&&vaccineRepeatText.getText().toString().equals("每年")){
+            day= 365;
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 vaccineAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,targetTime,vaccinePendingIntent);
                 Log.i(TAG, ">M");
@@ -382,19 +374,6 @@ public class VaccineActivity extends BaseSwipeBackActivity {
                 Log.i(TAG, ">KITKAT");
             }else{
                 vaccineAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,targetTime,AlarmManager.INTERVAL_DAY*day,vaccinePendingIntent);
-            }
-            hashMap.put(key,targetIntent);
-        }
-        if (vaccineAlarmText.getText().toString().equals("提醒")&&vaccineRepeatText.getText().toString().equals("每月")){
-            day = 30;
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                vaccineAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,targetTime,vaccinePendingIntent);
-                Log.i(TAG, ">M");
-            }else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                vaccineAlarmManager.setExact(AlarmManager.RTC_WAKEUP,targetTime,vaccinePendingIntent);
-                Log.i(TAG, ">KITKAT");
-            }else{
-                vaccineAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP,targetTime,AlarmManager.INTERVAL_DAY*30,vaccinePendingIntent);
             }
             hashMap.put(key,targetIntent);
         }
