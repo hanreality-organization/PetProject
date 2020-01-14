@@ -54,7 +54,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="2、等待大约30秒后在下面输入想要连接的WiFi名和密码"
+        android:text="2、等待大约20秒后在下面输入想要连接的WiFi名和密码"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="3、若设备一直没有连上热点就按下WiFi指示灯下的重置键"
+        android:text="3、当手机上显示已有设备连上热点时点击连接"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -70,23 +70,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="4、当设备WiFi指示灯常亮后按下WiFi指示灯下的重置键"
-        android:textColor="#333333" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="6dp"
-        android:gravity="left"
-        android:text="5、当弹出devid（设备号）live=1字样时点击连接"
-        android:textColor="#333333" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="6dp"
-        android:gravity="left"
-        android:text="6、当显示连接成功后请关闭热点"
+        android:text="4、当显示连接成功后请关闭热点"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
