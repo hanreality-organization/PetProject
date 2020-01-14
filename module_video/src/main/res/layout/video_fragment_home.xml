@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +27,8 @@
         <TextureView
             android:id="@+id/surface"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            tools:layout_height="240dp"/>
     </FrameLayout>
 
     <RelativeLayout
@@ -71,6 +73,17 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:src="@drawable/bg_add_voice"/>
+<!--        <ImageView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/bg_cut_video"/>-->
+        <ImageView
+            android:id="@+id/play_music"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/bg_music"/>
         <Button
             android:id="@+id/play_video"
             android:layout_width="0dp"
@@ -78,17 +91,6 @@
             android:layout_weight="2"
             android:background="@drawable/shape"
             android:text="移动侦测"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:src="@drawable/bg_cut_video"/>
-        <ImageView
-            android:id="@+id/play_music"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:src="@drawable/bg_music"/>
     </LinearLayout>
 
     <!--记录进食视频-->
