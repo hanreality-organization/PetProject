@@ -133,8 +133,8 @@ public class HomeHeadModule {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = spinner.getSelectedItem().toString();
-                if("吃粮频率".equals(str)){ mChartContainer.removeAllViews();getFoodfrequency(); }
-                if("吃粮克数".equals(str)){ mChartContainer.removeAllViews();getFoodnumber(); }
+                if("出粮频率".equals(str)){ mChartContainer.removeAllViews();getFoodfrequency(); }
+                if("出粮克数".equals(str)){ mChartContainer.removeAllViews();getFoodnumber(); }
                 if("剩余克数".equals(str)){ mChartContainer.removeAllViews();getSurplusfood(); }
             }
 

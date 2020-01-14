@@ -1,18 +1,24 @@
 package com.punuo.sys.app.video.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.punuo.sys.app.video.R;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+
+import io.vov.vitamio.MediaMetadataRetriever;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
@@ -74,8 +80,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         TextView CreateTime;
         VideoView mVideoView;
         Button mPlayBtn;
+        ImageView mfirstframe;
         public ViewHolder(View itemView) {
             super(itemView);
+            mfirstframe=itemView.findViewById(R.id.video_first);
             CreateTime=itemView.findViewById(R.id.create_time);
             mVideoView = itemView.findViewById(R.id.videoView);
             mPlayBtn=itemView.findViewById(R.id.play_btn);
