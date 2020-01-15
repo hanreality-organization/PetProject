@@ -3,6 +3,7 @@ package com.punuo.sys.sdk.activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 
 import com.punuo.sys.sdk.R;
@@ -33,6 +34,14 @@ public class BaseActivity extends AppCompatActivity implements BaseHandler.Messa
 
     public void showLoadingDialog() {
         if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+            mLoadingDialog.setBtnVisibility(View.GONE);
+            mLoadingDialog.show();
+        }
+    }
+
+    public void showLoadingDialog(int btnVisibility) {
+        if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+            mLoadingDialog.setBtnVisibility(btnVisibility);
             mLoadingDialog.show();
         }
     }
@@ -40,7 +49,15 @@ public class BaseActivity extends AppCompatActivity implements BaseHandler.Messa
     public void showLoadingDialog(String msg) {
         if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
             mLoadingDialog.setLoadingMsg(msg);
-            showLoadingDialog();
+            showLoadingDialog(View.GONE);
+        }
+    }
+
+    public void showLoadingDialogWithCancel(String msg, View.OnClickListener listener) {
+        if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+            mLoadingDialog.setLoadingMsg(msg);
+            mLoadingDialog.setOnBtnClick(listener);
+            showLoadingDialog(View.VISIBLE);
         }
     }
 

@@ -14,7 +14,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,7 +120,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoadingDialog("正在获取视频...");
+                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mStop.performClick();
+                        dismissLoadingDialog();
+                    }
+                });
                 startVideo(devId);
             }
         });

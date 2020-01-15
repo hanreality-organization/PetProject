@@ -13,6 +13,9 @@ import com.punuo.sys.sdk.R;
 public class PNLoadingDialog extends Dialog {
     private String mLoadingMsg = null;
     private TextView tvLoading;
+    private View mCancel;
+    private int btnVisibility = View.GONE;
+    private View.OnClickListener mOnClickListener;
 
     public PNLoadingDialog(Context context) {
         this(context, R.style.LoadingViewDialog);
@@ -27,18 +30,35 @@ public class PNLoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_view_dialog);
         tvLoading = findViewById(R.id.text_loading);
+        mCancel = findViewById(R.id.btn_cancel);
         if (TextUtils.isEmpty(mLoadingMsg)) {
             tvLoading.setVisibility(View.GONE);
         } else {
             tvLoading.setVisibility(View.VISIBLE);
             tvLoading.setText(mLoadingMsg);
         }
+        mCancel.setVisibility(btnVisibility);
+        mCancel.setOnClickListener(mOnClickListener);
     }
 
     public void setLoadingMsg(String loadingMsg) {
         this.mLoadingMsg = loadingMsg;
         if (tvLoading != null && !TextUtils.isEmpty(loadingMsg)) {
             tvLoading.setText(mLoadingMsg);
+        }
+    }
+
+    public void setBtnVisibility(int visibility) {
+        btnVisibility = visibility;
+        if (mCancel != null) {
+            mCancel.setVisibility(visibility);
+        }
+    }
+
+    public void setOnBtnClick(View.OnClickListener clickListener) {
+        mOnClickListener = clickListener;
+        if (mCancel != null) {
+            mCancel.setOnClickListener(clickListener);
         }
     }
 }
