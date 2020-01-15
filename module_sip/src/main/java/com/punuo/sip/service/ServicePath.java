@@ -31,4 +31,7 @@ public class ServicePath {
     public static final String PATH_VOLUME="/sip/music_volume_response";
     //音乐播放回复
     public static final String PATH_MUSIC="/sip/play_music_response";
+
+    //未知
+    public static final String PATH_XXXX="/sip/session_notify";
 }
