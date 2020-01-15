@@ -1,5 +1,6 @@
 package com.punuo.sys.app.video;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -8,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -39,6 +41,7 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -120,14 +123,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mStop.performClick();
-                        dismissLoadingDialog();
-                    }
-                });
-                startVideo(devId);
+                showDialog();
+//                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mStop.performClick();
+//                        dismissLoadingDialog();
+//                    }
+//                });
+//                startVideo(devId);
             }
         });
         mStop.setOnClickListener(new View.OnClickListener() {
@@ -156,8 +160,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mplayvideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
-                        .navigation();
+//                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
+//                        .navigation();
+               showDialog();
             }
         });
         down_voice.setOnClickListener(new View.OnClickListener() {
@@ -374,5 +379,23 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 mBaseHandler.sendEmptyMessage(0);
             }
         }
+    }
+
+    public void showDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        TextView title = new TextView(getContext());
+        title.setText("视频侦测");
+        title.setPadding(10,10,10,10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(20);
+        title.setTextColor(getResources().getColor(R.color.black));
+        dialog.setCustomTitle(title);
+        TextView msg = new TextView(getContext());
+        msg.setText("\n"+"敬请期待!"+"\n");
+        msg.setPadding(10, 10, 10, 10);
+        msg.setGravity(Gravity.CENTER);
+        msg.setTextSize(18);
+        dialog.setView(msg);
+        dialog.show();
     }
 }
