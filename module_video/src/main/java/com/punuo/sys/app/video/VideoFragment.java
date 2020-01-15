@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -25,6 +26,7 @@ import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
+import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipResetRequest;
@@ -227,6 +229,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         getdevid();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(VolumeData result){
+        if(TextUtils.equals(result.volume,"raise")){
+            Toast.makeText(getActivity(),"音量加",Toast.LENGTH_SHORT).show();
+        }
+        if(TextUtils.equals(result.volume,"lower")){
+            Toast.makeText(getActivity(),"音量减",Toast.LENGTH_SHORT).show();
+        }
+    }
     private GetdevidRequest mGetdevidRequest;
     public void getdevid(){
         if (mGetdevidRequest!= null && !mGetdevidRequest.isFinish()) {
