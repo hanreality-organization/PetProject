@@ -78,6 +78,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 PetManager.getPetInfo(mRequestListener);
+                mHomeHeadModule.refresh();
             }
         });
         mHomeHeadModule = new HomeHeadModule(getActivity(), mHeadView);

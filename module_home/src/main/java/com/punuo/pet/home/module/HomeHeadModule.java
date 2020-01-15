@@ -11,8 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
@@ -26,7 +27,6 @@ import com.punuo.pet.home.device.request.GetFoodnumberRequest;
 import com.punuo.pet.home.device.request.GetSurplusfoodRequest;
 import com.punuo.pet.home.view.GlideImageLoader;
 import com.punuo.pet.home.view.PetLoopHolder;
-import com.punuo.pet.home.view.model.RotationChartData;
 import com.punuo.pet.home.view.request.GetRotationChart;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -43,11 +43,11 @@ import com.punuo.sys.sdk.util.ViewUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by han.chen.
@@ -84,7 +84,6 @@ public class HomeHeadModule {
     protected Spinner spinner;
     private String[] ChartX=new String[4]; //柱状图水平坐标
     private int[] Chartdata=new int[4];//柱状图值
-    List<String> images=new ArrayList();
 
     public HomeHeadModule(Context context, ViewGroup parent) {
         mContext = context;
@@ -95,7 +94,12 @@ public class HomeHeadModule {
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
         spinner = mRootView.findViewById(R.id.space1);
-        getrotationchart();
+        getRotationChart();
+        getFoodfrequency();
+    }
+
+    public void refresh() {
+        getRotationChart();
         getFoodfrequency();
     }
 
@@ -134,9 +138,18 @@ public class HomeHeadModule {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = spinner.getSelectedItem().toString();
-                if("出粮频率".equals(str)){ mChartContainer.removeAllViews();getFoodfrequency(); }
-                if("出粮克数".equals(str)){ mChartContainer.removeAllViews();getFoodnumber(); }
-                if("剩余克数".equals(str)){ mChartContainer.removeAllViews();getSurplusfood(); }
+                if ("出粮频率".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getFoodfrequency();
+                }
+                if ("出粮克数".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getFoodnumber();
+                }
+                if ("剩余克数".equals(str)) {
+                    mChartContainer.removeAllViews();
+                    getSurplusfood();
+                }
             }
 
             @Override
@@ -313,26 +326,33 @@ public class HomeHeadModule {
     }
 
     private GetRotationChart mGetRotationChart;
-    public void getrotationchart(){
+    public void getRotationChart(){
         if (mGetRotationChart != null && !mGetRotationChart.isFinish()) {
             return;
         }
         mGetRotationChart=new GetRotationChart();
         mGetRotationChart.addUrlParam("userName", AccountManager.getUserName());
-        mGetRotationChart.setRequestListener(new RequestListener<RotationChartData>() {
+        mGetRotationChart.addUrlParam("shop_id", 1);
+        mGetRotationChart.setRequestListener(new RequestListener<JsonElement>() {
             @Override
             public void onComplete() {
 
             }
 
             @Override
-            public void onSuccess(RotationChartData result) {
-                images=result.image;
-                banner.setImageLoader(new GlideImageLoader());
-                banner.setImages(images);
-                banner.setBannerAnimation(Transformer.DepthPage);
-                banner.setDelayTime(2000);
-                banner.start();
+            public void onSuccess(JsonElement result) {
+                if (result instanceof JsonArray) {
+                    List<String> images = new ArrayList<>();
+                    JsonArray jsonArray = result.getAsJsonArray();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        images.add("http://feeder.qinqingonline.com:8080/" + jsonArray.get(i).getAsString());
+                    }
+                    banner.setImageLoader(new GlideImageLoader());
+                    banner.setImages(images);
+                    banner.setBannerAnimation(Transformer.DepthPage);
+                    banner.setDelayTime(2000);
+                    banner.start();
+                }
             }
 
             @Override

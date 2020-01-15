@@ -29,7 +29,8 @@ public class MusicHolder extends BaseViewHolder<MusicItem> {
             mSelectedView.setVisibility(View.INVISIBLE);
         }
         if (musicItem.url != null) {
-            mMusicName.setText(musicItem.url);
+            String title=musicItem.url.replace("http://pet.qinqingonline.com/uploads/basic_music/","");
+            mMusicName.setText(title);
         }
     }
 }
