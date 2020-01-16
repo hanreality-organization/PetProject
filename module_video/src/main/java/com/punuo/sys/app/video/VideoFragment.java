@@ -81,8 +81,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     Button mStop;
     @BindView(R2.id.play_music)
     View playMusic;
-    @BindView(R2.id.reset)
-    Button mReset;
+//    @BindView(R2.id.reset)
+//    Button mReset;
     @BindView(R2.id.play_video)
     Button mplayvideo;
     @BindView(R2.id.add_voice)
@@ -102,7 +102,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
         mBaseHandler = new BaseHandler(this);
-        Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
         getdevid();
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
@@ -143,13 +143,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 mPlay.setEnabled(true);
             }
         });
-        mReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SipResetRequest sipResetRequest=new SipResetRequest();
-                SipUserManager.getInstance().addRequest(sipResetRequest);
-            }
-        });
+//        mReset.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SipResetRequest sipResetRequest=new SipResetRequest();
+//                SipUserManager.getInstance().addRequest(sipResetRequest);
+//            }
+//        });
         playMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
