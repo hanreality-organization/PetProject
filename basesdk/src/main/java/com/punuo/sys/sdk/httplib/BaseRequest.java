@@ -96,11 +96,23 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
     private String getPathUrl() {
         StringBuilder url = new StringBuilder();
         url.append(HttpConfig.isUseHttps() ? "https://" : "http://");
-        url.append(HttpConfig.getHost());
-        url.append(HttpConfig.getPort() <= 0 ? "" : ":" + HttpConfig.getPort());
-        url.append(HttpConfig.getPrefixPath());
+        url.append(getHost());
+        url.append(getPort() <= 0 ? "" : ":" + getPort());
+        url.append(getPrefixPath());
         url.append(mRequestPath);
         return url.toString();
+    }
+
+    public String getHost() {
+        return HttpConfig.getHost();
+    }
+
+    public int getPort() {
+        return HttpConfig.getPort();
+    }
+
+    public String getPrefixPath() {
+       return HttpConfig.getPrefixPath();
     }
 
     private String getPostURL() {

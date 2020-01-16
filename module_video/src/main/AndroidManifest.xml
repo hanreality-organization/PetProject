@@ -1,7 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.punuo.sys.app.video" >
+    package="com.punuo.sys.app.video">
+
     <application>
-        <activity android:name=".activity.VideoPlayActivity"
+        <activity
+            android:name=".activity.VideoPlayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".activity.MusicChooseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".activity.VideoChooseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent"/>
     </application>

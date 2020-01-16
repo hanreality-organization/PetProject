@@ -11,9 +11,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.WebViewActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.QRScanActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait" />
 
     </application>

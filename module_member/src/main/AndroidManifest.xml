@@ -36,31 +36,40 @@
         <!--用户管理部分的活动-->
         <activity
             android:name="com.punuo.pet.activity.AccountManagementActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.punuo.pet.activity.ChangeAvaterActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name="com.punuo.pet.activity.SetNicknameActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.punuo.pet.activity.SetPasswordActivity"
+            android:name="com.punuo.pet.activity.ChangePasswordActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
-        <!--隐私部分的活动-->
-        <activity
-            android:name="com.punuo.pet.activity.PrivacyActivity"
+        <!--系统消息的活动-->
+        <activity android:name="com.punuo.pet.activity.SystemNewsActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
         <!--关于我们部分的活动-->
         <activity
             android:name="com.punuo.pet.activity.AboutActivity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
         <!--客服部分-->
         <activity android:name="com.punuo.pet.activity.CustomerServiceActivity"
+            android:theme="@style/Theme.Pn.Translucent"
+            android:screenOrientation="portrait"/>
+        <!--修改个人信息-->
+        <activity android:name="com.punuo.pet.activity.EditUserInfoActivity"
+            android:theme="@style/Theme.Pn.Translucent"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="com.punuo.pet.activity.TestActivtity"
+            android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
     </application>

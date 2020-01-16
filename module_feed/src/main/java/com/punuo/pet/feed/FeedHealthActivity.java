@@ -11,6 +11,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.feed.model.FeedingAdviceModel;
+import com.punuo.pet.feed.plan.GetPlanRequest;
+import com.punuo.pet.feed.plan.PlanModel;
 import com.punuo.pet.feed.request.GetFeedingAdviceRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.router.FeedRouter;
@@ -49,6 +51,8 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
 
     @Autowired(name = "petData")
     PetData mPetData;
+    @BindView(R2.id.feed_daily)
+    TextView feedDaily;
 
 
     @Override
@@ -75,16 +79,17 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
         mFeedMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(FeedRouter.ROUTER_FEED_ABOUT).navigation();
             }
         });
         mFeedEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(FeedRouter.ROUTER_ADD_FEED_PLAN_ACTIVITY).navigation();
             }
         });
         getFeedAdvice();
+        getMyFrequency();
     }
 
     private GetFeedingAdviceRequest mGetFeedingAdviceRequest;
@@ -93,6 +98,7 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
         if (mGetFeedingAdviceRequest != null && !mGetFeedingAdviceRequest.isFinish()) {
             return;
         }
+
         mGetFeedingAdviceRequest = new GetFeedingAdviceRequest();
         mGetFeedingAdviceRequest.addUrlParam("petname", mPetData.petname);
         mGetFeedingAdviceRequest.addUrlParam("username", AccountManager.getUserName());
@@ -116,5 +122,41 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(mGetFeedingAdviceRequest);
+    }
+
+
+    private GetPlanRequest mGetPlanRequest;
+
+    public void getMyFrequency() {
+        if (mGetPlanRequest != null && !mGetPlanRequest.isFinish()) {
+            return;
+        }
+        mGetPlanRequest = new GetPlanRequest();
+        mGetPlanRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetPlanRequest.setRequestListener(new RequestListener<PlanModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(PlanModel result) {
+                if (result == null || result.mPlanList == null) {
+                    return;
+                }
+                feedDaily.setText(result.planSum);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetPlanRequest);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

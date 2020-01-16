@@ -16,47 +16,18 @@
 
     <include
         android:id="@+id/title_layout"
-        layout="@layout/module_title_layout"
+        layout="@layout/feed_title_layout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_below="@+id/status_bar" />
 
-    <ScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
+        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_container"
-        android:layout_below="@+id/title_layout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <HorizontalScrollView
-                android:id="@+id/hs_pet_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp">
-
-                <LinearLayout
-                    android:id="@+id/pet_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal" />
-
-            </HorizontalScrollView>
-
-            <com.loonggg.weekcalendar.view.WeekCalendar
-                android:id="@+id/calendar_week"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                app:daysSelectedBackground="@drawable/feed_date_select_bg"
-                app:daysTextColor="#333333" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_below="@+id/title_layout"
+        android:overScrollMode="never" />
 
     <LinearLayout
         android:id="@+id/bottom_container"
@@ -81,7 +52,6 @@
                 android:src="#FF1A1A" />
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -110,10 +80,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="立即出粮"
+                android:text="快速加餐"
                 android:textColor="#8BC34A"
                 android:textStyle="bold" />
         </LinearLayout>
+
 
     </LinearLayout>
 

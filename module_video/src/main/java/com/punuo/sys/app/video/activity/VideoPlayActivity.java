@@ -1,17 +1,12 @@
 package com.punuo.sys.app.video.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
+import android.graphics.SurfaceTexture;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.StrictMode;
-import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.Surface;
+import android.view.TextureView;
 
-import com.FFmpeg.ffmpeg;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
@@ -19,188 +14,147 @@ import com.punuo.sip.SipUserManager;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
-import com.punuo.sys.app.video.stream.MediaRtpReceiver;
-import com.punuo.sys.app.video.stream.MediaSample;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.util.CommonUtil;
 
-import java.net.SocketException;
-import java.nio.ByteBuffer;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.vov.vitamio.LibsChecker;
+import io.vov.vitamio.MediaPlayer;
 
 /**
  * Created by han.chen.
  * Date on 2019-09-20.
  **/
 @Route(path = VideoRouter.ROUTER_VIDEO_PLAY_ACTIVITY)
-public class VideoPlayActivity extends BaseActivity {
+public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnBufferingUpdateListener,
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, TextureView.SurfaceTextureListener {
     private static final String TAG = "VideoPlayActivity";
     private static final int MSG_CHECK_VIDEO = 2;
     private static final int DELAY = 20000;
-    @BindView(R2.id.surface_view)
-    SurfaceView mSurfaceView;
+    @BindView(R2.id.surface)
+    TextureView mTextureView;
+    private MediaPlayer mMediaPlayer;
+    private Surface surface;
 
-    private SurfaceHolder mSurfaceHolder;
-    private ffmpeg mFFmpeg;
-    private VideoDecoderThread mVideoDecoderThread;
-    private byte[] mPixel = new byte[H264Config.VIDEO_WIDTH * H264Config.VIDEO_HEIGHT * 2];
-    private ByteBuffer mVideoBuffer = ByteBuffer.wrap(mPixel);
-    private Bitmap mFrameBitmap;
-    private int index = 0;
-    private MediaRtpReceiver mMediaRtpReceiver;
+    private boolean mIsVideoReadyToBePlayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!LibsChecker.checkVitamioLibs(this)) {
+            return;
+        }
         setContentView(R.layout.activity_video_play);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         ButterKnife.bind(this);
         initSurfaceViewSize();
-        mSurfaceHolder = mSurfaceView.getHolder();
-        mFFmpeg = new ffmpeg();
-
-        mFrameBitmap = Bitmap.createBitmap(H264Config.VIDEO_WIDTH, H264Config.VIDEO_HEIGHT, Bitmap.Config.RGB_565);
-        try {
-            mMediaRtpReceiver = new MediaRtpReceiver(H264Config.rtpIp, H264Config.rtpPort);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        playVideo();
     }
 
     private void initSurfaceViewSize() {
         int width = CommonUtil.getWidth();
-        int height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;
-        mSurfaceView.getLayoutParams().height = height;
+        mTextureView.getLayoutParams().height = H264Config.VIDEO_WIDTH * width / H264Config.VIDEO_HEIGHT;
+        mTextureView.setRotation(180);
+        mTextureView.setSurfaceTextureListener(this);
     }
 
-    private void playVideo() {
-        mVideoDecoderThread = new VideoDecoderThread();
-        mVideoDecoderThread.startDecoding();
-        if (!mBaseHandler.hasMessages(MSG_CHECK_VIDEO)) {
-            mBaseHandler.sendEmptyMessageDelayed(MSG_CHECK_VIDEO, DELAY);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mVideoDecoderThread != null) {
-            mVideoDecoderThread.stopDecoding();
-        }
-        closeVideo();
-        mMediaRtpReceiver.onDestroy();
-        try {
-            mFFmpeg.Destroy();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mVideoBuffer.clear();
-        mBaseHandler.removeMessages(MSG_CHECK_VIDEO);
-    }
-
-    class VideoDecoderThread extends Thread {
-        private boolean running = false;
-
-        @Override
-        public void run() {
-            mFFmpeg.Init(H264Config.VIDEO_WIDTH, H264Config.VIDEO_HEIGHT);
-            mFFmpeg.DecoderNal(H264Config.SPS_MOBILE_DEVICE, H264Config.SPS_MOBILE_DEVICE.length, mPixel);
-            mFFmpeg.DecoderNal(H264Config.PPS_MOBILE_DEVICE, H264Config.PPS_MOBILE_DEVICE.length, mPixel);
-            while (running) {
-                byte[] nal = MediaSample.getInstance().getReadableNalBuf(index);
-                if (nal != null) {
-                    try {
-                        int iTemp = mFFmpeg.DecoderNal(nal, nal.length, mPixel);
-                        if (iTemp > 0) {
-                            drawFrameBitmap();
-                        } else {
-                            Log.i(TAG, "run: 解码失败");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                MediaSample.getInstance().readLock(index);
-                MediaSample.getInstance().cleanNalBuf(index);
-                index++;
-                index = index % 200;
-            }
-        }
-
-        public void startDecoding() {
-            running = true;
-            start();
-        }
-
-        public void stopDecoding() {
-            running = false;
-            interrupt();
-        }
-    }
-
-    private void drawFrameBitmap() {
-        mFrameBitmap.copyPixelsFromBuffer(mVideoBuffer);
-        mVideoBuffer.position(0);
-        int surfaceViewWidth = mSurfaceView.getWidth();
-        int surfaceViewHeight = mSurfaceView.getHeight();
-        int bmpWidth = mFrameBitmap.getWidth();
-        int bmpHeight = mFrameBitmap.getHeight();
-        Matrix matrix = new Matrix();
-        matrix.postScale((float) surfaceViewWidth / bmpWidth, (float) surfaceViewHeight / bmpHeight);
-        Bitmap scaleBitmap = Bitmap.createBitmap(mFrameBitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
-        scaleBitmap = adjustPhotoRotation(scaleBitmap, 90);
-        if (mSurfaceHolder != null) {
-            Canvas canvas = mSurfaceHolder.lockCanvas();
-            canvas.drawBitmap(scaleBitmap, 0, 0, null);
-            mSurfaceHolder.unlockCanvasAndPost(canvas);
-        }
-    }
-
-    private Bitmap adjustPhotoRotation(Bitmap bm, final int orientationDegree) {
-        Matrix m = new Matrix();
-        m.setRotate(orientationDegree, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-        float targetX, targetY;
-        if (orientationDegree == 90) {
-            targetX = bm.getHeight();
-            targetY = 0;
-        } else {
-            targetX = bm.getHeight();
-            targetY = bm.getWidth();
-        }
-        final float[] values = new float[9];
-        m.getValues(values);
-        float x1 = values[Matrix.MTRANS_X];
-        float y1 = values[Matrix.MTRANS_Y];
-        m.postTranslate(targetX - x1, targetY - y1);
-        Bitmap bm1 = Bitmap.createBitmap(bm.getHeight(), bm.getWidth(), Bitmap.Config.ARGB_8888);
-        Paint paint = new Paint();
-        Canvas canvas = new Canvas(bm1);
-        canvas.drawBitmap(bm, m, paint);
-        return bm1;
+//        closeVideo();
+        releaseMediaPlayer();
+        doCleanUp();
     }
 
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
-        switch (msg.what) {
-            case MSG_CHECK_VIDEO:
-                if (MediaSample.getInstance().getMediaStatus() == 0) {
-                    closeVideo();
-                } else {
-                    MediaSample.getInstance().setMediaStatus(0);
-                }
-                mBaseHandler.sendEmptyMessageDelayed(MSG_CHECK_VIDEO, DELAY);
-                break;
-        }
     }
 
     private void closeVideo() {
-        SipByeRequest sipByeRequest = new SipByeRequest("310023001139940001");
+        SipByeRequest sipByeRequest = new SipByeRequest("310023005801930001");
         SipUserManager.getInstance().addRequest(sipByeRequest);
         finish();
+    }
+
+    private void doCleanUp() {
+        mIsVideoReadyToBePlayed = false;
+    }
+
+    private void playVideo(SurfaceTexture surfaceTexture) {
+        doCleanUp();
+        try {
+            // Create a new media player and set the listeners
+            mMediaPlayer = new MediaPlayer(this, true);
+            mMediaPlayer.setDataSource("rtmp://101.69.255.130:1936/hls/live");
+            if (surface == null) {
+                surface = new Surface(surfaceTexture);
+            }
+            mMediaPlayer.setSurface(surface);
+            mMediaPlayer.prepareAsync();
+            mMediaPlayer.setOnBufferingUpdateListener(this);
+            mMediaPlayer.setOnCompletionListener(this);
+            mMediaPlayer.setOnPreparedListener(this);
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        playVideo(surface);
+        showLoadingDialog();
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        dismissLoadingDialog();
+        mIsVideoReadyToBePlayed = true;
+        if (mIsVideoReadyToBePlayed) {
+            startVideoPlayback();
+        }
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
+    }
+
+    private void startVideoPlayback() {
+        mMediaPlayer.start();
     }
 }

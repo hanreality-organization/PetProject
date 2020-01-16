@@ -10,5 +10,9 @@
             android:name=".FeedHealthActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".FeedAboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"/>
+
     </application>
 </manifest>

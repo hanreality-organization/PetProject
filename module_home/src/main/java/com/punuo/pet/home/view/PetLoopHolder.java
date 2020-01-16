@@ -107,8 +107,7 @@ public class PetLoopHolder {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             PetData data = mPetData.get(position);
-            View view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.home_loopmodule_loop_item, container, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.home_loopmodule_loop_item, container, false);
             ImageView iv = view.findViewById(R.id.loop_item_iv);
             Glide.with(mContext).load(data.avatar).into(iv);
             container.addView(view);

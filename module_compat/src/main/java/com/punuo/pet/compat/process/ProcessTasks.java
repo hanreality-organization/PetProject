@@ -58,11 +58,10 @@ public class ProcessTasks {
         HttpManager.init();
         SipConfig.init(new ISipConfig() {
             NameAddress mServerAddress;
-            NameAddress mUserRegisterAddress;
             NameAddress mUserNormalAddress;
             @Override
             public String getServerIp() {
-                return "101.69.255.134";
+                return "39.98.36.250";//101.69.255.134
             }
 
             @Override
@@ -81,11 +80,8 @@ public class ProcessTasks {
 
             @Override
             public NameAddress getUserRegisterAddress() {
-                if (mUserRegisterAddress == null) {
                     SipURL local = new SipURL(SipConfig.REGISTER_ID, SipConfig.getServerIp(), SipConfig.getPort());
-                    mUserRegisterAddress = new NameAddress(AccountManager.getUserName(), local);
-                }
-                return mUserRegisterAddress;
+                return new NameAddress(AccountManager.getUserName(), local);
             }
 
             @Override

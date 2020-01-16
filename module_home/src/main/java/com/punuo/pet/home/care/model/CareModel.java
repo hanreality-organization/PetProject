@@ -10,6 +10,6 @@ import java.util.List;
  **/
 public class CareModel {
 
-    @SerializedName("data")
+    @SerializedName("carelists")
     public List<CareData> mCareDataList;
 }

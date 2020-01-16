@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_spinner">
+        <item>出粮频率</item>
+        <item>出粮克数</item>
+        <item>剩余克数</item>
+    </string-array>
+</resources>

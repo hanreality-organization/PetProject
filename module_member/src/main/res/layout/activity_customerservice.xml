@@ -28,7 +28,7 @@
         android:padding="10dp"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:text="联系我们：0518-86867280"
+        android:text="联系我们：13989878430"
         />
 
     </RelativeLayout>

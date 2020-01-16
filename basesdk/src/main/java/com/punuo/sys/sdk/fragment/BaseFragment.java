@@ -40,9 +40,33 @@ public class BaseFragment extends Fragment {
 
     public void showLoadingDialog() {
         if (mActivity instanceof BaseActivity) {
-            ((BaseActivity) mActivity).showLoadingDialog();
+            ((BaseActivity) mActivity).showLoadingDialog(View.GONE);
         } else {
             if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+                mLoadingDialog.setBtnVisibility(View.GONE);
+                mLoadingDialog.show();
+            }
+        }
+    }
+
+    public void showLoadingDialog(int btnVisibility) {
+        if (mActivity instanceof BaseActivity) {
+            ((BaseActivity) mActivity).showLoadingDialog(btnVisibility);
+        } else {
+            if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+                mLoadingDialog.setBtnVisibility(btnVisibility);
+                mLoadingDialog.show();
+            }
+        }
+    }
+
+    public void showLoadingDialogWithCancel(String msg, View.OnClickListener listener) {
+        if (mActivity instanceof BaseActivity) {
+            ((BaseActivity) mActivity).showLoadingDialogWithCancel(msg, listener);
+        } else {
+            if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+                mLoadingDialog.setLoadingMsg(msg);
+                mLoadingDialog.setBtnVisibility(View.VISIBLE);
                 mLoadingDialog.show();
             }
         }

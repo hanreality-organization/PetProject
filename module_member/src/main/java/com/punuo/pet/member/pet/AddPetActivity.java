@@ -136,7 +136,6 @@ public class AddPetActivity extends BaseSwipeBackActivity {
             public void onComplete() {
 
             }
-
             @Override
             public void onSuccess(BaseModel result) {
                 if (result == null) {
