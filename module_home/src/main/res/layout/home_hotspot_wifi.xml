@@ -48,13 +48,21 @@
         android:gravity="left"
         android:text="1、设置完热点后请长按设备开机键"
         android:textColor="#333333" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:gravity="left"
+            android:text="2、按下开机键后WiFi指示灯会亮起，当WiFi指示灯熄灭就可以松开开机键"
+            android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="2、等待大约20秒后在下面输入想要连接的WiFi名和密码"
+        android:text="3、当开机音乐响起后在下面输入想要连接的WiFi名和密码"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -62,7 +70,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="3、当手机上显示已有设备连上热点时点击连接"
+        android:text="4、当WiFi指示灯常亮时说明设备已连上手机热点，此时点击下面的连接"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
@@ -70,7 +78,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:gravity="left"
-        android:text="4、当显示连接成功后请关闭热点"
+        android:text="5、当显示连接成功后请关闭热点"
         android:textColor="#333333" />
     <TextView
         android:layout_width="match_parent"
