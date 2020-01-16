@@ -137,10 +137,11 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                releaseMediaPlayer();
-                closeVideo();
-                isPlaying = false;
-                mPlay.setEnabled(true);
+                showDialog();
+//                releaseMediaPlayer();
+//                closeVideo();
+//                isPlaying = false;
+//                mPlay.setEnabled(true);
             }
         });
         mReset.setOnClickListener(new View.OnClickListener() {
