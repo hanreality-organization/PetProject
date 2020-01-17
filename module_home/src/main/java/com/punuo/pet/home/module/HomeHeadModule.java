@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonArray;
@@ -96,6 +97,7 @@ public class HomeHeadModule {
         spinner = mRootView.findViewById(R.id.space1);
         getRotationChart();
         getFoodfrequency();
+        Toast.makeText(mContext,"添加完宠物后请下拉刷新",Toast.LENGTH_SHORT).show();
     }
 
     public void refresh() {

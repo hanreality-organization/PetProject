@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -99,7 +100,7 @@ public class FeedFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
         devId = "310023005801930001";
-
+        Toast.makeText(getActivity(),"点击左上角WiFi按钮绑定设备并为设备连接WiFi",Toast.LENGTH_LONG).show();
         return mFragmentView;
     }
 
