@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.model.LoopModel;
 import com.punuo.sys.sdk.util.BaseHandler;
-import com.punuo.sys.sdk.util.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +82,7 @@ public class LoopHolder implements BaseHandler.MessageHandler {
         paddingBottom = mLoopContainer.getPaddingBottom();
     }
 
-    public void setHeigh(int dp) {
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) rootView.getLayoutParams();
-        layoutParams.height = CommonUtil.dip2px(dp);
-        rootView.setLayoutParams(layoutParams);
-    }
-
-    public void bindData(LoopModel loopModel, final int position) {
+    public void bindData(LoopModel loopModel) {
         mAdapter.reset(loopModel.mList);
         if (loopModel.mList.size() == 1) {
             mLoopIndicator.setVisibility(View.GONE);

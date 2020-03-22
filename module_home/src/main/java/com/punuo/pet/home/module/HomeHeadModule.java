@@ -378,7 +378,7 @@ public class HomeHeadModule {
                         images.add("http://feeder.qinqingonline.com:8080/" + jsonArray.get(i).getAsString());
                     }
                     LoopModel loopModel = new LoopModel(images);
-                    mLoopHolder.bindData(loopModel, 0);
+                    mLoopHolder.bindData(loopModel);
                 }
             }
 
