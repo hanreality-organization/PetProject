@@ -32,7 +32,7 @@
         tools:replace="android:theme">
         <activity
             android:name=".compat.splash.SplashActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoWindowAnimationStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

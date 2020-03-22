@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonArray;
@@ -23,10 +22,9 @@ import com.punuo.pet.home.chart.CustomBarChart1;
 import com.punuo.pet.home.device.model.ChartData;
 import com.punuo.pet.home.device.model.ChartData2;
 import com.punuo.pet.home.device.model.ChartData3;
-import com.punuo.pet.home.device.request.GetFoodfrequencyRequest;
-import com.punuo.pet.home.device.request.GetFoodnumberRequest;
-import com.punuo.pet.home.device.request.GetSurplusfoodRequest;
-import com.punuo.pet.home.view.GlideImageLoader;
+import com.punuo.pet.home.device.request.GetFoodFrequencyRequest;
+import com.punuo.pet.home.device.request.GetFoodNumberRequest;
+import com.punuo.pet.home.device.request.GetSurplusFoodRequest;
 import com.punuo.pet.home.view.PetLoopHolder;
 import com.punuo.pet.home.view.request.GetRotationChart;
 import com.punuo.pet.model.PetData;
@@ -38,11 +36,11 @@ import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.model.LoopModel;
 import com.punuo.sys.sdk.util.TimeUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
-import com.youth.banner.Banner;
-import com.youth.banner.Transformer;
+import com.punuo.sys.sdk.view.loopholder.LoopHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,19 +70,20 @@ public class HomeHeadModule {
     RoundedImageView mCarePet;
     @BindView(R2.id.chart_container)
     LinearLayout mChartContainer;
-    @BindView(R2.id.bander)
-    Banner banner;
+    @BindView(R2.id.home_ads_container)
+    LinearLayout mHomeAdsContainer;
 
     private View mRootView;
     private PetLoopHolder mPetLoopHolder;
+    private LoopHolder mLoopHolder;
     private Context mContext;
     private TextView mPetAge;
     private TextView mPetWeight;
     private PetData mCurrentPetData;
 
-    protected Spinner spinner;
-    private String[] ChartX=new String[4]; //柱状图水平坐标
-    private int[] Chartdata=new int[4];//柱状图值
+    private Spinner mSpinner;
+    private String[] ChartX = new String[4]; //柱状图水平坐标
+    private int[] ChartData = new int[4]; //柱状图值
 
     public HomeHeadModule(Context context, ViewGroup parent) {
         mContext = context;
@@ -93,64 +92,31 @@ public class HomeHeadModule {
         ButterKnife.bind(this, mRootView);
         mPetLoopHolder = PetLoopHolder.newInstance(context, mHeaderContainer);
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
+        mSpinner = mRootView.findViewById(R.id.space1);
         initPetInfo();
-        spinner = mRootView.findViewById(R.id.space1);
+        initAdLoop();
+        initView();
         getRotationChart();
-        getFoodfrequency();
-        Toast.makeText(mContext,"添加完宠物后请下拉刷新",Toast.LENGTH_SHORT).show();
+        getFoodFrequency();
+        ToastUtils.showToast("添加完宠物后请下拉刷新");
     }
 
-    public void refresh() {
-        getRotationChart();
-        getFoodfrequency();
-    }
-
-    public View getRootView() {
-        return mRootView;
-    }
-
-    private void initPetInfo() {
-        View mPetInfo = LayoutInflater.from(mContext).inflate(R.layout.home_pet_info_layout,
-                mHomePetInfoContainer, false);
-        mHomePetInfoContainer.addView(mPetInfo);
-        mPetAge = mPetInfo.findViewById(R.id.pet_age);
-        mPetWeight = mPetInfo.findViewById(R.id.pet_weight);
-    }
-
-    public void updateView(final PetModel petModel) {
-        mPetLoopHolder.updateView(petModel);
-        updatePet(0, petModel);
-        mPetLoopHolder.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                updatePet(position, petModel);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void initView() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String str = spinner.getSelectedItem().toString();
+                String str = mSpinner.getSelectedItem().toString();
                 if ("出粮频率".equals(str)) {
                     mChartContainer.removeAllViews();
-                    getFoodfrequency();
+                    getFoodFrequency();
                 }
                 if ("出粮克数".equals(str)) {
                     mChartContainer.removeAllViews();
-                    getFoodnumber();
+                    getFoodNumber();
                 }
                 if ("剩余克数".equals(str)) {
                     mChartContainer.removeAllViews();
-                    getSurplusfood();
+                    getSurplusFood();
                 }
             }
 
@@ -193,6 +159,63 @@ public class HomeHeadModule {
         });
     }
 
+    /**
+     * 初始化轮播广告
+     */
+    private void initAdLoop() {
+        mLoopHolder = LoopHolder.newInstance(mContext, mHomeAdsContainer);
+        mHomeAdsContainer.addView(mLoopHolder.mViewRoot);
+    }
+
+    /**
+     * 刷新
+     */
+    public void refresh() {
+        getRotationChart();
+        getFoodFrequency();
+    }
+
+    public View getRootView() {
+        return mRootView;
+    }
+
+    /**
+     * 初始化宠物信息
+     */
+    private void initPetInfo() {
+        View mPetInfo = LayoutInflater.from(mContext).inflate(R.layout.home_pet_info_layout,
+                mHomePetInfoContainer, false);
+        mHomePetInfoContainer.addView(mPetInfo);
+        mPetAge = mPetInfo.findViewById(R.id.pet_age);
+        mPetWeight = mPetInfo.findViewById(R.id.pet_weight);
+    }
+
+    /**
+     * 刷新宠物信息
+     *
+     * @param petModel
+     */
+    public void updateView(final PetModel petModel) {
+        mPetLoopHolder.updateView(petModel);
+        updatePet(0, petModel);
+        mPetLoopHolder.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePet(position, petModel);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
     private void updatePet(int position, PetModel model) {
         if (model.mPets.isEmpty()) {
             mHomePetInfoContainer.setVisibility(View.GONE);
@@ -207,15 +230,15 @@ public class HomeHeadModule {
         ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight));
     }
 
-    private GetFoodfrequencyRequest mGetFoodfrequencyRequest;
+    private GetFoodFrequencyRequest mGetFoodFrequencyRequest;
 
-    public void getFoodfrequency(){
-        if (mGetFoodfrequencyRequest != null && !mGetFoodfrequencyRequest.isFinish()) {
+    private void getFoodFrequency() {
+        if (mGetFoodFrequencyRequest != null && !mGetFoodFrequencyRequest.isFinish()) {
             return;
         }
-        mGetFoodfrequencyRequest = new GetFoodfrequencyRequest();
-        mGetFoodfrequencyRequest.addUrlParam("userName",AccountManager.getUserName());
-        mGetFoodfrequencyRequest.setRequestListener(new RequestListener<ChartData>() {
+        mGetFoodFrequencyRequest = new GetFoodFrequencyRequest();
+        mGetFoodFrequencyRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetFoodFrequencyRequest.setRequestListener(new RequestListener<ChartData>() {
             @Override
             public void onComplete() {
 
@@ -226,15 +249,15 @@ public class HomeHeadModule {
                 if (result == null) {
                     return;
                 }
-                if(result!=null){
-                    ChartX[0]=result.frequencyData.time1;
-                    Chartdata[0]=result.frequencyData.frequency1;
-                    ChartX[1]=result.frequencyData.time2;
-                    Chartdata[1]=result.frequencyData.frequency2;
-                    ChartX[2]=result.frequencyData.time3;
-                    Chartdata[2]=result.frequencyData.frequency3;
-                    ChartX[3]=result.frequencyData.time4;
-                    Chartdata[3]=result.frequencyData.frequency4;
+                if (result != null) {
+                    ChartX[0] = result.frequencyData.time1;
+                    ChartData[0] = result.frequencyData.frequency1;
+                    ChartX[1] = result.frequencyData.time2;
+                    ChartData[1] = result.frequencyData.frequency2;
+                    ChartX[2] = result.frequencyData.time3;
+                    ChartData[2] = result.frequencyData.frequency3;
+                    ChartX[3] = result.frequencyData.time4;
+                    ChartData[3] = result.frequencyData.frequency4;
                     barChart1();
                 }
             }
@@ -244,35 +267,37 @@ public class HomeHeadModule {
 
             }
         });
-        HttpManager.addRequest(mGetFoodfrequencyRequest);
+        HttpManager.addRequest(mGetFoodFrequencyRequest);
     }
 
-    private GetFoodnumberRequest mGetFoodnumberRequest;
-    public void getFoodnumber(){
-        if (mGetFoodnumberRequest != null && !mGetFoodnumberRequest.isFinish()) {
+    private GetFoodNumberRequest mGetFoodNumberRequest;
+
+    private void getFoodNumber() {
+        if (mGetFoodNumberRequest != null && !mGetFoodNumberRequest.isFinish()) {
             return;
         }
-        mGetFoodnumberRequest = new GetFoodnumberRequest();
-        mGetFoodnumberRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetFoodnumberRequest.setRequestListener(new RequestListener<ChartData2>() {
+        mGetFoodNumberRequest = new GetFoodNumberRequest();
+        mGetFoodNumberRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetFoodNumberRequest.setRequestListener(new RequestListener<ChartData2>() {
             @Override
             public void onComplete() {
 
             }
+
             @Override
             public void onSuccess(ChartData2 result) {
                 if (result == null) {
                     return;
                 }
-                if(result!=null){
-                    ChartX[0]=result.eatdata.time1;
-                    Chartdata[0]=result.eatdata.eat1;
-                    ChartX[1]=result.eatdata.time2;
-                    Chartdata[1]=result.eatdata.eat2;
-                    ChartX[2]=result.eatdata.time3;
-                    Chartdata[2]=result.eatdata.eat3;
-                    ChartX[3]=result.eatdata.time4;
-                    Chartdata[3]=result.eatdata.eat4;
+                if (result != null) {
+                    ChartX[0] = result.eatdata.time1;
+                    ChartData[0] = result.eatdata.eat1;
+                    ChartX[1] = result.eatdata.time2;
+                    ChartData[1] = result.eatdata.eat2;
+                    ChartX[2] = result.eatdata.time3;
+                    ChartData[2] = result.eatdata.eat3;
+                    ChartX[3] = result.eatdata.time4;
+                    ChartData[3] = result.eatdata.eat4;
                     barChart2();
                 }
             }
@@ -282,39 +307,41 @@ public class HomeHeadModule {
 
             }
         });
-        HttpManager.addRequest(mGetFoodnumberRequest);
+        HttpManager.addRequest(mGetFoodNumberRequest);
     }
 
-    private GetSurplusfoodRequest mGetSurplusfoodRequest;
-    public void getSurplusfood(){
-        if (mGetSurplusfoodRequest != null && !mGetSurplusfoodRequest.isFinish()) {
+    private GetSurplusFoodRequest mGetSurplusFoodRequest;
+
+    private void getSurplusFood() {
+        if (mGetSurplusFoodRequest != null && !mGetSurplusFoodRequest.isFinish()) {
             return;
         }
-        mGetSurplusfoodRequest = new GetSurplusfoodRequest();
-        mGetSurplusfoodRequest.addUrlParam("userName",AccountManager.getUserName());
-        mGetSurplusfoodRequest.setRequestListener(new RequestListener<ChartData3>() {
+        mGetSurplusFoodRequest = new GetSurplusFoodRequest();
+        mGetSurplusFoodRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetSurplusFoodRequest.setRequestListener(new RequestListener<ChartData3>() {
             @Override
             public void onComplete() {
 
             }
+
             @Override
             public void onSuccess(ChartData3 result) {
                 if (result == null) {
                     return;
                 }
-                if(result!=null){
-                    ChartX[0]=result.leftData.time1;
-                    int i1=Integer.parseInt(result.leftData.lefted1);
-                    Chartdata[0]=i1;
-                    ChartX[1]=result.leftData.time2;
-                    int i2=Integer.parseInt(result.leftData.lefted2);
-                    Chartdata[1]=i2;
-                    ChartX[2]=result.leftData.time3;
-                    int i3=Integer.parseInt(result.leftData.lefted3);
-                    Chartdata[2]=i3;
-                    ChartX[3]=result.leftData.time4;
-                    int i4=Integer.parseInt(result.leftData.lefted4);
-                    Chartdata[3]=i4;
+                if (result != null) {
+                    ChartX[0] = result.leftData.time1;
+                    int i1 = Integer.parseInt(result.leftData.lefted1);
+                    ChartData[0] = i1;
+                    ChartX[1] = result.leftData.time2;
+                    int i2 = Integer.parseInt(result.leftData.lefted2);
+                    ChartData[1] = i2;
+                    ChartX[2] = result.leftData.time3;
+                    int i3 = Integer.parseInt(result.leftData.lefted3);
+                    ChartData[2] = i3;
+                    ChartX[3] = result.leftData.time4;
+                    int i4 = Integer.parseInt(result.leftData.lefted4);
+                    ChartData[3] = i4;
                     barChart3();
                 }
             }
@@ -324,15 +351,16 @@ public class HomeHeadModule {
 
             }
         });
-        HttpManager.addRequest(mGetSurplusfoodRequest);
+        HttpManager.addRequest(mGetSurplusFoodRequest);
     }
 
     private GetRotationChart mGetRotationChart;
-    public void getRotationChart(){
+
+    public void getRotationChart() {
         if (mGetRotationChart != null && !mGetRotationChart.isFinish()) {
             return;
         }
-        mGetRotationChart=new GetRotationChart();
+        mGetRotationChart = new GetRotationChart();
         mGetRotationChart.addUrlParam("userName", AccountManager.getUserName());
         mGetRotationChart.addUrlParam("shop_id", 1);
         mGetRotationChart.setRequestListener(new RequestListener<JsonElement>() {
@@ -349,11 +377,8 @@ public class HomeHeadModule {
                     for (int i = 0; i < jsonArray.size(); i++) {
                         images.add("http://feeder.qinqingonline.com:8080/" + jsonArray.get(i).getAsString());
                     }
-                    banner.setImageLoader(new GlideImageLoader());
-                    banner.setImages(images);
-                    banner.setBannerAnimation(Transformer.DepthPage);
-                    banner.setDelayTime(2000);
-                    banner.start();
+                    LoopModel loopModel = new LoopModel(images);
+                    mLoopHolder.bindData(loopModel, 0);
                 }
             }
 
@@ -364,11 +389,12 @@ public class HomeHeadModule {
         });
         HttpManager.addRequest(mGetRotationChart);
     }
+
     //绘制柱状图函数
     private void barChart1() {
-        String[] xLabel = {"",ChartX[3],ChartX[2],ChartX[1],ChartX[0]};
+        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
         String[] yLabel = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        int[] data1 = {Chartdata[3],Chartdata[2],Chartdata[1],Chartdata[0]};
+        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
         List<Integer> color = new ArrayList<>();
@@ -377,10 +403,11 @@ public class HomeHeadModule {
         color.add(R.color.blue);
         mChartContainer.addView(new CustomBarChart1(mContext, xLabel, yLabel, data, color));
     }
+
     private void barChart2() {
-        String[] xLabel = {"",ChartX[3],ChartX[2],ChartX[1],ChartX[0]};
+        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
         String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
-        int[] data1 = {Chartdata[3],Chartdata[2],Chartdata[1],Chartdata[0]};
+        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
         List<Integer> color = new ArrayList<>();
@@ -389,10 +416,11 @@ public class HomeHeadModule {
         color.add(R.color.blue);
         mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
     }
+
     private void barChart3() {
-        String[] xLabel = {"",ChartX[3],ChartX[2],ChartX[1],ChartX[0]};
+        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
         String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
-        int[] data1 = {Chartdata[3],Chartdata[2],Chartdata[1],Chartdata[0]};
+        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
         List<Integer> color = new ArrayList<>();

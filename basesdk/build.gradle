@@ -63,4 +63,5 @@ dependencies {
     api project(':module_router')
     api project(':vitamio')
     api 'com.tencent.bugly:crashreport:2.8.6.0'
+    api 'com.github.bumptech.glide:glide:4.5.0'
 }

@@ -53,16 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_below="@+id/header_container"
-            android:orientation="vertical" >
+            android:orientation="vertical" />
 
-            <com.youth.banner.Banner
-                android:id="@+id/bander"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/home_ads_container"
-                android:layout_alignTop="@+id/home_ads_container"
-                app:image_scale_type="fit_xy" />
-        </LinearLayout>
         <RelativeLayout
             android:id="@+id/device_container"
             android:layout_width="match_parent"
