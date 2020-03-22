@@ -1,7 +1,6 @@
 package com.punuo.pet.home.care.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,21 +11,15 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.punuo.pet.home.R;
-import com.punuo.pet.home.care.holder.CareViewHolder;
 import com.punuo.pet.home.care.model.CareData;
 import com.punuo.pet.router.HomeRouter;
-import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Created by han.chen.

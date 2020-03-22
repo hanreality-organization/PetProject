@@ -5,9 +5,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.punuo.sys.sdk.util.DeviceHelper;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -41,11 +40,21 @@ public class PnApplication extends Application {
             ARouter.openDebug();
         }
         ARouter.init(this);
-        initImageLoader();
+        initCrashReport();
     }
 
-    private void initImageLoader() {
-        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
-        ImageLoader.getInstance().init(configuration);
+    public void initCrashReport() {
+        try {
+            if (DeviceHelper.isApkInDebug()) {
+                return;
+            }
+            final Context context = getApplicationContext();
+            CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+            strategy.setAppChannel("Android"); //渠道
+
+            CrashReport.initCrashReport(context, "686a76cb6a", DeviceHelper.isApkInDebug(), strategy);
+        } catch (Throwable ignore) {
+            ignore.printStackTrace();
+        }
     }
 }

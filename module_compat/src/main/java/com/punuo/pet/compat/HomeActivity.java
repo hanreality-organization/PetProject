@@ -64,7 +64,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         init();
         mHeartBeatTaskResumeProcessor = new HeartBeatTaskResumeProcessor(mBaseHandler);
         mHeartBeatTaskResumeProcessor.onCreate();
-        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);//StatusBarUtil：状态栏工具类
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true); //StatusBarUtil：状态栏工具类
         mPostView = getWindow().getDecorView();
         mPostView.post(new Runnable() {//view.post():1.子线程更UI,2.获取View的宽高
             @Override
@@ -72,18 +72,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (AccountManager.isLoginned()) {
                     String session = AccountManager.getSession();
                     if (!RegexUtils.checkMobile(session)) {
+                        //未绑定手机号(适用于微信登陆)
                         Bundle params = new Bundle();
                         params.putString("openId", session);
                         ARouter.getInstance().build(MemberRouter.ROUTER_BIND_PHONE_ACTIVITY)
                                 .with(params)
                                 .navigation();
                     } else {
+                        //获取宠物信息
                         PetManager.getPetInfo();
                     }
                 }
             }
         });
         EventBus.getDefault().register(this);
+        //拉取用户信息
         if (RegexUtils.checkMobile(AccountManager.getUserName())) {
             UserManager.getUserInfo(AccountManager.getUserName());
         }
@@ -92,48 +95,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         initTabBars();
         switchFragment(TAB_ONE);
-    }
-
-    private void getSipUserID() {
-        SipGetUserIdRequest getUserIdRequest = new SipGetUserIdRequest();
-        SipUserManager.getInstance().addRequest(getUserIdRequest);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(UserInfo userInfo) {
-        getSipUserID();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(PetModel model) {
-        if (model.mPets == null || model.mPets.isEmpty()) {
-            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
-                    .navigation();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ReRegisterEvent event) {
-        if (loginFailed) {
-            loginFailed = false;
-            return;
-        }
-        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
-        getSipUserID();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LoginFailEvent event) {
-        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
-        loginFailed = true;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LoginResponse event) {
-        //sip登陆注册成功 开启心跳保活
-        if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
-            mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
-        }
     }
 
     private void initTabBars() {
@@ -147,6 +108,74 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * Sip服务注册
+     */
+    private void getSipUserID() {
+        SipGetUserIdRequest getUserIdRequest = new SipGetUserIdRequest();
+        SipUserManager.getInstance().addRequest(getUserIdRequest);
+    }
+
+    /**
+     * 用户信息返回
+     * @param userInfo userInfo
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UserInfo userInfo) {
+        getSipUserID();
+    }
+
+    /**
+     * 宠物信息返回，为空：跳转到添加宠物页面
+     * @param model
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PetModel model) {
+        if (model.mPets == null || model.mPets.isEmpty()) {
+            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                    .navigation();
+        }
+    }
+
+    /**
+     * Sip服务重新注册事件
+     * @param event event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ReRegisterEvent event) {
+        if (loginFailed) {
+            loginFailed = false;
+            return;
+        }
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        getSipUserID();
+    }
+
+    /**
+     * Sip服务注册失败事件
+     * @param event event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginFailEvent event) {
+        mBaseHandler.removeMessages(MSG_HEART_BEAR_VALUE);
+        loginFailed = true;
+    }
+
+    /**
+     * Sip服务注册成功事件
+     * @param event event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginResponse event) {
+        //sip登陆注册成功 开启心跳保活
+        if (!mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
+            mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
+        }
+    }
+
+    /**
+     * 空实现返回事件
+     */
     @Override
     public void onBackPressed() {
 
