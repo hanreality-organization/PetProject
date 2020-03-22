@@ -356,7 +356,7 @@ public class HomeHeadModule {
 
     private GetRotationChart mGetRotationChart;
 
-    public void getRotationChart() {
+    private void getRotationChart() {
         if (mGetRotationChart != null && !mGetRotationChart.isFinish()) {
             return;
         }
