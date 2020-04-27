@@ -30,7 +30,6 @@ import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
-import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetdevidRequest;
@@ -41,7 +40,6 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -123,25 +121,25 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
-//                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mStop.performClick();
-//                        dismissLoadingDialog();
-//                    }
-//                });
-//                startVideo(devId);
+//                showDialog();
+                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mStop.performClick();
+                        dismissLoadingDialog();
+                    }
+                });
+                startVideo(devId);
             }
         });
         mStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
-//                releaseMediaPlayer();
-//                closeVideo();
-//                isPlaying = false;
-//                mPlay.setEnabled(true);
+//                showDialog();
+                releaseMediaPlayer();
+                closeVideo();
+                isPlaying = false;
+                mPlay.setEnabled(true);
             }
         });
 //        mReset.setOnClickListener(new View.OnClickListener() {
