@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -18,12 +17,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
-import com.punuo.pet.home.device.model.ChartData;
-import com.punuo.pet.home.device.model.ChartData2;
-import com.punuo.pet.home.device.model.ChartData3;
-import com.punuo.pet.home.device.request.GetFoodFrequencyRequest;
-import com.punuo.pet.home.device.request.GetFoodNumberRequest;
-import com.punuo.pet.home.device.request.GetSurplusFoodRequest;
 import com.punuo.pet.home.view.PetLoopHolder;
 import com.punuo.pet.home.view.request.GetRotationChart;
 import com.punuo.pet.model.PetData;
@@ -77,8 +70,6 @@ public class HomeHeadModule {
     @BindView(R2.id.care_analyse)
     RoundedImageView mCareAnalyse;
 
-    //    @BindView(R2.id.chart_container)
-//    LinearLayout mChartContainer;
     @BindView(R2.id.home_ads_container)
     LinearLayout mHomeAdsContainer;
 
@@ -110,10 +101,6 @@ public class HomeHeadModule {
     private TextView mPetWeight;
     private PetData mCurrentPetData;
 
-    private Spinner mSpinner;
-    private String[] ChartX = new String[4]; //柱状图水平坐标
-    private int[] ChartData = new int[4]; //柱状图值
-
     public HomeHeadModule(Context context, ViewGroup parent) {
         mContext = context;
         mRootView = LayoutInflater.from(context)
@@ -121,13 +108,11 @@ public class HomeHeadModule {
         ButterKnife.bind(this, mRootView);
         mPetLoopHolder = PetLoopHolder.newInstance(context, mHeaderContainer);
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
-//        mSpinner = mRootView.findViewById(R.id.space1);
         initPetInfo();
         initAdLoop();
         initView();
-        getRotationChart();
+        refresh();
         initDeviceSelect();
-//        getFoodFrequency();
         ToastUtils.showToast("添加完宠物后请下拉刷新");
     }
 
@@ -190,29 +175,6 @@ public class HomeHeadModule {
     }
 
     private void initView() {
-//        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                String str = mSpinner.getSelectedItem().toString();
-//                if ("出粮频率".equals(str)) {
-//                    mChartContainer.removeAllViews();
-//                    getFoodFrequency();
-//                }
-//                if ("出粮克数".equals(str)) {
-//                    mChartContainer.removeAllViews();
-//                    getFoodNumber();
-//                }
-//                if ("剩余克数".equals(str)) {
-//                    mChartContainer.removeAllViews();
-//                    getSurplusFood();
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
 
         mHomeAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +208,14 @@ public class HomeHeadModule {
                 }
             }
         });
+
+        mCareAnalyse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_CHART_ACTIVITY)
+                        .navigation();
+            }
+        });
     }
 
     /**
@@ -261,7 +231,6 @@ public class HomeHeadModule {
      */
     public void refresh() {
         getRotationChart();
-//        getFoodFrequency();
     }
 
     public View getRootView() {
@@ -319,130 +288,6 @@ public class HomeHeadModule {
         ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight));
     }
 
-    private GetFoodFrequencyRequest mGetFoodFrequencyRequest;
-
-    private void getFoodFrequency() {
-        if (mGetFoodFrequencyRequest != null && !mGetFoodFrequencyRequest.isFinish()) {
-            return;
-        }
-        mGetFoodFrequencyRequest = new GetFoodFrequencyRequest();
-        mGetFoodFrequencyRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetFoodFrequencyRequest.setRequestListener(new RequestListener<ChartData>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(ChartData result) {
-                if (result == null) {
-                    return;
-                }
-                if (result != null) {
-                    ChartX[0] = result.frequencyData.time1;
-                    ChartData[0] = result.frequencyData.frequency1;
-                    ChartX[1] = result.frequencyData.time2;
-                    ChartData[1] = result.frequencyData.frequency2;
-                    ChartX[2] = result.frequencyData.time3;
-                    ChartData[2] = result.frequencyData.frequency3;
-                    ChartX[3] = result.frequencyData.time4;
-                    ChartData[3] = result.frequencyData.frequency4;
-                    barChart1();
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mGetFoodFrequencyRequest);
-    }
-
-    private GetFoodNumberRequest mGetFoodNumberRequest;
-
-    private void getFoodNumber() {
-        if (mGetFoodNumberRequest != null && !mGetFoodNumberRequest.isFinish()) {
-            return;
-        }
-        mGetFoodNumberRequest = new GetFoodNumberRequest();
-        mGetFoodNumberRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetFoodNumberRequest.setRequestListener(new RequestListener<ChartData2>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(ChartData2 result) {
-                if (result == null) {
-                    return;
-                }
-                if (result != null) {
-                    ChartX[0] = result.eatdata.time1;
-                    ChartData[0] = result.eatdata.eat1;
-                    ChartX[1] = result.eatdata.time2;
-                    ChartData[1] = result.eatdata.eat2;
-                    ChartX[2] = result.eatdata.time3;
-                    ChartData[2] = result.eatdata.eat3;
-                    ChartX[3] = result.eatdata.time4;
-                    ChartData[3] = result.eatdata.eat4;
-                    barChart2();
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mGetFoodNumberRequest);
-    }
-
-    private GetSurplusFoodRequest mGetSurplusFoodRequest;
-
-    private void getSurplusFood() {
-        if (mGetSurplusFoodRequest != null && !mGetSurplusFoodRequest.isFinish()) {
-            return;
-        }
-        mGetSurplusFoodRequest = new GetSurplusFoodRequest();
-        mGetSurplusFoodRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetSurplusFoodRequest.setRequestListener(new RequestListener<ChartData3>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(ChartData3 result) {
-                if (result == null) {
-                    return;
-                }
-                if (result != null) {
-                    ChartX[0] = result.leftData.time1;
-                    int i1 = Integer.parseInt(result.leftData.lefted1);
-                    ChartData[0] = i1;
-                    ChartX[1] = result.leftData.time2;
-                    int i2 = Integer.parseInt(result.leftData.lefted2);
-                    ChartData[1] = i2;
-                    ChartX[2] = result.leftData.time3;
-                    int i3 = Integer.parseInt(result.leftData.lefted3);
-                    ChartData[2] = i3;
-                    ChartX[3] = result.leftData.time4;
-                    int i4 = Integer.parseInt(result.leftData.lefted4);
-                    ChartData[3] = i4;
-                    barChart3();
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mGetSurplusFoodRequest);
-    }
-
     private GetRotationChart mGetRotationChart;
 
     private void getRotationChart() {
@@ -477,45 +322,5 @@ public class HomeHeadModule {
             }
         });
         HttpManager.addRequest(mGetRotationChart);
-    }
-
-    //绘制柱状图函数
-    private void barChart1() {
-        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
-        String[] yLabel = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
-        List<int[]> data = new ArrayList<>();
-        data.add(data1);
-        List<Integer> color = new ArrayList<>();
-        color.add(R.color.colorAccent);
-        color.add(R.color.colorPrimary);
-        color.add(R.color.blue);
-//        mChartContainer.addView(new CustomBarChart1(mContext, xLabel, yLabel, data, color));
-    }
-
-    private void barChart2() {
-        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
-        String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
-        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
-        List<int[]> data = new ArrayList<>();
-        data.add(data1);
-        List<Integer> color = new ArrayList<>();
-        color.add(R.color.colorAccent);
-        color.add(R.color.colorPrimary);
-        color.add(R.color.blue);
-//        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
-    }
-
-    private void barChart3() {
-        String[] xLabel = {"", ChartX[3], ChartX[2], ChartX[1], ChartX[0]};
-        String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
-        int[] data1 = {ChartData[3], ChartData[2], ChartData[1], ChartData[0]};
-        List<int[]> data = new ArrayList<>();
-        data.add(data1);
-        List<Integer> color = new ArrayList<>();
-        color.add(R.color.colorAccent);
-        color.add(R.color.colorPrimary);
-        color.add(R.color.blue);
-//        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
     }
 }

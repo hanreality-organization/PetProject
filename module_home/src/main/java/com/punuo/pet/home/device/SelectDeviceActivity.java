@@ -54,6 +54,12 @@ public class SelectDeviceActivity extends BaseSwipeBackActivity {
 
     private void initView() {
         mTitle.setText("选择设备");
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollToFinishActivity();
+            }
+        });
     }
 
     private void initData() {
