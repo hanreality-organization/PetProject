@@ -89,7 +89,7 @@ public class SelectDeviceActivity extends BaseSwipeBackActivity {
     private List<DeviceData> getDeviceDataList() {
         List<DeviceData> list = new ArrayList<>();
         list.add(new DeviceData("梦视智能宠物喂食器", R.drawable.home_device_feed, DeviceType.FEED));
-        list.add(new DeviceData("梦视智能宠物喂食器", R.drawable.home_device_maoce, DeviceType.MAOCE));
+        list.add(new DeviceData("梦视智能宠物猫砂盆", R.drawable.home_device_maoce, DeviceType.MAOCE));
         return list;
     }
 }
