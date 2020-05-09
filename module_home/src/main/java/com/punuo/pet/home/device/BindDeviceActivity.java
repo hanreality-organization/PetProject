@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -116,6 +117,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         mDeviceList.setAdapter(mDeviceInfoAdapter);
         showLoadingDialog("加载中...");
         refresh();
+        Toast.makeText(this,"绑定设备后点击设备号开始连接WiFi",Toast.LENGTH_LONG).show();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }

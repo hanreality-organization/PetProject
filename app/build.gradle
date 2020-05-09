@@ -19,7 +19,7 @@ android {
         versionCode gradle.sdk.versionCode
         versionName gradle.sdk.versionName
         ndk {
-            abiFilters "armeabi", "armeabi-v7a","x86"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
         }
     }
     buildTypes {

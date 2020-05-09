@@ -1,4 +1,15 @@
-include ':app',':vitamio', ':basesdk', ':module_home', ':module_compat', ':module_router', ':module_member', ':module_message', ':module_circle', ':module_sip', ':module_feed', ':module_video'
+include ':app'
+include ':vitamio'
+include ':basesdk'
+include ':module_home'
+include ':module_compat'
+include ':module_router'
+include ':module_member'
+include ':module_message'
+include ':module_circle'
+include ':module_sip'
+include ':module_feed'
+include ':module_video'
 apply from: './base.gradle'
 
 gradle.ext {

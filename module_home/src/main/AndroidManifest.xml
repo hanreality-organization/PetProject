@@ -1,82 +1,81 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.punuo.pet.home">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <permission android:name="android.permission.STATUS_BAR_SERVICE"/>
-
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
+    <permission android:name="android.permission.STATUS_BAR_SERVICE" />
 
     <application android:supportsRtl="true">
 
         <activity
-            android:name=".device.ConnectDeviceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".device.ConnectResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
             android:name=".care.CareActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".bluetooth.BlueToothActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".wifi.WifiConnectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name=".device.BindDeviceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".wifi.HotSpotConnectWifi"
+        <activity
+            android:name=".wifi.HotSpotConnectWifiActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent"/>
+            android:theme="@style/Theme.Pn.Translucent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--日常护理子项活动-->
-        <activity android:name=".care.item_activity.BathActivity"
+        <activity
+            android:name=".care.item_activity.BathActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.BeautyActivity"
+        <activity
+            android:name=".care.item_activity.BeautyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.BuyFoodActivity"
+        <activity
+            android:name=".care.item_activity.BuyFoodActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.CheckupActivity"
+        <activity
+            android:name=".care.item_activity.CheckupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.DewormingVivoActivity"
+        <activity
+            android:name=".care.item_activity.DewormingVivoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.DewormingVitroActivity"
+        <activity
+            android:name=".care.item_activity.DewormingVitroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.VaccineActivity"
+        <activity
+            android:name=".care.item_activity.VaccineActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".care.item_activity.WalkActivity"
+        <activity
+            android:name=".care.item_activity.WalkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <receiver android:name=".care.broadcast.BathAlarmBroadcastReceiver"
+
+        <receiver
+            android:name=".care.broadcast.BathAlarmBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.punuo.pet.home.ALARM_ONE"/>
-                <action android:name="com.punuo.pet.home.ALARM_TWO"/>
-                <action android:name="com.punuo.pet.home.ALARM_THREE"/>
-                <action android:name="com.punuo.pet.home.ALARM_FOUR"/>
-                <action android:name="com.punuo.pet.home.ALARM_FIVE"/>
-                <action android:name="com.punuo.pet.home.ALARM_SIX"/>
-                <action android:name="com.punuo.pet.home.ALARM_SEVEN"/>
-                <action android:name="com.punuo.pet.home.ALARM_EIGHT"/>
+                <action android:name="com.punuo.pet.home.ALARM_ONE" />
+                <action android:name="com.punuo.pet.home.ALARM_TWO" />
+                <action android:name="com.punuo.pet.home.ALARM_THREE" />
+                <action android:name="com.punuo.pet.home.ALARM_FOUR" />
+                <action android:name="com.punuo.pet.home.ALARM_FIVE" />
+                <action android:name="com.punuo.pet.home.ALARM_SIX" />
+                <action android:name="com.punuo.pet.home.ALARM_SEVEN" />
+                <action android:name="com.punuo.pet.home.ALARM_EIGHT" />
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".device.SelectDeviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+
+        <activity
+            android:name=".chart.ChartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
     </application>
 </manifest>
