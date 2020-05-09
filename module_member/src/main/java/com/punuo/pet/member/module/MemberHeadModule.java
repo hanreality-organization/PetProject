@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -22,7 +21,6 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 import butterknife.ButterKnife;
 
@@ -55,13 +53,13 @@ public class MemberHeadModule {
         TextView exitButton = mView.findViewById(R.id.exit_button);
         mNickname = mView.findViewById(R.id.user_nickname);
         mId = mView.findViewById(R.id.user_id);
-        mAvatar = mView.findViewById(R.id.user_avater);
-        RelativeLayout account = mView.findViewById(R.id.account);
-        RelativeLayout cache = mView.findViewById(R.id.cache);
-        RelativeLayout about = mView.findViewById(R.id.about);
-        RelativeLayout customer = mView.findViewById(R.id.customerservice);
-        RelativeLayout editInfo = mView.findViewById(R.id.edit_info);
-        RelativeLayout mShop = mView.findViewById(R.id.shop);
+        mAvatar = mView.findViewById(R.id.user_avatar);
+        View account = mView.findViewById(R.id.account);
+        View cache = mView.findViewById(R.id.cache);
+        View about = mView.findViewById(R.id.about);
+        View customer = mView.findViewById(R.id.customerservice);
+        View editInfo = mView.findViewById(R.id.edit_info);
+        View mShop = mView.findViewById(R.id.shop);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
 

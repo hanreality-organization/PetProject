@@ -38,9 +38,6 @@ import butterknife.ButterKnife;
  **/
 @Route(path = MemberRouter.ROUTER_MEMBER_FRAGMENT)
 public class MemberFragment extends BaseFragment {
-
-    //    @BindView(R2.id.shop)
-//    RelativeLayout mShop;
     @BindView(R2.id.status_bar)
     View mStatusBar;
     @BindView(R2.id.pull_to_refresh)
