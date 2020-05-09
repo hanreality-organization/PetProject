@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.home.adapter.HomeAdapter;
 import com.punuo.pet.home.module.HomeHeadModule;
 import com.punuo.pet.model.PetModel;
@@ -108,6 +108,11 @@ public class HomeFragment extends BaseFragment {
         if (model == null) {
             return;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SelectDeviceEvent event) {
+        mHomeHeadModule.selectDevice(event.deviceType);
     }
 
     @Override

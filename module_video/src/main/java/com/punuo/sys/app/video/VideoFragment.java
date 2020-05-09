@@ -1,6 +1,5 @@
 package com.punuo.sys.app.video;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -9,13 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
-import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetdevidRequest;
@@ -41,7 +38,6 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,16 +71,12 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View mBack;
     @BindView(R2.id.surface)
     TextureView mTextureView;
-    @BindView(R2.id.play)
-    Button mPlay;
-    @BindView(R2.id.stop)
-    Button mStop;
+    @BindView(R2.id.play_status)
+    ImageView mPlayStatus;
     @BindView(R2.id.play_music)
     View playMusic;
-//    @BindView(R2.id.reset)
-//    Button mReset;
     @BindView(R2.id.play_video)
-    Button mplayvideo;
+    View mPlayVideo;
     @BindView(R2.id.add_voice)
     View add_voice;
     @BindView(R2.id.down_voice)
@@ -120,37 +112,26 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         initTitle();
         initSubTitle();
         initTextureView();
-        mPlay.setOnClickListener(new View.OnClickListener() {
+        mPlayStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
-//                showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mStop.performClick();
-//                        dismissLoadingDialog();
-//                    }
-//                });
-//                startVideo(devId);
+                if (!isPlaying) {
+                    showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            releaseMediaPlayer();
+                            closeVideo();
+                            isPlaying = false;
+                            dismissLoadingDialog();
+                            mSubTitle.setEnabled(false);
+                            mPlayStatus.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    startVideo(devId);
+                }
+
             }
         });
-        mStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-//                releaseMediaPlayer();
-//                closeVideo();
-//                isPlaying = false;
-//                mPlay.setEnabled(true);
-            }
-        });
-//        mReset.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SipResetRequest sipResetRequest=new SipResetRequest();
-//                SipUserManager.getInstance().addRequest(sipResetRequest);
-//            }
-//        });
         playMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,12 +139,11 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                         .navigation();
             }
         });
-        mplayvideo.setOnClickListener(new View.OnClickListener() {
+        mPlayVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
-//                        .navigation();
-               showDialog();
+                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
+                        .navigation();
             }
         });
         down_voice.setOnClickListener(new View.OnClickListener() {
@@ -192,12 +172,16 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void initSubTitle() {
-        mSubTitle.setVisibility(View.GONE);
-        mSubTitle.setText("全屏");
+        mSubTitle.setVisibility(View.VISIBLE);
+        mSubTitle.setText("停止播放");
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 全屏播放
+                releaseMediaPlayer();
+                closeVideo();
+                isPlaying = false;
+                mPlayStatus.setVisibility(View.VISIBLE);
+                mSubTitle.setEnabled(false);
             }
         });
     }
@@ -318,7 +302,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         switch (msg.what) {
             case 0:
                 playVideo(mTextureView.getSurfaceTexture());
-                mPlay.setEnabled(false);
+                mPlayStatus.setVisibility(View.GONE);
+                mSubTitle.setEnabled(true);
                 break;
             default:
                 break;
@@ -380,23 +365,5 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 mBaseHandler.sendEmptyMessage(0);
             }
         }
-    }
-
-    public void showDialog(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        TextView title = new TextView(getContext());
-        title.setText("视频侦测");
-        title.setPadding(10,10,10,10);
-        title.setGravity(Gravity.CENTER);
-        title.setTextSize(20);
-        title.setTextColor(getResources().getColor(R.color.black));
-        dialog.setCustomTitle(title);
-        TextView msg = new TextView(getContext());
-        msg.setText("\n"+"敬请期待!"+"\n");
-        msg.setPadding(10, 10, 10, 10);
-        msg.setGravity(Gravity.CENTER);
-        msg.setTextSize(18);
-        dialog.setView(msg);
-        dialog.show();
     }
 }
