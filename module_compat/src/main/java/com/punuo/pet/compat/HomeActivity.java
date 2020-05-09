@@ -10,8 +10,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
+import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.CompatRouter;
+import com.punuo.pet.router.DeviceType;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
@@ -26,6 +28,7 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.model.UserInfo;
+import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
@@ -90,6 +93,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (RegexUtils.checkMobile(AccountManager.getUserName())) {
             UserManager.getUserInfo(AccountManager.getUserName());
         }
+        //根据本地记录展示底部导航栏的内容
+        onDeviceSelect(MMKVUtil.getInt("deviceType", DeviceType.UNKNOWN));
     }
 
     private void init() {
@@ -173,6 +178,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SelectDeviceEvent event) {
+        onDeviceSelect(event.deviceType);
+    }
+
     /**
      * 空实现返回事件
      */
@@ -232,6 +242,25 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         switchFragment(type);
+    }
+
+    /**
+     * 设备选择之后刷新底部导航栏理的内容
+     */
+    public void onDeviceSelect(int deviceType) {
+        switch (deviceType) {
+            case DeviceType.FEED:
+                mTabBars[1].setVisibility(View.VISIBLE);
+                mTabBars[2].setVisibility(View.VISIBLE);
+                break;
+            case DeviceType.MAOCE:
+                break;
+            case DeviceType.UNKNOWN:
+            default:
+                mTabBars[1].setVisibility(View.GONE);
+                mTabBars[2].setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

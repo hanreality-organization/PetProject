@@ -13,6 +13,7 @@ public class HomeRouter {
     public static final String ROUTER_BLUETOOTH_ACTIVITY = PREFIX + "/BlueToothActivity";
     public static final String ROUTER_WIFI_CONNECT_ACTIVITY = PREFIX + "/WifiConnectActivity";
     public static final String ROUTER_BIND_DEVICE_ACTIVITY = PREFIX + "/BindDeviceActivity";
+    public static final String ROUTER_SELECT_DEVICE_ACTIVITY = PREFIX + "/SelectDeviceActivity";
 
     //日常护理子项activity
     public static final String ROUTER_CARE_BATH_ACTIVITY = PREFIX+"/BathActivity";

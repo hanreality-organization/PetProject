@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -15,10 +15,9 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
-import com.punuo.pet.home.chart.CustomBarChart;
-import com.punuo.pet.home.chart.CustomBarChart1;
 import com.punuo.pet.home.device.model.ChartData;
 import com.punuo.pet.home.device.model.ChartData2;
 import com.punuo.pet.home.device.model.ChartData3;
@@ -29,6 +28,7 @@ import com.punuo.pet.home.view.PetLoopHolder;
 import com.punuo.pet.home.view.request.GetRotationChart;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
+import com.punuo.pet.router.DeviceType;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
@@ -37,10 +37,13 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.LoopModel;
+import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.TimeUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 import com.punuo.sys.sdk.view.loopholder.LoopHolder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,14 +67,40 @@ public class HomeHeadModule {
     TextView mHomePetName;
     @BindView(R2.id.device_container)
     ViewGroup mDeviceContainer;
+
+    @BindView(R2.id.feed_tools_container)
+    View FeedToolsContainer;
     @BindView(R2.id.feed_pet)
     RoundedImageView mFeedPet;
     @BindView(R2.id.care_pet)
     RoundedImageView mCarePet;
-    @BindView(R2.id.chart_container)
-    LinearLayout mChartContainer;
+    @BindView(R2.id.care_analyse)
+    RoundedImageView mCareAnalyse;
+
+    //    @BindView(R2.id.chart_container)
+//    LinearLayout mChartContainer;
     @BindView(R2.id.home_ads_container)
     LinearLayout mHomeAdsContainer;
+
+    @BindView(R2.id.device_tip)
+    TextView mDeviceTip;
+
+    @BindView(R2.id.device_display)
+    LinearLayout mDeviceDisplay;
+    @BindView(R2.id.device_feed)
+    LinearLayout mDeviceFeed;
+    @BindView(R2.id.device_maoce)
+    LinearLayout mDeviceMaoce;
+
+    @BindView(R2.id.device_selected_container)
+    FrameLayout mDeviceSelectedContainer;
+    @BindView(R2.id.device_choose)
+    View deviceChoose;
+    @BindView(R2.id.device_selected)
+    ImageView mDeviceSelected;
+    @BindView(R2.id.more_text)
+    TextView mMoreText;
+
 
     private View mRootView;
     private PetLoopHolder mPetLoopHolder;
@@ -92,39 +121,99 @@ public class HomeHeadModule {
         ButterKnife.bind(this, mRootView);
         mPetLoopHolder = PetLoopHolder.newInstance(context, mHeaderContainer);
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
-        mSpinner = mRootView.findViewById(R.id.space1);
+//        mSpinner = mRootView.findViewById(R.id.space1);
         initPetInfo();
         initAdLoop();
         initView();
         getRotationChart();
-        getFoodFrequency();
+        initDeviceSelect();
+//        getFoodFrequency();
         ToastUtils.showToast("添加完宠物后请下拉刷新");
     }
 
-    private void initView() {
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void initDeviceSelect() {
+        int deviceType = MMKVUtil.getInt("deviceType", DeviceType.UNKNOWN);
+        selectDevice(deviceType);
+        deviceChoose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String str = mSpinner.getSelectedItem().toString();
-                if ("出粮频率".equals(str)) {
-                    mChartContainer.removeAllViews();
-                    getFoodFrequency();
-                }
-                if ("出粮克数".equals(str)) {
-                    mChartContainer.removeAllViews();
-                    getFoodNumber();
-                }
-                if ("剩余克数".equals(str)) {
-                    mChartContainer.removeAllViews();
-                    getSurplusFood();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View v) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_SELECT_DEVICE_ACTIVITY).navigation();
             }
         });
+        mDeviceFeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDevice(DeviceType.FEED);
+                MMKVUtil.setInt("deviceType", DeviceType.FEED);
+                EventBus.getDefault().post(new SelectDeviceEvent(DeviceType.FEED));
+            }
+        });
+
+        mDeviceMaoce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showToast("设备即将上线，敬请期待");
+            }
+        });
+    }
+
+    private void selectDevice(int deviceType) {
+        switch (deviceType) {
+            case DeviceType.FEED:
+                FeedToolsContainer.setVisibility(View.VISIBLE);
+                mDeviceDisplay.setVisibility(View.GONE);
+                deviceChoose.setVisibility(View.VISIBLE);
+                mDeviceTip.setText("当前设备：梦视智能宠物喂食器");
+                mDeviceSelectedContainer.setVisibility(View.VISIBLE);
+                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_feed));
+                mMoreText.setVisibility(View.GONE);
+                break;
+            case DeviceType.MAOCE:
+                FeedToolsContainer.setVisibility(View.GONE);
+                mDeviceDisplay.setVisibility(View.GONE);
+                deviceChoose.setVisibility(View.VISIBLE);
+                mDeviceTip.setText("当前设备：梦视智能宠物猫砂盆");
+                mDeviceSelectedContainer.setVisibility(View.VISIBLE);
+                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_maoce));
+                mMoreText.setVisibility(View.GONE);
+                break;
+            case DeviceType.UNKNOWN:
+            default:
+                mDeviceSelectedContainer.setVisibility(View.GONE);
+                FeedToolsContainer.setVisibility(View.GONE);
+                mDeviceDisplay.setVisibility(View.VISIBLE);
+                deviceChoose.setVisibility(View.GONE);
+                mMoreText.setVisibility(View.VISIBLE);
+                mDeviceTip.setText("请选择设备以便获得更多功能");
+                break;
+        }
+    }
+
+    private void initView() {
+//        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                String str = mSpinner.getSelectedItem().toString();
+//                if ("出粮频率".equals(str)) {
+//                    mChartContainer.removeAllViews();
+//                    getFoodFrequency();
+//                }
+//                if ("出粮克数".equals(str)) {
+//                    mChartContainer.removeAllViews();
+//                    getFoodNumber();
+//                }
+//                if ("剩余克数".equals(str)) {
+//                    mChartContainer.removeAllViews();
+//                    getSurplusFood();
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+
         mHomeAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +261,7 @@ public class HomeHeadModule {
      */
     public void refresh() {
         getRotationChart();
-        getFoodFrequency();
+//        getFoodFrequency();
     }
 
     public View getRootView() {
@@ -401,7 +490,7 @@ public class HomeHeadModule {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer.addView(new CustomBarChart1(mContext, xLabel, yLabel, data, color));
+//        mChartContainer.addView(new CustomBarChart1(mContext, xLabel, yLabel, data, color));
     }
 
     private void barChart2() {
@@ -414,7 +503,7 @@ public class HomeHeadModule {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
+//        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
     }
 
     private void barChart3() {
@@ -427,6 +516,6 @@ public class HomeHeadModule {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
+//        mChartContainer.addView(new CustomBarChart(mContext, xLabel, yLabel, data, color));
     }
 }

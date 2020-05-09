@@ -78,5 +78,9 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".device.SelectDeviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+
     </application>
 </manifest>
