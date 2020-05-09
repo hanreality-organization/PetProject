@@ -91,4 +91,4 @@
   public static final android.os.Parcelable$Creator CREATOR;
 }
 
--keep class * extends com.punuo.sys.sdk.model.BaseModel {*;}
+-keep class * extends com.punuo.sys.sdk.model.PNBaseModel {*;}

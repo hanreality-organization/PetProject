@@ -157,7 +157,7 @@ public class HomeHeadModule {
         });
     }
 
-    private void selectDevice(int deviceType) {
+    public void selectDevice(int deviceType) {
         switch (deviceType) {
             case DeviceType.FEED:
                 FeedToolsContainer.setVisibility(View.VISIBLE);

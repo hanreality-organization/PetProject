@@ -254,6 +254,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 mTabBars[2].setVisibility(View.VISIBLE);
                 break;
             case DeviceType.MAOCE:
+                mTabBars[1].setVisibility(View.GONE);
+                mTabBars[2].setVisibility(View.GONE);
                 break;
             case DeviceType.UNKNOWN:
             default:
