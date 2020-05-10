@@ -79,7 +79,8 @@
                 android:id="@+id/device_selected"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/home_device_feed" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/home_device_feed_big" />
 
             <com.punuo.sys.sdk.view.AdvancedTextView
                 android:id="@+id/device_choose"
