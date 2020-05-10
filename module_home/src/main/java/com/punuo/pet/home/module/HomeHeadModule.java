@@ -150,7 +150,7 @@ public class HomeHeadModule {
                 deviceChoose.setVisibility(View.VISIBLE);
                 mDeviceTip.setText("当前设备：梦视智能宠物喂食器");
                 mDeviceSelectedContainer.setVisibility(View.VISIBLE);
-                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_feed));
+                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_feed_big));
                 mMoreText.setVisibility(View.GONE);
                 break;
             case DeviceType.MAOCE:
@@ -159,7 +159,7 @@ public class HomeHeadModule {
                 deviceChoose.setVisibility(View.VISIBLE);
                 mDeviceTip.setText("当前设备：梦视智能宠物猫砂盆");
                 mDeviceSelectedContainer.setVisibility(View.VISIBLE);
-                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_maoce));
+                mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_maoce_big));
                 mMoreText.setVisibility(View.GONE);
                 break;
             case DeviceType.UNKNOWN:
