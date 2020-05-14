@@ -272,7 +272,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case MSG_HEART_BEAR_VALUE:
                 if (AccountManager.isLoginned()) {
                     HeartBeatHelper.heartBeat();
-                    mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
                 }
                 break;
         }
