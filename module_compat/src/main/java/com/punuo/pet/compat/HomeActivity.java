@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -31,6 +32,7 @@ import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,6 +60,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int MSG_HEART_BEAR_VALUE = 1;
     private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
+    private long mExtTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,6 +192,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExtTime) > 2000) {
+                mExtTime = System.currentTimeMillis();
+            } else {
+                ToastUtils.closeToast();
+                if (!isFinishing()) {
+                    finish();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void switchFragment(int index) {
