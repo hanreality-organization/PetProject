@@ -1,26 +1,21 @@
 package com.punuo.sys.app.video.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.punuo.pet.router.VideoRouter;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.sdk.util.CommonUtil;
-import com.punuo.sys.sdk.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
@@ -74,38 +69,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //用系统播放器进行播放
-                List<String> players = queryPlayerPackageNameLst(mContext, path);
-                if (players != null && !players.isEmpty()) {
-                    String extension = MimeTypeMap.getFileExtensionFromUrl(path);
-                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-                    Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
-                    mediaIntent.setPackage(players.get(0));
-                    mediaIntent.setDataAndType(Uri.parse(path), mimeType);
-                    mContext.startActivity(mediaIntent);
-                } else {
-                    ToastUtils.showToast("未找到可用的播放器");
-                }
+                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_PLAY_ACTIVITY)
+                        .withString("url", path).navigation();
             }
         });
 
-    }
-
-    private List<String> queryPlayerPackageNameLst(Context context, String path) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(path), "video/*");
-        PackageManager pm = context.getPackageManager();
-        //所有安装的应用(包括已卸载的但目录还存在的)
-        List<ResolveInfo> infos = pm.queryIntentActivities(intent, PackageManager.GET_UNINSTALLED_PACKAGES);
-        List<String> packageNameLst = null;
-        if (infos != null && infos.size() > 0) {
-            packageNameLst = new ArrayList<>(infos.size());
-            for (int i = 0; i < infos.size(); i++) {
-                ResolveInfo info = infos.get(i);
-                packageNameLst.add(info.activityInfo.packageName);
-            }
-        }
-        return packageNameLst;
     }
 
     @Override
