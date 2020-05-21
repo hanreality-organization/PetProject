@@ -4,8 +4,10 @@
     <application>
         <activity
             android:name=".activity.VideoPlayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
+            android:screenOrientation="user"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+        </activity>
         <activity
             android:name=".activity.MusicChooseActivity"
             android:screenOrientation="portrait"
