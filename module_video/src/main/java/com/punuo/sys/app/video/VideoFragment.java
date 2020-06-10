@@ -28,9 +28,10 @@ import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
-import com.punuo.sip.request.SipVideoRequest;
+import com.punuo.sip.request.SipOptionsRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
-import com.punuo.sys.app.video.activity.request.GetdevidRequest;
+import com.punuo.sys.app.video.activity.request.GetDevIdRequest;
+import com.punuo.sys.app.video.rtp.VideoHeartBeatHelper;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -38,6 +39,7 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -89,13 +91,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     private BaseHandler mBaseHandler;
     private boolean isPlaying = false;
 
+    public static final int MSG_VIDEO_HEART_BEAR_VALUE = 2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
         mBaseHandler = new BaseHandler(this);
         //Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
-        getdevid();
+        getDevId();
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -116,20 +120,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             @Override
             public void onClick(View v) {
                 if (!isPlaying) {
-                    showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            releaseMediaPlayer();
-                            closeVideo();
-                            isPlaying = false;
-                            dismissLoadingDialog();
-                            mSubTitle.setEnabled(false);
-                            mPlayStatus.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    startVideo(devId);
+                    if (!TextUtils.isEmpty(devId)) {
+                        //开始请求视频
+                        H264Config.devId = devId;
+                        H264Config.numOfTimeOut = 0;
+                        startVideo();
+                    } else {
+                        ToastUtils.showToast("请先确认已绑定设备再获取视频");
+                    }
                 }
-
             }
         });
         playMusic.setOnClickListener(new View.OnClickListener() {
@@ -186,8 +185,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         });
     }
 
-    private void startVideo(String devId) {
-        requestVideo(devId);
+    private void startVideo() {
+        requestVideo();
     }
 
     private void initTitle() {
@@ -197,9 +196,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
 
-    private void requestVideo(final String devId) {
-        SipVideoRequest sipVideoRequest = new SipVideoRequest(devId);
-        SipUserManager.getInstance().addRequest(sipVideoRequest);
+    private void requestVideo() {
+        SipOptionsRequest optionsRequest = new SipOptionsRequest();
+        SipUserManager.getInstance().addRequest(optionsRequest);
     }
 
     @Override
@@ -221,7 +220,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BindDevidSuccess result){
-        getdevid();
+        getDevId();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -233,14 +232,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             Toast.makeText(getActivity(),"音量减",Toast.LENGTH_SHORT).show();
         }
     }
-    private GetdevidRequest mGetdevidRequest;
-    public void getdevid(){
-        if (mGetdevidRequest!= null && !mGetdevidRequest.isFinish()) {
+    private GetDevIdRequest mGetDevIdRequest;
+    public void getDevId(){
+        if (mGetDevIdRequest != null && !mGetDevIdRequest.isFinish()) {
             return;
         }
-        mGetdevidRequest=new GetdevidRequest();
-        mGetdevidRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetdevidRequest.setRequestListener(new RequestListener<deviddata>() {
+        mGetDevIdRequest =new GetDevIdRequest();
+        mGetDevIdRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetDevIdRequest.setRequestListener(new RequestListener<deviddata>() {
             @Override
             public void onComplete() {
 
@@ -259,7 +258,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
             }
         });
-        HttpManager.addRequest(mGetdevidRequest);
+        HttpManager.addRequest(mGetDevIdRequest);
     }
 
     private void closeVideo() {
@@ -304,6 +303,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 playVideo(mTextureView.getSurfaceTexture());
                 mPlayStatus.setVisibility(View.GONE);
                 mSubTitle.setEnabled(true);
+                break;
+            case MSG_VIDEO_HEART_BEAR_VALUE:
+                VideoHeartBeatHelper.getInstance().heartBeat();
+                //延迟20s之后再发送
+                if (!mBaseHandler.hasMessages(MSG_VIDEO_HEART_BEAR_VALUE)) {
+                    mBaseHandler.sendEmptyMessageDelayed(MSG_VIDEO_HEART_BEAR_VALUE, VideoHeartBeatHelper.DELAY);
+                }
                 break;
             default:
                 break;

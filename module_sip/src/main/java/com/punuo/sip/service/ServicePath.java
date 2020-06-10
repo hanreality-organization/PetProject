@@ -6,7 +6,6 @@ package com.punuo.sip.service;
  **/
 public class ServicePath {
 
-    public static final String PATH_MEDIA = "/sip/media";
     public static final String PATH_NOTIFY = "/sip/notify";
     public static final String PATH_REGISTER = "/sip/negotiate_response";
     public static final String PATH_LOGIN = "/sip/login_response";
@@ -17,7 +16,7 @@ public class ServicePath {
     public static final String PATH_WEIGHT_RESPONSE = "/sip/weight";
     public static final String PATH_ONLINE="/sip/is_online_response";
 
-    public static final String  PATH_FEEDNOW_RESPONSE = "/sip/feed_now_response";
+    public static final String PATH_FEEDNOW_RESPONSE = "/sip/feed_now_response";
 
     public static final String PLAN_TOSIP = "/sip/feed_plan_response";
 
@@ -34,4 +33,7 @@ public class ServicePath {
 
     //未知
     public static final String PATH_XXXX="/sip/session_notify";
+
+    public static final String PATH_QUERY = "/sip/query_response";
+    public static final String PATH_MEDIA = "/sip/media";
 }
