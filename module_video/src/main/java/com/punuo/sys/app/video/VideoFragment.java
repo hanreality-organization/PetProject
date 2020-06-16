@@ -1,9 +1,6 @@
 package com.punuo.sys.app.video;
 
-import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -26,9 +23,9 @@ import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
-import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipOptionsRequest;
+import com.punuo.sip.request.SipRTPByeRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetDevIdRequest;
 import com.punuo.sys.app.video.rtp.VideoHeartBeatHelper;
@@ -51,8 +48,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
 
 /**
  * Created by han.chen.
@@ -60,9 +55,6 @@ import io.vov.vitamio.Vitamio;
  **/
 @Route(path = VideoRouter.ROUTER_VIDEO_FRAGMENT)
 public class VideoFragment extends BaseFragment implements BaseHandler.MessageHandler,
-        MediaPlayer.OnBufferingUpdateListener,
-        MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener,
         TextureView.SurfaceTextureListener {
 
     @BindView(R2.id.title)
@@ -84,10 +76,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @BindView(R2.id.down_voice)
     View down_voice;
 
-    private MediaPlayer mMediaPlayer;
     private Surface surface;
     private String devId;
-    private MyAsyncTask mAsyncTask;
     private BaseHandler mBaseHandler;
     private boolean isPlaying = false;
 
@@ -180,7 +170,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 closeVideo();
                 isPlaying = false;
                 mPlayStatus.setVisibility(View.VISIBLE);
-                mSubTitle.setEnabled(false);
             }
         });
     }
@@ -209,8 +198,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VideoData event) {
-        mAsyncTask = new MyAsyncTask(getActivity());
-        mAsyncTask.execute();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -262,38 +250,17 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void closeVideo() {
-        SipByeRequest sipByeRequest = new SipByeRequest(devId);
-        SipUserManager.getInstance().addRequest(sipByeRequest);
+        SipRTPByeRequest sipRTPByeRequest = new SipRTPByeRequest();
+        SipUserManager.getInstance().addRequest(sipRTPByeRequest);
     }
 
     private void playVideo(SurfaceTexture surfaceTexture) {
-        try {
-            // Create a new media player and set the listeners
-            mMediaPlayer = new MediaPlayer(getActivity(), true);
-            mMediaPlayer.setDataSource(H264Config.RTMP_STREAM);
-            if (surface == null) {
-                surface = new Surface(surfaceTexture);
-            }
-            mMediaPlayer.setSurface(surface);
-            mMediaPlayer.prepareAsync();
-            mMediaPlayer.setOnBufferingUpdateListener(this);
-            mMediaPlayer.setOnCompletionListener(this);
-            mMediaPlayer.setOnPreparedListener(this);
-            if (getActivity() != null) {
-                getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         isPlaying = true;
     }
 
     private void releaseMediaPlayer() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
+
     }
 
     @Override
@@ -302,9 +269,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             case 0:
                 playVideo(mTextureView.getSurfaceTexture());
                 mPlayStatus.setVisibility(View.GONE);
-                mSubTitle.setEnabled(true);
                 break;
             case MSG_VIDEO_HEART_BEAR_VALUE:
+                VideoHeartBeatHelper.getInstance().init();
                 VideoHeartBeatHelper.getInstance().heartBeat();
                 //延迟20s之后再发送
                 if (!mBaseHandler.hasMessages(MSG_VIDEO_HEART_BEAR_VALUE)) {
@@ -314,22 +281,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        dismissLoadingDialog();
-        mMediaPlayer.start();
     }
 
     @Override
@@ -350,26 +301,5 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-    }
-
-    class MyAsyncTask extends AsyncTask<Object, Object, Boolean> {
-        private Context mContext;
-
-        public MyAsyncTask(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        protected Boolean doInBackground(Object... params) {
-            return Vitamio.initialize(mContext,
-                    getResources().getIdentifier("libarm", "raw", mContext.getPackageName()));
-        }
-
-        @Override
-        protected void onPostExecute(Boolean inited) {
-            if (inited) {
-                mBaseHandler.sendEmptyMessage(0);
-            }
-        }
     }
 }

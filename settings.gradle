@@ -1,5 +1,4 @@
 include ':app'
-include ':vitamio'
 include ':basesdk'
 include ':module_home'
 include ':module_compat'

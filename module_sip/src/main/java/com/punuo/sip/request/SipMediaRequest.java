@@ -16,7 +16,7 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
  **/
 public class SipMediaRequest extends BaseSipRequest {
     public SipMediaRequest() {
-        setSipRequestType(SipRequestType.Options);
+        setSipRequestType(SipRequestType.Invite);
         setTargetResponse("media");
     }
 
@@ -24,7 +24,7 @@ public class SipMediaRequest extends BaseSipRequest {
     public NameAddress getDestNameAddress() {
         String finalDevId = H264Config.devId.substring(0, H264Config.devId.length() - 4).concat("0160"); //设备id后4位替换成0160
         SipURL sipURL = new SipURL(finalDevId, SipConfig.getServerIp(), SipConfig.getPort());
-        return new NameAddress("feedDevice", sipURL);
+        return new NameAddress("device", sipURL);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SipMediaRequest extends BaseSipRequest {
         JSONObject body = new JSONObject();
         JSONObject value = new JSONObject();
         try {
-            value.put("resolution", "feedDevice");
+            value.put("resolution", "CIF");
             value.put("video", "H.264");
             value.put("audio", "G.711");
             value.put("kbps", "800");

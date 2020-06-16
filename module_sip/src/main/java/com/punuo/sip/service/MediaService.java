@@ -8,6 +8,7 @@ import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
 
 /**
@@ -27,6 +28,7 @@ public class MediaService extends NormalRequestService<MediaData> {
         //初始化视频通道数据
         H264Config.initMediaData(result);
         //TODO 接收视频流
+        EventBus.getDefault().post(result);
     }
 
     @Override

@@ -18,7 +18,7 @@ import org.zoolu.sip.message.Message;
  * 视频请求第一步骤返回
  **/
 @Route(path = ServicePath.PATH_QUERY)
-class QueryService extends NormalRequestService<QueryResponse> {
+public class QueryService extends NormalRequestService<QueryResponse> {
 
     @Override
     protected String getBody() {

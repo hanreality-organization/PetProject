@@ -20,6 +20,11 @@ public class VideoManager {
         return videoManager;
     }
 
+    public void init() {
+
+    }
+
+
     public void setActivePacket(byte[] activePacket) {
         Log.i("han.chen", "发送视频流心跳包");
     }
