@@ -1,13 +1,12 @@
 package com.punuo.sys.app.video;
 
-import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.TextureView;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,15 +19,19 @@ import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.VideoFailedEvent;
+import com.punuo.sip.model.MediaData;
 import com.punuo.sip.model.ResetData;
-import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipOptionsRequest;
 import com.punuo.sip.request.SipRTPByeRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetDevIdRequest;
+import com.punuo.sys.app.video.audio.AudioRecordManager;
+import com.punuo.sys.app.video.rtp.RtpVideo;
 import com.punuo.sys.app.video.rtp.VideoHeartBeatHelper;
+import com.punuo.sys.app.video.rtp.VideoManager;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -45,6 +48,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +59,7 @@ import butterknife.ButterKnife;
  * Date on 2019-09-20.
  **/
 @Route(path = VideoRouter.ROUTER_VIDEO_FRAGMENT)
-public class VideoFragment extends BaseFragment implements BaseHandler.MessageHandler,
-        TextureView.SurfaceTextureListener {
+public class VideoFragment extends BaseFragment implements BaseHandler.MessageHandler, SurfaceHolder.Callback {
 
     @BindView(R2.id.title)
     TextView mTitle;
@@ -64,7 +68,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @BindView(R2.id.back)
     View mBack;
     @BindView(R2.id.surface)
-    TextureView mTextureView;
+    SurfaceView mSurfaceView;
     @BindView(R2.id.play_status)
     ImageView mPlayStatus;
     @BindView(R2.id.play_music)
@@ -76,10 +80,10 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @BindView(R2.id.down_voice)
     View down_voice;
 
-    private Surface surface;
     private String devId;
     private BaseHandler mBaseHandler;
     private boolean isPlaying = false;
+    private Timer checkAliveTimer;
 
     public static final int MSG_VIDEO_HEART_BEAR_VALUE = 2;
 
@@ -115,6 +119,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                         H264Config.devId = devId;
                         H264Config.numOfTimeOut = 0;
                         startVideo();
+                        isPlaying = true;
                     } else {
                         ToastUtils.showToast("请先确认已绑定设备再获取视频");
                     }
@@ -138,14 +143,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         down_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SipControlVolumeRequest sipControlVolumeRequest=new SipControlVolumeRequest("lower");
+                SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("lower");
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
         add_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SipControlVolumeRequest sipControlVolumeRequest=new SipControlVolumeRequest("raise");
+                SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("raise");
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
@@ -153,11 +158,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     private void initTextureView() {
         int width = CommonUtil.getWidth();
-        mTextureView.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;//H264Config.VIDEO_HEIGHT
-        mTextureView.setRotation(90);
-        mTextureView.setScaleX((float) H264Config.VIDEO_HEIGHT / H264Config.VIDEO_WIDTH);
-        mTextureView.setScaleY((float) H264Config.VIDEO_WIDTH / H264Config.VIDEO_HEIGHT);
-        mTextureView.setSurfaceTextureListener(this);
+        mSurfaceView.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;
+        mSurfaceView.getHolder().addCallback(this);
     }
 
     private void initSubTitle() {
@@ -166,7 +168,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                releaseMediaPlayer();
                 closeVideo();
                 isPlaying = false;
                 mPlayStatus.setVisibility(View.VISIBLE);
@@ -196,36 +197,74 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 接收视频
+     *
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(VideoData event) {
-
+    public void onMessageEvent(MediaData event) {
+        VideoManager.getInstance().init(H264Config.rtpIp, H264Config.rtpPort);
+        VideoHeartBeatHelper.getInstance().init();
+        if (!mBaseHandler.hasMessages(MSG_VIDEO_HEART_BEAR_VALUE)) {
+            mBaseHandler.sendEmptyMessage(MSG_VIDEO_HEART_BEAR_VALUE);
+        }
+        VideoManager.getInstance().startPreviewVideo(mSurfaceView.getHolder().getSurface());
+        checkAliveTimer = new Timer();
+        checkAliveTimer.schedule(task, 0, 10000);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(VideoFailedEvent event) {
+        isPlaying = false;
+        ToastUtils.showToast("请求视频失败，请稍后再试");
+    }
+
+    private int time = 0;
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            if (RtpVideo.isReceiveVideoData == 0) {
+                if (time == 6) {
+                    closeVideo();
+                    time = 0;
+                } else {
+                    time++;
+                }
+            } else if (RtpVideo.isReceiveVideoData == 2) {
+                RtpVideo.isReceiveVideoData = 0;
+                time = 0;
+            }
+        }
+    };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ResetData result) {
-        Toast.makeText(getActivity(),"重置成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "重置成功", Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BindDevidSuccess result){
+    public void onMessageEvent(BindDevidSuccess result) {
         getDevId();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(VolumeData result){
-        if(TextUtils.equals(result.volume,"raise")){
-            Toast.makeText(getActivity(),"音量加",Toast.LENGTH_SHORT).show();
+    public void onMessageEvent(VolumeData result) {
+        if (TextUtils.equals(result.volume, "raise")) {
+            Toast.makeText(getActivity(), "音量加", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.equals(result.volume,"lower")){
-            Toast.makeText(getActivity(),"音量减",Toast.LENGTH_SHORT).show();
+        if (TextUtils.equals(result.volume, "lower")) {
+            Toast.makeText(getActivity(), "音量减", Toast.LENGTH_SHORT).show();
         }
     }
+
     private GetDevIdRequest mGetDevIdRequest;
-    public void getDevId(){
+
+    public void getDevId() {
         if (mGetDevIdRequest != null && !mGetDevIdRequest.isFinish()) {
             return;
         }
-        mGetDevIdRequest =new GetDevIdRequest();
+        mGetDevIdRequest = new GetDevIdRequest();
         mGetDevIdRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetDevIdRequest.setRequestListener(new RequestListener<deviddata>() {
             @Override
@@ -238,7 +277,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 if (result == null) {
                     return;
                 }
-                devId=result.devid;
+                devId = result.devid;
             }
 
             @Override
@@ -252,26 +291,20 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     private void closeVideo() {
         SipRTPByeRequest sipRTPByeRequest = new SipRTPByeRequest();
         SipUserManager.getInstance().addRequest(sipRTPByeRequest);
-    }
-
-    private void playVideo(SurfaceTexture surfaceTexture) {
-
-        isPlaying = true;
-    }
-
-    private void releaseMediaPlayer() {
-
+        //停止视频解码
+        VideoManager.getInstance().stopPreviewVideo();
+        //停止视频心跳包
+        mBaseHandler.removeMessages(MSG_VIDEO_HEART_BEAR_VALUE);
+        AudioRecordManager.getInstance().stop();
+        if (checkAliveTimer != null) {
+            checkAliveTimer.cancel();
+        }
     }
 
     @Override
     public void handleMessage(Message msg) {
         switch (msg.what) {
-            case 0:
-                playVideo(mTextureView.getSurfaceTexture());
-                mPlayStatus.setVisibility(View.GONE);
-                break;
             case MSG_VIDEO_HEART_BEAR_VALUE:
-                VideoHeartBeatHelper.getInstance().init();
                 VideoHeartBeatHelper.getInstance().heartBeat();
                 //延迟20s之后再发送
                 if (!mBaseHandler.hasMessages(MSG_VIDEO_HEART_BEAR_VALUE)) {
@@ -284,22 +317,17 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+    public void surfaceCreated(SurfaceHolder holder) {
 
     }
 
     @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
     }
 
     @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        return false;
-    }
-
-    @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+    public void surfaceDestroyed(SurfaceHolder holder) {
 
     }
 }

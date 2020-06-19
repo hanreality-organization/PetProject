@@ -3,10 +3,12 @@ package com.punuo.sip.service;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.VideoFailedEvent;
 import com.punuo.sip.model.MediaData;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
@@ -42,6 +44,8 @@ public class MediaService extends NormalRequestService<MediaData> {
             H264Config.numOfTimeOut++;
             SipMediaRequest sipMediaRequest = new SipMediaRequest();
             SipUserManager.getInstance().addRequest(sipMediaRequest);
+        } else {
+            EventBus.getDefault().post(new VideoFailedEvent());
         }
     }
 }

@@ -3,13 +3,14 @@ package com.punuo.sip.service;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.VideoFailedEvent;
 import com.punuo.sip.model.QueryResponse;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipMediaRequest;
 import com.punuo.sip.request.SipOptionsRequest;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
-import com.punuo.sys.sdk.util.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
 
 /**
@@ -45,7 +46,7 @@ public class QueryService extends NormalRequestService<QueryResponse> {
             SipOptionsRequest optionsRequest = new SipOptionsRequest();
             SipUserManager.getInstance().addRequest(optionsRequest);
         } else {
-            ToastUtils.showToast("请求视频失败，请稍后再试");
+            EventBus.getDefault().post(new VideoFailedEvent());
         }
     }
 }

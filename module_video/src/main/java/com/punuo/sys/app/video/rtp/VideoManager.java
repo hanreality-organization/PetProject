@@ -1,6 +1,8 @@
 package com.punuo.sys.app.video.rtp;
 
-import android.util.Log;
+import android.view.Surface;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by han.chen.
@@ -9,6 +11,7 @@ import android.util.Log;
 public class VideoManager {
 
     private static VideoManager videoManager;
+
     public static VideoManager getInstance() {
         if (videoManager == null) {
             synchronized (VideoHeartBeatHelper.class) {
@@ -20,12 +23,74 @@ public class VideoManager {
         return videoManager;
     }
 
-    public void init() {
+    private RtpVideo mRtpVideo;
+    private MediaDecoder mMediaDecoder;
+    private VideoThread mVideoThread;
 
+    public void init(String networkAddress, int remoteRtpPort) {
+        try {
+            mRtpVideo = new RtpVideo(networkAddress, remoteRtpPort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mMediaDecoder = new MediaDecoder();
     }
 
+    public boolean previewing = false;
 
     public void setActivePacket(byte[] activePacket) {
-        Log.i("han.chen", "发送视频流心跳包");
+        mRtpVideo.setActivePacket(activePacket);
+    }
+
+    public void startPreviewVideo(Surface surface) {
+        previewing = true;
+        mVideoThread = new VideoThread(surface);
+        mVideoThread.start();
+    }
+
+    public void stopPreviewVideo() {
+        previewing = false;
+        try {
+            mVideoThread.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mRtpVideo.removeParticipant();
+        mRtpVideo.endSession();
+    }
+
+    class VideoThread extends Thread {
+        private int getNum = 0;
+        private WeakReference<Surface> mWeakReference;
+
+        VideoThread(Surface surface) {
+            mWeakReference = new WeakReference<>(surface);
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            if (mWeakReference.get() != null) {
+                if (mMediaDecoder != null) {
+                    mMediaDecoder.initDecoder(mWeakReference.get());
+                }
+                while (previewing) {
+                    if (mWeakReference.get() != null) {
+                        byte[] nal = RtpVideo.nalBuffers[getNum].getReadableNalBuf();
+                        if (nal != null) {
+                            try {
+                                mMediaDecoder.onFrame(nal, 0, nal.length);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        RtpVideo.nalBuffers[getNum].readLock();
+                        RtpVideo.nalBuffers[getNum].cleanNalBuf();
+                        getNum++;
+                        getNum %= 200;
+                    }
+                }
+            }
+        }
     }
 }
