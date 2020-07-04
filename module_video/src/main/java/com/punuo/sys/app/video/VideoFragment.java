@@ -115,6 +115,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View v) {
                 if (!isPlaying) {
                     if (!TextUtils.isEmpty(devId)) {
+                        showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                closeVideo();
+                                isPlaying = false;
+                                dismissLoadingDialog();
+                            }
+                        });
                         //开始请求视频
                         H264Config.devId = devId;
                         H264Config.numOfTimeOut = 0;
@@ -203,10 +211,12 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MediaData event) {
+        dismissLoadingDialog();
         VideoManager.getInstance().init(H264Config.rtpIp, H264Config.rtpPort);
         VideoHeartBeatHelper.getInstance().init();
+        VideoHeartBeatHelper.getInstance().heartBeat();
         if (!mBaseHandler.hasMessages(MSG_VIDEO_HEART_BEAR_VALUE)) {
-            mBaseHandler.sendEmptyMessage(MSG_VIDEO_HEART_BEAR_VALUE);
+            mBaseHandler.sendEmptyMessageDelayed(MSG_VIDEO_HEART_BEAR_VALUE, VideoHeartBeatHelper.DELAY);
         }
         VideoManager.getInstance().startPreviewVideo(mSurfaceView.getHolder().getSurface());
         mPlayStatus.setVisibility(View.GONE);
@@ -217,7 +227,12 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void run() {
                 if (RtpVideo.isReceiveVideoData == 0) {
                     if (time == 6) {
-                        closeVideo();
+                        mBaseHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeVideo();
+                            }
+                        });
                         time = 0;
                     } else {
                         time++;

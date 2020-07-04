@@ -54,4 +54,11 @@ public class MediaDecoder {
         }
         return true;
     }
+
+    public void release() {
+        if (mMediaCodec != null) {
+            mMediaCodec.stop();
+            mMediaCodec.release();
+        }
+    }
 }

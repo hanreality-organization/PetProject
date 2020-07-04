@@ -52,6 +52,9 @@ public class VideoManager {
         previewing = false;
         mRtpVideo.removeParticipant();
         mRtpVideo.endSession();
+        if (mMediaDecoder != null) {
+            mMediaDecoder.release();
+        }
     }
 
     class VideoThread extends Thread {

@@ -64,7 +64,6 @@ public class RtpVideo implements RTPAppIntf {
 
     @Override
     public void receiveData(DataFrame frame, Participant participant) {
-        Log.i("han.chen", "receiveData: ");
         switch (frame.payloadType()) {
             case 98:
                 StreamBufNode rtpFrameNode = new StreamBufNode(frame);
@@ -100,154 +99,171 @@ public class RtpVideo implements RTPAppIntf {
                 break;
         }
     }
-
-    private void getNalFrame(byte[] data, int seqNum, int len) {
+    private boolean isIFrame = false;
+    public void getNalFrame(byte[] data, int seqNum, int len) {
         if (len > 6) {
-            boolean isIFrame = ((data[6] & 31) == 5) && ((data[2] & 0xff) == 0)
+            if (((data[6] & 31) == 5) && ((data[2] & 0xff) == 0)
                     && ((data[3] & 0xff) == 0) && ((data[4] & 0xff) == 0)
-                    && ((data[5] & 0xff) == 1);
+                    && ((data[5] & 0xff) == 1)) {
+                isIFrame = true;
+            }
+
             if (isIFrame) {
                 if ((data[0] & 31) == 28) {
                     if ((data[1] & 0xe0) == 0x80) {
-                        tempNal = new byte[200000];
+                        this.tempNal = new byte[200000];
                         tempNal[0] = H264_STREAM_HEAD[0];
                         tempNal[1] = H264_STREAM_HEAD[1];
                         tempNal[2] = H264_STREAM_HEAD[2];
                         tempNal[3] = H264_STREAM_HEAD[3];
                         try {
                             System.arraycopy(data, 2, this.tempNal, 4, len - 2);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception e1) {
+                            Log.d("RTPPackets", "System.arraycopy failed!");
                         }
+
                         nalBuffers[putNum].setNalLen(len + 2);
-                        preSeq = seqNum;
+                        this.preSeq = seqNum;
                         status = 1;
-                    } else if (status == 1) {
-                        if (preSeq + 1 == seqNum) {
+                    } else if (this.status == 1) {
+                        if (this.preSeq + 1 == seqNum) {
                             if ((data[1] & 0xe0) == 0x40) {
                                 try {
-                                    System.arraycopy(data, 2, tempNal, nalBuffers[putNum].getNalLen(), len - 2);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    System.arraycopy(data, 2, this.tempNal,
+                                            nalBuffers[this.putNum].getNalLen(), len - 2);
+                                } catch (Exception e1) {
+                                    Log.d("RTPPackets", "System.arraycopy failed!");
                                 }
-                                nalBuffers[putNum].addNalLen(len - 2);
-                                nalBuffers[putNum].isWriteable();
-                                preSeq = seqNum;
-                                System.arraycopy(tempNal, 0, nalBuffers[putNum].getWriteableNalBuf(),
-                                        0, nalBuffers[putNum].getNalLen());
-                                nalBuffers[putNum].writeLock();
-                                putNum++;
-                                putNum %= 200;
-                                status = 0;
-                                isIFrame = false;
+
+                                nalBuffers[this.putNum].addNalLen(len - 2);
+                                this.preSeq = seqNum;
+                                nalBuffers[this.putNum].isWriteable();
+                                System.arraycopy(this.tempNal, 0, nalBuffers[this.putNum].getWriteableNalBuf(),
+                                        0, nalBuffers[this.putNum].getNalLen());
+                                nalBuffers[this.putNum].writeLock();
+                                ++this.putNum;
+                                if (this.putNum == 200) {
+                                    this.putNum = 0;
+                                }
+                                this.status = 0;
+                                this.isIFrame = false;
                             } else {
                                 try {
-                                    System.arraycopy(data, 2, tempNal, nalBuffers[putNum].getNalLen(), len - 2);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    System.arraycopy(data, 2, this.tempNal, nalBuffers[this.putNum].getNalLen(), len - 2);
+                                } catch (Exception e1) {
+                                    Log.d("RTPPackets", "System.arraycopy failed!");
                                 }
-                                nalBuffers[putNum].addNalLen(len - 2);
-                                preSeq = seqNum;
+                                nalBuffers[this.putNum].addNalLen(len - 2);
+                                this.preSeq = seqNum;
                             }
                         } else {
                             flag = 1;
-                            tempNal = new byte[200000];
-                            nalBuffers[putNum].setNalLen(0);
-                            preSeq = seqNum;
-                            status = 0;
+                            this.tempNal = new byte[200000];
+                            nalBuffers[this.putNum].setNalLen(0);
+                            this.preSeq = seqNum;
+                            this.status = 0;
                         }
                     } else {
                         flag = 1;
-                        tempNal = new byte[200000];
-                        nalBuffers[putNum].setNalLen(0);
-                        preSeq = seqNum;
-                        status = 0;
+                        this.tempNal = new byte[200000];
+                        nalBuffers[this.putNum].setNalLen(0);
+                        this.preSeq = seqNum;
+                        this.status = 0;
                     }
                 } else {
-                    tempNal = new byte[200000];
+                    this.tempNal = new byte[200000];
                     tempNal[0] = H264_STREAM_HEAD[0];
                     tempNal[1] = H264_STREAM_HEAD[1];
                     tempNal[2] = H264_STREAM_HEAD[2];
                     tempNal[3] = H264_STREAM_HEAD[3];
                     try {
-                        System.arraycopy(data, 0, tempNal, 4, len);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        System.arraycopy(data, 0, this.tempNal, 4, len);
+                    } catch (Exception e1) {
+                        Log.d("RTPPackets", "System.arraycopy failed!");
                     }
-                    nalBuffers[putNum].setNalLen(len + 4);
-                    nalBuffers[putNum].isWriteable();
-                    preSeq = seqNum;
-                    System.arraycopy(tempNal, 0, nalBuffers[putNum].getWriteableNalBuf(),
-                            0, nalBuffers[putNum].getNalLen());
-                    nalBuffers[putNum].writeLock();
-                    putNum++;
-                    putNum %= 200;
-                    status = 0;
-                    isIFrame = false;
+
+                    nalBuffers[this.putNum].setNalLen(len + 4);
+                    this.preSeq = seqNum;
+                    nalBuffers[this.putNum].isWriteable();
+                    System.arraycopy(this.tempNal, 0, nalBuffers[this.putNum].getWriteableNalBuf(),
+                            0, nalBuffers[this.putNum].getNalLen());
+
+                    nalBuffers[this.putNum].writeLock();
+                    ++this.putNum;
+                    if (this.putNum == 200) {
+                        this.putNum = 0;
+                    }
+                    this.status = 0;
+                    this.isIFrame = false;
                 }
             } else if ((data[0] & 31) == 28) {
                 if ((data[1] & 0xe0) == 0x80) {
-                    tempNal = new byte[200000];
+                    this.tempNal = new byte[200000];
                     tempNal[0] = H264_STREAM_HEAD[0];
                     tempNal[1] = H264_STREAM_HEAD[1];
                     tempNal[2] = H264_STREAM_HEAD[2];
                     tempNal[3] = H264_STREAM_HEAD[3];
                     try {
-                        System.arraycopy(data, 2, tempNal, 4, len - 2);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        System.arraycopy(data, 2, this.tempNal, 4, len - 2);
+                    } catch (Exception e1) {
+                        Log.d("RTPPackets", "System.arraycopy failed!");
                     }
-                    nalBuffers[putNum].setNalLen(len + 2);
-                    preSeq = seqNum;
-                } else if (preSeq + 1 == seqNum) {
+                    nalBuffers[this.putNum].setNalLen(len + 2);
+                    this.preSeq = seqNum;
+                } else if (this.preSeq + 1 == seqNum) {
                     if ((data[1] & 0xe0) == 0x40) {
                         try {
-                            System.arraycopy(data, 2, tempNal, nalBuffers[putNum].getNalLen(), len - 2);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            System.arraycopy(data, 2, this.tempNal,
+                                    nalBuffers[this.putNum].getNalLen(), len - 2);
+                        } catch (Exception e1) {
+                            Log.d("RTPPackets", "System.arraycopy failed!");
                         }
-                        nalBuffers[putNum].addNalLen(len - 2);
-                        nalBuffers[putNum].isWriteable();
-                        preSeq = seqNum;
-                        System.arraycopy(tempNal, 0, nalBuffers[putNum].getWriteableNalBuf(),
-                                0, nalBuffers[putNum].getNalLen());
-                        nalBuffers[putNum].writeLock();
-                        putNum++;
-                        putNum %= 200;
+
+                        nalBuffers[this.putNum].addNalLen(len - 2);
+                        this.preSeq = seqNum;
+                        nalBuffers[this.putNum].isWriteable();
+                        System.arraycopy(this.tempNal, 0, nalBuffers[this.putNum].getWriteableNalBuf(),
+                                0, nalBuffers[this.putNum].getNalLen());
+                        nalBuffers[this.putNum].writeLock();
+                        ++this.putNum;
+                        if (this.putNum == 200) {
+                            this.putNum = 0;
+                        }
                     } else {
                         try {
-                            System.arraycopy(data, 2, tempNal, nalBuffers[putNum].getNalLen(), len - 2);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            System.arraycopy(data, 2, this.tempNal, nalBuffers[this.putNum].getNalLen(), len - 2);
+                        } catch (Exception e1) {
+                            Log.d("RTPPackets", "System.arraycopy failed!");
                         }
-                        nalBuffers[putNum].addNalLen(len - 2);
-                        preSeq = seqNum;
+                        nalBuffers[this.putNum].addNalLen(len - 2);
+                        this.preSeq = seqNum;
                     }
                 } else {
                     flag = 1;
-                    tempNal = new byte[200000];
-                    nalBuffers[putNum].setNalLen(0);
-                    preSeq = seqNum;
+                    this.tempNal = new byte[200000];
+                    nalBuffers[this.putNum].setNalLen(0);
+                    this.preSeq = seqNum;
                 }
             } else {
-                if (preSeq == seqNum + 1) {
+                if (this.preSeq == seqNum + 1) {
                     handleCompletePacket(data, seqNum, len);
                 } else {
                     flag = 1;
-                    tempNal = new byte[200000];
-                    nalBuffers[putNum].setNalLen(0);
-                    preSeq = seqNum;
-                    status = 0;
+                    this.tempNal = new byte[200000];
+                    nalBuffers[this.putNum].setNalLen(0);
+                    this.preSeq = seqNum;
+                    this.status = 0;
                 }
             }
         } else {
-            if (preSeq == seqNum + 1) {
+            if (this.preSeq == seqNum + 1) {
                 if ((data[1] & 0xe0) == 0x40) {
                     handleLastPacket(data, seqNum, len);
                 }
             }
         }
     }
+
 
     @Override
     public void userEvent(int type, Participant[] participant) {
