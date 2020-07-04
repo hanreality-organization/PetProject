@@ -170,7 +170,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View v) {
                 closeVideo();
                 isPlaying = false;
-                mPlayStatus.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -210,7 +209,25 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mBaseHandler.sendEmptyMessage(MSG_VIDEO_HEART_BEAR_VALUE);
         }
         VideoManager.getInstance().startPreviewVideo(mSurfaceView.getHolder().getSurface());
+        mPlayStatus.setVisibility(View.GONE);
         checkAliveTimer = new Timer();
+        time = 0;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (RtpVideo.isReceiveVideoData == 0) {
+                    if (time == 6) {
+                        closeVideo();
+                        time = 0;
+                    } else {
+                        time++;
+                    }
+                } else if (RtpVideo.isReceiveVideoData == 2) {
+                    RtpVideo.isReceiveVideoData = 0;
+                    time = 0;
+                }
+            }
+        };
         checkAliveTimer.schedule(task, 0, 10000);
     }
 
@@ -221,22 +238,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private int time = 0;
-    private TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            if (RtpVideo.isReceiveVideoData == 0) {
-                if (time == 6) {
-                    closeVideo();
-                    time = 0;
-                } else {
-                    time++;
-                }
-            } else if (RtpVideo.isReceiveVideoData == 2) {
-                RtpVideo.isReceiveVideoData = 0;
-                time = 0;
-            }
-        }
-    };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ResetData result) {
@@ -299,6 +300,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         if (checkAliveTimer != null) {
             checkAliveTimer.cancel();
         }
+        mPlayStatus.setVisibility(View.VISIBLE);
     }
 
     @Override

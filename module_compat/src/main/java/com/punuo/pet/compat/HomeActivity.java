@@ -3,6 +3,7 @@ package com.punuo.pet.compat;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -66,6 +67,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         mMyFragmentManager = new MyFragmentManager(this);
         init();
         mHeartBeatTaskResumeProcessor = new HeartBeatTaskResumeProcessor(mBaseHandler);

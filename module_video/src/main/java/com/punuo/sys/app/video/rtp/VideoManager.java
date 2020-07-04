@@ -50,11 +50,6 @@ public class VideoManager {
 
     public void stopPreviewVideo() {
         previewing = false;
-        try {
-            mVideoThread.interrupt();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         mRtpVideo.removeParticipant();
         mRtpVideo.endSession();
     }

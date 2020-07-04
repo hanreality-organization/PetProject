@@ -1,6 +1,8 @@
 package com.punuo.sys.app.video.rtp;
 
 
+import android.util.Log;
+
 import com.punuo.sys.app.video.audio.AudioRecordManager;
 import com.punuo.sys.app.video.audio.G711;
 
@@ -48,6 +50,7 @@ public class RtpVideo implements RTPAppIntf {
         }
         putNum = 0;
         AudioRecordManager.getInstance().play();
+        RtpVideo.isReceiveVideoData = 0;
     }
 
     public void removeParticipant() {
@@ -61,6 +64,7 @@ public class RtpVideo implements RTPAppIntf {
 
     @Override
     public void receiveData(DataFrame frame, Participant participant) {
+        Log.i("han.chen", "receiveData: ");
         switch (frame.payloadType()) {
             case 98:
                 StreamBufNode rtpFrameNode = new StreamBufNode(frame);
