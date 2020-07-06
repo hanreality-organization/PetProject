@@ -31,6 +31,15 @@ public class H264Config {
      */
     public static String RTMP_STREAM = "rtmp://101.69.255.130:1936/hls/310023005801930001";
 
+    /**
+     * 当前的目标设备id，获取视频
+     */
+    public static String devId;
+    /**
+     * 超时次数，用于query 和 media 请求
+     */
+    public static int numOfTimeOut = 0;
+
     public static String rtpIp = "101.69.255.134";
     public static int rtpPort;
     public static byte[] magic;
