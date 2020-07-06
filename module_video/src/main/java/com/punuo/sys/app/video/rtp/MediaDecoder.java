@@ -57,7 +57,11 @@ public class MediaDecoder {
 
     public void release() {
         if (mMediaCodec != null) {
-            mMediaCodec.stop();
+            try {
+                mMediaCodec.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             mMediaCodec.release();
         }
     }

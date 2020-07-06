@@ -119,7 +119,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                             @Override
                             public void onClick(View v) {
                                 closeVideo();
-                                isPlaying = false;
                                 dismissLoadingDialog();
                             }
                         });
@@ -127,7 +126,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                         H264Config.devId = devId;
                         H264Config.numOfTimeOut = 0;
                         startVideo();
-                        isPlaying = true;
                     } else {
                         ToastUtils.showToast("请先确认已绑定设备再获取视频");
                     }
@@ -180,6 +178,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 isPlaying = false;
             }
         });
+        mSubTitle.setEnabled(false);
     }
 
     private void startVideo() {
@@ -244,11 +243,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             }
         };
         checkAliveTimer.schedule(task, 0, 10000);
+        isPlaying = true;
+        mSubTitle.setEnabled(true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VideoFailedEvent event) {
         isPlaying = false;
+        mSubTitle.setEnabled(false);
         ToastUtils.showToast("请求视频失败，请稍后再试");
     }
 
@@ -305,16 +307,20 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void closeVideo() {
-        SipRTPByeRequest sipRTPByeRequest = new SipRTPByeRequest();
-        SipUserManager.getInstance().addRequest(sipRTPByeRequest);
-        //停止视频解码
-        VideoManager.getInstance().stopPreviewVideo();
-        //停止视频心跳包
-        mBaseHandler.removeMessages(MSG_VIDEO_HEART_BEAR_VALUE);
-        AudioRecordManager.getInstance().stop();
-        if (checkAliveTimer != null) {
-            checkAliveTimer.cancel();
+        if (isPlaying) {
+            SipRTPByeRequest sipRTPByeRequest = new SipRTPByeRequest();
+            SipUserManager.getInstance().addRequest(sipRTPByeRequest);
+            //停止视频解码
+            VideoManager.getInstance().stopPreviewVideo();
+            //停止视频心跳包
+            mBaseHandler.removeMessages(MSG_VIDEO_HEART_BEAR_VALUE);
+            AudioRecordManager.getInstance().stop();
+            if (checkAliveTimer != null) {
+                checkAliveTimer.cancel();
+            }
         }
+        isPlaying = false;
+        mSubTitle.setEnabled(false);
         mPlayStatus.setVisibility(View.VISIBLE);
     }
 

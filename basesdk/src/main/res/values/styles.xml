@@ -16,7 +16,7 @@
     <style name="AppTheme.NoWindowAnimationStyle">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@color/bg_base</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
