@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.request.LogoutRequest;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -60,6 +61,7 @@ public class MemberHeadModule {
         View customer = mView.findViewById(R.id.customerservice);
         View editInfo = mView.findViewById(R.id.edit_info);
         View mShop = mView.findViewById(R.id.shop);
+        View wificonnected=mView.findViewById(R.id.wificonnected);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
 
@@ -111,6 +113,12 @@ public class MemberHeadModule {
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
                         .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
+            }
+        });
+        wificonnected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
     }
