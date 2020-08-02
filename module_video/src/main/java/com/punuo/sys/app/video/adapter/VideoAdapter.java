@@ -70,7 +70,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_PLAY_ACTIVITY)
-                        .withString("url", path).navigation();
+                        .withString("url", path)
+                        .withString("title", holder.CreateTime.getText().toString())
+                        .navigation();
             }
         });
 

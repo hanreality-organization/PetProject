@@ -1,5 +1,4 @@
 include ':app'
-include ':vitamio'
 include ':basesdk'
 include ':module_home'
 include ':module_compat'
@@ -10,6 +9,8 @@ include ':module_circle'
 include ':module_sip'
 include ':module_feed'
 include ':module_video'
+include ':ijkplayerlibrary'
+include ':fastvideoplayer'
 apply from: './base.gradle'
 
 gradle.ext {

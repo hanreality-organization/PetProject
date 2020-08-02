@@ -11,12 +11,12 @@ public class H264Config {
     /**
      * video width
      */
-    public static int VIDEO_WIDTH = 640;
+    public static int VIDEO_WIDTH = 352;
 
     /**
      * video height
      */
-    public static int VIDEO_HEIGHT = 480;
+    public static int VIDEO_HEIGHT = 288;
 
     /**
      * video frame rate
