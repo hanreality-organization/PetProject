@@ -29,6 +29,12 @@
             android:id="@+id/surface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:layout_height="240dp"
+            android:visibility="gone"/>
+        <com.hengyi.fastvideoplayer.library.FastVideoPlayer
+            android:id="@+id/fast_video_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             tools:layout_height="240dp" />
 
         <ImageView
