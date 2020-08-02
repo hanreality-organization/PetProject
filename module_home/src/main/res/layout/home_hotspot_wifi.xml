@@ -18,23 +18,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/status_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="6dp"
-                android:text="请先将自己的手机热点设置成说明书中的指定热点"
-                android:textColor="#333333" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="热点名：admin   热点密码：12345678"
+                android:text="喂食器开机后连接名为MEPET的网络"
                 android:textColor="#333333" />
 
             <Button
@@ -46,7 +36,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="去设置热点" />
+                android:text="去连接WiFi" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -54,16 +44,36 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="1、设置完热点后请长按设备开机键5秒后松开"
+                android:text="连接成功后输入说明书上AP的IP"
                 android:textColor="#333333" />
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:gravity="left"-->
-            <!--android:text="2、按下开机键后WiFi指示灯会亮起，当WiFi指示灯熄灭就可以松开开机键"-->
-            <!--android:textColor="#333333" />-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="12dp"
+                android:text="IP"
+                android:textSize="14sp"
+                tools:visibility="visible" />
+
+            <EditText
+                android:id="@+id/ip"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/login_edit_bg"
+                android:drawableRight="@drawable/ic_delete_grey"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+                tools:hint="请输入AP的IP"
+                tools:visibility="visible" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +88,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="2、等待20秒后当开机音乐响起，在下面输入想要连接的WiFi名和密码"
+                android:text="然后在下面输入想要连接的WiFi名和密码"
                 android:textColor="#333333" />
 
             <TextView
@@ -87,7 +97,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="3、当WiFi指示灯常亮时说明设备已连上手机热点，此时点击下面的连接按钮"
+                android:text="全部输入完成后点击连接即可让喂食器连接上输入的WiFi"
                 android:textColor="#333333" />
 
             <TextView
@@ -96,7 +106,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="4、提示连接成功后关闭热点"
+                android:text="当设备发出声音后表示连接成功"
                 android:textColor="#333333" />
 
             <TextView
