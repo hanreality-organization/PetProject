@@ -352,9 +352,9 @@ public class IjkVideoView extends FrameLayout implements
 								"overlay-format", pixelFormat);
 					}
 					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 5);
+							IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzemaxduration", 100);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 10240);
+					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 800000);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0);
 					ijkMediaPlayer.setOption(
@@ -368,7 +368,7 @@ public class IjkVideoView extends FrameLayout implements
 							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "timeout",
 							10000000);
 					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 5);
+							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 3);
 
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC,
 							"skip_loop_filter", 48);
