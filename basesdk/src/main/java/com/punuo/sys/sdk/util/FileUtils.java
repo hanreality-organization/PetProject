@@ -1,4 +1,4 @@
-package com.punuo.pet.cirlce.publish.util;
+package com.punuo.sys.sdk.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,35 +12,42 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileUtils {
+    public static final String DEFAULT_APK_DIR
+            = Environment.getExternalStorageDirectory() + "/Android/data/com.punuo.pet" + File.separator + "apk" + File.separator;
 
     public static String SDPATH = Environment.getExternalStorageDirectory()
             + "/fanxin/moment/";
 
     public static String CIRCLE_TEMP_PATH = Environment.getExternalStorageDirectory() + "/punuo/circle/temp/";
 
-    public static File createSDDir(String dirName) throws IOException {
-        File dir = new File(SDPATH + dirName);
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
+    public static boolean isSDCardAvailableNow() {
+        String sdStatus = Environment.getExternalStorageState();
+        return sdStatus.equals(Environment.MEDIA_MOUNTED);
+    }
 
-            System.out.println("createSDDir:" + dir.getAbsolutePath());
-            System.out.println("createSDDir:" + dir.mkdir());
+    public static String getAppSdcardPath() {
+        File file = null;
+        if (isSDCardAvailableNow()) {
+            file = new File(DEFAULT_APK_DIR);
         }
-        return dir;
+        return file == null ? "" : file.getAbsolutePath();
+    }
+
+    public static void deleteFile(String dir, String fileName) {
+        File file = new File(dir + File.separator + fileName);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+    public static boolean isFileExist(String dir, String fileName) {
+        File file = new File(dir + File.separator + fileName);
+        return file.exists();
     }
 
     public static boolean isFileExist(String fileName) {
         File file = new File(SDPATH + fileName);
-        file.isFile();
         return file.exists();
-    }
-
-    public static void delFile(String fileName) {
-        File file = new File(SDPATH + fileName);
-        if (file.isFile()) {
-            file.delete();
-        }
-        file.exists();
     }
 
     public static void deleteDir() {
@@ -56,20 +63,6 @@ public class FileUtils {
         }
         dir.delete();// 删除目录本身
     }
-
-    public static boolean fileIsExists(String path) {
-        try {
-            File f = new File(path);
-            if (!f.exists()) {
-                return false;
-            }
-        } catch (Exception e) {
-
-            return false;
-        }
-        return true;
-    }
-
 
     public static Bitmap compressBitmap(String path) {
 

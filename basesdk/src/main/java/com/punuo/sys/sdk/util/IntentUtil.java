@@ -52,4 +52,18 @@ public class IntentUtil {
         intent.setClass(context, classz);
         return intent;
     }
+
+    public static boolean startServiceInSafeMode(Context context, Intent intent) {
+        if (context == null || intent == null) {
+            return false;
+        }
+        boolean bRet = false;
+        try {
+            context.startService(intent);
+            bRet = true;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return bRet;
+    }
 }

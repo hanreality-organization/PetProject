@@ -36,14 +36,14 @@ import com.punuo.pet.cirlce.publish.event.EditImageEvent;
 import com.punuo.pet.cirlce.publish.helpclass.FriendReLoadEvent;
 import com.punuo.pet.cirlce.publish.helpclass.ICallBack;
 import com.punuo.pet.cirlce.publish.request.UploadPostRequest;
-import com.punuo.pet.cirlce.publish.util.CommonUtil;
-import com.punuo.pet.cirlce.publish.util.FileUtils;
 import com.punuo.pet.router.CircleRouter;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.sys.sdk.util.CommonUtil;
+import com.punuo.sys.sdk.util.FileUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 

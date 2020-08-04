@@ -1,6 +1,7 @@
 package com.punuo.pet.member.module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.punuo.pet.member.request.LogoutRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
+import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -22,6 +24,8 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
+import com.punuo.sys.sdk.util.DeviceHelper;
+import com.punuo.sys.sdk.util.IntentUtil;
 
 import butterknife.ButterKnife;
 
@@ -38,6 +42,8 @@ public class MemberHeadModule {
     private Button mCheck;
     private Context mContext;
     private TextView mId;
+    private TextView mVersionName;
+
     public View getView() {
         return mView;
     }
@@ -61,7 +67,9 @@ public class MemberHeadModule {
         View customer = mView.findViewById(R.id.customerservice);
         View editInfo = mView.findViewById(R.id.edit_info);
         View mShop = mView.findViewById(R.id.shop);
-        View wificonnected=mView.findViewById(R.id.wificonnected);
+        View update = mView.findViewById(R.id.update_service);
+        View wificonnected = mView.findViewById(R.id.wificonnected);
+        mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
 
@@ -115,12 +123,20 @@ public class MemberHeadModule {
                         .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
             }
         });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AutoUpdateService.class);
+                IntentUtil.startServiceInSafeMode(mContext, intent);
+            }
+        });
         wificonnected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
         });
+        mVersionName.setText(DeviceHelper.getVersionName());
     }
 
     private LogoutRequest mLogoutRequest;
@@ -173,4 +189,5 @@ public class MemberHeadModule {
         }
 
     }
+
 }

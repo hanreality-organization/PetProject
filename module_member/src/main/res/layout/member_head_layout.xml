@@ -272,7 +272,7 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/rightarrow" />
         </RelativeLayout>
-<!--        检查更新-->
+        <!--检查更新-->
         <RelativeLayout
             android:id="@+id/update_service"
             android:layout_width="match_parent"
