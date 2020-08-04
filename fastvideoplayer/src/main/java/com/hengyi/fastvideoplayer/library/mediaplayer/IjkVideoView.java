@@ -354,7 +354,7 @@ public class IjkVideoView extends FrameLayout implements
 					ijkMediaPlayer.setOption(
 							IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzemaxduration", 100);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 800000);
+					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 10240);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1);
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0);
 					ijkMediaPlayer.setOption(
