@@ -368,7 +368,7 @@ public class IjkVideoView extends FrameLayout implements
 							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "timeout",
 							10000000);
 					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 3);
+							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);
 
 					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC,
 							"skip_loop_filter", 48);
