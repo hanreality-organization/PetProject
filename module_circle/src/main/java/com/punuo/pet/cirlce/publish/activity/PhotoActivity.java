@@ -13,8 +13,8 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.cirlce.R;
 import com.punuo.pet.cirlce.publish.event.EditImageEvent;
-import com.punuo.pet.cirlce.publish.util.FileUtils;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.util.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
 

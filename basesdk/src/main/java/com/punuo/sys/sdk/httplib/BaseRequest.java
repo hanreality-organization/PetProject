@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.punuo.sys.sdk.account.AccountManager;
 
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -148,6 +149,19 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
                 break;
         }
         return super.build();
+    }
+
+    public T execute() {
+        Response response = HttpManager.execute(this);
+        if (response != null && response.isSuccessful()) {
+            try {
+                return jsonParse(response.body().string());
+            } catch (IOException e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     protected void buildPostBody() {

@@ -13,16 +13,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.router.HomeRouter;
-import com.punuo.sip.SipUserManager;
-import com.punuo.sip.model.SendWiFiResponse;
-import com.punuo.sip.model.WiFiConnectedSuccessData;
-import com.punuo.sip.request.SipSendWiFiDataRequest;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
-import com.punuo.sys.sdk.util.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,13 +42,15 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
     Button setting;
     @BindView(R2.id.connected_wifi_name)
     TextView connectedWifiName;
+    @BindView(R2.id.ip)
+    EditText ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_hotspot_wifi);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+
         title.setText("热点连接WiFi");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,8 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
             public void onClick(View view) {
                 String input = HotSpotConnectWifiActivity.this.input.getText().toString();
                 String pwd = HotSpotConnectWifiActivity.this.pwd.getText().toString();
-                Send(input, pwd);
+                String ip=HotSpotConnectWifiActivity.this.ip.getText().toString();
+                Send(input,pwd,ip);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -75,25 +76,32 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         });
     }
 
-    private void Send(String input, String pwd) {
-        SipSendWiFiDataRequest sipSendWiFiDataRequest = new SipSendWiFiDataRequest(input, pwd);
-        SipUserManager.getInstance().addRequest(sipSendWiFiDataRequest);
-    }
+    private void Send(String msg1, String msg2, final String ip) {
+        final String message1=msg1;
+        final String message2=msg2;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Socket socket=null;
+                    socket=new Socket(ip,1234);
+                    BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write(message1+"+"+message2);
+                    writer.flush();
+                    writer.close();
+                    socket.close();
+                }catch (UnknownHostException e){e.printStackTrace();}
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(WiFiConnectedSuccessData result) {
-        ToastUtils.showToast("设备已成功连上网络" + result.success);
-        connectedWifiName.setText("当前设备连接的网络为" + result.success);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(SendWiFiResponse result) {
-        ToastUtils.showToast("开始连接");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

@@ -33,7 +33,7 @@ public class HttpManager {
     private static Context sContext;
     private static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
-    public static OkHttpClient getsOkHttpClient() {
+    public static OkHttpClient getOkHttpClient() {
         init();
         return sOkHttpClient;
     }
@@ -84,7 +84,7 @@ public class HttpManager {
 
     public static void addRequest(final NetRequest netRequest) {
         final Request request = netRequest.build();
-        HttpManager.getsOkHttpClient().newCall(request).enqueue(new Callback() {
+        HttpManager.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 sDelivery.postError(netRequest, e);
@@ -99,6 +99,26 @@ public class HttpManager {
                 }
             }
         });
+    }
+
+    /**
+     * 执行网络请求
+     * 同步执行
+     * 注意：使用完一定要注意最后是否已经close
+     *
+     * @param request NetRequest obj
+     * @return Response obj
+     */
+    public static Response execute(NetRequest request) {
+        Request requestTemp = request.build();
+
+        try {
+            Response okHttpResponse = HttpManager.getOkHttpClient().newCall(requestTemp).execute();
+            return handlerResponse(request, okHttpResponse, false);
+        } catch (Exception e) {
+            sDelivery.postCacheResponse(request, null, e);
+            return null;
+        }
     }
 
     private static Response handlerResponse(NetRequest request,
