@@ -107,13 +107,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                     showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            closeVideo();
-                            player.stop();
-                            player.release();
-                            isPlaying = false;
                             dismissLoadingDialog();
-                            mSubTitle.setEnabled(false);
-                            mPlayStatus.setVisibility(View.VISIBLE);
+                            stopVideo();
                         }
                     });
                     startVideo(devId);
@@ -157,6 +152,16 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         });
     }
 
+    private void stopVideo() {
+        closeVideo();
+        player.stop();
+        player.hideAll();
+        player.release();
+        isPlaying = false;
+        mSubTitle.setEnabled(false);
+        mPlayStatus.setVisibility(View.VISIBLE);
+    }
+
     private void initTextureView() {
         player.setLive(true);//是直播还是点播  false为点播
         player.setScaleType(FastVideoPlayer.SCALETYPE_FITXY);
@@ -175,6 +180,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View v) {
                 closeVideo();
                 player.stop();
+                player.hideAll();
                 player.release();
                 isPlaying = false;
                 mPlayStatus.setVisibility(View.VISIBLE);
