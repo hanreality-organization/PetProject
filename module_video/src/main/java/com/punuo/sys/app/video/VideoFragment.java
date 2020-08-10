@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
+import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetdevidRequest;
@@ -70,6 +72,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View down_voice;
     @BindView(R2.id.fast_video_play)
     FastVideoPlayer player;
+    @BindView(R2.id.reset)
+    View reset;
 
     private String devId;
     private boolean isPlaying = false;
@@ -144,6 +148,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SipResetRequest sipResetRequest=new SipResetRequest();
+                SipUserManager.getInstance().addRequest(sipResetRequest);
+            }
+        });
     }
 
     private void initTextureView() {
@@ -209,7 +220,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ResetData result) {
-        Toast.makeText(getActivity(), "重置成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "开启成功", Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
