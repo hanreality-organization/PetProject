@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.punuo.sys.sdk.model.BaseModel;
 
 public class LatestWeightData extends BaseModel {
-    @SerializedName("latestWeight")
+    @SerializedName("weight")
     public String latestWeight;
 }

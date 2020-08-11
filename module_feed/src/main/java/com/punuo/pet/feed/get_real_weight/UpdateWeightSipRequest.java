@@ -1,4 +1,4 @@
-package get_real_weight;
+package com.punuo.pet.feed.get_real_weight;
 
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipRequestType;
@@ -13,7 +13,7 @@ public class UpdateWeightSipRequest extends BaseSipRequest {
 
     public UpdateWeightSipRequest(String username){
         setSipRequestType(SipRequestType.Notify);
-        setTargetResponse("UpdateWeight_response");
+        setTargetResponse("update_weight_response");
         mUsername = username;
     }
 
