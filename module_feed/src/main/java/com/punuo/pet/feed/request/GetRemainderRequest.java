@@ -5,7 +5,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
 
 public class GetRemainderRequest extends BaseRequest<GetRemainderModel> {
     public GetRemainderRequest(){
-        setRequestPath("/weightshistogram/getLeftedWeight");
+        setRequestPath("/weightshistogram/getDayLeftedWeight");
         setRequestType(RequestType.GET);
     }
 }

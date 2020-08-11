@@ -22,11 +22,12 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.feed.adapter.FeedShowAdapter;
 import com.punuo.pet.feed.adapter.FeedViewAdapter;
 import com.punuo.pet.feed.feednow.FeedDialog;
 import com.punuo.pet.feed.model.GetRemainderModel;
-import com.punuo.pet.feed.module.FeedHeadModule;
 import com.punuo.pet.feed.model.OutedModel;
+import com.punuo.pet.feed.module.FeedHeadModule;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
@@ -37,6 +38,7 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.LatestWeightData;
 import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipOnLineRequest;
@@ -55,6 +57,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.punuo.pet.feed.get_real_weight.UpdateWeightSipRequest;
 
 /**
  * Created by han.chen.
@@ -78,13 +81,15 @@ public class FeedFragment extends BaseFragment {
     String devId;
     @BindView(R2.id.pull_to_refresh)
     PullToRefreshRecyclerView mPullToRefreshRecyclerView;
+    @BindView(R2.id.real_weight)
+    LinearLayout mRealWeight;
 
     private RecyclerView mRecyclerView;
     private FeedHeadModule mFeedHeadModule;
     private static String devid;
     private FeedDialog feedDialog;
-    private FeedViewAdapter mFeedViewAdapter;
-
+//    private FeedViewAdapter mFeedViewAdapter;
+    private FeedShowAdapter mFeedViewAdapter;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
@@ -100,7 +105,7 @@ public class FeedFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
         devId = "310023005801930001";
-        Toast.makeText(getActivity(),"点击左上角WiFi按钮绑定设备并为设备连接WiFi",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "点击左上角WiFi按钮绑定设备并为设备连接WiFi", Toast.LENGTH_LONG).show();
         return mFragmentView;
     }
 
@@ -126,6 +131,12 @@ public class FeedFragment extends BaseFragment {
                 ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
+        mRealWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateWeight(AccountManager.getUserName());
+            }
+        });
 
         mPullToRefreshRecyclerView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);//设置刷新模式
         mRecyclerView = mPullToRefreshRecyclerView.getRefreshableView();
@@ -137,7 +148,8 @@ public class FeedFragment extends BaseFragment {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         headerView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        mFeedViewAdapter = new FeedViewAdapter(getActivity(), new ArrayList<Plan>());
+//        mFeedViewAdapter = new FeedViewAdapter(getActivity(), new ArrayList<Plan>());
+        mFeedViewAdapter = new FeedShowAdapter(getActivity(), new ArrayList<Plan>());
         mFeedViewAdapter.setHeaderView(headerView);
         mFeedHeadModule = new FeedHeadModule(getActivity(), headerView);
         headerView.addView(mFeedHeadModule.getView());
@@ -153,6 +165,7 @@ public class FeedFragment extends BaseFragment {
                 IsonLine();
             }
         });
+
 
         getPlan();
         getRemainderQuality();
@@ -197,17 +210,17 @@ public class FeedFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LoginResponse event) {
-        int live=Integer.parseInt(event.live);
+        int live = Integer.parseInt(event.live);
         if (live == 1) {
             mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
         }
-        if(live==0){
+        if (live == 0) {
             mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
         }
     }
 
-    private void IsonLine(){
-        SipOnLineRequest sipOnLineRequest=new SipOnLineRequest();
+    private void IsonLine() {
+        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
 
@@ -256,9 +269,10 @@ public class FeedFragment extends BaseFragment {
         mGetRemainderRequest = new GetRemainderRequest();
         mGetRemainderRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetRemainderRequest.setRequestListener(new RequestListener<GetRemainderModel>() {
-                @Override
-                public void onComplete() {
+            @Override
+            public void onComplete() {
             }
+
             @Override
             public void onSuccess(GetRemainderModel result) {
                 if (result == null) {
@@ -266,27 +280,31 @@ public class FeedFragment extends BaseFragment {
                 }
                 mFeedHeadModule.updateRemainder(result.mRemainder.remainder);
             }
+
             @Override
             public void onError(Exception e) {
             }
         });
         HttpManager.addRequest(mGetRemainderRequest);
     }
+
     /**
      * 显示计划中已经出了的粮食份数
      */
     private GetOutedRequest mGetOutedRequest;
-    public void getOutedCount(){
-        if (mGetOutedRequest!=null && !mGetOutedRequest.isFinish()){
+
+    public void getOutedCount() {
+        if (mGetOutedRequest != null && !mGetOutedRequest.isFinish()) {
             return;
         }
-        mGetOutedRequest =  new GetOutedRequest();
-        mGetOutedRequest.addUrlParam("userName",AccountManager.getUserName());
+        mGetOutedRequest = new GetOutedRequest();
+        mGetOutedRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetOutedRequest.setRequestListener(new RequestListener<OutedModel>() {
             @Override
             public void onComplete() {
 
             }
+
             @Override
             public void onSuccess(OutedModel result) {
                 mFeedHeadModule.updateOutCount(result.outedCount);
@@ -299,6 +317,7 @@ public class FeedFragment extends BaseFragment {
         });
         HttpManager.addRequest(mGetOutedRequest);
     }
+
 
     /**
      * 将收到的称重信息更新到UI
@@ -317,9 +336,27 @@ public class FeedFragment extends BaseFragment {
 //        Log.i("weight", "剩余粮食获取成功");
 //    }
 
+    /**
+     * 用户添加粮食后重新获取重量
+     */
+    private void updateWeight(String username) {
+        UpdateWeightSipRequest mUpdateWeightRequest = new UpdateWeightSipRequest(username);
+        SipUserManager.getInstance().addRequest(mUpdateWeightRequest);
+        Log.i("update_weight", "正在发送更新重量的sip请求");
+    }
+
+    /**
+     * 收到最新的重量后更新UI
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LatestWeightData reuslt) {
+        mFeedHeadModule.updateRemainder(reuslt.latestWeight);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+
     }
 }
