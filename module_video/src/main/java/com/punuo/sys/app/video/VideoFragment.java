@@ -148,6 +148,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View view) {
                 SipResetRequest sipResetRequest=new SipResetRequest();
                 SipUserManager.getInstance().addRequest(sipResetRequest);
+                Toast.makeText(getActivity(),"开启成功",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -51,7 +51,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         setContentView(R.layout.home_hotspot_wifi);
         ButterKnife.bind(this);
 
-        title.setText("热点连接WiFi");
+        title.setText("AP模式连接WiFi");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

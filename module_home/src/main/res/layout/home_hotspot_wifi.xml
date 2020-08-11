@@ -44,7 +44,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="连接成功后输入说明书上AP的IP"
+                android:text="连接成功后输入设备上贴的IP"
                 android:textColor="#333333" />
 
             <TextView
