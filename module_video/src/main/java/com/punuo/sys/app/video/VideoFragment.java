@@ -72,8 +72,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View down_voice;
     @BindView(R2.id.fast_video_play)
     FastVideoPlayer player;
-    @BindView(R2.id.reset)
-    View reset;
 
     private String devId;
     private boolean isPlaying = false;
@@ -143,14 +141,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SipResetRequest sipResetRequest=new SipResetRequest();
-                SipUserManager.getInstance().addRequest(sipResetRequest);
-                Toast.makeText(getActivity(),"开启成功",Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void stopVideo() {
@@ -213,6 +203,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             player.onDestroy();
         }
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden && isPlaying){
+        stopVideo();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

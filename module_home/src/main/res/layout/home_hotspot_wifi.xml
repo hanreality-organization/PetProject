@@ -24,7 +24,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="喂食器开机后连接名为MEPET的网络"
+                android:text="1、喂食器开机后连接名为MEPET的网络"
                 android:textColor="#333333" />
 
             <Button
@@ -36,7 +36,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="去连接WiFi" />
+                android:text="去连接MEPET" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="连接成功后输入设备上贴的IP"
+                android:text="2、连接成功后输入设备上贴的IP"
                 android:textColor="#333333" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="然后在下面输入想要连接的WiFi名和密码"
+                android:text="3、然后在下面输入想要连接的WiFi名和密码（请确保输入正确再继续下一步）"
                 android:textColor="#333333" />
 
             <TextView
@@ -97,7 +97,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="全部输入完成后点击连接即可让喂食器连接上输入的WiFi"
+                android:text="4、全部输入完成后点击下方的发送WiFi信息即可让喂食器连接上输入的WiFi"
                 android:textColor="#333333" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="当设备发出声音后表示连接成功"
+                android:text="5、当WIFI指示灯常亮则表示连接成功,如果发送WiFi信息成功后WiFi指示灯没有常亮，请重新开机并重复上述步骤"
                 android:textColor="#333333" />
 
             <TextView
@@ -171,7 +171,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="连接" />
+                android:text="发送WiFi信息" />
 
             <TextView
                 android:id="@+id/connected_wifi_name"

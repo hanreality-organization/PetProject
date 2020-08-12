@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.home.R;
@@ -65,6 +66,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
                 String pwd = HotSpotConnectWifiActivity.this.pwd.getText().toString();
                 String ip=HotSpotConnectWifiActivity.this.ip.getText().toString();
                 Send(input,pwd,ip);
+                Toast.makeText(HotSpotConnectWifiActivity.this,"发送WiFi信息成功",Toast.LENGTH_SHORT);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
