@@ -38,11 +38,13 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.FeedCountData;
 import com.punuo.sip.model.LatestWeightData;
 import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sip.weight.WeightData;
+import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -320,7 +322,7 @@ public class FeedFragment extends BaseFragment {
 
 
     /**
-     * 将收到的称重信息更新到UI
+     * 将收到的称重信息更新到UI（Android）
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
@@ -337,7 +339,24 @@ public class FeedFragment extends BaseFragment {
 //    }
 
     /**
-     * 用户添加粮食后重新获取重量
+     * 将收到的称重信息更新到UI
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEventBus(FeedCountData data) {
+        int out = Integer.parseInt(data.feedCount)*10;
+        int temp = Constant.LATESTWEIGHT-out;
+        if(temp<=0){
+            temp=0;
+            Constant.LATESTWEIGHT = 0;
+        }else{
+            Constant.LATESTWEIGHT-=out;
+        }
+        Log.i("weight........", String.valueOf(temp));
+        mFeedHeadModule.updateRemainder(String.valueOf(temp));
+    }
+
+    /**
+     * 用户添加粮食后重新获取重量的SIP命令
      */
     private void updateWeight(String username) {
         UpdateWeightSipRequest mUpdateWeightRequest = new UpdateWeightSipRequest(username);
@@ -350,6 +369,7 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LatestWeightData reuslt) {
+        Constant.LATESTWEIGHT = Integer.parseInt(reuslt.latestWeight);
         mFeedHeadModule.updateRemainder(reuslt.latestWeight);
     }
 

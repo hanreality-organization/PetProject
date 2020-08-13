@@ -2,6 +2,7 @@ package com.punuo.pet.member.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,14 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.R;
+import com.punuo.pet.member.request.GetIdModel;
+import com.punuo.pet.member.request.GetIdRequest;
 import com.punuo.pet.member.request.LogoutRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.pet.update.AutoUpdateService;
+import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -43,7 +47,6 @@ public class MemberHeadModule {
     private Context mContext;
     private TextView mId;
     private TextView mVersionName;
-
     public View getView() {
         return mView;
     }
@@ -73,6 +76,8 @@ public class MemberHeadModule {
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
 
+        //获取id
+        getShopId();
         //设置用户头像
         Glide.with(mContext).load(AccountManager.getUserInfo().avatar).into(mAvatar);
         //设置用户昵称
@@ -119,8 +124,9 @@ public class MemberHeadModule {
         mShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("shopId", ""+Constant.SHOPID);
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
+                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId="+Constant.SHOPID).navigation();
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
@@ -190,4 +196,30 @@ public class MemberHeadModule {
 
     }
 
+    private GetIdRequest mGetIdRequest;
+    private void getShopId(){
+        if(mGetIdRequest!=null&&!mGetIdRequest.isFinish()){
+            return;
+        }
+        mGetIdRequest = new GetIdRequest();
+        mGetIdRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetIdRequest.setRequestListener(new RequestListener<GetIdModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(GetIdModel result) {
+                Log.i("服务器返回的shopId", ""+result.shopId);
+                Constant.SHOPID = result.shopId;
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetIdRequest);
+    }
 }

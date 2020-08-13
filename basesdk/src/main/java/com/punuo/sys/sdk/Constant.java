@@ -38,4 +38,7 @@ public class Constant {
     public static long vaccineDateAndTime;
     public static long beautyDateAndTime;
     public static long walkDateAndTime;
+
+    public static int SHOPID=0;
+    public static int LATESTWEIGHT=0;
 }
