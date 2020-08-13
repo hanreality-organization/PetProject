@@ -38,41 +38,6 @@
                 android:gravity="center"
                 android:text="去连接MEPET" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="2、连接成功后输入设备上贴的IP"
-                android:textColor="#333333" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="12dp"
-                android:text="IP"
-                android:textSize="14sp"
-                tools:visibility="visible" />
-
-            <EditText
-                android:id="@+id/ip"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/login_edit_bg"
-                android:drawableRight="@drawable/ic_delete_grey"
-                android:gravity="center_vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:textSize="14sp"
-                tools:hint="请输入AP的IP"
-                tools:visibility="visible" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -88,7 +53,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="3、然后在下面输入想要连接的WiFi名和密码（请确保输入正确再继续下一步）"
+                android:text="2、然后在下面输入想要连接的WiFi名和密码（请确保输入正确再继续下一步）"
                 android:textColor="#333333" />
 
             <TextView
@@ -97,7 +62,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="4、全部输入完成后点击下方的发送WiFi信息即可让喂食器连接上输入的WiFi"
+                android:text="3、全部输入完成后点击下方的发送WiFi信息即可让喂食器连接上输入的WiFi"
                 android:textColor="#333333" />
 
             <TextView
@@ -106,7 +71,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="5、当WIFI指示灯常亮则表示连接成功,如果发送WiFi信息成功后WiFi指示灯没有常亮，请重新开机并重复上述步骤"
+                android:text="4、当显示发送WiFi信息成功后，喂食器会发出咔咔的声音重新启动，如果重启后WiFi指示灯常亮则表示WiFi连接成功，否则很可能是WiFi名和密码输入错误，请长按WiFi指示灯下的按钮10秒并重复上述步骤"
                 android:textColor="#333333" />
 
             <TextView

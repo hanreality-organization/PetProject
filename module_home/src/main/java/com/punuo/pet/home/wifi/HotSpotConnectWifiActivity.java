@@ -43,8 +43,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
     Button setting;
     @BindView(R2.id.connected_wifi_name)
     TextView connectedWifiName;
-    @BindView(R2.id.ip)
-    EditText ip;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +63,8 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
             public void onClick(View view) {
                 String input = HotSpotConnectWifiActivity.this.input.getText().toString();
                 String pwd = HotSpotConnectWifiActivity.this.pwd.getText().toString();
-                String ip=HotSpotConnectWifiActivity.this.ip.getText().toString();
-                Send(input,pwd,ip);
-                Toast.makeText(HotSpotConnectWifiActivity.this,"发送WiFi信息成功",Toast.LENGTH_SHORT);
+                Send(input,pwd);
+                Toast.makeText(HotSpotConnectWifiActivity.this,"发送WiFi信息成功",Toast.LENGTH_SHORT).show();
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +76,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         });
     }
 
-    private void Send(String msg1, String msg2, final String ip) {
+    private void Send(String msg1, String msg2) {
         final String message1=msg1;
         final String message2=msg2;
         new Thread(new Runnable() {
@@ -86,7 +84,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
             public void run() {
                 try {
                     Socket socket=null;
-                    socket=new Socket(ip,1234);
+                    socket=new Socket("192.168.1.108",1234);
                     BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                     writer.write(message1+"+"+message2);
                     writer.flush();

@@ -50,7 +50,7 @@
         android:id="@+id/video_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/home_white_card_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -118,20 +118,57 @@
 
     </LinearLayout>
 
-    <com.punuo.sys.sdk.view.AdvancedTextView
-        android:id="@+id/play_video"
+    <LinearLayout
+        android:id="@+id/next_video_control"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:gravity="center"
-        android:text="视频回放"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:border_radius="44dp"
-        app:gradient_direction="toRight"
-        app:gradient_endColor="#FF1A1A"
-        app:gradient_startColor="#FF1A1A" />
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:background="@drawable/home_white_card_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/play_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/bg_video_play" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频回放"
+                android:textColor="#666666" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
