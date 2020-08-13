@@ -25,13 +25,14 @@ public class UpdateWeightService extends NormalRequestService<LatestWeightData> 
 //        Log.i("update_weight", "通知设备重新获取最新重量...");
         if(result!=null){
             Log.i("update_weight", "成功将sip命令发送到服务器");
+            ToastUtils.showToast("已成功获取重量！");
         }
         EventBus.getDefault().post(result);
     }
 
     @Override
     protected void onError(Exception e) {
-
+        ToastUtils.showToast("网络出了一点问题请重试！");
     }
 
     @Override
