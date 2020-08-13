@@ -113,7 +113,7 @@ public class ChartActivity extends BaseSwipeBackActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String str = mFilter2.getSelectedItem().toString();
-                mChartContainer3.removeAllViews();
+                mChartContainer2.removeAllViews();
                 ChartType chartType = ChartType.DAY;
                 if ("日".equals(str)) {
                     chartType = ChartType.DAY;
