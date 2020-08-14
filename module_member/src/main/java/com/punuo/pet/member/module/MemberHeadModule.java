@@ -124,7 +124,6 @@ public class MemberHeadModule {
         mShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("shopId", ""+Constant.SHOPID);
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
                         .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId="+Constant.SHOPID).navigation();
             }
