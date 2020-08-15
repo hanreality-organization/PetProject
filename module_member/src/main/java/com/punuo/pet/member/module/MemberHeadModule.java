@@ -45,7 +45,7 @@ public class MemberHeadModule {
     private ImageView mAvatar;
     private Button mCheck;
     private Context mContext;
-    private TextView mId;
+//    private TextView mId;
     private TextView mVersionName;
     public View getView() {
         return mView;
@@ -62,7 +62,7 @@ public class MemberHeadModule {
         mCheck = mView.findViewById(R.id.check);
         TextView exitButton = mView.findViewById(R.id.exit_button);
         mNickname = mView.findViewById(R.id.user_nickname);
-        mId = mView.findViewById(R.id.user_id);
+//        mId = mView.findViewById(R.id.user_id);
         mAvatar = mView.findViewById(R.id.user_avatar);
         View account = mView.findViewById(R.id.account);
         View cache = mView.findViewById(R.id.cache);
@@ -82,7 +82,7 @@ public class MemberHeadModule {
         Glide.with(mContext).load(AccountManager.getUserInfo().avatar).into(mAvatar);
         //设置用户昵称
         mNickname.setText(AccountManager.getUserInfo().nickName);
-        mId.setText(AccountManager.getUserName());
+//        mId.setText(AccountManager.getUserName());
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +93,7 @@ public class MemberHeadModule {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
         cache.setOnClickListener(new View.OnClickListener() {

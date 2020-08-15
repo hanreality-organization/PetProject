@@ -23,7 +23,8 @@
             android:id="@+id/user_avatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:riv_corner_radius="6dp"
+            app:riv_corner_radius="50dp"
+            android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars" />
 
         <LinearLayout
@@ -45,15 +46,15 @@
                 android:textStyle="bold"
                 tools:text="梦视科技昵称" />
 
-            <TextView
-                android:id="@+id/user_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="#333333"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="ID:888801" />
+<!--            <TextView-->
+<!--                android:id="@+id/user_id"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:textColor="#333333"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textStyle="bold"-->
+<!--                tools:text="ID:888801" />-->
         </LinearLayout>
 
         <!--编辑个人信息-->
@@ -125,7 +126,7 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/rightarrow" />
         </RelativeLayout>
-        <!--账号管理-->
+        <!--绑定设备-->
         <RelativeLayout
             android:id="@+id/account"
             android:layout_width="match_parent"
@@ -148,7 +149,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_account"
-                android:text="账号管理"
+                android:text="绑定设备"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -272,6 +273,44 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/rightarrow" />
         </RelativeLayout>
+
+        <!--连接WiFi-->
+        <RelativeLayout
+            android:id="@+id/wificonnected"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/white_corner_bg">
+
+            <ImageView
+                android:id="@+id/image_wificonnected"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/ic_wifi_bg" />
+
+            <TextView
+                android:id="@+id/text_wificonnected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_wificonnected"
+                android:text="连接WiFi"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/rightarrow" />
+        </RelativeLayout>
+
         <!--检查更新-->
         <RelativeLayout
             android:id="@+id/update_service"
@@ -313,42 +352,7 @@
 
         </RelativeLayout>
 
-        <!--连接WiFi-->
-        <RelativeLayout
-            android:id="@+id/wificonnected"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/white_corner_bg">
 
-            <ImageView
-                android:id="@+id/image_wificonnected"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:src="@drawable/ic_wifi_bg" />
-
-            <TextView
-                android:id="@+id/text_wificonnected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/image_wificonnected"
-                android:text="连接WiFi"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/rightarrow" />
-        </RelativeLayout>
 
         <!--退出登录-->
         <TextView

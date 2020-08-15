@@ -62,7 +62,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="3、全部输入完成后点击下方的发送WiFi信息即可让喂食器连接上输入的WiFi"
+                android:text="3、全部输入完成后点击下方的发送WiFi信息，等待5秒左右设备会自动重启"
                 android:textColor="#333333" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="4、当显示发送WiFi信息成功后，喂食器会发出咔咔的声音重新启动，如果重启后WiFi指示灯常亮则表示WiFi连接成功，否则很可能是WiFi名和密码输入错误，请长按WiFi指示灯下的按钮10秒并重复上述步骤"
+                android:text="4、设备重启时，喂食器会发出咔咔咔的声音，重启后等待10秒左右，如果WiFi指示灯常亮则表示WiFi连接成功，如果指示灯常暗则表示WiFi连接失败，请长按WiFi指示灯下的按钮10秒左右，然后设备自动重启，重启以后重复上述步骤"
                 android:textColor="#333333" />
 
             <TextView
