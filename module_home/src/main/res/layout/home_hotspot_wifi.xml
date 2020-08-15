@@ -24,7 +24,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="1、喂食器开机后连接名为MEPET的网络"
+                android:text="1、喂食器开机后连接名为MSPET的网络"
                 android:textColor="#333333" />
 
             <Button
@@ -36,7 +36,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="去连接MEPET" />
+                android:text="去连接MSPET" />
 
 
             <ImageView
@@ -53,7 +53,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="2、然后在下面输入想要连接的WiFi名和密码（请确保输入正确再继续下一步）"
+                android:text="2、然后在下面输入喂食器想要连接的WiFi名和密码（请确保输入正确再继续下一步）"
                 android:textColor="#333333" />
 
             <TextView
