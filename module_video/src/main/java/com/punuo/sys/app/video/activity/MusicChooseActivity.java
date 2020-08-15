@@ -8,6 +8,7 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -74,11 +76,15 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     @Autowired(name = "devId")
     String devId;
+    @BindView(R2.id.progress_bar)
+    ProgressBar mProgressBar;
 
     private MusicAdapter mMusicAdapter;
     private File recordFile;
     private File finalFile;
     private String finalFileName = "";
+    private static final int MAX_TIME = 30;
+    private int recordTime = 1;
     private static final String prefixPath = Environment.getExternalStorageDirectory().getPath() + "/punuo/audio/";
 
     @Override
@@ -145,12 +151,16 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                 if (!isRecording) {
                     MusicChooseActivityPermissionsDispatcher.checkPermissionsWithCheck(MusicChooseActivity.this);
                 } else {
+                    mBaseHandler.removeMessages(0x001);
                     closeRecord();
                     mRecordVoice.setText("录制音频");
                     renameFile();
+                    ToastUtils.showToast("录制完成");
                 }
             }
         });
+        mProgressBar.setMax(MAX_TIME);
+        mProgressBar.setProgress(0);
     }
 
     private void stopMusic() {
@@ -209,6 +219,8 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO})
     void checkPermissions() {
         createAudioRecord();
+        recordTime = 0;
+        mBaseHandler.sendEmptyMessageDelayed(0x001, 1000);
         mRecordVoice.setText("停止录音");
     }
 
@@ -303,7 +315,9 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         super.onDestroy();
         closeRecord();
     }
+
     private UploadAudioRequest request;
+
     private void uploadAudio() {
         if (request != null && !request.isFinish()) {
             return;
@@ -342,6 +356,22 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
             }
         });
         HttpManager.addRequest(request);
+    }
 
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        if (msg.what == 0x001) {
+            if (recordTime >= MAX_TIME - 1) {
+                mRecordVoice.performClick();
+                recordTime = 0;
+                mProgressBar.setProgress(0);
+            } else {
+                recordTime++;
+                mProgressBar.setProgress(recordTime);
+                mBaseHandler.sendEmptyMessageDelayed(0x001, 1000);
+            }
+        }
     }
 }
