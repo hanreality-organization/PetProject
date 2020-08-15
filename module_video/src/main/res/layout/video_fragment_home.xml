@@ -54,6 +54,7 @@
         android:background="@drawable/home_white_card_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_margin="6dp"
         android:padding="12dp">
 
         <LinearLayout
@@ -97,48 +98,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/play_music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/bg_music" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="音乐"
-                android:textColor="#666666" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/next_video_control"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:background="@drawable/home_white_card_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/play_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,14 +118,23 @@
         </LinearLayout>
 
         <LinearLayout
-
+            android:id="@+id/play_music"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/bg_audio" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录音"
+                android:textColor="#666666" />
         </LinearLayout>
 
     </LinearLayout>

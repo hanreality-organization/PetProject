@@ -4,16 +4,16 @@
     <application>
         <activity
             android:name=".activity.VideoPlayActivity"
-            android:screenOrientation="user"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
+            android:screenOrientation="user"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activity.MusicChooseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
-        <activity android:name=".activity.VideoChooseActivity"
+        <activity
+            android:name=".activity.VideoChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent"/>
+            android:theme="@style/Theme.Pn.Translucent" />
     </application>
 </manifest>

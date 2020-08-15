@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
-import com.punuo.sip.request.SipResetRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
 import com.punuo.sys.app.video.activity.request.GetdevidRequest;
@@ -117,6 +115,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
+                        .withString("devId", devId)
                         .navigation();
             }
         });
