@@ -11,6 +11,6 @@ import java.util.List;
  **/
 public class MusicModel extends BaseModel {
 
-    @SerializedName("basic_music_list")
+    @SerializedName("audio_file_url")
     public List<String> mBasicMusicList;
 }

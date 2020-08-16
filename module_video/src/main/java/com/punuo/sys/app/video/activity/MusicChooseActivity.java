@@ -35,7 +35,6 @@ import com.punuo.sys.app.video.model.MusicItem;
 import com.punuo.sys.app.video.model.MusicModel;
 import com.punuo.sys.app.video.request.GetMusicListRequest;
 import com.punuo.sys.app.video.request.UploadAudioRequest;
-import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -78,6 +77,8 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     String devId;
     @BindView(R2.id.progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R2.id.time_label)
+    TextView mTimeLabel;
 
     private MusicAdapter mMusicAdapter;
     private File recordFile;
@@ -97,9 +98,9 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         getData();
     }
 
-    private void getData() {
+    public void getData() {
         GetMusicListRequest getMusicListRequest = new GetMusicListRequest();
-        getMusicListRequest.addUrlParam("userName", AccountManager.getUserName());
+        getMusicListRequest.addUrlParam("devid", devId);
         getMusicListRequest.setRequestListener(new RequestListener<MusicModel>() {
             @Override
             public void onComplete() {
@@ -142,7 +143,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mMusicList.setLayoutManager(layoutManager);
-        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>());
+        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), devId);
         mMusicList.setAdapter(mMusicAdapter);
 
         mRecordVoice.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +155,8 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                     mBaseHandler.removeMessages(0x001);
                     closeRecord();
                     mRecordVoice.setText("录制音频");
+                    mProgressBar.setProgress(0);
+                    mTimeLabel.setText("0s");
                     renameFile();
                     ToastUtils.showToast("录制完成");
                 }
@@ -161,6 +164,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         });
         mProgressBar.setMax(MAX_TIME);
         mProgressBar.setProgress(0);
+        mTimeLabel.setText("0s");
     }
 
     private void stopMusic() {
@@ -367,9 +371,11 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                 mRecordVoice.performClick();
                 recordTime = 0;
                 mProgressBar.setProgress(0);
+                mTimeLabel.setText("0s");
             } else {
                 recordTime++;
                 mProgressBar.setProgress(recordTime);
+                mTimeLabel.setText(recordTime + "s");
                 mBaseHandler.sendEmptyMessageDelayed(0x001, 1000);
             }
         }

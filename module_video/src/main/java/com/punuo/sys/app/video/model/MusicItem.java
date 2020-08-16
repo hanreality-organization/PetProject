@@ -7,4 +7,12 @@ package com.punuo.sys.app.video.model;
 public class MusicItem {
     public String url;
     public boolean selected;
+
+    public String getFileName() {
+        if (url != null) {
+            return url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+        } else {
+            return "";
+        }
+    }
 }
