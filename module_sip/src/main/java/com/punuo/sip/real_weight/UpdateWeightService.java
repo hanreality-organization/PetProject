@@ -12,6 +12,8 @@ import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
+
+
 @Route(path= ServicePath.PATH_UPDATE_WEIGHT)
 public class UpdateWeightService extends NormalRequestService<LatestWeightData> {
 

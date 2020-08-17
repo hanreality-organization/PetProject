@@ -377,6 +377,5 @@ public class FeedFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
-
     }
 }
