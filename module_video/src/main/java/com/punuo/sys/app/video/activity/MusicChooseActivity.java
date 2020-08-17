@@ -119,7 +119,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onError(Exception e) {
-                HandlerExceptionUtils.handleException(e);
+                //HandlerExceptionUtils.handleException(e);
             }
         });
         HttpManager.addRequest(getMusicListRequest);
@@ -132,7 +132,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                 finish();
             }
         });
-        mTitle.setText("选择音乐");
+        mTitle.setText("选择录音");
         mSubTitle.setVisibility(View.VISIBLE);
         mSubTitle.setText("停止播放");
         mSubTitle.setOnClickListener(new View.OnClickListener() {
