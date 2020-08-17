@@ -6,7 +6,7 @@ package com.punuo.pet.router;
  **/
 public class MemberRouter {
     private static final String PREFIX = "/member";
-    public static final String ROUTER_MEMBER_FRAGMENT = PREFIX + "/MemberFragment";
+    public static final String ROUTER_MEMBER_FRAGMENT = PREFIX + "/";
     public static final String ROUTER_LOGIN_ACTIVITY = PREFIX + "/LoginActivity";
     public static final String ROUTER_REGISTER_ACCOUNT_ACTIVITY = PREFIX + "/RegisterAccountActivity";
     public static final String ROUTER_FORGET_PASSWORD_ACTIVITY = PREFIX + "/ForgetPasswordActivity";
