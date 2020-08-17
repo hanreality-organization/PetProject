@@ -46,6 +46,20 @@ android {
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def outputFile = output.outputFile
+                    if (outputFile.name.contains("release")) {
+                        def fileName = "feed_signed.apk"
+                        outputFileName = new File("../release/", fileName)
+                    } else if (outputFile.name.contains("debug")) {
+                        def fileName = "feed_debug.apk"
+                        outputFileName = new File("../debug/", fileName)
+                    }
+            }
+    }
 }
 
 dependencies {
