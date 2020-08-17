@@ -46,12 +46,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final String path = mPathList.get(position);
-        String year = path.substring(56, 60);
-        String month = path.substring(60, 62);
-        String day = path.substring(62, 64);
-        String hour = path.substring(64, 66);
-        String minute = path.substring(66, 68);
-        String second = path.substring(68, 70);
+        String year = path.substring(59, 63);
+        String month = path.substring(63, 65);
+        String day = path.substring(65, 67);
+        String hour = path.substring(67, 69);
+        String minute = path.substring(69, 71);
+        String second = path.substring(71, 73);
         holder.CreateTime.setText(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second);
         int width = CommonUtil.getWidth() - CommonUtil.dip2px(20);
         int height = 480 * width / 640;
