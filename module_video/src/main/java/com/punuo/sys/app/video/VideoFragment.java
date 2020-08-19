@@ -15,6 +15,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hengyi.fastvideoplayer.library.FastVideoPlayer;
 import com.punuo.pet.home.device.model.BindDevidSuccess;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
@@ -33,6 +34,7 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,6 +72,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View down_voice;
     @BindView(R2.id.fast_video_play)
     FastVideoPlayer player;
+    @BindView(R2.id.content_view)
+    View contentView;
 
     private String devId;
     private boolean isPlaying = false;
@@ -99,6 +103,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlayStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkDevId()) {
+                    return;
+                }
                 if (!isPlaying) {
                     showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
                         @Override
@@ -114,6 +121,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         playMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkDevId()) {
+                    return;
+                }
                 ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
                         .withString("devId", devId)
                         .navigation();
@@ -122,6 +132,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlayVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkDevId()) {
+                    return;
+                }
                 ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
                         .navigation();
             }
@@ -129,6 +142,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         down_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkDevId()) {
+                    return;
+                }
                 SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("lower");
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
@@ -136,6 +152,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         add_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkDevId()) {
+                    return;
+                }
                 SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("raise");
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
@@ -168,15 +187,18 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeVideo();
-                player.stop();
-                player.hideAll();
-                player.release();
-                isPlaying = false;
-                mPlayStatus.setVisibility(View.VISIBLE);
-                mSubTitle.setEnabled(false);
+                if (isPlaying) {
+                    closeVideo();
+                    player.stop();
+                    player.hideAll();
+                    player.release();
+                    isPlaying = false;
+                    mPlayStatus.setVisibility(View.VISIBLE);
+                    mSubTitle.setEnabled(false);
+                }
             }
         });
+        mSubTitle.setEnabled(false);
     }
 
     private void startVideo(String devId) {
@@ -207,8 +229,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden && isPlaying){
-        stopVideo();
+        if (hidden && isPlaying) {
+            stopVideo();
         }
     }
 
@@ -248,12 +270,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         if (mGetdevidRequest != null && !mGetdevidRequest.isFinish()) {
             return;
         }
+        showLoadingDialog();
         mGetdevidRequest = new GetdevidRequest();
         mGetdevidRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetdevidRequest.setRequestListener(new RequestListener<deviddata>() {
             @Override
             public void onComplete() {
-
+                dismissLoadingDialog();
             }
 
             @Override
@@ -273,11 +296,28 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void closeVideo() {
-        SipByeRequest sipByeRequest = new SipByeRequest(devId);
-        SipUserManager.getInstance().addRequest(sipByeRequest);
+        if (checkDevId()) {
+            SipByeRequest sipByeRequest = new SipByeRequest(devId);
+            SipUserManager.getInstance().addRequest(sipByeRequest);
+        }
     }
 
     @Override
     public void handleMessage(Message msg) {
+    }
+
+    /**
+     * 检测是否绑定设备
+     * @return
+     */
+    private boolean checkDevId() {
+        if (!TextUtils.isEmpty(devId)) {
+            return true;
+        } else  {
+            ToastUtils.showToast("请先确认已绑定设备");
+            ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
+                    .navigation();
+            return false;
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video"
@@ -17,126 +17,135 @@
     <include
         android:id="@+id/title_layout"
         layout="@layout/module_title_layout"
+        android:layout_below="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#333333">
-
-        <TextureView
-            android:id="@+id/surface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_height="240dp"
-            android:visibility="gone"/>
-        <com.hengyi.fastvideoplayer.library.FastVideoPlayer
-            android:id="@+id/fast_video_play"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_height="240dp" />
-
-        <ImageView
-            android:id="@+id/play_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/video_ic_play" />
-    </FrameLayout>
-
-    <!--视频基本控制布局-->
     <LinearLayout
-        android:id="@+id/video_control"
+        android:id="@+id/content_view"
+        android:layout_below="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/home_white_card_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_margin="6dp"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/down_voice"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="#333333">
+
+            <TextureView
+                android:id="@+id/surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:layout_height="240dp" />
+
+            <com.hengyi.fastvideoplayer.library.FastVideoPlayer
+                android:id="@+id/fast_video_play"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="240dp" />
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/bg_down_voice" />
-
-            <TextView
+                android:id="@+id/play_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="音量减"
-                android:textColor="#666666" />
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:src="@drawable/video_ic_play" />
+        </FrameLayout>
 
+        <!--视频基本控制布局-->
         <LinearLayout
-            android:id="@+id/add_voice"
+            android:id="@+id/video_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="6dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/home_white_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/bg_add_voice" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/down_voice"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="音量加"
-                android:textColor="#666666" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/play_video"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/bg_down_voice" />
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/bg_video_play" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="音量减"
+                    android:textColor="#666666" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/add_voice"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="视频回放"
-                android:textColor="#666666" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/play_music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/bg_add_voice" />
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/bg_audio" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="音量加"
+                    android:textColor="#666666" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/play_video"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="录音"
-                android:textColor="#666666" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/bg_video_play" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="视频回放"
+                    android:textColor="#666666" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/play_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/bg_audio" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="录音"
+                    android:textColor="#666666" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
