@@ -1,6 +1,7 @@
 package com.punuo.pet.home.holder;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +25,11 @@ public class WifiHolder extends BaseViewHolder<IWifi> {
     @Override
     protected void bindData(IWifi iWifi, int position) {
         wifiName.setText(iWifi.name());
-        wifiDesc.setText(iWifi.description());
+        if (!TextUtils.isEmpty(iWifi.description())) {
+            wifiDesc.setText(iWifi.description());
+            wifiDesc.setVisibility(View.VISIBLE);
+        } else {
+            wifiDesc.setVisibility(View.GONE);
+        }
     }
 }
