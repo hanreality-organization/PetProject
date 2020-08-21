@@ -77,5 +77,9 @@
             android:name=".chart.ChartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
+
+        <activity android:name=".wifi.WifiChooseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"/>
     </application>
 </manifest>
