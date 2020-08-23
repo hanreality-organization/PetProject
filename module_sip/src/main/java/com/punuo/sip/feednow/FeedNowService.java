@@ -23,16 +23,17 @@ public class FeedNowService extends NormalRequestService<FeedNotifyData> {
         if(result != null){
             String response = "from"+result.userName+";"+"to"+result.devId+"feed_count"+result.feedCount;
             Log.i("feed", response);
+            ToastUtils.showToast("出粮成功");
         }
     }
 
     @Override
     protected void onError(Exception e) {
-
+        ToastUtils.showToast("出粮失败，请重新尝试");
     }
 
     @Override
     public void handleTimeOut(BaseSipRequest baseSipRequest) {
-
+        ToastUtils.showToast("出粮失败，请重新尝试");
     }
 }
