@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sys.app.video.R;
+import com.punuo.sys.app.video.event.VideoDelEvent;
 import com.punuo.sys.app.video.request.DeleteVideoRequest;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -21,6 +22,8 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -122,8 +125,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     return;
                 }
                 if (result.success) {
-                    mPathList.remove(position);
-                    notifyItemRemoved(position);
+                    EventBus.getDefault().post(new VideoDelEvent());
                 }
                 ToastUtils.showToast(result.message);
             }
