@@ -29,6 +29,4 @@ public class MemberRouter {
 
     //修改个人信息
     public static final String ROUTER_EDITUSERINFO_ACTIVITY = PREFIX + "/EditUserInfoActivity";
-
-    public static final String ROUTER_UPDATE_DIALOG_ACTIVITY = PREFIX + "/UpdateDialogActivity";
 }

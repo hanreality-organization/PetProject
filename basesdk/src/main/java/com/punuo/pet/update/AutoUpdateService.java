@@ -6,8 +6,7 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.punuo.pet.member.version.VersionModel;
-import com.punuo.pet.router.MemberRouter;
+import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.httplib.JsonUtil;
 import com.punuo.sys.sdk.httplib.StringRequest;
 import com.punuo.sys.sdk.util.DeviceHelper;
@@ -24,6 +23,7 @@ public class AutoUpdateService extends Service {
 
     private static AutoUpdateService instance;
     private boolean downloading;
+    private boolean needToast = false;
     private ThreadPoolExecutor mExecutor = new ThreadPoolExecutor(1, 1, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     public static AutoUpdateService getInstance() {
@@ -48,7 +48,8 @@ public class AutoUpdateService extends Service {
         VersionModel versionModel = null;
 
         if (intent != null) {
-            versionModel = (VersionModel) intent.getParcelableExtra("versionModel");
+            versionModel = intent.getParcelableExtra("versionModel");
+            needToast = intent.getBooleanExtra("needToast", false);
         }
         if (!isDownloading()) {
             if (versionModel != null) {
@@ -94,11 +95,13 @@ public class AutoUpdateService extends Service {
             super.onPostExecute(versionModel);
             if (versionModel == null) return;
             if (versionModel.versionCode > DeviceHelper.getVersionCode(instance)) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_UPDATE_DIALOG_ACTIVITY)
+                ARouter.getInstance().build(SDKRouter.ROUTER_UPDATE_DIALOG_ACTIVITY)
                         .withParcelable("versionModel", versionModel)
                         .navigation();
             } else {
-                ToastUtils.showToast("当前已经是最新版本");
+                if (needToast) {
+                    ToastUtils.showToast("当前已经是最新版本");
+                }
             }
         }
     }

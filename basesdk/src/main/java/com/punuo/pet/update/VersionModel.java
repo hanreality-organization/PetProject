@@ -1,4 +1,4 @@
-package com.punuo.pet.member.version;
+package com.punuo.pet.update;
 
 import android.os.Parcel;
 import android.os.Parcelable;

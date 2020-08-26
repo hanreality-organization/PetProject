@@ -12,8 +12,7 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
-import com.punuo.pet.member.R;
-import com.punuo.pet.member.version.VersionModel;
+import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.util.FileUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 

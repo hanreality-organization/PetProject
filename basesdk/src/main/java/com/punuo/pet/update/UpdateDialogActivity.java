@@ -14,9 +14,8 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.punuo.pet.member.R;
-import com.punuo.pet.member.version.VersionModel;
-import com.punuo.pet.router.MemberRouter;
+import com.punuo.pet.router.SDKRouter;
+import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.util.FileUtils;
 import com.punuo.sys.sdk.util.IntentUtil;
 
@@ -27,7 +26,7 @@ import java.io.File;
  * Created by han.chen.
  * Date on 2020/8/3.
  **/
-@Route(path = MemberRouter.ROUTER_UPDATE_DIALOG_ACTIVITY)
+@Route(path = SDKRouter.ROUTER_UPDATE_DIALOG_ACTIVITY)
 public class UpdateDialogActivity extends Activity {
 
     @Autowired(name = "versionModel")

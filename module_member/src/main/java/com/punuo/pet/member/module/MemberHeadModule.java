@@ -132,6 +132,7 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AutoUpdateService.class);
+                intent.putExtra("needToast", true);
                 IntentUtil.startServiceInSafeMode(mContext, intent);
             }
         });

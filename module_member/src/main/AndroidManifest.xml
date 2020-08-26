@@ -68,14 +68,5 @@
             android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.punuo.pet.update.UpdateDialogActivity"
-            android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <service
-            android:name="com.punuo.pet.update.AutoUpdateService">
-        </service>
-
     </application>
 </manifest>

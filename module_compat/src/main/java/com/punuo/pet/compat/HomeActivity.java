@@ -1,5 +1,6 @@
 package com.punuo.pet.compat;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
@@ -19,6 +20,7 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.HeartBeatHelper;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.event.LoginFailEvent;
@@ -29,6 +31,7 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.model.UserInfo;
+import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
@@ -98,6 +101,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
         //根据本地记录展示底部导航栏的内容
         onDeviceSelect(MMKVUtil.getInt("deviceType", DeviceType.UNKNOWN));
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        intent.putExtra("needToast", false);
+        IntentUtil.startServiceInSafeMode(this, intent);
     }
 
     private void init() {
