@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
@@ -36,6 +38,8 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
     ImageView mBack;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
+    @Autowired(name = "devId")
+    String devId;
 
     private VideoAdapter mVideoAdapter;
 
@@ -43,6 +47,7 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_choose);
+        ARouter.getInstance().inject(this);
         ButterKnife.bind(this);
         getData();
         initView();
@@ -85,7 +90,7 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
         mTitle.setText("选择视频");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mVideoList.setLayoutManager(layoutManager);
-        mVideoAdapter = new VideoAdapter(this, new ArrayList<String>());
+        mVideoAdapter = new VideoAdapter(this, new ArrayList<String>(), devId);
         mVideoList.setAdapter(mVideoAdapter);
     }
 }

@@ -136,6 +136,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                     return;
                 }
                 ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
+                        .withString("devId", devId)
                         .navigation();
             }
         });
