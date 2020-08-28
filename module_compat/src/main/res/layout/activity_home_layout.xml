@@ -16,6 +16,11 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#1C000000"/>
+
         <include layout="@layout/activity_home_bottom_view" />
     </LinearLayout>
 </LinearLayout>
