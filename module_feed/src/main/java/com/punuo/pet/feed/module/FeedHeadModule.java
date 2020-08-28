@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,8 +97,8 @@ public class FeedHeadModule {
 
     public void updateRemainder(String remainder) {
         int remainderInt = Integer.parseInt(remainder);
-        Log.i("weight!!!!!!", ""+remainder);
-        if(remainderInt<100){
+        Log.i("weight!!!!!!", "" + remainder);
+        if (remainderInt < 100) {
             showAlterDialog();
         }
         mRemainder.setText(remainder);
@@ -113,22 +112,16 @@ public class FeedHeadModule {
         mOut.setText(String.valueOf(outedCount));
     }
 
-    private void showAlterDialog(){
+    private void showAlterDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        TextView title = new TextView(mContext);
-        title.setText("亲，余粮不足啦！");
-        title.setPadding(10,10,10,10);
-        title.setGravity(Gravity.CENTER);
-        title.setTextSize(20);
-        title.setTextColor(getView().getResources().getColor(R.color.black));
-        dialog.setCustomTitle(title);
+        dialog.setTitle("亲，余粮不足啦！");
         dialog.setMessage("余粮不够了亲，请及时补充粮食。如果您已经补充过，请您按一下界面下方的“加粮完毕”");
-            dialog.setPositiveButton("知道啦！", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+        dialog.setPositiveButton("知道啦！", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 }

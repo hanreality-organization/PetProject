@@ -72,18 +72,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:padding="10dp"
+                    android:background="@drawable/circle_shape"
                     android:src="@drawable/bg_down_voice" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="音量减"
-                    android:textColor="#666666" />
+                    android:textColor="#707070" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,13 +101,16 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:padding="10dp"
+                    android:background="@drawable/circle_shape"
                     android:src="@drawable/bg_add_voice" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="音量加"
-                    android:textColor="#666666" />
+                    android:textColor="#707070" />
             </LinearLayout>
 
             <LinearLayout
@@ -117,13 +124,19 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/circle_shape"
                     android:src="@drawable/bg_video_play" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="视频回放"
-                    android:textColor="#666666" />
+                    android:textColor="#707070" />
             </LinearLayout>
 
             <LinearLayout
@@ -137,13 +150,16 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:padding="10dp"
+                    android:background="@drawable/circle_shape"
                     android:src="@drawable/bg_audio" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="录音"
-                    android:textColor="#666666" />
+                    android:textColor="#707070" />
             </LinearLayout>
 
         </LinearLayout>
