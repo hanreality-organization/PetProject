@@ -2,12 +2,13 @@ package com.punuo.pet.member.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -30,6 +31,7 @@ import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
 import com.punuo.sys.sdk.util.DeviceHelper;
 import com.punuo.sys.sdk.util.IntentUtil;
+import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import butterknife.ButterKnife;
 
@@ -39,13 +41,11 @@ import butterknife.ButterKnife;
  **/
 public class MemberHeadModule {
     private View mView;
-    private ImageView mBack;
+    private View baseInfoContainer;
     private TextView mBuff;
     private TextView mNickname;
     private ImageView mAvatar;
-    private Button mCheck;
     private Context mContext;
-//    private TextView mId;
     private TextView mVersionName;
     public View getView() {
         return mView;
@@ -59,7 +59,16 @@ public class MemberHeadModule {
     }
 
     private void initView() {
-        mCheck = mView.findViewById(R.id.check);
+        baseInfoContainer = mView.findViewById(R.id.base_information);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (baseInfoContainer.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                ((RelativeLayout.LayoutParams) baseInfoContainer.getLayoutParams()).topMargin = StatusBarUtil.getStatusBarHeight(mContext);
+            }
+        } else {
+            if (baseInfoContainer.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                ((RelativeLayout.LayoutParams) baseInfoContainer.getLayoutParams()).topMargin = 0;
+            }
+        }
         TextView exitButton = mView.findViewById(R.id.exit_button);
         mNickname = mView.findViewById(R.id.user_nickname);
 //        mId = mView.findViewById(R.id.user_id);

@@ -1,6 +1,5 @@
 package com.punuo.pet.member;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.model.UserInfo;
-import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,8 +36,6 @@ import butterknife.ButterKnife;
  **/
 @Route(path = MemberRouter.ROUTER_MEMBER_FRAGMENT)
 public class MemberFragment extends BaseFragment {
-    @BindView(R2.id.status_bar)
-    View mStatusBar;
     @BindView(R2.id.pull_to_refresh)
     PullToRefreshRecyclerView mPullToRefresh;
     private RecyclerView mRecyclerView;
@@ -51,11 +47,6 @@ public class MemberFragment extends BaseFragment {
         mFragmentView = inflater.inflate(R.layout.fragment_member, container, false);
         ButterKnife.bind(this, mFragmentView);
         initView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
-            mStatusBar.setVisibility(View.VISIBLE);
-            mStatusBar.requestLayout();
-        }
         EventBus.getDefault().register(this);
         return mFragmentView;
     }
