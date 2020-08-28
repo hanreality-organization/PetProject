@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
     TextView connectedWifiName;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
+    @BindView(R2.id.authentication_type)
+    Spinner mAuthenticationType;
 
 
     @Override
@@ -68,12 +72,15 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
                 onBackPressed();
             }
         });
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(this, R.array.authentication_type, R.layout.support_simple_spinner_dropdown_item);
+        mAuthenticationType.setAdapter(adapter);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String input = HotSpotConnectWifiActivity.this.input.getText().toString();
                 String pwd = HotSpotConnectWifiActivity.this.pwd.getText().toString();
-                Send(input, pwd);
+                Send(input, pwd, mAuthenticationType.getSelectedItem().toString());
                 Toast.makeText(HotSpotConnectWifiActivity.this, "发送WiFi信息成功", Toast.LENGTH_SHORT).show();
             }
         });
@@ -86,9 +93,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         });
     }
 
-    private void Send(String msg1, String msg2) {
-        final String message1 = msg1;
-        final String message2 = msg2;
+    private void Send(final String wifiName, final String pwd, final String authenticationType) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +101,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
                     Socket socket = null;
                     socket = new Socket("192.168.1.108", 1234);
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                    writer.write(message1 + "+" + message2);
+                    writer.write(wifiName + "+" + pwd + "#" + authenticationType);
                     writer.flush();
                     writer.close();
                     socket.close();
@@ -119,6 +124,24 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         if (requestCode == 5 && resultCode == RESULT_OK) {
             if (data != null && data.getExtras() != null) {
                 String wifiName = data.getExtras().getString("wifiName", "");
+                String authenticationType = data.getExtras().getString("authenticationType", "WPA/WPA2");
+                switch (authenticationType) {
+                    case "WPA":
+                        mAuthenticationType.setSelection(0);
+                        break;
+                    case "WPA2":
+                        mAuthenticationType.setSelection(1);
+                        break;
+                    case "WPA/WPA2":
+                        mAuthenticationType.setSelection(2);
+                        break;
+                    case "WEP":
+                        mAuthenticationType.setSelection(3);
+                        break;
+                    default:
+                        mAuthenticationType.setSelection(0);
+                        break;
+                }
                 input.setText(wifiName);
             }
         }

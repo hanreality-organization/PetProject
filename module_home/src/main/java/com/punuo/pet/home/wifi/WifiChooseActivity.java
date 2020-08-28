@@ -87,6 +87,7 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putString("wifiName", wifi.name());
+            bundle.putString("authenticationType", wifi.encryption());
             intent.putExtras(bundle);
             setResult(Activity.RESULT_OK, intent);
             scrollToFinishActivity();
