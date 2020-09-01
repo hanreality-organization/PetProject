@@ -235,6 +235,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (isPlaying) {
+            stopVideo();
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VideoData event) {
         player.setUrl(event.mVideoUrl);
