@@ -23,6 +23,7 @@ import java.io.File;
 
 
 /**
+ * https://pet.qinqingonline.com/developers/appUpgrade?versionName=10002&versionCode=3
  * Created by han.chen.
  * Date on 2020/8/3.
  **/
