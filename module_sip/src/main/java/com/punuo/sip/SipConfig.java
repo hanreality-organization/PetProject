@@ -20,6 +20,8 @@ public class SipConfig {
     //服务器名
     public static String SERVER_NAME = "rvsup";
 
+    public static String devId;
+
     public static void init(ISipConfig sipConfig) {
         sSipConfig = sipConfig;
     }

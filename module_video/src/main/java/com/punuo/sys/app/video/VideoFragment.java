@@ -18,6 +18,7 @@ import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
+import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
@@ -26,7 +27,7 @@ import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.app.video.activity.model.deviddata;
-import com.punuo.sys.app.video.activity.request.GetdevidRequest;
+import com.punuo.sys.app.video.activity.request.GetDevIdRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -39,10 +40,6 @@ import com.punuo.sys.sdk.util.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +72,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @BindView(R2.id.content_view)
     View contentView;
 
-    private String devId;
     private boolean isPlaying = false;
 
     @Override
@@ -83,7 +79,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
         //Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
-        getdevid();
+        getDevId();
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -114,7 +110,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                             stopVideo();
                         }
                     });
-                    startVideo(devId);
+                    startVideo(SipConfig.devId);
                 }
             }
         });
@@ -125,7 +121,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                     return;
                 }
                 ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
-                        .withString("devId", devId)
                         .navigation();
             }
         });
@@ -136,7 +131,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                     return;
                 }
                 ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
-                        .withString("devId", devId)
                         .navigation();
             }
         });
@@ -207,9 +201,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void initTitle() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日", Locale.getDefault());
-        String title = simpleDateFormat.format(new Date());
-        mTitle.setText(title);
+        mTitle.setText("视频");
     }
 
 
@@ -260,7 +252,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BindDevidSuccess result) {
-        getdevid();
+        getDevId();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -273,16 +265,16 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         }
     }
 
-    private GetdevidRequest mGetdevidRequest;
+    private GetDevIdRequest mGetDevIdRequest;
 
-    public void getdevid() {
-        if (mGetdevidRequest != null && !mGetdevidRequest.isFinish()) {
+    public void getDevId() {
+        if (mGetDevIdRequest != null && !mGetDevIdRequest.isFinish()) {
             return;
         }
         showLoadingDialog();
-        mGetdevidRequest = new GetdevidRequest();
-        mGetdevidRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetdevidRequest.setRequestListener(new RequestListener<deviddata>() {
+        mGetDevIdRequest = new GetDevIdRequest();
+        mGetDevIdRequest.addUrlParam("userName", AccountManager.getUserName());
+        mGetDevIdRequest.setRequestListener(new RequestListener<deviddata>() {
             @Override
             public void onComplete() {
                 dismissLoadingDialog();
@@ -293,7 +285,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 if (result == null) {
                     return;
                 }
-                devId = result.devid;
+                SipConfig.devId = result.devid;
             }
 
             @Override
@@ -301,12 +293,12 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
             }
         });
-        HttpManager.addRequest(mGetdevidRequest);
+        HttpManager.addRequest(mGetDevIdRequest);
     }
 
     private void closeVideo() {
         if (checkDevId()) {
-            SipByeRequest sipByeRequest = new SipByeRequest(devId);
+            SipByeRequest sipByeRequest = new SipByeRequest(SipConfig.devId);
             SipUserManager.getInstance().addRequest(sipByeRequest);
         }
     }
@@ -320,7 +312,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
      * @return
      */
     private boolean checkDevId() {
-        if (!TextUtils.isEmpty(devId)) {
+        if (!TextUtils.isEmpty(SipConfig.devId)) {
             return true;
         } else  {
             ToastUtils.showToast("请先确认已绑定设备");

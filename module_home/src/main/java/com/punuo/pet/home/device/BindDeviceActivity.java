@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +37,7 @@ import com.punuo.pet.home.device.request.GetBindDeviceRequest;
 import com.punuo.pet.home.device.request.JoinGroupRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.SDKRouter;
+import com.punuo.sip.SipConfig;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -178,9 +178,8 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         mDeviceInfoAdapter.appendData(deviceInfoList);
     }
 
-    BindDevidSuccess bindDevidSuccess=new BindDevidSuccess();
     private void refresh() {
-        EventBus.getDefault().post(bindDevidSuccess);
+        EventBus.getDefault().post(new BindDevidSuccess());
         getDeviceInfo();
     }
 
@@ -242,7 +241,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
 
     private BindDeviceRequest mBindDeviceRequest;
 
-    private void bindDevice(String devId) {
+    private void bindDevice(final String devId) {
         if (mBindDeviceRequest != null && !mBindDeviceRequest.isFinish()) {
             return;
         }
@@ -262,6 +261,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 }
                 ToastUtils.showToast(result.message);
                 if (result.success) {
+                    SipConfig.devId = devId;
                     refresh();
                 }
             }
@@ -276,7 +276,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
 
     private JoinGroupRequest mJoinGroupRequest;
 
-    private void joinDevice(String devId) {
+    private void joinDevice(final String devId) {
         if (mJoinGroupRequest != null && !mJoinGroupRequest.isFinish()) {
             return;
         }
@@ -296,6 +296,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 }
                 ToastUtils.showToast(result.message);
                 if (result.success) {
+                    SipConfig.devId = devId;
                     refresh();
                 }
             }

@@ -21,10 +21,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.request.SipSendMusicRequest;
 import com.punuo.sys.app.video.R;
@@ -73,8 +72,6 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.record_voice)
     TextView mRecordVoice;
 
-    @Autowired(name = "devId")
-    String devId;
     @BindView(R2.id.progress_bar)
     ProgressBar mProgressBar;
     @BindView(R2.id.time_label)
@@ -92,7 +89,6 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_choose);
-        ARouter.getInstance().inject(this);
         ButterKnife.bind(this);
         initView();
         getData();
@@ -100,7 +96,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     public void getData() {
         GetMusicListRequest getMusicListRequest = new GetMusicListRequest();
-        getMusicListRequest.addUrlParam("devid", devId);
+        getMusicListRequest.addUrlParam("devid", SipConfig.devId);
         getMusicListRequest.setRequestListener(new RequestListener<MusicModel>() {
             @Override
             public void onComplete() {
@@ -143,7 +139,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mMusicList.setLayoutManager(layoutManager);
-        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), devId);
+        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), SipConfig.devId);
         mMusicList.setAdapter(mMusicAdapter);
 
         mRecordVoice.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +165,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     private void stopMusic() {
         SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(devId, "stop");
+                = new SipSendMusicRequest(SipConfig.devId, "stop");
         SipUserManager.getInstance().addRequest(sipSendMusicRequest);
         if (mMusicAdapter != null) {
             mMusicAdapter.reset();
@@ -332,7 +328,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         showLoadingDialog("正在上传...");
         request = new UploadAudioRequest();
         request.addEntityParam("audio", finalFile);
-        request.addEntityParam("devid", devId);
+        request.addEntityParam("devid", SipConfig.devId);
         request.addEntityParam("fileName", finalFileName);
         request.setRequestListener(new RequestListener<UploadResult>() {
             @Override

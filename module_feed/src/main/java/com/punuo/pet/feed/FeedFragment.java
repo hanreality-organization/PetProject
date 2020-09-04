@@ -16,15 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.feed.adapter.FeedShowAdapter;
-import com.punuo.pet.feed.adapter.FeedViewAdapter;
 import com.punuo.pet.feed.feednow.FeedDialog;
+import com.punuo.pet.feed.get_real_weight.UpdateWeightSipRequest;
 import com.punuo.pet.feed.model.GetRemainderModel;
 import com.punuo.pet.feed.model.OutedModel;
 import com.punuo.pet.feed.module.FeedHeadModule;
@@ -59,7 +58,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.punuo.pet.feed.get_real_weight.UpdateWeightSipRequest;
 
 /**
  * Created by han.chen.
@@ -79,8 +77,6 @@ public class FeedFragment extends BaseFragment {
     View mFeedRightNow;
     @BindView(R2.id.wifistate)
     TextView mWifiState;
-    @Autowired(name = "devId")
-    String devId;
     @BindView(R2.id.pull_to_refresh)
     PullToRefreshRecyclerView mPullToRefreshRecyclerView;
     @BindView(R2.id.real_weight)
@@ -88,14 +84,12 @@ public class FeedFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private FeedHeadModule mFeedHeadModule;
-    private static String devid;
     private FeedDialog feedDialog;
 //    private FeedViewAdapter mFeedViewAdapter;
     private FeedShowAdapter mFeedViewAdapter;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
-        ARouter.getInstance().inject(this);
         ButterKnife.bind(this, mFragmentView);
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
@@ -106,7 +100,6 @@ public class FeedFragment extends BaseFragment {
         }
         EventBus.getDefault().register(this);
         PetManager.getPetInfo();
-        devId = "310023005801930001";
         Toast.makeText(getActivity(), "点击左上角WiFi按钮绑定设备并为设备连接WiFi", Toast.LENGTH_LONG).show();
         return mFragmentView;
     }

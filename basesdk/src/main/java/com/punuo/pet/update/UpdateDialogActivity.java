@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -66,11 +68,16 @@ public class UpdateDialogActivity extends Activity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-                            Uri uri = Uri.fromFile(file);
                             Intent installIntent = new Intent(Intent.ACTION_VIEW);
                             installIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                            if (Build.VERSION.SDK_INT >= 24) {
+                                Uri uri = FileProvider.getUriForFile(UpdateDialogActivity.this, "com.punuo.pet.provider", file);
+                                installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                            } else  {
+                                Uri uri = Uri.fromFile(file);
+                                installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                            }
                             startActivity(installIntent);
                         } else {
                             Intent intent = new Intent(UpdateDialogActivity.this, AutoUpdateService.class);
@@ -82,7 +89,9 @@ public class UpdateDialogActivity extends Activity {
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        if (AutoUpdateService.getInstance() != null) {
+                            AutoUpdateService.getInstance().setDownloading(false);
+                        }
                     }
                 });
         AlertDialog dialog = builder.create();
