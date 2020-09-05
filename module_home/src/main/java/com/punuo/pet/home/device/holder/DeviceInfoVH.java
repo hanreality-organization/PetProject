@@ -10,10 +10,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
-import com.punuo.pet.home.device.event.UnBindDeviceEvent;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.request.UnBindDeviceRequest;
 import com.punuo.pet.router.HomeRouter;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -95,7 +95,7 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
                 }
                 ToastUtils.showToast(result.message);
                 if (result.success) {
-                    EventBus.getDefault().post(new UnBindDeviceEvent());
+                    EventBus.getDefault().post(new UnBindDevSuccessEvent());
                 }
             }
 

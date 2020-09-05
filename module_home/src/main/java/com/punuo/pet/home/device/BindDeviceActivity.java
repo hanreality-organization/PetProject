@@ -27,8 +27,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter;
-import com.punuo.pet.home.device.event.UnBindDeviceEvent;
-import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.model.DeviceModel;
 import com.punuo.pet.home.device.request.BindDeviceRequest;
@@ -37,7 +35,8 @@ import com.punuo.pet.home.device.request.GetBindDeviceRequest;
 import com.punuo.pet.home.device.request.JoinGroupRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.SDKRouter;
-import com.punuo.sip.SipConfig;
+import com.punuo.sip.dev.BindDevSuccessEvent;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -163,7 +162,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(UnBindDeviceEvent event) {
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
         refresh();
     }
 
@@ -179,7 +178,6 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
     }
 
     private void refresh() {
-        EventBus.getDefault().post(new BindDevidSuccess());
         getDeviceInfo();
     }
 
@@ -261,8 +259,8 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 }
                 ToastUtils.showToast(result.message);
                 if (result.success) {
-                    SipConfig.devId = devId;
                     refresh();
+                    EventBus.getDefault().post(new BindDevSuccessEvent());
                 }
             }
 
@@ -296,8 +294,8 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 }
                 ToastUtils.showToast(result.message);
                 if (result.success) {
-                    SipConfig.devId = devId;
                     refresh();
+                    EventBus.getDefault().post(new BindDevSuccessEvent());
                 }
             }
 

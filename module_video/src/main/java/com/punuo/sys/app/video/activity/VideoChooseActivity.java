@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
-import com.punuo.sip.SipConfig;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
 import com.punuo.sys.app.video.adapter.VideoAdapter;
@@ -92,7 +92,7 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
         mTitle.setText("选择视频");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mVideoList.setLayoutManager(layoutManager);
-        mVideoAdapter = new VideoAdapter(this, new ArrayList<String>(), SipConfig.devId);
+        mVideoAdapter = new VideoAdapter(this, new ArrayList<String>(), DevManager.getInstance().getDevId());
         mVideoList.setAdapter(mVideoAdapter);
     }
 

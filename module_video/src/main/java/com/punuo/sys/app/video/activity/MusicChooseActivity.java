@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
-import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.request.SipSendMusicRequest;
 import com.punuo.sys.app.video.R;
 import com.punuo.sys.app.video.R2;
@@ -96,7 +96,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     public void getData() {
         GetMusicListRequest getMusicListRequest = new GetMusicListRequest();
-        getMusicListRequest.addUrlParam("devid", SipConfig.devId);
+        getMusicListRequest.addUrlParam("devid", DevManager.getInstance().getDevId());
         getMusicListRequest.setRequestListener(new RequestListener<MusicModel>() {
             @Override
             public void onComplete() {
@@ -139,7 +139,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mMusicList.setLayoutManager(layoutManager);
-        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), SipConfig.devId);
+        mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), DevManager.getInstance().getDevId());
         mMusicList.setAdapter(mMusicAdapter);
 
         mRecordVoice.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +165,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     private void stopMusic() {
         SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(SipConfig.devId, "stop");
+                = new SipSendMusicRequest(DevManager.getInstance().getDevId(), "stop");
         SipUserManager.getInstance().addRequest(sipSendMusicRequest);
         if (mMusicAdapter != null) {
             mMusicAdapter.reset();
@@ -328,7 +328,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         showLoadingDialog("正在上传...");
         request = new UploadAudioRequest();
         request.addEntityParam("audio", finalFile);
-        request.addEntityParam("devid", SipConfig.devId);
+        request.addEntityParam("devid", DevManager.getInstance().getDevId());
         request.addEntityParam("fileName", finalFileName);
         request.setRequestListener(new RequestListener<UploadResult>() {
             @Override

@@ -36,6 +36,7 @@ import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.FeedCountData;
 import com.punuo.sip.model.LatestWeightData;
@@ -154,18 +155,18 @@ public class FeedFragment extends BaseFragment {
         mPullToRefreshRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
             public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                getPlan();
-                getRemainderQuality();
-                getOutedCount();
-                IsonLine();
+                refresh();
             }
         });
+        refresh();
+    }
 
-
+    private void refresh() {
+        DevManager.getInstance().refreshDevRelationShip();
         getPlan();
         getRemainderQuality();
         getOutedCount();
-        IsonLine();
+        isOnline();
     }
 
     public void showFeedDialog() {
@@ -214,7 +215,7 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
-    private void IsonLine() {
+    private void isOnline() {
         SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
@@ -323,14 +324,6 @@ public class FeedFragment extends BaseFragment {
         Log.i("weight", "剩余粮食重量更新成功");
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getInitQuality(String initQuality) {
-//        float fQuality = Float.parseFloat(initQuality);
-//        double lastQuality = Math.round((fQuality / 5.5));//对结果四舍五入
-//        remainder.setText(String.valueOf(lastQuality));
-//        Log.i("weight", "剩余粮食获取成功");
-//    }
-
     /**
      * 将收到的称重信息更新到UI
      */
@@ -361,9 +354,9 @@ public class FeedFragment extends BaseFragment {
      * 收到最新的重量后更新UI
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LatestWeightData reuslt) {
-        Constant.LATESTWEIGHT = Integer.parseInt(reuslt.latestWeight);
-        mFeedHeadModule.updateRemainder(reuslt.latestWeight);
+    public void onMessageEvent(LatestWeightData result) {
+        Constant.LATESTWEIGHT = Integer.parseInt(result.latestWeight);
+        mFeedHeadModule.updateRemainder(result.latestWeight);
     }
 
     @Override

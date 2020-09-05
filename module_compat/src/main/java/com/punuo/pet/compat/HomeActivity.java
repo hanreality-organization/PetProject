@@ -23,6 +23,9 @@ import com.punuo.pet.router.VideoRouter;
 import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.HeartBeatHelper;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.BindDevSuccessEvent;
+import com.punuo.sip.dev.DevManager;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sip.event.LoginFailEvent;
 import com.punuo.sip.event.ReRegisterEvent;
 import com.punuo.sip.model.LoginResponse;
@@ -90,6 +93,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         //获取宠物信息
                         PetManager.getPetInfo();
+                        //获取设备信息
+                        DevManager.getInstance().refreshDevRelationShip();
                     }
                 }
             }
@@ -190,6 +195,16 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SelectDeviceEvent event) {
         onDeviceSelect(event.deviceType);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BindDevSuccessEvent event) {
+        DevManager.getInstance().refreshDevRelationShip();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
+        DevManager.getInstance().setDevId("");
     }
 
     /**

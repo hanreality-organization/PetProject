@@ -14,24 +14,19 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hengyi.fastvideoplayer.library.FastVideoPlayer;
-import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
-import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.DevIdEvent;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
 import com.punuo.sip.request.SipByeRequest;
 import com.punuo.sip.request.SipControlVolumeRequest;
 import com.punuo.sip.request.SipVideoRequest;
-import com.punuo.sys.app.video.activity.model.deviddata;
-import com.punuo.sys.app.video.activity.request.GetDevIdRequest;
-import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.httplib.HttpManager;
-import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
@@ -71,6 +66,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     FastVideoPlayer player;
     @BindView(R2.id.content_view)
     View contentView;
+    @BindView(R2.id.dev_id_display)
+    TextView mDevIdDisplay;
 
     private boolean isPlaying = false;
 
@@ -79,7 +76,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
         //Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
-        getDevId();
+        DevManager.getInstance().refreshDevRelationShip();
         initView();
         View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -110,7 +107,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                             stopVideo();
                         }
                     });
-                    startVideo(SipConfig.devId);
+                    startVideo(DevManager.getInstance().getDevId());
                 }
             }
         });
@@ -246,13 +243,14 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ResetData result) {
-        Toast.makeText(getActivity(), "开启成功", Toast.LENGTH_SHORT).show();
+    public void onMessageEvent(DevIdEvent event) {
+        mDevIdDisplay.setText(DevManager.getInstance().getDevId());
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BindDevidSuccess result) {
-        getDevId();
+    public void onMessageEvent(ResetData result) {
+        Toast.makeText(getActivity(), "开启成功", Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -265,40 +263,9 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         }
     }
 
-    private GetDevIdRequest mGetDevIdRequest;
-
-    public void getDevId() {
-        if (mGetDevIdRequest != null && !mGetDevIdRequest.isFinish()) {
-            return;
-        }
-        showLoadingDialog();
-        mGetDevIdRequest = new GetDevIdRequest();
-        mGetDevIdRequest.addUrlParam("userName", AccountManager.getUserName());
-        mGetDevIdRequest.setRequestListener(new RequestListener<deviddata>() {
-            @Override
-            public void onComplete() {
-                dismissLoadingDialog();
-            }
-
-            @Override
-            public void onSuccess(deviddata result) {
-                if (result == null) {
-                    return;
-                }
-                SipConfig.devId = result.devid;
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        HttpManager.addRequest(mGetDevIdRequest);
-    }
-
     private void closeVideo() {
         if (checkDevId()) {
-            SipByeRequest sipByeRequest = new SipByeRequest(SipConfig.devId);
+            SipByeRequest sipByeRequest = new SipByeRequest(DevManager.getInstance().getDevId());
             SipUserManager.getInstance().addRequest(sipByeRequest);
         }
     }
@@ -309,12 +276,13 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     /**
      * 检测是否绑定设备
+     *
      * @return
      */
     private boolean checkDevId() {
-        if (!TextUtils.isEmpty(SipConfig.devId)) {
+        if (!TextUtils.isEmpty(DevManager.getInstance().getDevId())) {
             return true;
-        } else  {
+        } else {
             ToastUtils.showToast("请先确认已绑定设备");
             ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
                     .navigation();
