@@ -274,7 +274,9 @@ public class FeedFragment extends BaseFragment {
                 if (result == null) {
                     return;
                 }
-                mFeedHeadModule.updateRemainder(result.mRemainder.remainder);
+                if (result.mRemainder != null) {
+                    mFeedHeadModule.updateRemainder(result.mRemainder.remainder);
+                }
             }
 
             @Override

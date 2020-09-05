@@ -204,7 +204,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UnBindDevSuccessEvent event) {
-        DevManager.getInstance().setDevId("");
+        DevManager.getInstance().refreshDevRelationShip();
     }
 
     /**

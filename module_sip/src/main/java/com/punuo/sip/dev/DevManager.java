@@ -1,9 +1,10 @@
 package com.punuo.sip.dev;
 
+import android.text.TextUtils;
+
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -35,7 +36,7 @@ public class DevManager {
     }
 
     public void refreshDevRelationShip() {
-        GetDevIdRequest request = new GetDevIdRequest();
+        final GetDevIdRequest request = new GetDevIdRequest();
         request.addUrlParam("userName", AccountManager.getUserName());
         request.setRequestListener(new RequestListener<DevData>() {
             @Override
@@ -49,7 +50,11 @@ public class DevManager {
                     devId = "";
                     return;
                 }
-                devId = result.devId;
+                if (!TextUtils.isEmpty(result.devId)) {
+                    devId = result.devId;
+                } else  {
+                    devId = "";
+                }
             }
 
             @Override
