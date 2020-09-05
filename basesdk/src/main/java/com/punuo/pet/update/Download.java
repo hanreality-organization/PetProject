@@ -7,9 +7,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import com.punuo.sys.sdk.R;
@@ -83,11 +85,17 @@ public class Download implements Runnable {
                             e.printStackTrace();
                         }
                     }
-                    // 点击安装PendingIntent
-                    Uri uri = Uri.fromFile(file);
                     Intent installIntent = new Intent(Intent.ACTION_VIEW);
                     installIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        Uri uri = FileProvider.getUriForFile(context, "com.punuo.pet.provider", file);
+                        installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                    } else  {
+                        Uri uri = Uri.fromFile(file);
+                        installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
+                    }
+                    // 点击安装PendingIntent
                     updatePendingIntent = PendingIntent.getActivity(context, 0, installIntent, 0);
                     context.startActivity(installIntent);
                     mBuilder.setAutoCancel(true).setOngoing(false).setProgress(0, 0, false).setDefaults(Notification.DEFAULT_SOUND).

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,8 +17,6 @@ import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.util.FileUtils;
 import com.punuo.sys.sdk.util.IntentUtil;
-
-import java.io.File;
 
 
 /**
@@ -59,31 +54,11 @@ public class UpdateDialogActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         String fileName = versionModel.downloadUrl.substring(versionModel.downloadUrl.lastIndexOf("/"));
                         if (FileUtils.isFileExist(FileUtils.DEFAULT_APK_DIR, fileName)) {
-                            File file = new File(FileUtils.DEFAULT_APK_DIR + File.separator + fileName);
-                            try {
-                                String[] args1 = {"chmod", "705", file.getPath()};
-                                Runtime.getRuntime().exec(args1);
-                                String[] args2 = {"chmod", "604", file.getAbsolutePath()};
-                                Runtime.getRuntime().exec(args2);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            Intent installIntent = new Intent(Intent.ACTION_VIEW);
-                            installIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            if (Build.VERSION.SDK_INT >= 24) {
-                                Uri uri = FileProvider.getUriForFile(UpdateDialogActivity.this, "com.punuo.pet.provider", file);
-                                installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
-                            } else  {
-                                Uri uri = Uri.fromFile(file);
-                                installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
-                            }
-                            startActivity(installIntent);
-                        } else {
-                            Intent intent = new Intent(UpdateDialogActivity.this, AutoUpdateService.class);
-                            intent.putExtra("versionModel", versionModel);
-                            IntentUtil.startServiceInSafeMode(UpdateDialogActivity.this, intent);
+                            FileUtils.deleteFile(FileUtils.DEFAULT_APK_DIR, fileName);
                         }
+                        Intent intent = new Intent(UpdateDialogActivity.this, AutoUpdateService.class);
+                        intent.putExtra("versionModel", versionModel);
+                        IntentUtil.startServiceInSafeMode(UpdateDialogActivity.this, intent);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
