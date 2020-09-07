@@ -22,6 +22,7 @@ import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.HeartBeatHelper;
+import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.dev.BindDevSuccessEvent;
 import com.punuo.sip.dev.DevManager;
@@ -321,6 +322,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        SipConfig.reset();
         if (mHeartBeatTaskResumeProcessor != null) {
             mHeartBeatTaskResumeProcessor.onDestroy();
         }

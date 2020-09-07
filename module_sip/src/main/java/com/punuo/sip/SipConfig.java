@@ -61,4 +61,10 @@ public class SipConfig {
             throw new RuntimeException("NormalNameAddress is null, please set NormalNameAddress");
         }
     }
+
+    public static void reset() {
+        if (sSipConfig != null) {
+            sSipConfig.reset();
+        }
+    }
 }

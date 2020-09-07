@@ -92,6 +92,12 @@ public class ProcessTasks {
                 }
                 return mUserNormalAddress;
             }
+
+            @Override
+            public void reset() {
+                mServerAddress = null;
+                mUserNormalAddress = null;
+            }
         });
         SipUserManager.setContext(app);
         new SipInitThread().start();

@@ -17,4 +17,6 @@ public interface ISipConfig {
     NameAddress getUserRegisterAddress();
 
     NameAddress getUserNormalAddress();
+
+    void reset();
 }
