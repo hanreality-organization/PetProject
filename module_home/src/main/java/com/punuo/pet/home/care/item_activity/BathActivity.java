@@ -4,16 +4,13 @@ import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,6 +56,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,11 +109,11 @@ public class BathActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.care_bathe);
         ButterKnife.bind(this);
         View mStatusBar = findViewById(R.id.status_bar);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
             mStatusBar.setVisibility(View.VISIBLE);
@@ -426,13 +424,19 @@ public class BathActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                Log.i(TAG, result.message);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date date = new Date(result.time);
-                dateSelectText.setText(simpleDateFormat.format(date));
-                bathAlarm.setText(result.remind);
-                bathRepeat.setText(result.period);
-                bathPet.setText(petName);
+                if (result == null) {
+                    return;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                if (result.success) {
+                    Date date = new Date(result.time);
+                    dateSelectText.setText(sdf.format(date));
+                    bathAlarm.setText(result.remind);
+                    bathRepeat.setText(result.period);
+                    bathPet.setText(petName);
+                } else {
+                    dateSelectText.setText(sdf.format(new Date()));
+                }
             }
             @Override
             public void onError(Exception e) {

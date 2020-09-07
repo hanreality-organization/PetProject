@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,9 +30,7 @@ import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.care.adapter.PetRelevanceAdapter;
 import com.punuo.pet.home.care.model.AlarmInfoModel;
-import com.punuo.pet.home.care.request.GetBathInfoRequest;
 import com.punuo.pet.home.care.request.GetBeautyInfoRequest;
-import com.punuo.pet.home.care.request.SaveBathRequest;
 import com.punuo.pet.home.care.request.SaveBeautyRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -56,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +109,7 @@ public class BeautyActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.care_beauty);
         ButterKnife.bind(this);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
         View mStatusBar = findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
@@ -333,12 +334,20 @@ public class BeautyActivity extends BaseSwipeBackActivity {
                 }
                 @Override
                 public void onSuccess(AlarmInfoModel result) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    Date date = new Date(result.time);
-                    beautyTimeText.setText(simpleDateFormat.format(date));
-                    beautyAlarmText.setText(result.remind);
-                    beautyRepeatText.setText(result.period);
-                    beautyPetName.setText(petName);
+                    if (result == null) {
+                        return;
+                    }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                    if (result.success) {
+                        Date date = new Date(result.time);
+                        beautyTimeText.setText(sdf.format(date));
+                        beautyAlarmText.setText(result.remind);
+                        beautyRepeatText.setText(result.period);
+                        beautyPetName.setText(petName);
+                    } else {
+                        beautyTimeText.setText(sdf.format(new Date()));
+                    }
+
                 }
                 @Override
                 public void onError(Exception e) {
