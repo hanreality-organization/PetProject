@@ -1,6 +1,6 @@
 //编译环境的统一
 ext.sdk = [
-        packageName : 'com.punuo.pet',
+        packageName : 'org.easydarwin.easyplayer.rtmp',
         versionCode : 11,
         versionName : "1.0.11",
         minSdkVersion          : 19,

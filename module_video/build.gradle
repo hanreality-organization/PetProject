@@ -11,6 +11,7 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+        buildConfigField 'String', 'PLAYER_RTMP_KEY', "\"59615A67427036526D343041706B56666F4C705A30654676636D63755A57467A65575268636E64706269356C59584E3563477868655756794C6E4A3062584345567778576F502F522F32566863336B3D\""
     }
 
     sourceSets {
@@ -35,5 +36,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
     implementation project(':module_sip')
+    implementation project(':library')
     implementation project(path: ':module_home')
 }

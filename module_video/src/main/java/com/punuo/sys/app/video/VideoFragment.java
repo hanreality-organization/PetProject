@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.hengyi.fastvideoplayer.library.FastVideoPlayer;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
@@ -32,6 +32,7 @@ import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 
+import org.easydarwin.video.EasyPlayerClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -62,14 +63,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     View add_voice;
     @BindView(R2.id.down_voice)
     View down_voice;
-    @BindView(R2.id.fast_video_play)
-    FastVideoPlayer player;
     @BindView(R2.id.content_view)
     View contentView;
     @BindView(R2.id.dev_id_display)
     TextView mDevIdDisplay;
+    @BindView(R2.id.surface)
+    TextureView mSurface;
 
     private boolean isPlaying = false;
+    private EasyPlayerClient client;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,26 +153,24 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
             }
         });
+
+        client = new EasyPlayerClient(getContext(),BuildConfig.PLAYER_RTMP_KEY, mSurface, null, null);
     }
 
     private void stopVideo() {
         closeVideo();
-        player.stop();
-        player.hideAll();
-        player.release();
+//        player.stop();
+//        player.hideAll();
+//        player.release();
+        client.stop();
         isPlaying = false;
         mSubTitle.setEnabled(false);
         mPlayStatus.setVisibility(View.VISIBLE);
     }
 
     private void initTextureView() {
-        player.setLive(true);//是直播还是点播  false为点播
-        player.setScaleType(FastVideoPlayer.SCALETYPE_FITXY);
-        player.setTitle("梦视喂食器");
-        player.setShowNavIcon(false);
-        player.setHideControl(true);
         int width = CommonUtil.getWidth();
-        player.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;//H264Config.VIDEO_HEIGHT
+        mSurface.getLayoutParams().height = H264Config.VIDEO_HEIGHT * width / H264Config.VIDEO_WIDTH;
     }
 
     private void initSubTitle() {
@@ -181,9 +181,10 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             public void onClick(View v) {
                 if (isPlaying) {
                     closeVideo();
-                    player.stop();
-                    player.hideAll();
-                    player.release();
+//                    player.stop();
+//                    player.hideAll();
+//                    player.release();
+                    client.stop();
                     isPlaying = false;
                     mPlayStatus.setVisibility(View.VISIBLE);
                     mSubTitle.setEnabled(false);
@@ -210,9 +211,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (player != null) {
-            player.onDestroy();
-        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -234,8 +232,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VideoData event) {
-        player.setUrl(event.mVideoUrl);
-        player.play();
+        client.play(event.mVideoUrl);
         isPlaying = true;
         mSubTitle.setEnabled(true);
         dismissLoadingDialog();
