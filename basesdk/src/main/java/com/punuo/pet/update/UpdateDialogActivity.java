@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -30,53 +31,54 @@ public class UpdateDialogActivity extends Activity {
     @Autowired(name = "versionModel")
     VersionModel versionModel;
 
+    private TextView mTextNewVersion;
+    private Button buttonOk;
+    private Button buttonCancel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.update_dialog);
         ARouter.getInstance().inject(this);
-        showNewVersionDialog();
+        setupView();
+        setupData();
     }
 
-    public void showNewVersionDialog() {
+    public void setupView() {
+        mTextNewVersion = (TextView) findViewById(R.id.text_new_version);
+        buttonOk = (Button) findViewById(R.id.update_btn_ok);
+        buttonCancel = (Button) findViewById(R.id.update_btn_cancel);
+    }
+
+    private void setupData() {
         if (versionModel == null) {
             finish();
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View v = LayoutInflater.from(this).inflate(R.layout.activity_update_layout, null);
-        TextView textView = (TextView) v.findViewById(R.id.tv_update_msg);
-        textView.setText(String.format("新的版本为版本为v%s，确认是否更新?", versionModel.versionName));
-        builder.setTitle("温馨提示")
-                .setView(v)
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String fileName = versionModel.downloadUrl.substring(versionModel.downloadUrl.lastIndexOf("/"));
-                        if (FileUtils.isFileExist(FileUtils.DEFAULT_APK_DIR, fileName)) {
-                            FileUtils.deleteFile(FileUtils.DEFAULT_APK_DIR, fileName);
-                        }
-                        Intent intent = new Intent(UpdateDialogActivity.this, AutoUpdateService.class);
-                        intent.putExtra("versionModel", versionModel);
-                        IntentUtil.startServiceInSafeMode(UpdateDialogActivity.this, intent);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (AutoUpdateService.getInstance() != null) {
-                            AutoUpdateService.getInstance().setDownloading(false);
-                        }
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        mTextNewVersion.setText("V" + versionModel.versionName);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onClick(View v) {
+                String fileName = versionModel.downloadUrl.substring(versionModel.downloadUrl.lastIndexOf("/"));
+                if (FileUtils.isFileExist(FileUtils.DEFAULT_APK_DIR, fileName)) {
+                    FileUtils.deleteFile(FileUtils.DEFAULT_APK_DIR, fileName);
+                }
+                Intent intent = new Intent(UpdateDialogActivity.this, AutoUpdateService.class);
+                intent.putExtra("versionModel", versionModel);
+                IntentUtil.startServiceInSafeMode(UpdateDialogActivity.this, intent);
                 finish();
             }
         });
-        dialog.show();
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AutoUpdateService.getInstance() != null) {
+                    AutoUpdateService.getInstance().setDownloading(false);
+                }
+                finish();
+            }
+        });
     }
+
 }
