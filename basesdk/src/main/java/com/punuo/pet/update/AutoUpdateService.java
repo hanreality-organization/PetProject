@@ -10,6 +10,7 @@ import com.punuo.pet.router.SDKRouter;
 import com.punuo.sys.sdk.httplib.JsonUtil;
 import com.punuo.sys.sdk.httplib.StringRequest;
 import com.punuo.sys.sdk.util.DeviceHelper;
+import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -94,6 +95,8 @@ public class AutoUpdateService extends Service {
         protected void onPostExecute(VersionModel versionModel) {
             super.onPostExecute(versionModel);
             if (versionModel == null) return;
+            MMKVUtil.setInt("remote_version_code", versionModel.versionCode);
+            MMKVUtil.setString("remote_version_name", versionModel.versionName);
             if (versionModel.versionCode > DeviceHelper.getVersionCode(instance)) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_UPDATE_DIALOG_ACTIVITY)
                         .withParcelable("versionModel", versionModel)

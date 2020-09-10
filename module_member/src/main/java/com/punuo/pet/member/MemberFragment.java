@@ -18,6 +18,8 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.model.UserInfo;
+import com.punuo.sys.sdk.util.DeviceHelper;
+import com.punuo.sys.sdk.util.MMKVUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -72,6 +74,7 @@ public class MemberFragment extends BaseFragment {
                 UserManager.getUserInfo(AccountManager.getUserName());
             }
         });
+        checkVersion();
     }
 
     @Override
@@ -86,5 +89,25 @@ public class MemberFragment extends BaseFragment {
             mMemberHeadModule.updateUserInfo(userInfo);
         }
         mPullToRefresh.onRefreshComplete();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            checkVersion();
+        }
+    }
+
+    private void checkVersion() {
+        if (mMemberHeadModule != null) {
+            int remoteVersionCode = MMKVUtil.getInt("remote_version_code", DeviceHelper.getVersionCode());
+            String remoteVersionName = MMKVUtil.getString("remote_version_name", DeviceHelper.getVersionName());
+            if (remoteVersionCode > DeviceHelper.getVersionCode()) {
+                mMemberHeadModule.updateVersionDisplay(remoteVersionName, true);
+            } else  {
+                mMemberHeadModule.updateVersionDisplay(DeviceHelper.getVersionName(), false);
+            }
+        }
     }
 }

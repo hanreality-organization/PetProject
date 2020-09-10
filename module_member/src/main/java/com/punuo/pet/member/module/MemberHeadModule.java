@@ -2,6 +2,7 @@ package com.punuo.pet.member.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
-import com.punuo.sys.sdk.util.DeviceHelper;
 import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
@@ -151,7 +151,6 @@ public class MemberHeadModule {
                 ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
         });
-        mVersionName.setText("当前版本:v" + DeviceHelper.getVersionName());
     }
 
     private LogoutRequest mLogoutRequest;
@@ -230,5 +229,16 @@ public class MemberHeadModule {
             }
         });
         HttpManager.addRequest(mGetIdRequest);
+    }
+
+    public void updateVersionDisplay(String versionName, boolean isNew) {
+        if (isNew) {
+            mVersionName.setTextColor(Color.parseColor("#ff1940"));
+            mVersionName.setText("有新版本:V" + versionName);
+        } else {
+            mVersionName.setTextColor(Color.parseColor("#666666"));
+            mVersionName.setText("当前版本:V" + versionName);
+        }
+
     }
 }
