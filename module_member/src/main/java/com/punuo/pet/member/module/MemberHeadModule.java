@@ -151,7 +151,7 @@ public class MemberHeadModule {
                 ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
         });
-        mVersionName.setText(DeviceHelper.getVersionName());
+        mVersionName.setText("当前版本:v" + DeviceHelper.getVersionName());
     }
 
     private LogoutRequest mLogoutRequest;

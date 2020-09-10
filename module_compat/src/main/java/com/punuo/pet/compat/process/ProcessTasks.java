@@ -2,6 +2,7 @@ package com.punuo.pet.compat.process;
 
 import android.app.Application;
 
+import com.punuo.pet.compat.interceptor.PNInterceptor;
 import com.punuo.sip.ISipConfig;
 import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
@@ -54,7 +55,9 @@ public class ProcessTasks {
                 return "";
             }
         });
+        HttpManager.setDebug(true);
         HttpManager.setContext(app);
+        HttpManager.addInterceptor(new PNInterceptor());
         HttpManager.init();
         SipConfig.init(new ISipConfig() {
             NameAddress mServerAddress;

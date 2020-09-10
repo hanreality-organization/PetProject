@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 
 import com.punuo.sys.sdk.PnApplication;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import java.io.File;
 
 /**
  * Created by han.chen.
@@ -38,15 +35,25 @@ public class DeviceHelper {
             e.printStackTrace();
         }
         if (packInfo == null) {
-            return "获取版本失败";
+            return "";
         }
-        return "当前版本:v" + packInfo.versionName;
+        return packInfo.versionName;
     }
 
     public static int getVersionCode(Context context) {
         try {
             PackageManager pm = context.getPackageManager();
             PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
+            return info.versionCode;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public static int getVersionCode() {
+        try {
+            PackageManager pm = PnApplication.getInstance().getPackageManager();
+            PackageInfo info = pm.getPackageInfo(PnApplication.getInstance().getPackageName(), 0);
             return info.versionCode;
         } catch (Exception e) {
             return 0;
