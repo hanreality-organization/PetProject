@@ -19,7 +19,6 @@ import com.punuo.pet.feed.R2;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import butterknife.BindView;
@@ -54,7 +53,7 @@ public class FeedHeadModule {
         mCalendarWeek.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
             public void onDateClick(String s) {
-                ToastUtils.showToast(s);
+//                ToastUtils.showToast(s);
             }
         });
     }
