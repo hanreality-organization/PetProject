@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,6 +150,29 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 }
                 SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("raise");
                 SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
+            }
+        });
+
+        player.onPrepared(new FastVideoPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared() {
+                Log.i("han.chen", "onPrepared: ");
+            }
+        });
+
+        player.onInfo(new FastVideoPlayer.OnInfoListener() {
+            @Override
+            public void onInfo(int what, int extra) {
+                Log.i("han.chen", "onInfo: what = " + what);
+                Log.i("han.chen", "onInfo: extra = " + extra);
+            }
+        });
+
+        player.onError(new FastVideoPlayer.OnErrorListener() {
+            @Override
+            public void onError(int what, int extra) {
+                Log.i("han.chen", "onError: what = " + what);
+                Log.i("han.chen", "onError: extra = " + extra);
             }
         });
     }

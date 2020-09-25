@@ -9,7 +9,6 @@ include ':module_circle'
 include ':module_sip'
 include ':module_feed'
 include ':module_video'
-include ':ijkplayerlibrary'
 include ':fastvideoplayer'
 apply from: './base.gradle'
 
