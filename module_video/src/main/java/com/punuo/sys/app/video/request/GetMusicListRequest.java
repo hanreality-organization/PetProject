@@ -9,7 +9,7 @@ import com.punuo.sys.sdk.httplib.BaseRequest;
  **/
 public class GetMusicListRequest extends BaseRequest<MusicModel> {
     public GetMusicListRequest() {
-        setRequestPath("/getBasicMusicList");
+        setRequestPath("/users/getAuidoFileList");
         setRequestType(RequestType.GET);
     }
 }

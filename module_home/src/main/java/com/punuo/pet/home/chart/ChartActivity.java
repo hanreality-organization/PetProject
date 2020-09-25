@@ -2,8 +2,10 @@ package com.punuo.pet.home.chart;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -12,6 +14,7 @@ import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.model.ChartData;
 import com.punuo.pet.home.device.model.ChartData2;
 import com.punuo.pet.home.device.model.ChartData3;
+import com.punuo.pet.home.device.request.ChartType;
 import com.punuo.pet.home.device.request.GetFoodFrequencyRequest;
 import com.punuo.pet.home.device.request.GetFoodNumberRequest;
 import com.punuo.pet.home.device.request.GetSurplusFoodRequest;
@@ -48,6 +51,12 @@ public class ChartActivity extends BaseSwipeBackActivity {
     LinearLayout mChartContainer2;
     @BindView(R2.id.chart_container_3)
     LinearLayout mChartContainer3;
+    @BindView(R2.id.filter_1)
+    Spinner mFilter1;
+    @BindView(R2.id.filter_2)
+    Spinner mFilter2;
+    @BindView(R2.id.filter_3)
+    Spinner mFilter3;
 
     private String[] ChartX1 = new String[4]; //柱状图水平坐标
     private String[] ChartX2 = new String[4]; //柱状图水平坐标
@@ -72,18 +81,90 @@ public class ChartActivity extends BaseSwipeBackActivity {
     }
 
     private void initData() {
-        getFoodFrequency();
-        getFoodNumber();
-        getSurplusFood();
+        getFoodFrequency(ChartType.WEEK);
+        getFoodNumber(ChartType.WEEK);
+        getSurplusFood(ChartType.WEEK);
+        mFilter1.setSelection(1);
+        mFilter1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String str = mFilter1.getSelectedItem().toString();
+                mChartContainer1.removeAllViews();
+                ChartType chartType = ChartType.DAY;
+                if ("日".equals(str)) {
+                    chartType = ChartType.DAY;
+                }
+                if ("周".equals(str)) {
+                    chartType = ChartType.WEEK;
+                }
+                if ("月".equals(str)) {
+                    chartType = ChartType.MONTH;
+                }
+                getFoodFrequency(chartType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        mFilter2.setSelection(1);
+        mFilter2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String str = mFilter2.getSelectedItem().toString();
+                mChartContainer2.removeAllViews();
+                ChartType chartType = ChartType.DAY;
+                if ("日".equals(str)) {
+                    chartType = ChartType.DAY;
+                }
+                if ("周".equals(str)) {
+                    chartType = ChartType.WEEK;
+                }
+                if ("月".equals(str)) {
+                    chartType = ChartType.MONTH;
+                }
+                getFoodNumber(chartType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        mFilter3.setSelection(1);
+        mFilter3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String str = mFilter3.getSelectedItem().toString();
+                mChartContainer3.removeAllViews();
+                ChartType chartType = ChartType.DAY;
+                if ("日".equals(str)) {
+                    chartType = ChartType.DAY;
+                }
+                if ("周".equals(str)) {
+                    chartType = ChartType.WEEK;
+                }
+                if ("月".equals(str)) {
+                    chartType = ChartType.MONTH;
+                }
+                getSurplusFood(chartType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private GetFoodFrequencyRequest mGetFoodFrequencyRequest;
 
-    private void getFoodFrequency() {
+    private void getFoodFrequency(ChartType chartType) {
         if (mGetFoodFrequencyRequest != null && !mGetFoodFrequencyRequest.isFinish()) {
             return;
         }
-        mGetFoodFrequencyRequest = new GetFoodFrequencyRequest();
+        mGetFoodFrequencyRequest = new GetFoodFrequencyRequest(chartType);
         mGetFoodFrequencyRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetFoodFrequencyRequest.setRequestListener(new RequestListener<ChartData>() {
             @Override
@@ -117,11 +198,11 @@ public class ChartActivity extends BaseSwipeBackActivity {
 
     private GetFoodNumberRequest mGetFoodNumberRequest;
 
-    private void getFoodNumber() {
+    private void getFoodNumber(ChartType chartType) {
         if (mGetFoodNumberRequest != null && !mGetFoodNumberRequest.isFinish()) {
             return;
         }
-        mGetFoodNumberRequest = new GetFoodNumberRequest();
+        mGetFoodNumberRequest = new GetFoodNumberRequest(chartType);
         mGetFoodNumberRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetFoodNumberRequest.setRequestListener(new RequestListener<ChartData2>() {
             @Override
@@ -155,11 +236,11 @@ public class ChartActivity extends BaseSwipeBackActivity {
 
     private GetSurplusFoodRequest mGetSurplusFoodRequest;
 
-    private void getSurplusFood() {
+    private void getSurplusFood(ChartType chartType) {
         if (mGetSurplusFoodRequest != null && !mGetSurplusFoodRequest.isFinish()) {
             return;
         }
-        mGetSurplusFoodRequest = new GetSurplusFoodRequest();
+        mGetSurplusFoodRequest = new GetSurplusFoodRequest(chartType);
         mGetSurplusFoodRequest.addUrlParam("userName", AccountManager.getUserName());
         mGetSurplusFoodRequest.setRequestListener(new RequestListener<ChartData3>() {
             @Override

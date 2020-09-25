@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,12 +50,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +112,7 @@ public class CheckupActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.care_checkup);
         ButterKnife.bind(this);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
         View mStatusBar = findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
@@ -334,12 +336,19 @@ public class CheckupActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date date = new Date(result.time);
-                checkTimeText.setText(simpleDateFormat.format(date));
-                checkAlarmText.setText(result.remind);
-                checkRepeatText.setText(result.period);
-                checkPetnameText.setText(petName);
+                if (result == null) {
+                    return;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                if (result.success) {
+                    Date date = new Date(result.time);
+                    checkTimeText.setText(sdf.format(date));
+                    checkAlarmText.setText(result.remind);
+                    checkRepeatText.setText(result.period);
+                    checkPetnameText.setText(petName);
+                } else {
+                    checkTimeText.setText(sdf.format(new Date()));
+                }
             }
 
             @Override

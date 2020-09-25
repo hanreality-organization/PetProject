@@ -1,6 +1,9 @@
 package com.punuo.pet.feed.module;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,6 @@ import com.punuo.pet.feed.R2;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import butterknife.BindView;
@@ -51,7 +53,7 @@ public class FeedHeadModule {
         mCalendarWeek.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
             @Override
             public void onDateClick(String s) {
-                ToastUtils.showToast(s);
+//                ToastUtils.showToast(s);
             }
         });
     }
@@ -93,6 +95,11 @@ public class FeedHeadModule {
     }
 
     public void updateRemainder(String remainder) {
+        int remainderInt = Integer.parseInt(remainder);
+        Log.i("weight!!!!!!", "" + remainder);
+        if (remainderInt < 100) {
+            showAlterDialog();
+        }
         mRemainder.setText(remainder);
     }
 
@@ -102,5 +109,18 @@ public class FeedHeadModule {
 
     public void updateOutCount(int outedCount) {
         mOut.setText(String.valueOf(outedCount));
+    }
+
+    private void showAlterDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle("亲，余粮不足啦！");
+        dialog.setMessage("余粮不够了亲，请及时补充粮食。如果您已经补充过，请您按一下界面下方的“加粮完毕”");
+        dialog.setPositiveButton("知道啦！", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

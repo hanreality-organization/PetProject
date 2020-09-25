@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,9 +30,7 @@ import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.care.adapter.PetRelevanceAdapter;
 import com.punuo.pet.home.care.model.AlarmInfoModel;
-import com.punuo.pet.home.care.request.GetBuyInfoRequest;
 import com.punuo.pet.home.care.request.GetVaccinreInfoRequest;
-import com.punuo.pet.home.care.request.SaveBuyRequest;
 import com.punuo.pet.home.care.request.SaveVaccineRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
@@ -56,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,6 +112,7 @@ public class VaccineActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.care_vaccine);
         ButterKnife.bind(this);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
         View mStatusBar = findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
@@ -324,12 +325,19 @@ public class VaccineActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date date = new Date(result.time);
-                vaccineTimeText.setText(simpleDateFormat.format(date));
-                vaccineAlarmText.setText(result.remind);
-                vaccineRepeatText.setText(result.period);
-                vaccinePetName.setText(petName);
+                if (result == null) {
+                    return;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                if (result.success) {
+                    Date date = new Date(result.time);
+                    vaccineTimeText.setText(sdf.format(date));
+                    vaccineAlarmText.setText(result.remind);
+                    vaccineRepeatText.setText(result.period);
+                    vaccinePetName.setText(petName);
+                } else {
+                    vaccineTimeText.setText(sdf.format(new Date()));
+                }
             }
             @Override
             public void onError(Exception e) {

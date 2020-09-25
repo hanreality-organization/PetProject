@@ -1,19 +1,28 @@
 package com.punuo.pet.member.module;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.R;
+import com.punuo.pet.member.request.GetIdModel;
+import com.punuo.pet.member.request.GetIdRequest;
 import com.punuo.pet.member.request.LogoutRequest;
+import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
+import com.punuo.pet.update.AutoUpdateService;
+import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -21,6 +30,8 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
+import com.punuo.sys.sdk.util.IntentUtil;
+import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import butterknife.ButterKnife;
 
@@ -30,13 +41,12 @@ import butterknife.ButterKnife;
  **/
 public class MemberHeadModule {
     private View mView;
-    private ImageView mBack;
+    private View baseInfoContainer;
     private TextView mBuff;
     private TextView mNickname;
     private ImageView mAvatar;
-    private Button mCheck;
     private Context mContext;
-    private TextView mId;
+    private TextView mVersionName;
     public View getView() {
         return mView;
     }
@@ -49,10 +59,19 @@ public class MemberHeadModule {
     }
 
     private void initView() {
-        mCheck = mView.findViewById(R.id.check);
+        baseInfoContainer = mView.findViewById(R.id.base_information);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (baseInfoContainer.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                ((RelativeLayout.LayoutParams) baseInfoContainer.getLayoutParams()).topMargin = StatusBarUtil.getStatusBarHeight(mContext);
+            }
+        } else {
+            if (baseInfoContainer.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                ((RelativeLayout.LayoutParams) baseInfoContainer.getLayoutParams()).topMargin = 0;
+            }
+        }
         TextView exitButton = mView.findViewById(R.id.exit_button);
         mNickname = mView.findViewById(R.id.user_nickname);
-        mId = mView.findViewById(R.id.user_id);
+//        mId = mView.findViewById(R.id.user_id);
         mAvatar = mView.findViewById(R.id.user_avatar);
         View account = mView.findViewById(R.id.account);
         View cache = mView.findViewById(R.id.cache);
@@ -60,14 +79,19 @@ public class MemberHeadModule {
         View customer = mView.findViewById(R.id.customerservice);
         View editInfo = mView.findViewById(R.id.edit_info);
         View mShop = mView.findViewById(R.id.shop);
+        View update = mView.findViewById(R.id.update_service);
+        View wificonnected = mView.findViewById(R.id.wificonnected);
+        mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
 
+        //获取id
+        getShopId();
         //设置用户头像
         Glide.with(mContext).load(AccountManager.getUserInfo().avatar).into(mAvatar);
         //设置用户昵称
         mNickname.setText(AccountManager.getUserInfo().nickName);
-        mId.setText(AccountManager.getUserName());
+//        mId.setText(AccountManager.getUserName());
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +102,7 @@ public class MemberHeadModule {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY).navigation();
+                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
             }
         });
         cache.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +134,21 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId=7").navigation();
+                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId="+Constant.SHOPID).navigation();
+            }
+        });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AutoUpdateService.class);
+                intent.putExtra("needToast", true);
+                IntentUtil.startServiceInSafeMode(mContext, intent);
+            }
+        });
+        wificonnected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
         });
     }
@@ -162,6 +200,44 @@ public class MemberHeadModule {
             Glide.with(mContext).load(userInfo.avatar).into(mAvatar);
             //设置用户昵称
             mNickname.setText(userInfo.nickName);
+        }
+
+    }
+
+    private GetIdRequest mGetIdRequest;
+    private void getShopId(){
+        if(mGetIdRequest!=null&&!mGetIdRequest.isFinish()){
+            return;
+        }
+        mGetIdRequest = new GetIdRequest();
+        mGetIdRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetIdRequest.setRequestListener(new RequestListener<GetIdModel>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(GetIdModel result) {
+                Log.i("服务器返回的shopId", ""+result.shopId);
+                Constant.SHOPID = result.shopId;
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(mGetIdRequest);
+    }
+
+    public void updateVersionDisplay(String versionName, boolean isNew) {
+        if (isNew) {
+            mVersionName.setTextColor(Color.parseColor("#ff1940"));
+            mVersionName.setText("有新版本:V" + versionName);
+        } else {
+            mVersionName.setTextColor(Color.parseColor("#666666"));
+            mVersionName.setText("当前版本:V" + versionName);
         }
 
     }

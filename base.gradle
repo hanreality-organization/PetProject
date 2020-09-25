@@ -1,9 +1,9 @@
 //编译环境的统一
 ext.sdk = [
         packageName : 'com.punuo.pet',
-        versionCode : 1,
-        versionName : "1.0.0",
-        minSdkVersion          : 19,
+        versionCode : 14,
+        versionName : "1.0.14",
+        minSdkVersion          : 21,
         targetSdkVersion       : 22,
         compileSdkVersion      : 28,
         buildToolsVersion      : '28.0.3',

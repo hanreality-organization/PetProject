@@ -4,11 +4,11 @@ import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,11 +30,8 @@ import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.care.adapter.PetRelevanceAdapter;
 import com.punuo.pet.home.care.model.AlarmInfoModel;
-import com.punuo.pet.home.care.request.GetBathInfoRequest;
 import com.punuo.pet.home.care.request.GetBuyInfoRequest;
-import com.punuo.pet.home.care.request.SaveBathRequest;
 import com.punuo.pet.home.care.request.SaveBuyRequest;
-import com.punuo.pet.home.care.request.SaveCheckRequest;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.HomeRouter;
@@ -58,8 +55,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
-import butterknife.Action;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -115,6 +112,7 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.care_food);
         ButterKnife.bind(this);
+        StatusBarUtil.translucentStatusBar(this, Color.TRANSPARENT, true);
         View mStatusBar = findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(this);
@@ -343,12 +341,19 @@ public class BuyFoodActivity extends BaseSwipeBackActivity {
             }
             @Override
             public void onSuccess(AlarmInfoModel result) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                Date date = new Date(result.time);
-                buyTimeText.setText(simpleDateFormat.format(date));
-                buyAlarmText.setText(result.remind);
-                buyRepeatText.setText(result.period);
-                buyPetName.setText(petName);
+                if (result == null) {
+                    return;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                if (result.success) {
+                    Date date = new Date(result.time);
+                    buyTimeText.setText(sdf.format(date));
+                    buyAlarmText.setText(result.remind);
+                    buyRepeatText.setText(result.period);
+                    buyPetName.setText(petName);
+                } else {
+                    buyTimeText.setText(sdf.format(new Date()));
+                }
             }
             @Override
             public void onError(Exception e) {

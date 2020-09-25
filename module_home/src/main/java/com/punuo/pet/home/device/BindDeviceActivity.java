@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +27,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter;
-import com.punuo.pet.home.device.event.UnBindDeviceEvent;
-import com.punuo.pet.home.device.model.BindDevidSuccess;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.model.DeviceModel;
 import com.punuo.pet.home.device.request.BindDeviceRequest;
@@ -38,6 +35,8 @@ import com.punuo.pet.home.device.request.GetBindDeviceRequest;
 import com.punuo.pet.home.device.request.JoinGroupRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.SDKRouter;
+import com.punuo.sip.dev.BindDevSuccessEvent;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -163,7 +162,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(UnBindDeviceEvent event) {
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
         refresh();
     }
 
@@ -178,9 +177,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         mDeviceInfoAdapter.appendData(deviceInfoList);
     }
 
-    BindDevidSuccess bindDevidSuccess=new BindDevidSuccess();
     private void refresh() {
-        EventBus.getDefault().post(bindDevidSuccess);
         getDeviceInfo();
     }
 
@@ -242,7 +239,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
 
     private BindDeviceRequest mBindDeviceRequest;
 
-    private void bindDevice(String devId) {
+    private void bindDevice(final String devId) {
         if (mBindDeviceRequest != null && !mBindDeviceRequest.isFinish()) {
             return;
         }
@@ -263,6 +260,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 ToastUtils.showToast(result.message);
                 if (result.success) {
                     refresh();
+                    EventBus.getDefault().post(new BindDevSuccessEvent());
                 }
             }
 
@@ -276,7 +274,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
 
     private JoinGroupRequest mJoinGroupRequest;
 
-    private void joinDevice(String devId) {
+    private void joinDevice(final String devId) {
         if (mJoinGroupRequest != null && !mJoinGroupRequest.isFinish()) {
             return;
         }
@@ -297,6 +295,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
                 ToastUtils.showToast(result.message);
                 if (result.success) {
                     refresh();
+                    EventBus.getDefault().post(new BindDevSuccessEvent());
                 }
             }
 

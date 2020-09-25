@@ -5,25 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_base_infomation_bg" />
     <!--基本信息布局-->
     <RelativeLayout
         android:id="@+id/base_information"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="100dp"
         android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
         android:padding="12dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/user_avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:riv_corner_radius="6dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            app:riv_border_color="@color/white"
+            app:riv_border_width="1dp"
+            app:riv_corner_radius="50dp"
             tools:src="@tools:sample/avatars" />
 
         <LinearLayout
@@ -45,15 +43,6 @@
                 android:textStyle="bold"
                 tools:text="梦视科技昵称" />
 
-            <TextView
-                android:id="@+id/user_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="#333333"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="ID:888801" />
         </LinearLayout>
 
         <!--编辑个人信息-->
@@ -78,7 +67,10 @@
                 android:id="@+id/text_edit_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="编辑个人信息" />
+                android:layout_marginTop="2dp"
+                android:text="编辑个人信息"
+                android:textColor="#666666"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -95,7 +87,7 @@
         <RelativeLayout
             android:id="@+id/shop"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:background="@drawable/white_corner_bg">
 
             <ImageView
@@ -125,11 +117,11 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/rightarrow" />
         </RelativeLayout>
-        <!--账号管理-->
+        <!--绑定设备-->
         <RelativeLayout
             android:id="@+id/account"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg">
 
@@ -148,7 +140,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_account"
-                android:text="账号管理"
+                android:text="绑定设备"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -165,7 +157,7 @@
         <RelativeLayout
             android:id="@+id/cache"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg">
 
@@ -204,7 +196,7 @@
         <RelativeLayout
             android:id="@+id/about"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg">
 
@@ -240,7 +232,7 @@
         <RelativeLayout
             android:id="@+id/customerservice"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg">
 
@@ -273,11 +265,90 @@
                 android:background="@drawable/rightarrow" />
         </RelativeLayout>
 
+        <!--连接WiFi-->
+        <RelativeLayout
+            android:id="@+id/wificonnected"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/white_corner_bg">
+
+            <ImageView
+                android:id="@+id/image_wificonnected"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/ic_wifi_bg" />
+
+            <TextView
+                android:id="@+id/text_wificonnected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_wificonnected"
+                android:text="连接WiFi"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/rightarrow" />
+        </RelativeLayout>
+
+        <!--检查更新-->
+        <RelativeLayout
+            android:id="@+id/update_service"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/white_corner_bg">
+
+            <ImageView
+                android:id="@+id/image_update_service"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/ic_update" />
+
+            <TextView
+                android:id="@+id/text_update_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_update_service"
+                android:text="检查更新"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/current_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:text="当前版本v1.0.0"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+
         <!--退出登录-->
         <TextView
             android:id="@+id/exit_button"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg"
             android:gravity="center"

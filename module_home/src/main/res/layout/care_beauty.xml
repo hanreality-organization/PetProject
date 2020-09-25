@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/status_bar"
@@ -10,25 +11,27 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:visibility="gone" />
-    <include layout="@layout/module_title_layout"/>
+
+    <include layout="@layout/module_title_layout" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp">
+
         <ImageView
             android:id="@+id/beauty_pic"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/bg_beauty"/>
+            android:src="@drawable/bg_beauty" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="美容护理"
             android:layout_below="@+id/beauty_pic"
-            android:textSize="20sp"
+            android:text="美容护理"
             android:textColor="@color/black"
-            />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <TextView
@@ -36,34 +39,41 @@
         android:layout_height="35dp"
         android:background="#D3D3D3"
         android:gravity="center_vertical"
-        android:text="基本信息"
         android:paddingLeft="10dp"
+        android:text="基本信息"
         android:textSize="12sp" />
+
     <RelativeLayout
         android:id="@+id/set_beauty_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="计划时间"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/beauty_time_text"
-            android:layout_toLeftOf="@+id/beauty_time_arrow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/beauty_time_arrow" />
+
         <ImageView
             android:id="@+id/beauty_time_arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/rightarrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/rightarrow" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -74,89 +84,102 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="是否提醒"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/beauty_alarm_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/alarm_arrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:layout_toLeftOf="@+id/alarm_arrow" />
+
         <ImageView
             android:id="@+id/alarm_arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/rightarrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/rightarrow" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#DCDCDC" />
+
     <RelativeLayout
         android:id="@+id/set_beauty_repeat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="重复周期"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/beauty_repeat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/repeat_arrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:layout_toLeftOf="@+id/repeat_arrow" />
+
         <ImageView
             android:id="@+id/repeat_arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/rightarrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/rightarrow" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#DCDCDC" />
+
     <RelativeLayout
         android:id="@+id/set_beauty_pet"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="关联宠物"
-            android:textColor="@color/black"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/beauty_pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/pet_arrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:layout_toLeftOf="@+id/pet_arrow" />
+
         <ImageView
             android:id="@+id/pet_arrow"
             android:layout_width="10dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/rightarrow"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/rightarrow" />
     </RelativeLayout>
 
 </LinearLayout>

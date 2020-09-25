@@ -1,9 +1,11 @@
 package com.punuo.pet.compat;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -18,8 +20,13 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.VideoRouter;
+import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.HeartBeatHelper;
+import com.punuo.sip.SipConfig;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.BindDevSuccessEvent;
+import com.punuo.sip.dev.DevManager;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sip.event.LoginFailEvent;
 import com.punuo.sip.event.ReRegisterEvent;
 import com.punuo.sip.model.LoginResponse;
@@ -28,9 +35,11 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.account.UserManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.model.UserInfo;
+import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.RegexUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,6 +67,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int MSG_HEART_BEAR_VALUE = 1;
     private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
+    private long mExtTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +94,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         //获取宠物信息
                         PetManager.getPetInfo();
+                        //获取设备信息
+                        DevManager.getInstance().refreshDevRelationShip();
                     }
                 }
             }
@@ -95,6 +107,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
         //根据本地记录展示底部导航栏的内容
         onDeviceSelect(MMKVUtil.getInt("deviceType", DeviceType.UNKNOWN));
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        intent.putExtra("needToast", false);
+        IntentUtil.startServiceInSafeMode(this, intent);
     }
 
     private void init() {
@@ -183,12 +198,38 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         onDeviceSelect(event.deviceType);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BindDevSuccessEvent event) {
+        DevManager.getInstance().refreshDevRelationShip();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
+        DevManager.getInstance().refreshDevRelationShip();
+    }
+
     /**
      * 空实现返回事件
      */
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExtTime) > 2000) {
+                mExtTime = System.currentTimeMillis();
+            } else {
+                ToastUtils.closeToast();
+                if (!isFinishing()) {
+                    finish();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void switchFragment(int index) {
@@ -272,7 +313,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case MSG_HEART_BEAR_VALUE:
                 if (AccountManager.isLoginned()) {
                     HeartBeatHelper.heartBeat();
-                    mBaseHandler.sendEmptyMessageDelayed(MSG_HEART_BEAR_VALUE, HeartBeatHelper.DELAY);
                 }
                 break;
         }
@@ -282,6 +322,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        SipConfig.reset();
         if (mHeartBeatTaskResumeProcessor != null) {
             mHeartBeatTaskResumeProcessor.onDestroy();
         }

@@ -18,23 +18,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/status_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="6dp"
-                android:text="请先将自己的手机热点设置成说明书中的指定热点"
-                android:textColor="#333333" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="热点名：admin   热点密码：12345678"
+                android:text="1、喂食器开机后连接名为MSPET的网络"
                 android:textColor="#333333" />
 
             <Button
@@ -46,24 +36,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="去设置热点" />
+                android:text="去连接MSPET" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="1、设置完热点后请长按设备开机键5秒后松开"
-                android:textColor="#333333" />
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:gravity="left"-->
-            <!--android:text="2、按下开机键后WiFi指示灯会亮起，当WiFi指示灯熄灭就可以松开开机键"-->
-            <!--android:textColor="#333333" />-->
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +53,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="2、等待20秒后当开机音乐响起，在下面输入想要连接的WiFi名和密码"
+                android:text="2、右上角选择WiFi或在下面输入喂食器想要连接的WiFi名、密码和认证模式（请确保输入正确再继续下一步）"
                 android:textColor="#333333" />
 
             <TextView
@@ -87,7 +62,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="3、当WiFi指示灯常亮时说明设备已连上手机热点，此时点击下面的连接按钮"
+                android:text="3、全部输入完成后点击下方的发送WiFi信息，等待5秒左右设备会自动重启"
                 android:textColor="#333333" />
 
             <TextView
@@ -96,7 +71,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="4、提示连接成功后关闭热点"
+                android:text="4、设备重启时，喂食器会发出咔咔咔的声音，重启后等待10秒左右，如果WiFi指示灯常亮则表示WiFi连接成功，如果指示灯常暗则表示WiFi连接失败，请长按WiFi指示灯下的按钮10秒左右，然后设备自动重启，重启以后重复上述步骤"
                 android:textColor="#333333" />
 
             <TextView
@@ -152,6 +127,28 @@
                 tools:hint="请输入WiFi密码"
                 tools:visibility="visible" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="12dp"
+                android:text="WIFI认证模式"
+                android:textSize="14sp"
+                tools:visibility="visible" />
+
+            <Spinner
+                android:id="@+id/authentication_type"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:background="@drawable/login_edit_bg"
+                android:entries="@array/authentication_type"/>
+
             <Button
                 android:id="@+id/send"
                 android:layout_width="match_parent"
@@ -161,7 +158,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:text="连接" />
+                android:text="发送WiFi信息" />
 
             <TextView
                 android:id="@+id/connected_wifi_name"
