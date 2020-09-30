@@ -1,6 +1,6 @@
 package com.punuo.sys.sdk.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 /**

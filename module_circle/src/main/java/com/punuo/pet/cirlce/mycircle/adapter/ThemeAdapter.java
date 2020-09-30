@@ -1,8 +1,8 @@
 package com.punuo.pet.cirlce.mycircle.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.punuo.pet.cirlce.mycircle.model.ThemeItem;

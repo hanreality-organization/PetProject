@@ -80,7 +80,7 @@
         android:background="@color/bar_grey"
         android:layout_below="@+id/head"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_editPlan"
         android:layout_marginTop="20dp"
         android:layout_width="300dp"

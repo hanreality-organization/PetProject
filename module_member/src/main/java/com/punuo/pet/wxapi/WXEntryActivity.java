@@ -1,7 +1,7 @@
 package com.punuo.pet.wxapi;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.punuo.pet.member.login.event.AuthEvent;

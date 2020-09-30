@@ -104,7 +104,7 @@
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/edit_pet_type"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
@@ -212,7 +212,7 @@
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/edit_pet_weight_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"

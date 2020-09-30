@@ -8,7 +8,7 @@
         android:id="@+id/title_layout"
         layout="@layout/module_title_layout" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

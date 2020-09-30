@@ -1,11 +1,9 @@
 package com.punuo.pet.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +14,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.R2;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
