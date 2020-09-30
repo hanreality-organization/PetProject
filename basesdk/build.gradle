@@ -46,7 +46,7 @@ dependencies {
 
     api 'com.github.hanreality:SipLib:1.1.0'
     api 'org.greenrobot:eventbus:3.0.0'
-    api 'com.squareup.okhttp3:okhttp:3.4.1'
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.google.code.gson:gson:2.8.0'
     api 'com.google.zxing:core:3.0.0'
     api 'com.alibaba:fastjson:1.1.28'
