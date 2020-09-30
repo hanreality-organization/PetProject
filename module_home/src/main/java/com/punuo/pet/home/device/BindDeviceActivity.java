@@ -6,10 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -21,6 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -346,7 +347,7 @@ public class BindDeviceActivity extends BaseSwipeBackActivity implements View.On
         int id=view.getId();
 
         if(id==R.id.tv_saoma){
-            BindDeviceActivityPermissionsDispatcher.openScanWithCheck(BindDeviceActivity.this);
+            BindDeviceActivityPermissionsDispatcher.openScanWithPermissionCheck(BindDeviceActivity.this);
             dialog.dismiss();
         }else if(id==R.id.tv_shoudong){
             final EditText editText=new EditText(this);

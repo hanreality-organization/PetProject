@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -25,12 +27,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
+    kapt 'org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0'
     implementation project(':basesdk')
 }
