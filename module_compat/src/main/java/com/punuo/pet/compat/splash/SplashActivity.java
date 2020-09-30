@@ -8,7 +8,6 @@ import com.punuo.pet.compat.R;
 import com.punuo.pet.compat.process.ProcessTasks;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.util.MMKVUtil;
@@ -25,7 +24,7 @@ public class SplashActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_layout);
-        ProcessTasks.commonLaunchTasks(PnApplication.getInstance());
+        ProcessTasks.commonLaunchTasks(getApplication());
         init();
     }
 
