@@ -102,7 +102,7 @@ public class MemberHeadModule {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
+                ARouter.getInstance().build(HomeRouter.ROUTER_DEVICE_MANAGER_ACTIVITY).navigation();
             }
         });
         cache.setOnClickListener(new View.OnClickListener() {

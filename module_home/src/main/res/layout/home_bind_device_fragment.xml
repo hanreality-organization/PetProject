@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/device_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_device"
+        android:overScrollMode="never"
+        android:paddingTop="12dp" />
+
+    <com.punuo.sys.sdk.view.AdvancedTextView
+        android:id="@+id/add_device"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="12dp"
+        android:background="#ff1940"
+        android:gravity="center"
+        android:text="添加设备"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:border_radius="22dp" />
+
+    <TextView
+        android:id="@+id/text_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_device"
+        android:gravity="center"
+        android:text="@string/home_empty_device_str"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:visibility="gone" />
+</RelativeLayout>
