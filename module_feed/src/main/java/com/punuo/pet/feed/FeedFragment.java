@@ -4,17 +4,16 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -36,20 +35,23 @@ import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.dev.BindDevSuccessEvent;
 import com.punuo.sip.dev.DevManager;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.FeedCountData;
 import com.punuo.sip.model.LatestWeightData;
 import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
-import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.view.BreatheView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,47 +70,44 @@ import butterknife.ButterKnife;
 public class FeedFragment extends BaseFragment {
     @BindView(R2.id.title)
     TextView mTitle;
-    @BindView(R2.id.back)
-    ImageView mBack;
-    @BindView(R2.id.sub_title)
-    TextView mSubTitle;
     @BindView(R2.id.edit_feed_plan)
     View mEditFeedPlan;
     @BindView(R2.id.feed_right_now)
     View mFeedRightNow;
-    @BindView(R2.id.wifistate)
-    TextView mWifiState;
     @BindView(R2.id.pull_to_refresh)
     PullToRefreshRecyclerView mPullToRefreshRecyclerView;
     @BindView(R2.id.real_weight)
     LinearLayout mRealWeight;
+    @BindView(R2.id.breathView)
+    BreatheView mBreatheView;
+    @BindView(R2.id.device_status)
+    View deviceStatus;
+    @BindView(R2.id.wifistate)
+    TextView mWifiState;
+
+    @BindView(R2.id.status_bar)
+    View mStatusBar;
 
     private RecyclerView mRecyclerView;
     private FeedHeadModule mFeedHeadModule;
     private FeedDialog feedDialog;
-//    private FeedViewAdapter mFeedViewAdapter;
     private FeedShowAdapter mFeedViewAdapter;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
-        initView();
-        View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
         EventBus.getDefault().register(this);
-        PetManager.getPetInfo();
-        Toast.makeText(getActivity(), "点击左上角WiFi按钮绑定设备并为设备连接WiFi", Toast.LENGTH_LONG).show();
+        initView();
         return mFragmentView;
     }
 
     private void initView() {
         mTitle.setText("梦视宠物喂食器");
-        mBack.setVisibility(View.GONE);
-
         mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,10 +120,10 @@ public class FeedFragment extends BaseFragment {
                 showFeedDialog();
             }
         });
-        mWifiState.setOnClickListener(new View.OnClickListener() {
+        deviceStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY).navigation();
+                ARouter.getInstance().build(HomeRouter.ROUTER_DEVICE_MANAGER_ACTIVITY).navigation();
             }
         });
         mRealWeight.setOnClickListener(new View.OnClickListener() {
@@ -158,15 +157,43 @@ public class FeedFragment extends BaseFragment {
                 refresh();
             }
         });
-        refresh();
+        layer();
+        mBreatheView.setInterval(2000)
+                .setCoreRadius(7f)
+                .setDiffusMaxWidth(10f)
+                .setDiffusColor(Color.parseColor("#ff1940"))
+                .setCoreColor(Color.parseColor("#ff1940"))
+                .onStart();
     }
 
     private void refresh() {
+        PetManager.getPetInfo();
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
         getRemainderQuality();
         getOutedCount();
-        isOnline();
+        DevManager.getInstance().isOnline();
+    }
+
+    private void layer() {
+        if (!MMKVUtil.getBoolean("deviceManageGuide", false)) {
+            View layer = LayoutInflater.from(getActivity()).inflate(R.layout.device_gudie_layout, null);
+            layer.setPadding(0, mStatusBar.getLayoutParams().height, 0 ,0);
+            if (getActivity() != null) {
+                getActivity().addContentView(layer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                MMKVUtil.setBoolean("deviceManageGuide", true);
+                layer.setOnClickListener(v -> {
+                    if (v.getParent() instanceof ViewGroup) {
+                        ((ViewGroup) v.getParent()).removeView(v);
+                    }
+                    //引导关闭请求
+                    refresh();
+                });
+            }
+        } else {
+            refresh();
+        }
     }
 
     public void showFeedDialog() {
@@ -182,42 +209,49 @@ public class FeedFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DevNotifyData result) {
-        if (result.mDevInfo.live == 0) {
-            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
-        }
-        if (result.mDevInfo.live == 1) {
-            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
-        }
+        changeDeviceStatus(result.mDevInfo.live);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(OnLineData result) {
         int live = Integer.parseInt(result.live);
-        if (live == 1) {
-            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
-        } else {
-            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
-        }
-        if (live == 0) {
-            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
-        }
+        changeDeviceStatus(live);
     }
 
+    private void changeDeviceStatus(int live) {
+        if (live == 1) {
+            mWifiState.setText("在线");
+            mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
+            mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
+        } else {
+            mWifiState.setText("离线");
+            mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
+            mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LoginResponse event) {
         int live = Integer.parseInt(event.live);
-        if (live == 1) {
-            mWifiState.setBackgroundColor(Color.parseColor("#8BC34A"));
-        }
-        if (live == 0) {
-            mWifiState.setBackgroundColor(Color.parseColor("#ff0000"));
-        }
+        changeDeviceStatus(live);
     }
 
-    private void isOnline() {
-        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
-        SipUserManager.getInstance().addRequest(sipOnLineRequest);
+    /**
+     * 绑定成功 需要重新获取设备在线信息
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BindDevSuccessEvent event) {
+        DevManager.getInstance().isOnline();
+    }
+
+    /**
+     * 解绑之后 要重置设备在线信息为 离线
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
+        changeDeviceStatus(0);
     }
 
     private GetPlanRequest mGetPlanRequest;

@@ -1,16 +1,15 @@
 package com.punuo.sys.app.video;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -19,8 +18,12 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.VideoRouter;
 import com.punuo.sip.H264Config;
 import com.punuo.sip.SipUserManager;
-import com.punuo.sip.dev.DevIdEvent;
+import com.punuo.sip.dev.BindDevSuccessEvent;
 import com.punuo.sip.dev.DevManager;
+import com.punuo.sip.dev.UnBindDevSuccessEvent;
+import com.punuo.sip.model.DevNotifyData;
+import com.punuo.sip.model.LoginResponse;
+import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
 import com.punuo.sip.model.VolumeData;
@@ -30,8 +33,10 @@ import com.punuo.sip.request.SipVideoRequest;
 import com.punuo.sys.sdk.fragment.BaseFragment;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.CommonUtil;
+import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
+import com.punuo.sys.sdk.view.BreatheView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,8 +72,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     FastVideoPlayer player;
     @BindView(R2.id.content_view)
     View contentView;
-    @BindView(R2.id.dev_id_display)
-    TextView mDevIdDisplay;
+
+    @BindView(R2.id.breathView)
+    BreatheView mBreatheView;
+    @BindView(R2.id.device_status)
+    View deviceStatus;
+    @BindView(R2.id.wifistate)
+    TextView mWifiState;
+    @BindView(R2.id.status_bar)
+    View mStatusBar;
 
     private boolean isPlaying = false;
 
@@ -76,16 +88,15 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.video_fragment_home, container, false);
         ButterKnife.bind(this, mFragmentView);
-        //Toast.makeText(getActivity(),"请先确认已绑定设备再获取视频",Toast.LENGTH_LONG).show();
         DevManager.getInstance().refreshDevRelationShip();
-        initView();
-        View mStatusBar = mFragmentView.findViewById(R.id.status_bar);
+        EventBus.getDefault().register(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(getActivity());
             mStatusBar.setVisibility(View.VISIBLE);
             mStatusBar.requestLayout();
         }
-        EventBus.getDefault().register(this);
+        initView();
+        DevManager.getInstance().isOnline();
         return mFragmentView;
     }
 
@@ -94,87 +105,73 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         initTitle();
         initSubTitle();
         initTextureView();
-        mPlayStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!checkDevId()) {
-                    return;
-                }
-                if (!isPlaying) {
-                    showLoadingDialogWithCancel("正在获取视频...", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismissLoadingDialog();
-                            stopVideo();
-                        }
-                    });
-                    startVideo(DevManager.getInstance().getDevId());
-                }
+        mPlayStatus.setOnClickListener(v -> {
+            if (!checkDevId()) {
+                return;
+            }
+            if (!isPlaying) {
+                showLoadingDialogWithCancel("正在获取视频...", v1 -> {
+                    dismissLoadingDialog();
+                    stopVideo();
+                });
+                startVideo(DevManager.getInstance().getDevId());
             }
         });
-        playMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!checkDevId()) {
-                    return;
-                }
-                ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
-                        .navigation();
+        playMusic.setOnClickListener(v -> {
+            if (!checkDevId()) {
+                return;
             }
+            ARouter.getInstance().build(VideoRouter.ROUTER_MUSIC_CHOOSE_ACTIVITY)
+                    .navigation();
         });
-        mPlayVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!checkDevId()) {
-                    return;
-                }
-                ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
-                        .navigation();
+        mPlayVideo.setOnClickListener(view -> {
+            if (!checkDevId()) {
+                return;
             }
+            ARouter.getInstance().build(VideoRouter.ROUTER_VIDEO_CHOOSE_ACTIVITY)
+                    .navigation();
         });
-        down_voice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!checkDevId()) {
-                    return;
-                }
-                SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("lower");
-                SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
+        down_voice.setOnClickListener(view -> {
+            if (!checkDevId()) {
+                return;
             }
+            SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("lower");
+            SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
         });
-        add_voice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!checkDevId()) {
-                    return;
-                }
-                SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("raise");
-                SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
+        add_voice.setOnClickListener(view -> {
+            if (!checkDevId()) {
+                return;
             }
+            SipControlVolumeRequest sipControlVolumeRequest = new SipControlVolumeRequest("raise");
+            SipUserManager.getInstance().addRequest(sipControlVolumeRequest);
         });
+        deviceStatus.setOnClickListener(v -> {
+            ARouter.getInstance().build(HomeRouter.ROUTER_DEVICE_MANAGER_ACTIVITY).navigation();
+        });
+        layer();
+        mBreatheView.setInterval(2000)
+                .setCoreRadius(7f)
+                .setDiffusMaxWidth(10f)
+                .setDiffusColor(Color.parseColor("#ff1940"))
+                .setCoreColor(Color.parseColor("#ff1940"))
+                .onStart();
+    }
 
-        player.onPrepared(new FastVideoPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared() {
-                Log.i("han.chen", "onPrepared: ");
+    private void layer() {
+        if (!MMKVUtil.getBoolean("deviceManageGuide", false)) {
+            View layer = LayoutInflater.from(getActivity()).inflate(R.layout.device_gudie_layout, null);
+            layer.setPadding(0, mStatusBar.getLayoutParams().height, 0, 0);
+            if (getActivity() != null) {
+                getActivity().addContentView(layer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                MMKVUtil.setBoolean("deviceManageGuide", true);
+                layer.setOnClickListener(v -> {
+                    if (v.getParent() instanceof ViewGroup) {
+                        ((ViewGroup) v.getParent()).removeView(v);
+                    }
+                });
             }
-        });
-
-        player.onInfo(new FastVideoPlayer.OnInfoListener() {
-            @Override
-            public void onInfo(int what, int extra) {
-                Log.i("han.chen", "onInfo: what = " + what);
-                Log.i("han.chen", "onInfo: extra = " + extra);
-            }
-        });
-
-        player.onError(new FastVideoPlayer.OnErrorListener() {
-            @Override
-            public void onError(int what, int extra) {
-                Log.i("han.chen", "onError: what = " + what);
-                Log.i("han.chen", "onError: extra = " + extra);
-            }
-        });
+        }
     }
 
     private void stopVideo() {
@@ -266,24 +263,19 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         mPlayStatus.setVisibility(View.GONE);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(DevIdEvent event) {
-        mDevIdDisplay.setText(DevManager.getInstance().getDevId());
-    }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ResetData result) {
-        Toast.makeText(getActivity(), "开启成功", Toast.LENGTH_SHORT).show();
+        ToastUtils.showToast("开启成功");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VolumeData result) {
         if (TextUtils.equals(result.volume, "raise")) {
-            Toast.makeText(getActivity(), "音量加", Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast("音量加");
         }
         if (TextUtils.equals(result.volume, "lower")) {
-            Toast.makeText(getActivity(), "音量减", Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast("音量减");
         }
     }
 
@@ -312,5 +304,52 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                     .navigation();
             return false;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DevNotifyData result) {
+        changeDeviceStatus(result.mDevInfo.live);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(OnLineData result) {
+        int live = Integer.parseInt(result.live);
+        changeDeviceStatus(live);
+    }
+
+    private void changeDeviceStatus(int live) {
+        if (live == 1) {
+            mWifiState.setText("在线");
+            mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
+            mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
+        } else {
+            mWifiState.setText("离线");
+            mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
+            mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginResponse event) {
+        int live = Integer.parseInt(event.live);
+        changeDeviceStatus(live);
+    }
+
+    /**
+     * 绑定成功 需要重新获取设备在线信息
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BindDevSuccessEvent event) {
+        DevManager.getInstance().isOnline();
+    }
+
+    /**
+     * 解绑之后 要重置设备在线信息为 离线
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnBindDevSuccessEvent event) {
+        changeDeviceStatus(0);
     }
 }

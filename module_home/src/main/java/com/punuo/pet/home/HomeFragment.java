@@ -3,17 +3,19 @@ package com.punuo.pet.home;
 
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView;
 import com.punuo.pet.PetManager;
+import com.punuo.pet.event.AddPetEvent;
 import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.home.adapter.HomeAdapter;
 import com.punuo.pet.home.module.HomeHeadModule;
@@ -113,6 +115,11 @@ public class HomeFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SelectDeviceEvent event) {
         mHomeHeadModule.selectDevice(event.deviceType);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddPetEvent event) {
+        PetManager.getPetInfo(mRequestListener);
     }
 
     @Override

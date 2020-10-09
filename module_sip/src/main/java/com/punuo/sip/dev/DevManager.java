@@ -2,11 +2,11 @@ package com.punuo.sip.dev;
 
 import android.text.TextUtils;
 
+import com.punuo.sip.SipUserManager;
+import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by han.chen.
@@ -41,7 +41,7 @@ public class DevManager {
         request.setRequestListener(new RequestListener<DevData>() {
             @Override
             public void onComplete() {
-                EventBus.getDefault().post(new DevIdEvent());
+
             }
 
             @Override
@@ -63,5 +63,13 @@ public class DevManager {
             }
         });
         HttpManager.addRequest(request);
+    }
+
+    /**
+     * 获取设备是否在线
+     */
+    public void isOnline() {
+        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
+        SipUserManager.getInstance().addRequest(sipOnLineRequest);
     }
 }
