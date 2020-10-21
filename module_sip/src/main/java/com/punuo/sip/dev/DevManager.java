@@ -35,6 +35,10 @@ public class DevManager {
        this.devId = devId;
     }
 
+    public boolean isBindDevice() {
+        return !TextUtils.isEmpty(devId);
+    }
+
     public void refreshDevRelationShip() {
         final GetDevIdRequest request = new GetDevIdRequest();
         request.addUrlParam("userName", AccountManager.getUserName());

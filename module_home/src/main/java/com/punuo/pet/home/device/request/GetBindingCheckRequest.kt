@@ -7,11 +7,12 @@ import com.punuo.sys.sdk.httplib.BaseRequest
  * Created by han.chen.
  * Date on 2020/10/9.
  * devid username
+ * 获取申请列表
  **/
-class GetBindingCheckRequest() : BaseRequest<DeviceBindModel>() {
+class GetBindingCheckRequest : BaseRequest<DeviceBindModel>() {
 
     init {
         setRequestType(RequestType.GET)
-        setRequestPath("/devs/addBindingCheck")
+        setRequestPath("/groups/getBindingCheck")
     }
 }

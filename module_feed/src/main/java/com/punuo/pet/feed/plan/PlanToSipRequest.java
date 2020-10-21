@@ -15,7 +15,7 @@ public class PlanToSipRequest extends BaseSipRequest {
     private String mUserName;
 
 
-    public PlanToSipRequest(String planTime, String planName, String planCount,String userName){
+    public PlanToSipRequest(String planTime, String planName, String planCount, String userName) {
         setSipRequestType(SipRequestType.Notify);
         setTargetResponse("feed_plan_response");
         mPlanTime = planTime;
@@ -31,11 +31,11 @@ public class PlanToSipRequest extends BaseSipRequest {
         JSONObject value = new JSONObject();
 
         try {
-            value.put("username",mUserName);
-            value.put("time",mPlanTime);
-            value.put("name",mPlanName);
-            value.put("count",mPlanCount);
-            body.put("feed_plan",value);
+            value.put("username", mUserName);
+            value.put("time", mPlanTime);
+            value.put("name", mPlanName);
+            value.put("count", mPlanCount);
+            body.put("feed_plan", value);
         } catch (JSONException e) {
             e.printStackTrace();
         }

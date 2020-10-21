@@ -3,12 +3,10 @@ package com.punuo.pet.home.device
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +15,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alibaba.android.arouter.launcher.ARouter
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter
+import com.punuo.pet.home.device.model.DeviceHost
 import com.punuo.pet.home.device.model.DeviceInfo
 import com.punuo.pet.home.device.model.DeviceModel
-import com.punuo.pet.home.device.request.BindDeviceRequest
-import com.punuo.pet.home.device.request.CheckBindDeviceRequest
-import com.punuo.pet.home.device.request.GetBindDeviceRequest
-import com.punuo.pet.home.device.request.JoinGroupRequest
-import com.punuo.pet.router.SDKRouter
+import com.punuo.pet.home.device.request.*
 import com.punuo.sip.dev.BindDevSuccessEvent
 import com.punuo.sip.dev.UnBindDevSuccessEvent
 import com.punuo.sys.sdk.account.AccountManager
@@ -35,7 +29,6 @@ import com.punuo.sys.sdk.fragment.BaseFragment
 import com.punuo.sys.sdk.httplib.HttpManager
 import com.punuo.sys.sdk.httplib.RequestListener
 import com.punuo.sys.sdk.model.BaseModel
-import com.punuo.sys.sdk.util.CommonUtil
 import com.punuo.sys.sdk.util.HandlerExceptionUtils
 import com.punuo.sys.sdk.util.ToastUtils
 import org.greenrobot.eventbus.EventBus
@@ -80,13 +73,13 @@ class BindDeviceFragment : BaseFragment() {
         mDeviceInfoAdapter = DeviceInfoAdapter(context, ArrayList())
         mDeviceList.adapter = mDeviceInfoAdapter
         refresh()
-        mAddDevice.setOnClickListener {
-            show()
-        }
     }
 
     private var mGetBindDeviceRequest: GetBindDeviceRequest? = null
 
+    /**
+     * 获取绑定的设备信息
+     */
     private fun getDeviceInfo() {
         mGetBindDeviceRequest?.takeIf {
             !it.isFinish
@@ -97,7 +90,7 @@ class BindDeviceFragment : BaseFragment() {
         mGetBindDeviceRequest?.addUrlParam("username", AccountManager.getUserName())
         mGetBindDeviceRequest?.requestListener = object : RequestListener<DeviceModel?> {
             override fun onComplete() {
-                dismissLoadingDialog()
+
             }
 
             override fun onSuccess(result: DeviceModel?) {
@@ -114,6 +107,9 @@ class BindDeviceFragment : BaseFragment() {
 
     private var mBindDeviceRequest: BindDeviceRequest? = null
 
+    /**
+     * 绑定设备
+     */
     private fun bindDevice(devId: String) {
         mBindDeviceRequest?.takeIf {
             !it.isFinish
@@ -124,7 +120,9 @@ class BindDeviceFragment : BaseFragment() {
         mBindDeviceRequest?.addUrlParam("devid", devId)
         mBindDeviceRequest?.addUrlParam("username", AccountManager.getUserName())
         mBindDeviceRequest?.requestListener = object : RequestListener<BaseModel?> {
-            override fun onComplete() {}
+            override fun onComplete() {
+                dismissLoadingDialog()
+            }
             override fun onSuccess(result: BaseModel?) {
                 if (result == null) {
                     return
@@ -140,11 +138,15 @@ class BindDeviceFragment : BaseFragment() {
                 HandlerExceptionUtils.handleException(e)
             }
         }
+        showLoadingDialog("设备绑定中...")
         HttpManager.addRequest(mBindDeviceRequest)
     }
 
     private var mJoinGroupRequest: JoinGroupRequest? = null
 
+    /**
+     * 申请加入已有的设备群组
+     */
     private fun joinDevice(devId: String) {
         mJoinGroupRequest?.takeIf {
             !it.isFinish
@@ -176,6 +178,9 @@ class BindDeviceFragment : BaseFragment() {
 
     private var mCheckBindDeviceRequest: CheckBindDeviceRequest? = null
 
+    /**
+     * 查看设备是否已有主用户
+     */
     private fun checkBindDevice(devId: String) {
         mCheckBindDeviceRequest?.takeIf {
             !it.isFinish
@@ -202,17 +207,57 @@ class BindDeviceFragment : BaseFragment() {
         HttpManager.addRequest(mCheckBindDeviceRequest)
     }
 
+    /**
+     * 无主用户不存在提醒
+     */
+    private fun showNoHostDialog(devId: String) {
+        val alertDialog = AlertDialog.Builder(context)
+                .setTitle("温馨提醒")
+                .setMessage("当前要绑定的设备暂无主用户，确认绑定之后，您自动成为主用户，是否确认绑定？")
+                .setPositiveButton("绑定") { dialog, which ->
+                    bindDevice(devId)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("取消") { dialog, which ->
+                    dialog.dismiss()
+                }.create()
+        alertDialog.show()
+    }
+
+    /**
+     * 主用户存在提醒
+     */
+    private fun showHasHostDialog(devId: String) {
+        val alertDialog = AlertDialog.Builder(context)
+                .setTitle("温馨提醒")
+                .setMessage("当前要绑定的设备已存在主用户，需要向主用户申请，是否确定申请绑定？")
+                .setPositiveButton("申请") { dialog, which ->
+                    dialog.dismiss()
+                    joinDevice(devId)
+                }
+                .setNegativeButton("取消") { dialog, which ->
+                    dialog.dismiss()
+                }.create()
+        alertDialog.show()
+    }
+
     private fun updateView(deviceInfoList: List<DeviceInfo>?) {
         if (deviceInfoList == null || deviceInfoList.isEmpty()) {
             mTextEmpty.visibility = View.VISIBLE
             mDeviceList.visibility = View.GONE
-            mAddDevice.visibility = View.VISIBLE
-            return
+//            mAddDevice.visibility = View.VISIBLE
+            mAddDevice.setOnClickListener {
+                show()
+            }
+        } else {
+            mDeviceList.visibility = View.VISIBLE
+            mTextEmpty.visibility = View.GONE
+//        mAddDevice.visibility = View.GONE
+            mDeviceInfoAdapter?.appendData(deviceInfoList)
+            mAddDevice.setOnClickListener {
+                ToastUtils.showToast("暂时只支持绑定一台设备，如若更换绑定设备，请先解绑")
+            }
         }
-        mDeviceList.visibility = View.VISIBLE
-        mTextEmpty.visibility = View.GONE
-        mAddDevice.visibility = View.GONE
-        mDeviceInfoAdapter?.appendData(deviceInfoList)
     }
 
     private var dialog: AlertDialog? = null
@@ -269,7 +314,6 @@ class BindDeviceFragment : BaseFragment() {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     val result = data.getStringExtra("result")
-                    showLoadingDialog("绑定设备中...")
                     checkBindDevice(result)
                 }
             }

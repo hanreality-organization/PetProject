@@ -5,7 +5,7 @@ import com.punuo.sys.sdk.model.BaseModel;
 
 /**
  * Created by han.chen.
- * Date on 2019-08-15.
+ * Date on 2020/10/19.
  **/
 public class CheckBindDeviceRequest extends BaseRequest<BaseModel> {
     public CheckBindDeviceRequest() {

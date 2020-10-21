@@ -19,7 +19,7 @@ public class ServicePath {
 
     public static final String  PATH_FEEDNOW_RESPONSE = "/sip/feed_now_response";
 
-    public static final String PLAN_TOSIP = "/sip/feed_plan_response";
+    public static final String PLAN_TO_SIP = "/sip/feed_plan_response";
     public static final String PATH_UPDATE_WEIGHT="/sip/update_weight_response";
     public static final String PATH_GET_FEED_COUNT="/sip/transfer_part";
 

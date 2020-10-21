@@ -4,6 +4,7 @@ package com.punuo.pet.feed;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ import com.punuo.sip.SipUserManager;
 import com.punuo.sip.dev.BindDevSuccessEvent;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.dev.UnBindDevSuccessEvent;
+import com.punuo.sip.event.AddPlanSuccessEvent;
+import com.punuo.sip.event.DeletePlanSuccessEvent;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.FeedCountData;
 import com.punuo.sip.model.LatestWeightData;
@@ -92,6 +95,8 @@ public class FeedFragment extends BaseFragment {
     private FeedHeadModule mFeedHeadModule;
     private FeedDialog feedDialog;
     private FeedShowAdapter mFeedViewAdapter;
+
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.feed_fragment_home, container, false);
@@ -148,7 +153,14 @@ public class FeedFragment extends BaseFragment {
         mFeedViewAdapter.setHeaderView(headerView);
         mFeedHeadModule = new FeedHeadModule(getActivity(), headerView);
         headerView.addView(mFeedHeadModule.getView());
-
+        mFeedHeadModule.setOnDateClickListener((time, selectCalendarData, isFeature) -> {
+            if (isFeature) {
+                mFeedHeadModule.resetDisplay();
+            } else {
+                getRemainderQuality(false);
+                getOutedCount();
+            }
+        });
         mRecyclerView.setAdapter(mFeedViewAdapter);
 
         mPullToRefreshRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
@@ -170,7 +182,7 @@ public class FeedFragment extends BaseFragment {
         PetManager.getPetInfo();
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
-        getRemainderQuality();
+        getRemainderQuality(true);
         getOutedCount();
         DevManager.getInstance().isOnline();
     }
@@ -218,13 +230,32 @@ public class FeedFragment extends BaseFragment {
         changeDeviceStatus(live);
     }
 
+    /**
+     * 添加喂食计划成功
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddPlanSuccessEvent event) {
+        getPlan();
+    }
+
+    /**
+     * 删除喂食计划成功
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DeletePlanSuccessEvent event) {
+        getPlan();
+    }
+
     private void changeDeviceStatus(int live) {
         if (live == 1) {
             mWifiState.setText("在线");
             mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
             mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
         } else {
-            mWifiState.setText("离线");
+            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? "未绑定" : "离线";
+            mWifiState.setText(text);
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
         }
@@ -251,7 +282,12 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UnBindDevSuccessEvent event) {
+        //重置设备状态
         changeDeviceStatus(0);
+
+        getPlan();
+        getRemainderQuality(true);
+        getOutedCount();
     }
 
     private GetPlanRequest mGetPlanRequest;
@@ -271,6 +307,9 @@ public class FeedFragment extends BaseFragment {
             @Override
             public void onSuccess(PlanModel result) {
                 if (result == null || result.mPlanList == null) {
+                    mFeedViewAdapter.clear();
+                    mFeedViewAdapter.notifyDataSetChanged();
+                    mFeedHeadModule.updatePlan("0");
                     return;
                 }
                 mFeedViewAdapter.clear();
@@ -292,7 +331,7 @@ public class FeedFragment extends BaseFragment {
      */
     private GetRemainderRequest mGetRemainderRequest;
 
-    public void getRemainderQuality() {
+    public void getRemainderQuality(boolean needCheckRemainder) {
         if (mGetRemainderRequest != null && !mGetRemainderRequest.isFinish()) {
             return;
         }
@@ -309,7 +348,7 @@ public class FeedFragment extends BaseFragment {
                     return;
                 }
                 if (result.mRemainder != null) {
-                    mFeedHeadModule.updateRemainder(result.mRemainder.remainder);
+                    mFeedHeadModule.updateRemainder(result.mRemainder.remainder, needCheckRemainder);
                 }
             }
 
@@ -356,7 +395,7 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
-        mFeedHeadModule.updateRemainder(data.quality);
+        mFeedHeadModule.updateRemainder(data.quality, true);
         Log.i("weight", "剩余粮食重量更新成功");
     }
 
@@ -374,7 +413,7 @@ public class FeedFragment extends BaseFragment {
             Constant.LATESTWEIGHT-=out;
         }
         Log.i("weight........", String.valueOf(temp));
-        mFeedHeadModule.updateRemainder(String.valueOf(temp));
+        mFeedHeadModule.updateRemainder(String.valueOf(temp), true);
     }
 
     /**
@@ -392,12 +431,30 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LatestWeightData result) {
         Constant.LATESTWEIGHT = Integer.parseInt(result.latestWeight);
-        mFeedHeadModule.updateRemainder(result.latestWeight);
+        mFeedHeadModule.updateRemainder(result.latestWeight, true);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (mFeedHeadModule != null) {
+                mFeedHeadModule.onVisible();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mFeedHeadModule != null) {
+            mFeedHeadModule.onVisible();
+        }
     }
 }

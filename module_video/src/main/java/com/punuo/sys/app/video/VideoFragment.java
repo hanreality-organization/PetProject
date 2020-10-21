@@ -323,7 +323,8 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
             mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
         } else {
-            mWifiState.setText("离线");
+            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? "未绑定" : "离线";
+            mWifiState.setText(text);
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
         }

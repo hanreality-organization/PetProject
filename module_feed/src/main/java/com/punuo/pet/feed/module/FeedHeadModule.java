@@ -3,7 +3,6 @@ package com.punuo.pet.feed.module;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,24 +41,20 @@ public class FeedHeadModule {
     TextView mPlan;
     private View mView;
     private Context mContext;
+    private String lastRemainder;
 
     public FeedHeadModule(Context context, ViewGroup parent) {
         mContext = context;
         mView = LayoutInflater.from(context).inflate(R.layout.feed_head_module_layout, parent, false);
         ButterKnife.bind(this, mView);
-        mOut.setText("0");
-        mRemainder.setText("0.0");
-        mPlan.setText("0");
-        mCalendarWeek.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
-            @Override
-            public void onDateClick(String s) {
-//                ToastUtils.showToast(s);
-            }
-        });
     }
 
     public View getView() {
         return mView;
+    }
+
+    public void setOnDateClickListener(WeekCalendar.OnDateClickListener listener) {
+        mCalendarWeek.setOnDateClickListener(listener);
     }
 
     public void initPetInfo(PetModel petModel) {
@@ -94,13 +89,23 @@ public class FeedHeadModule {
         });
     }
 
-    public void updateRemainder(String remainder) {
+    public void resetDisplay() {
+        mRemainder.setText("--");
+        mOut.setText("--");
+    }
+
+    public void updateRemainder(String remainder, boolean needCheck) {
+        mRemainder.setText(remainder);
+        if (needCheck) {
+            checkRemainder(remainder);
+        }
+    }
+
+    private void checkRemainder(String remainder) {
         int remainderInt = Integer.parseInt(remainder);
-        Log.i("weight!!!!!!", "" + remainder);
         if (remainderInt < 100) {
             showAlterDialog();
         }
-        mRemainder.setText(remainder);
     }
 
     public void updatePlan(String feedCountSum) {
@@ -122,5 +127,9 @@ public class FeedHeadModule {
             }
         });
         dialog.show();
+    }
+
+    public void onVisible() {
+        mCalendarWeek.refreshTime();
     }
 }

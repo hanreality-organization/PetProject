@@ -16,7 +16,7 @@ class DeviceTabAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(f
 
     init {
         tabs.add("设备绑定")
-        tabs.add("设备权限")
+//        tabs.add("设备权限")
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
