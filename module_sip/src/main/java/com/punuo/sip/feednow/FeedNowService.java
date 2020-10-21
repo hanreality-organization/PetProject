@@ -20,10 +20,10 @@ public class FeedNowService extends NormalRequestService<FeedNotifyData> {
     @Override
     protected void onSuccess(Message msg, FeedNotifyData result) {
         Log.i("feed", "出粮请求成功发送 ");
-        if(result != null){
-            String response = "from"+result.userName+";"+"to"+result.devId+"feed_count"+result.feedCount;
+        if (result != null) {
+            String response = "from" + result.userName + ";" + "to" + result.devId + "feed_count" + result.feedCount;
             Log.i("feed", response);
-            ToastUtils.showToast("出粮成功");
+            ToastUtils.showToast("正在出粮，请稍后");
         }
     }
 

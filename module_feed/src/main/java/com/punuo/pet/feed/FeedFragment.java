@@ -404,16 +404,17 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(FeedCountData data) {
-        int out = Integer.parseInt(data.feedCount)*10;
-        int temp = Constant.LATESTWEIGHT-out;
-        if(temp<=0){
-            temp=0;
+        int out = Integer.parseInt(data.feedCount) * 10;
+        int temp = Constant.LATESTWEIGHT - out;
+        if (temp <= 0) {
+            temp = 0;
             Constant.LATESTWEIGHT = 0;
-        }else{
-            Constant.LATESTWEIGHT-=out;
+        } else {
+            Constant.LATESTWEIGHT -= out;
         }
         Log.i("weight........", String.valueOf(temp));
         mFeedHeadModule.updateRemainder(String.valueOf(temp), true);
+        getOutedCount();
     }
 
     /**

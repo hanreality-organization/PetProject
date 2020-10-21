@@ -152,7 +152,13 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
         timeSelect.setOnClickListener(v -> {
             new TimePickerBuilder(AddFeedPlanActivity.this, (date, v1) -> {
-                selectTime = date.getTime() / 1000L;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.set(Calendar.YEAR, 2019);
+                calendar.set(Calendar.MONTH, 1);
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.SECOND, 0);
+                selectTime = calendar.getTimeInMillis() / 1000L;
                 timeSelect.setText(mSimpleDateFormat.format(date));
             })
                     .isDialog(true)
