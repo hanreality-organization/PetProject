@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:background="@drawable/home_white_card_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            tools:text="用户名" />
+
+        <TextView
+            android:id="@+id/apply_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:includeFontPadding="false"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            tools:text="申请时间" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:layout_marginRight="12dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="4dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="4dp"
+            android:text="已通过/已拒绝"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/device_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_unbind_bg"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:layout_marginRight="12dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="4dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="4dp"
+            android:text="通过"
+            android:textColor="#FF1A1A"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/device_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_unbind_bg"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingLeft="15dp"
+            android:paddingTop="4dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="4dp"
+            android:text="拒绝"
+            android:textColor="#FF1A1A"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

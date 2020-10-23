@@ -176,11 +176,34 @@ class BindDeviceFragment : BaseFragment() {
         HttpManager.addRequest(mJoinGroupRequest)
     }
 
+    /**
+     * 提交审核信息
+     */
+    private fun addBindingCheck(devId: String) {
+        val request = AddBindingCheckRequest()
+        request.addUrlParam("devid", devId)
+        request.addUrlParam("username", AccountManager.getUserName())
+        request.requestListener = object : RequestListener<BaseModel?> {
+            override fun onComplete() {
+
+            }
+
+            override fun onSuccess(result: BaseModel?) {
+                result?.let {
+                    ToastUtils.showToast(it.message)
+                }
+            }
+
+            override fun onError(e: java.lang.Exception?) {
+
+            }
+
+        }
+        HttpManager.addRequest(request)
+    }
+
     private var mCheckBindDeviceRequest: CheckBindDeviceRequest? = null
 
-    /**
-     * 查看设备是否已有主用户
-     */
     private fun checkBindDevice(devId: String) {
         mCheckBindDeviceRequest?.takeIf {
             !it.isFinish
@@ -205,6 +228,35 @@ class BindDeviceFragment : BaseFragment() {
             override fun onError(e: java.lang.Exception) {}
         }
         HttpManager.addRequest(mCheckBindDeviceRequest)
+    }
+
+    /**
+     * 检查是否设备存在主用户
+     */
+    private fun checkHost(devId: String) {
+        val request = CheckDeviceHostRequest()
+        request.addUrlParam("devid", devId)
+        request.requestListener = object : RequestListener<DeviceHost?> {
+            override fun onComplete() {
+            }
+
+            override fun onSuccess(result: DeviceHost?) {
+                result?.data?.let {
+                    if (it.exist) {
+                        //存在主用户
+                        showHasHostDialog(devId)
+                    } else {
+                        //不存在主用户
+                        showNoHostDialog(devId)
+                    }
+                }
+            }
+
+            override fun onError(e: java.lang.Exception?) {
+            }
+
+        }
+        HttpManager.addRequest(request)
     }
 
     /**
@@ -233,7 +285,7 @@ class BindDeviceFragment : BaseFragment() {
                 .setMessage("当前要绑定的设备已存在主用户，需要向主用户申请，是否确定申请绑定？")
                 .setPositiveButton("申请") { dialog, which ->
                     dialog.dismiss()
-                    joinDevice(devId)
+                    addBindingCheck(devId)
                 }
                 .setNegativeButton("取消") { dialog, which ->
                     dialog.dismiss()
@@ -279,7 +331,7 @@ class BindDeviceFragment : BaseFragment() {
                         .setView(editText)
                         .setPositiveButton("确定") { dialogInterface, i ->
                             val devId = editText.text.toString()
-                            checkBindDevice(devId)
+                            checkHost(devId)
                             dialog?.dismiss()
                         }.setNegativeButton("取消", DialogInterface.OnClickListener { dialogInterface, i ->
                             return@OnClickListener
@@ -314,7 +366,7 @@ class BindDeviceFragment : BaseFragment() {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     val result = data.getStringExtra("result")
-                    checkBindDevice(result)
+                    checkHost(result)
                 }
             }
         }
