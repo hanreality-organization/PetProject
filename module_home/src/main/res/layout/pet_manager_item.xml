@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/pet_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        app:riv_corner_radius="20dp"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/pet_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        tools:text="宠物名字" />
+
+    <com.punuo.sys.sdk.view.AdvancedTextView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:text="删除"
+        android:textColor="#ff1940"
+        android:textSize="16sp"
+        app:border_color="#ff1940"
+        app:border_radius="15dp"
+        app:border_width="1px" />
+
+</LinearLayout>

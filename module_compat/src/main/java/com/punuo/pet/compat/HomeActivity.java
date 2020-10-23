@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
-import androidx.fragment.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.PetManager;
 import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
+import com.punuo.pet.event.AddPetEvent;
+import com.punuo.pet.event.DelPetEvent;
 import com.punuo.pet.event.SelectDeviceEvent;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.CompatRouter;
@@ -93,7 +96,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                                 .navigation();
                     } else {
                         //获取宠物信息
-                        PetManager.getPetInfo();
+                        PetManager.getPetInfo(true);
                         //获取设备信息
                         DevManager.getInstance().refreshDevRelationShip();
                     }
@@ -152,9 +155,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PetModel model) {
         if (model.mPets == null || model.mPets.isEmpty()) {
-            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
-                    .navigation();
+            if (model.needAuto) {
+                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                        .navigation();
+            }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddPetEvent event) {
+        PetManager.getPetInfo(false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DelPetEvent event) {
+        PetManager.getPetInfo(false);
     }
 
     /**

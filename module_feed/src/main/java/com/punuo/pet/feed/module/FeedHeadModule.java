@@ -90,8 +90,8 @@ public class FeedHeadModule {
     }
 
     public void resetDisplay() {
-        mRemainder.setText("--");
-        mOut.setText("--");
+        mRemainder.setText("0.0");
+        mOut.setText("0");
     }
 
     public void updateRemainder(String remainder, boolean needCheck) {

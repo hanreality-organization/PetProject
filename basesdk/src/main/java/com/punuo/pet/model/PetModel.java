@@ -13,4 +13,6 @@ public class PetModel extends BaseModel {
 
     @SerializedName("pets")
     public List<PetData> mPets;
+
+    public boolean needAuto = false; //是否自动跳出添加宠物的页面
 }

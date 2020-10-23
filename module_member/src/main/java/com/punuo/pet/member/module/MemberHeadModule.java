@@ -80,7 +80,8 @@ public class MemberHeadModule {
         View editInfo = mView.findViewById(R.id.edit_info);
         View mShop = mView.findViewById(R.id.shop);
         View update = mView.findViewById(R.id.update_service);
-        View wificonnected = mView.findViewById(R.id.wificonnected);
+        View wifiConnected = mView.findViewById(R.id.wificonnected);
+        View petManager = mView.findViewById(R.id.pet_manager);
         mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
@@ -145,11 +146,14 @@ public class MemberHeadModule {
                 IntentUtil.startServiceInSafeMode(mContext, intent);
             }
         });
-        wificonnected.setOnClickListener(new View.OnClickListener() {
+        wifiConnected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI).navigation();
             }
+        });
+        petManager.setOnClickListener(v -> {
+            ARouter.getInstance().build(HomeRouter.ROUTER_PET_MANAGER_ACTIVITY).navigation();
         });
     }
 

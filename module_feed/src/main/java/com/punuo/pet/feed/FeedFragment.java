@@ -179,7 +179,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void refresh() {
-        PetManager.getPetInfo();
+        PetManager.getPetInfo(false);
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
         getRemainderQuality(true);
@@ -274,6 +274,10 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BindDevSuccessEvent event) {
         DevManager.getInstance().isOnline();
+
+        getPlan();
+        getRemainderQuality(true);
+        getOutedCount();
     }
 
     /**
@@ -349,6 +353,8 @@ public class FeedFragment extends BaseFragment {
                 }
                 if (result.mRemainder != null) {
                     mFeedHeadModule.updateRemainder(result.mRemainder.remainder, needCheckRemainder);
+                } else {
+                    mFeedHeadModule.updateRemainder("0.0", false);
                 }
             }
 

@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +21,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.PetManager;
@@ -162,7 +163,7 @@ public class DewormingVivoActivity extends BaseSwipeBackActivity {
         setVivoPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PetManager.getPetInfo();
+                PetManager.getPetInfo(false);
                 showPetPopupWindow();
             }
         });

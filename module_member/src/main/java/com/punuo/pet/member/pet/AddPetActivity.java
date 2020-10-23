@@ -47,6 +47,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
     private AddPetFragment mAddPetFragment;
     private AddUserInfoFragment mAddUserInfoFragment;
     private FragmentManager mFragmentManager;
+    private int currentType = TYPE_ADD_PET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,10 +147,14 @@ public class AddPetActivity extends BaseSwipeBackActivity {
                     return;
                 }
                 if (result.success) {
-                    switchFragment(TYPE_ADD_USER);
-                    mTitle.setText("添加主人信息");
-                    mSubTitle.setText("完成");
                     EventBus.getDefault().post(new AddPetEvent());
+                    if (!TextUtils.isEmpty(AccountManager.getUserInfo().nickName)) {
+                        finish();
+                    } else {
+                        switchFragment(TYPE_ADD_USER);
+                        mTitle.setText("添加主人信息");
+                        mSubTitle.setText("完成");
+                    }
                 }
                 if (!TextUtils.isEmpty(result.message)) {
                     ToastUtils.showToast(result.message);
