@@ -7,9 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,28 +60,19 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     RecyclerView mEditPlan;
     @BindView(R2.id.sub_title)
     TextView subTitle;
-
-
-    private Calendar calendar;
-    private TimePicker timePicker;
     private TextView timeSelect;
-    private TextView timeSure;
     private TextView mealName;
     private TextView countSelect;
-    private RelativeLayout time_Select;
     private TextView mPlanSum;
     private TextView mFeedCountSum;
     private View mButton;
-    private TextView addPlanCount;
-    private TextView lessPlanCount;
-    private int defaultPlanCount = 3;
-    private long selectDateMills = 0;
     private FeedViewAdapter mFeedViewAdapter;
 
-    private SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private final SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private long selectTime = 0L;
     private String mealText = "";
     private String countText = "";
+    private boolean enableAddPlan = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +80,6 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         setContentView(R.layout.feed_add_plan_activity);
         ButterKnife.bind(this);
         initView();
-//        timePick();
         EventBus.getDefault().register(this);
     }
 
@@ -167,6 +155,10 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         });
 
         mButton.setOnClickListener(view -> {
+            if (!enableAddPlan) {
+                ToastUtils.showToast("最多能添加6个喂食计划");
+                return;
+            }
             if (selectTime == 0L) {
                 ToastUtils.showToast("请选择喂食时间");
                 return;
@@ -240,6 +232,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
                 mFeedViewAdapter.notifyDataSetChanged();
                 mFeedCountSum.setText(result.feedCountSum);
                 mPlanSum.setText(result.planSum);
+                enableAddPlan = result.mPlanList.size() < 6;
             }
 
             @Override
