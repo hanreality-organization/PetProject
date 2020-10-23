@@ -38,6 +38,8 @@ public class PetData implements Parcelable {
     public String unit;
     @SerializedName("birth")
     public String birth;
+    @SerializedName("id")
+    public String id;
 
     protected PetData(Parcel in) {
         petname = in.readString();
@@ -48,6 +50,7 @@ public class PetData implements Parcelable {
         weight = in.readDouble();
         unit = in.readString();
         birth = in.readString();
+        id = in.readString();
     }
 
     public static final Creator<PetData> CREATOR = new Creator<PetData>() {
@@ -77,5 +80,6 @@ public class PetData implements Parcelable {
         dest.writeDouble(weight);
         dest.writeString(unit);
         dest.writeString(birth);
+        dest.writeString(id);
     }
 }

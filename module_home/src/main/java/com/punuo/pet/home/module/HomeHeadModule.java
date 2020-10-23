@@ -277,6 +277,7 @@ public class HomeHeadModule {
     private void updatePet(int position, PetModel model) {
         if (model.mPets.isEmpty()) {
             mHomePetInfoContainer.setVisibility(View.GONE);
+            mHomePetName.setText("");
             return;
         }
         mHomePetInfoContainer.setVisibility(View.VISIBLE);

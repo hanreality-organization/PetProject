@@ -179,7 +179,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void refresh() {
-        PetManager.getPetInfo();
+        PetManager.getPetInfo(false);
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
         getRemainderQuality(true);

@@ -160,7 +160,7 @@ public class BeautyActivity extends BaseSwipeBackActivity {
         setBeautyPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PetManager.getPetInfo();
+                PetManager.getPetInfo(false);
                 showPetPopupWindow();
             }
         });

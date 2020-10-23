@@ -25,4 +25,6 @@ public class HomeRouter {
 
     public static final String ROUTER_HOTSPOT_CONNECT_WIFI = PREFIX + "/HotSpotConnectWifi";
     public static final String ROUTER_WIFI_CHOOSE_ACTIVITY = PREFIX + "/WifiChooseActivity";
+
+    public static final String ROUTER_PET_MANAGER_ACTIVITY = PREFIX + "/PetManagerActivity";
 }
