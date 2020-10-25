@@ -7,6 +7,7 @@
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
     android:background="@drawable/home_white_card_bg"
+    android:layout_marginTop="10dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="12dp"
@@ -51,15 +52,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:layout_marginRight="12dp"
-            android:paddingLeft="15dp"
             android:paddingTop="4dp"
-            android:paddingRight="15dp"
             android:paddingBottom="4dp"
             android:text="已通过/已拒绝"
             android:textColor="#666666"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/device_ok"
@@ -68,7 +66,6 @@
             android:background="@drawable/home_unbind_bg"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:layout_marginRight="12dp"
             android:paddingLeft="15dp"
             android:paddingTop="4dp"
             android:paddingRight="15dp"
@@ -83,6 +80,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_unbind_bg"
             android:gravity="center"
+            android:layout_marginLeft="12dp"
             android:includeFontPadding="false"
             android:paddingLeft="15dp"
             android:paddingTop="4dp"

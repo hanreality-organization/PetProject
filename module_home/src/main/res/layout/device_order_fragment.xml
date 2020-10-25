@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/my_device_apply"
-        android:overScrollMode="never"
-        android:paddingTop="12dp" />
+        android:overScrollMode="never"/>
 
     <com.punuo.sys.sdk.view.AdvancedTextView
         android:id="@+id/my_device_apply"
@@ -20,11 +19,12 @@
         android:layout_margin="12dp"
         android:background="#ff1940"
         android:gravity="center"
-        android:text="查看我的申请"
+        android:text="查看已绑定的用户"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:border_radius="22dp" />
+        app:border_radius="22dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/text_empty"

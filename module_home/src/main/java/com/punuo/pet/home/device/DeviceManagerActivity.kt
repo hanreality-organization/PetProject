@@ -8,9 +8,16 @@ import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceTabAdapter
+import com.punuo.pet.home.device.model.SelfHost
+import com.punuo.pet.home.device.request.CheckSelfIsHostRequest
 import com.punuo.pet.router.HomeRouter
+import com.punuo.sip.dev.DevManager
+import com.punuo.sys.sdk.account.AccountManager
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity
+import com.punuo.sys.sdk.httplib.HttpManager
+import com.punuo.sys.sdk.httplib.RequestListener
 import com.punuo.sys.sdk.view.PagerSlidingTabStrip
+import java.lang.Exception
 
 /**
  * Created by han.chen.
@@ -41,13 +48,42 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
         title.text = "设备管理"
         tabStrip = findViewById(R.id.pager_slide_tab) as PagerSlidingTabStrip
         viewPager = findViewById(R.id.view_pager) as ViewPager
-        mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager)
-        viewPager.adapter = mDeviceTabAdapter
-        tabStrip.setViewPager(viewPager)
+
+        checkHostOfSelf()
 
         backIcon.setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private var checkHostOfSelfRequest: CheckSelfIsHostRequest? = null
+    private fun checkHostOfSelf() {
+        checkHostOfSelfRequest?.takeIf {
+            !it.isFinish
+        }?.apply {
+            this.finish()
+        }
+        checkHostOfSelfRequest = CheckSelfIsHostRequest()
+        checkHostOfSelfRequest?.addUrlParam("userName", AccountManager.getUserName())
+        checkHostOfSelfRequest?.addUrlParam("devId", DevManager.getInstance().devId)
+        checkHostOfSelfRequest?.requestListener = object : RequestListener<SelfHost?> {
+            override fun onComplete() {
+
+            }
+
+            override fun onSuccess(result: SelfHost?) {
+                result?.data?.let {
+                    mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager, it.host)
+                    viewPager.adapter = mDeviceTabAdapter
+                    tabStrip.setViewPager(viewPager)
+                }
+            }
+
+            override fun onError(e: Exception?) {
+            }
+
+        }
+        HttpManager.addRequest(checkHostOfSelfRequest)
     }
 
 }

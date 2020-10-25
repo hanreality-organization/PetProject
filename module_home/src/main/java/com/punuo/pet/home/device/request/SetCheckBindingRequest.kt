@@ -12,6 +12,6 @@ class SetCheckBindingRequest: BaseRequest<BaseModel>() {
 
     init {
         setRequestType(RequestType.GET)
-        setRequestPath("groups/CheckBinding")
+        setRequestPath("/groups/CheckBinding")
     }
 }

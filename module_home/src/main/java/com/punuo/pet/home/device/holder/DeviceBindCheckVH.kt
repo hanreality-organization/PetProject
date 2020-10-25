@@ -10,6 +10,7 @@ import com.punuo.pet.home.R
 import com.punuo.pet.home.device.event.BindCheckEvent
 import com.punuo.pet.home.device.model.DeviceBindOrder
 import com.punuo.pet.home.device.request.SetCheckBindingRequest
+import com.punuo.sys.sdk.activity.BaseActivity
 import com.punuo.sys.sdk.httplib.HttpManager
 import com.punuo.sys.sdk.httplib.RequestListener
 import com.punuo.sys.sdk.model.BaseModel
@@ -35,7 +36,7 @@ class DeviceBindCheckVH(context:Context, parent: ViewGroup) : BaseViewHolder<Dev
 
     override fun bindData(t: DeviceBindOrder?, position: Int) {
         t?.let {order->
-            userName.text = order.userName
+            userName.text = order.username
             applyTime.text = order.time
             when (order.status) {
                 0 -> {
@@ -68,14 +69,15 @@ class DeviceBindCheckVH(context:Context, parent: ViewGroup) : BaseViewHolder<Dev
     }
 
     private fun handleApply(t: DeviceBindOrder, status: Int) {
+        (itemView.context as? BaseActivity)?.showLoadingDialog()
         val request = SetCheckBindingRequest()
         request.addUrlParam("id", t.id)
-        request.addUrlParam("username", t.userName)
+        request.addUrlParam("username", t.username)
         request.addUrlParam("devid", t.devid)
         request.addUrlParam("status", status)
         request.requestListener = object :RequestListener<BaseModel> {
             override fun onComplete() {
-
+                (itemView.context as? BaseActivity)?.dismissLoadingDialog()
             }
 
             override fun onSuccess(result: BaseModel?) {

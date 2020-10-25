@@ -5,8 +5,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.punuo.pet.home.device.holder.DeviceInfoVH;
-import com.punuo.pet.home.device.model.DeviceInfo;
+import com.punuo.pet.home.device.holder.BindHistoryVH;
+import com.punuo.pet.home.device.model.BindHistoryData;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
 
 import java.util.List;
@@ -15,29 +15,29 @@ import java.util.List;
  * Created by han.chen.
  * Date on 2019-08-16.
  **/
-public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<DeviceInfo> {
+public class BindHistoryAdapter extends BaseRecyclerViewAdapter<BindHistoryData> {
 
-    public DeviceInfoAdapter(Context context, List<DeviceInfo> data) {
+    public BindHistoryAdapter(Context context, List<BindHistoryData> data) {
         super(context, data);
     }
 
-    public void appendData(List<DeviceInfo> devices) {
+    public void appendData(List<BindHistoryData> data) {
         mData.clear();
-        if (devices != null) {
-            mData.addAll(devices);
+        if (data != null) {
+            mData.addAll(data);
         }
         notifyDataSetChanged();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateBasicItemViewHolder(ViewGroup parent, int viewType) {
-        return new DeviceInfoVH(mContext, parent);
+        return new BindHistoryVH(mContext, parent);
     }
 
     @Override
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
-        if (baseViewHolder instanceof DeviceInfoVH) {
-            ((DeviceInfoVH) baseViewHolder).bind(mData.get(position), position);
+        if (baseViewHolder instanceof BindHistoryVH) {
+            ((BindHistoryVH) baseViewHolder).bind(mData.get(position), position);
         }
     }
 

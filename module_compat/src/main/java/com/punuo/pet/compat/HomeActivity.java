@@ -342,4 +342,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             mHeartBeatTaskResumeProcessor.onDestroy();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //检查一下心跳包队列是否还有
+        if (mBaseHandler != null && !mBaseHandler.hasMessages(MSG_HEART_BEAR_VALUE)) {
+            mBaseHandler.sendEmptyMessage(MSG_HEART_BEAR_VALUE);
+        }
+    }
 }

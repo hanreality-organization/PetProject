@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
 import com.punuo.pet.home.R
+import com.punuo.pet.home.device.adapter.BindHistoryAdapter
 import com.punuo.pet.home.device.adapter.DeviceBindCheckAdapter
 import com.punuo.pet.home.device.event.BindCheckEvent
+import com.punuo.pet.home.device.model.BindHistoryModel
 import com.punuo.pet.home.device.model.DeviceBindModel
 import com.punuo.pet.home.device.model.SelfHost
 import com.punuo.pet.home.device.request.CheckSelfIsHostRequest
 import com.punuo.pet.home.device.request.GetBindingCheckRequest
+import com.punuo.pet.home.device.request.GetBindingHistoryRequest
 import com.punuo.sip.dev.DevManager
 import com.punuo.sys.sdk.account.AccountManager
 import com.punuo.sys.sdk.fragment.BaseFragment
@@ -39,6 +42,7 @@ class DeviceOrderFragment : BaseFragment() {
     private lateinit var myApplyBtn: TextView
     private lateinit var emptyView: TextView
     private var adapter: DeviceBindCheckAdapter? = null
+    private var mHistoryAdapter: BindHistoryAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mFragmentView = inflater.inflate(R.layout.device_order_fragment, container, false)
@@ -60,15 +64,15 @@ class DeviceOrderFragment : BaseFragment() {
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         adapter = DeviceBindCheckAdapter(context, ArrayList())
-        recyclerView.adapter = adapter
+        mHistoryAdapter = BindHistoryAdapter(context, ArrayList())
         if (DevManager.getInstance().isBindDevice) {
-//            checkHostOfSelf()
-            getBindingCheck()
+            checkHostOfSelf()
         } else {
             emptyView.visibility = View.VISIBLE
             emptyView.text = getString(R.string.home_empty_device_str)
         }
     }
+
     private var checkHostOfSelfRequest: CheckSelfIsHostRequest? = null
     private fun checkHostOfSelf() {
         checkHostOfSelfRequest?.takeIf {
@@ -78,8 +82,8 @@ class DeviceOrderFragment : BaseFragment() {
         }
         checkHostOfSelfRequest = CheckSelfIsHostRequest()
         checkHostOfSelfRequest?.addUrlParam("userName", AccountManager.getUserName())
-        checkHostOfSelfRequest?.addUrlParam("devId",DevManager.getInstance().devId)
-        checkHostOfSelfRequest?.requestListener = object :RequestListener<SelfHost?> {
+        checkHostOfSelfRequest?.addUrlParam("devId", DevManager.getInstance().devId)
+        checkHostOfSelfRequest?.requestListener = object : RequestListener<SelfHost?> {
             override fun onComplete() {
                 pulltoRecyclerView.onRefreshComplete()
             }
@@ -89,8 +93,7 @@ class DeviceOrderFragment : BaseFragment() {
                     if (it.host) {
                         getBindingCheck()
                     } else {
-                        emptyView.visibility = View.VISIBLE
-                        emptyView.text = "您没有权限管理该设备的绑定关系"
+                        getMyApplyCheck()
                     }
                 }
             }
@@ -106,18 +109,21 @@ class DeviceOrderFragment : BaseFragment() {
         val request = GetBindingCheckRequest()
         request.addUrlParam("devid", DevManager.getInstance().devId)
         request.addUrlParam("username", AccountManager.getUserName())
-        request.requestListener = object :RequestListener<DeviceBindModel> {
+        request.requestListener = object : RequestListener<DeviceBindModel> {
             override fun onComplete() {
             }
 
             override fun onSuccess(result: DeviceBindModel?) {
                 result?.data?.let {
                     emptyView.visibility = View.GONE
+                    recyclerView.adapter = adapter
                     adapter?.appendData(it.items)
                 }
                 result?.let {
-                    emptyView.visibility = View.VISIBLE
-                    emptyView.text = it.message
+                    if (!it.success) {
+                        emptyView.visibility = View.VISIBLE
+                        emptyView.text = it.message
+                    }
                 }
             }
 
@@ -127,6 +133,34 @@ class DeviceOrderFragment : BaseFragment() {
         }
         HttpManager.addRequest(request)
 
+    }
+
+    private fun getMyApplyCheck() {
+        val request = GetBindingHistoryRequest()
+        request.addUrlParam("username", AccountManager.getUserName())
+        request.requestListener = object : RequestListener<BindHistoryModel> {
+            override fun onComplete() {
+            }
+
+            override fun onSuccess(result: BindHistoryModel?) {
+                result?.data?.let {
+                    emptyView.visibility = View.GONE
+                    recyclerView.adapter = mHistoryAdapter
+                    mHistoryAdapter?.appendData(it.items)
+                }
+                result?.let {
+                    if (!it.success) {
+                        emptyView.visibility = View.VISIBLE
+                        emptyView.text = it.message
+                    }
+                }
+            }
+
+            override fun onError(e: Exception?) {
+
+            }
+        }
+        HttpManager.addRequest(request)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

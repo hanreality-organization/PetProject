@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter
 import com.punuo.pet.home.device.model.DeviceHost
@@ -49,6 +50,7 @@ class BindDeviceFragment : BaseFragment() {
         const val QR_SCAN_REQUEST_CODE = 1
     }
 
+    lateinit var pullToRefresh : PullToRefreshRecyclerView
     lateinit var mDeviceList: RecyclerView
     lateinit var mAddDevice: TextView
     lateinit var mTextEmpty: TextView
@@ -57,7 +59,8 @@ class BindDeviceFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mFragmentView = inflater.inflate(R.layout.home_bind_device_fragment, container, false)
-        mDeviceList = mFragmentView.findViewById(R.id.device_list)
+        pullToRefresh = mFragmentView.findViewById(R.id.pull_to_refresh)
+        mDeviceList = pullToRefresh.refreshableView
         mAddDevice = mFragmentView.findViewById(R.id.add_device)
         mTextEmpty = mFragmentView.findViewById(R.id.text_empty)
         initView()
@@ -72,6 +75,9 @@ class BindDeviceFragment : BaseFragment() {
         mDeviceList.layoutManager = layoutManager
         mDeviceInfoAdapter = DeviceInfoAdapter(context, ArrayList())
         mDeviceList.adapter = mDeviceInfoAdapter
+        pullToRefresh.setOnRefreshListener {
+            refresh()
+        }
         refresh()
     }
 
@@ -90,7 +96,7 @@ class BindDeviceFragment : BaseFragment() {
         mGetBindDeviceRequest?.addUrlParam("username", AccountManager.getUserName())
         mGetBindDeviceRequest?.requestListener = object : RequestListener<DeviceModel?> {
             override fun onComplete() {
-
+                pullToRefresh.onRefreshComplete()
             }
 
             override fun onSuccess(result: DeviceModel?) {
@@ -190,7 +196,11 @@ class BindDeviceFragment : BaseFragment() {
 
             override fun onSuccess(result: BaseModel?) {
                 result?.let {
-                    ToastUtils.showToast(it.message)
+                    if (result.success) {
+                        ToastUtils.showToast("申请成功")
+                    } else {
+                        ToastUtils.showToast(it.message)
+                    }
                 }
             }
 

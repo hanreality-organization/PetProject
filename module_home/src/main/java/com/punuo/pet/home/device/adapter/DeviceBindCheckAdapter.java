@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.punuo.pet.home.device.holder.DeviceBindCheckVH;
 import com.punuo.pet.home.device.model.DeviceBindOrder;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
-import com.punuo.sys.sdk.recyclerview.BaseViewHolder;
 
 import java.util.List;
 
@@ -37,8 +36,8 @@ public class DeviceBindCheckAdapter extends BaseRecyclerViewAdapter<DeviceBindOr
 
     @Override
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
-        if (baseViewHolder instanceof BaseViewHolder) {
-            ((BaseViewHolder) baseViewHolder).bind(mData.get(position), position);
+        if (baseViewHolder instanceof DeviceBindCheckVH) {
+            ((DeviceBindCheckVH) baseViewHolder).bind(mData.get(position), position);
         }
     }
 
