@@ -1,6 +1,5 @@
-package com.punuo.pet.home.device.request
+package com.punuo.sip.dev
 
-import com.punuo.pet.home.device.model.SelfHost
 import com.punuo.sys.sdk.httplib.BaseRequest
 
 /**

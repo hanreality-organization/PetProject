@@ -1,4 +1,4 @@
-package com.punuo.pet.home.device.model
+package com.punuo.sip.dev
 
 import com.punuo.sys.sdk.model.BaseModel
 import com.punuo.sys.sdk.model.PNBaseModel

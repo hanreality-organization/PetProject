@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter
+import com.punuo.pet.home.device.event.AddBindCheckEvent
 import com.punuo.pet.home.device.model.DeviceHost
 import com.punuo.pet.home.device.model.DeviceInfo
 import com.punuo.pet.home.device.model.DeviceModel
@@ -198,6 +199,7 @@ class BindDeviceFragment : BaseFragment() {
                 result?.let {
                     if (result.success) {
                         ToastUtils.showToast("申请成功")
+                        EventBus.getDefault().post(AddBindCheckEvent())
                     } else {
                         ToastUtils.showToast(it.message)
                     }
@@ -277,8 +279,9 @@ class BindDeviceFragment : BaseFragment() {
                 .setTitle("温馨提醒")
                 .setMessage("当前要绑定的设备暂无主用户，确认绑定之后，您自动成为主用户，是否确认绑定？")
                 .setPositiveButton("绑定") { dialog, which ->
-                    bindDevice(devId)
                     dialog.dismiss()
+                    bindDevice(devId)
+                    activity?.finish()
                 }
                 .setNegativeButton("取消") { dialog, which ->
                     dialog.dismiss()
@@ -296,6 +299,7 @@ class BindDeviceFragment : BaseFragment() {
                 .setPositiveButton("申请") { dialog, which ->
                     dialog.dismiss()
                     addBindingCheck(devId)
+                    activity?.finish()
                 }
                 .setNegativeButton("取消") { dialog, which ->
                     dialog.dismiss()

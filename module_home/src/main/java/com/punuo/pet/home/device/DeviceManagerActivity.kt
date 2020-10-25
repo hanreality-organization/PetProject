@@ -1,23 +1,20 @@
 package com.punuo.pet.home.device
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceTabAdapter
-import com.punuo.pet.home.device.model.SelfHost
-import com.punuo.pet.home.device.request.CheckSelfIsHostRequest
 import com.punuo.pet.router.HomeRouter
 import com.punuo.sip.dev.DevManager
-import com.punuo.sys.sdk.account.AccountManager
+import com.punuo.sip.dev.SelfHost
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity
-import com.punuo.sys.sdk.httplib.HttpManager
-import com.punuo.sys.sdk.httplib.RequestListener
 import com.punuo.sys.sdk.view.PagerSlidingTabStrip
-import java.lang.Exception
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by han.chen.
@@ -37,6 +34,7 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_device_manager_actvity)
+        EventBus.getDefault().register(this)
 
         initView()
     }
@@ -48,42 +46,21 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
         title.text = "设备管理"
         tabStrip = findViewById(R.id.pager_slide_tab) as PagerSlidingTabStrip
         viewPager = findViewById(R.id.view_pager) as ViewPager
-
-        checkHostOfSelf()
-
+        DevManager.getInstance().refreshDevRelationShip()
         backIcon.setOnClickListener {
             onBackPressed()
         }
     }
 
-    private var checkHostOfSelfRequest: CheckSelfIsHostRequest? = null
-    private fun checkHostOfSelf() {
-        checkHostOfSelfRequest?.takeIf {
-            !it.isFinish
-        }?.apply {
-            this.finish()
-        }
-        checkHostOfSelfRequest = CheckSelfIsHostRequest()
-        checkHostOfSelfRequest?.addUrlParam("userName", AccountManager.getUserName())
-        checkHostOfSelfRequest?.addUrlParam("devId", DevManager.getInstance().devId)
-        checkHostOfSelfRequest?.requestListener = object : RequestListener<SelfHost?> {
-            override fun onComplete() {
-
-            }
-
-            override fun onSuccess(result: SelfHost?) {
-                result?.data?.let {
-                    mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager, it.host)
-                    viewPager.adapter = mDeviceTabAdapter
-                    tabStrip.setViewPager(viewPager)
-                }
-            }
-
-            override fun onError(e: Exception?) {
-            }
-
-        }
-        HttpManager.addRequest(checkHostOfSelfRequest)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event : SelfHost) {
+        mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager, DevManager.getInstance().isHost)
+        viewPager.adapter = mDeviceTabAdapter
+        tabStrip.setViewPager(viewPager)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 }

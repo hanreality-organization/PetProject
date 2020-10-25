@@ -8,6 +8,8 @@ import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by han.chen.
  * Date on 2020/9/5.
@@ -39,6 +41,16 @@ public class DevManager {
         return !TextUtils.isEmpty(devId);
     }
 
+    private boolean isHost = false;
+
+    public void setHost(boolean host) {
+        isHost = host;
+    }
+
+    public boolean isHost() {
+        return isHost;
+    }
+
     public void refreshDevRelationShip() {
         final GetDevIdRequest request = new GetDevIdRequest();
         request.addUrlParam("userName", AccountManager.getUserName());
@@ -59,6 +71,7 @@ public class DevManager {
                 } else  {
                     devId = "";
                 }
+                checkHostOfSelf();
             }
 
             @Override
@@ -75,5 +88,38 @@ public class DevManager {
     public void isOnline() {
         SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
         SipUserManager.getInstance().addRequest(sipOnLineRequest);
+    }
+
+    private CheckSelfIsHostRequest checkHostOfSelfRequest;
+    private void checkHostOfSelf() {
+        if (checkHostOfSelfRequest != null && !checkHostOfSelfRequest.isFinished) {
+            checkHostOfSelfRequest.finish();
+        }
+        checkHostOfSelfRequest = new CheckSelfIsHostRequest();
+        checkHostOfSelfRequest.addUrlParam("userName", AccountManager.getUserName());
+        checkHostOfSelfRequest.addUrlParam("devId", DevManager.getInstance().devId);
+        checkHostOfSelfRequest.setRequestListener(new RequestListener<SelfHost>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(SelfHost result) {
+                if (result == null) {
+                    return;
+                }
+                if (result.getData() != null) {
+                    setHost(result.getData().getHost());
+                }
+                EventBus.getDefault().post(result);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(checkHostOfSelfRequest);
     }
 }
