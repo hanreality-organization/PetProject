@@ -56,7 +56,6 @@ public class ProcessTasks {
             }
         });
         HttpManager.setDebug(true);
-        HttpManager.setContext(app);
         HttpManager.addInterceptor(new PNInterceptor());
         HttpManager.init();
         SipConfig.init(new ISipConfig() {

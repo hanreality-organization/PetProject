@@ -1,6 +1,5 @@
 package com.punuo.sys.sdk.httplib;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -39,19 +38,15 @@ public class HttpManager {
     public static final long DEFAULT_TIME_OUT = 30L;
     private static volatile OkHttpClient sOkHttpClient;
     private static OkHttpClient.Builder sBuilder = new OkHttpClient.Builder();
-    private static Context sContext;
     private static boolean isDebug = false;
     private static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-
+    private static final String cacheDir = "/storage/emulated/0/Android/data/com.punuo.pet/cache";
     public static OkHttpClient getOkHttpClient() {
         init();
         return sOkHttpClient;
     }
 
     public static void init() {
-        if (sContext == null) {
-            throw new RuntimeException("context is null, please set context");
-        }
         if (sOkHttpClient == null) {
             synchronized (HttpManager.class) {
                 if (sOkHttpClient == null) {
@@ -72,7 +67,7 @@ public class HttpManager {
                                     return cookies != null ? cookies : new ArrayList<Cookie>();
                                 }
                             })
-                            .cache(new Cache(new File(sContext.getExternalCacheDir(), "okhttp"),
+                            .cache(new Cache(new File(cacheDir, "okhttp"),
                                     500 * 1024 * 1024));
                     debugInit();
                     sOkHttpClient = sBuilder.build();
@@ -123,15 +118,6 @@ public class HttpManager {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * 设置context
-     *
-     * @param context
-     */
-    public static void setContext(Context context) {
-        sContext = context.getApplicationContext();
     }
 
     public static void setDebug(boolean debug) {
