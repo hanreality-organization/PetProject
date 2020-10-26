@@ -3,7 +3,7 @@ package com.punuo.pet.home.wifi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -19,6 +20,7 @@ import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -78,10 +80,18 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String input = HotSpotConnectWifiActivity.this.input.getText().toString();
-                String pwd = HotSpotConnectWifiActivity.this.pwd.getText().toString();
-                Send(input, pwd, mAuthenticationType.getSelectedItem().toString());
-                Toast.makeText(HotSpotConnectWifiActivity.this, "发送WiFi信息成功", Toast.LENGTH_SHORT).show();
+                String inputText = input.getText().toString().trim();
+                String pwdText = pwd.getText().toString().trim();
+                if (TextUtils.isEmpty(inputText)) {
+                    ToastUtils.showToast("请输入WIFI名");
+                    return;
+                }
+                if (TextUtils.isEmpty(pwdText) || pwdText.length() < 8) {
+                    ToastUtils.showToast("密码不能小于8位");
+                    return;
+                }
+                Send(inputText, pwdText, mAuthenticationType.getSelectedItem().toString());
+                ToastUtils.showToast( "发送WiFi信息成功");
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {

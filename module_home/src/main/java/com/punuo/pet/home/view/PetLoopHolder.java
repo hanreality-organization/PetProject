@@ -104,11 +104,6 @@ public class PetLoopHolder {
             container.removeView((View) object);
         }
 
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return POSITION_NONE;
-        }
-
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
