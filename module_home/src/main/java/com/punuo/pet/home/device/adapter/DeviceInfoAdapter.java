@@ -1,13 +1,13 @@
 package com.punuo.pet.home.device.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.punuo.pet.home.device.holder.DeviceInfoVH;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
-import com.punuo.sys.sdk.recyclerview.BaseViewHolder;
 
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<DeviceInfo> {
 
     @Override
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
-        if (baseViewHolder instanceof BaseViewHolder) {
-            ((BaseViewHolder) baseViewHolder).bind(mData.get(position), position);
+        if (baseViewHolder instanceof DeviceInfoVH) {
+            ((DeviceInfoVH) baseViewHolder).bind(mData.get(position), position);
         }
     }
 

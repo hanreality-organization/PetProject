@@ -78,8 +78,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
 
-        <activity android:name=".wifi.WifiChooseActivity"
+        <activity
+            android:name=".wifi.WifiChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent"/>
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
+            android:name=".device.DeviceManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity android:name=".pet.PetManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent"
+            />
     </application>
 </manifest>

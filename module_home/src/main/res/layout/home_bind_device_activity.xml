@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/title_layout"
-        layout="@layout/module_title_layout" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/device_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/title_layout"
-        android:overScrollMode="never"
-        android:paddingTop="12dp" />
+    <include layout="@layout/module_title_layout" />
 
-    <TextView
-        android:id="@+id/text_empty"
+    <FrameLayout
+        android:id="@+id/attach_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/title_layout"
-        android:gravity="center"
-        android:text="@string/home_empty_device_str"
-        android:textColor="#666666"
-        android:textSize="15sp"
-        android:visibility="gone"/>
-</RelativeLayout>
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

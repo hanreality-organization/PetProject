@@ -10,6 +10,7 @@ public class HomeRouter {
     public static final String ROUTER_CARE_ACTIVITY = PREFIX + "/CareActivity";
     public static final String ROUTER_CHART_ACTIVITY = PREFIX + "/ChartActivity";
     public static final String ROUTER_BIND_DEVICE_ACTIVITY = PREFIX + "/BindDeviceActivity";
+    public static final String ROUTER_DEVICE_MANAGER_ACTIVITY = PREFIX + "/DeviceManagerActivity";
     public static final String ROUTER_SELECT_DEVICE_ACTIVITY = PREFIX + "/SelectDeviceActivity";
 
     //日常护理子项activity
@@ -24,4 +25,6 @@ public class HomeRouter {
 
     public static final String ROUTER_HOTSPOT_CONNECT_WIFI = PREFIX + "/HotSpotConnectWifi";
     public static final String ROUTER_WIFI_CHOOSE_ACTIVITY = PREFIX + "/WifiChooseActivity";
+
+    public static final String ROUTER_PET_MANAGER_ACTIVITY = PREFIX + "/PetManagerActivity";
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/module_title_layout" />
+
+    <com.punuo.sys.sdk.view.PagerSlidingTabStrip
+        android:id="@+id/pager_slide_tab"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:textSize="15sp"
+        app:pstsDividerColor="@android:color/transparent"
+        app:pstsIndicatorColor="#FF1A1A"
+        app:pstsIndicatorHeight="2dp"
+        app:pstsIndicatorSmoothOpen="true"
+        app:pstsShouldExpand="true"
+        app:pstsTabPaddingLeftRight="12dp"
+        app:pstsTextColorSelect="#FF1A1A"
+        app:pstsUnderlineHeight="0px" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

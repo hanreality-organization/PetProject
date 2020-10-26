@@ -2,6 +2,8 @@ package com.punuo.sip.dev;
 
 import android.text.TextUtils;
 
+import com.punuo.sip.SipUserManager;
+import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
@@ -35,13 +37,27 @@ public class DevManager {
        this.devId = devId;
     }
 
+    public boolean isBindDevice() {
+        return !TextUtils.isEmpty(devId);
+    }
+
+    private boolean isHost = false;
+
+    public void setHost(boolean host) {
+        isHost = host;
+    }
+
+    public boolean isHost() {
+        return isHost;
+    }
+
     public void refreshDevRelationShip() {
         final GetDevIdRequest request = new GetDevIdRequest();
         request.addUrlParam("userName", AccountManager.getUserName());
         request.setRequestListener(new RequestListener<DevData>() {
             @Override
             public void onComplete() {
-                EventBus.getDefault().post(new DevIdEvent());
+
             }
 
             @Override
@@ -55,6 +71,7 @@ public class DevManager {
                 } else  {
                     devId = "";
                 }
+                checkHostOfSelf();
             }
 
             @Override
@@ -63,5 +80,46 @@ public class DevManager {
             }
         });
         HttpManager.addRequest(request);
+    }
+
+    /**
+     * 获取设备是否在线
+     */
+    public void isOnline() {
+        SipOnLineRequest sipOnLineRequest = new SipOnLineRequest();
+        SipUserManager.getInstance().addRequest(sipOnLineRequest);
+    }
+
+    private CheckSelfIsHostRequest checkHostOfSelfRequest;
+    private void checkHostOfSelf() {
+        if (checkHostOfSelfRequest != null && !checkHostOfSelfRequest.isFinished) {
+            checkHostOfSelfRequest.finish();
+        }
+        checkHostOfSelfRequest = new CheckSelfIsHostRequest();
+        checkHostOfSelfRequest.addUrlParam("userName", AccountManager.getUserName());
+        checkHostOfSelfRequest.addUrlParam("devId", DevManager.getInstance().devId);
+        checkHostOfSelfRequest.setRequestListener(new RequestListener<SelfHost>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(SelfHost result) {
+                if (result == null) {
+                    return;
+                }
+                if (result.getData() != null) {
+                    setHost(result.getData().getHost());
+                }
+                EventBus.getDefault().post(result);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        HttpManager.addRequest(checkHostOfSelfRequest);
     }
 }

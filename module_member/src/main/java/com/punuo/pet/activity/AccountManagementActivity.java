@@ -1,27 +1,14 @@
 package com.punuo.pet.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.FragmentManager;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import androidx.annotation.Nullable;
+
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 
 import android.widget.RelativeLayout;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -29,12 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.member.R;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.sys.sdk.account.AccountManager;
-import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 /**

@@ -47,7 +47,7 @@
         android:gravity="left|top"
         android:hint="分享您的那点新鲜事儿..." />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

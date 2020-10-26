@@ -9,9 +9,6 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.router.VideoRouter;
@@ -146,7 +147,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
             @Override
             public void onClick(View v) {
                 if (!isRecording) {
-                    MusicChooseActivityPermissionsDispatcher.checkPermissionsWithCheck(MusicChooseActivity.this);
+                    MusicChooseActivityPermissionsDispatcher.checkPermissionsWithPermissionCheck(MusicChooseActivity.this);
                 } else {
                     mBaseHandler.removeMessages(0x001);
                     closeRecord();

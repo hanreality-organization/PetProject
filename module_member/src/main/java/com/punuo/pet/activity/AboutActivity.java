@@ -1,22 +1,21 @@
 package com.punuo.pet.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.R2;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.util.DeviceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +31,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
     RelativeLayout userAgreement;
     private ImageView mBack;
     private TextView mTitle;
+    private TextView version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,10 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
 
         mBack = (ImageView) findViewById(R.id.back);
         mTitle = (TextView) findViewById(R.id.title);
+        version = (TextView) findViewById(R.id.version);
 
         mTitle.setText("关于我们");
+        version.setText("当前版本：v" + DeviceHelper.getVersionName());
         mBack.setOnClickListener(this);
         userAgreement.setOnClickListener(new View.OnClickListener() {
             @Override

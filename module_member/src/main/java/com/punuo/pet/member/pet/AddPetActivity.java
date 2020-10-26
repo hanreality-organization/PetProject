@@ -1,15 +1,17 @@
 package com.punuo.pet.member.pet;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.punuo.pet.event.AddPetEvent;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.login.fragment.NormalLoginFragment;
 import com.punuo.pet.member.pet.fragment.AddPetFragment;
@@ -28,6 +30,8 @@ import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Created by han.chen.
@@ -43,6 +47,7 @@ public class AddPetActivity extends BaseSwipeBackActivity {
     private AddPetFragment mAddPetFragment;
     private AddUserInfoFragment mAddUserInfoFragment;
     private FragmentManager mFragmentManager;
+    private int currentType = TYPE_ADD_PET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +147,14 @@ public class AddPetActivity extends BaseSwipeBackActivity {
                     return;
                 }
                 if (result.success) {
-                    switchFragment(TYPE_ADD_USER);
-                    mTitle.setText("添加主人信息");
-                    mSubTitle.setText("完成");
+                    EventBus.getDefault().post(new AddPetEvent());
+                    if (!TextUtils.isEmpty(AccountManager.getUserInfo().nickName)) {
+                        finish();
+                    } else {
+                        switchFragment(TYPE_ADD_USER);
+                        mTitle.setText("添加主人信息");
+                        mSubTitle.setText("完成");
+                    }
                 }
                 if (!TextUtils.isEmpty(result.message)) {
                     ToastUtils.showToast(result.message);

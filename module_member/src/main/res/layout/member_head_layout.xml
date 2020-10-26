@@ -140,7 +140,44 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_account"
-                android:text="绑定设备"
+                android:text="设备管理"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/rightarrow" />
+        </RelativeLayout>
+
+        <!--宠物管理-->
+        <RelativeLayout
+            android:id="@+id/pet_manager"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/white_corner_bg">
+
+            <ImageView
+                android:id="@+id/image_pet"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/ic_pet_manager" />
+
+            <TextView
+                android:id="@+id/text_pet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_pet"
+                android:text="宠物管理"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />

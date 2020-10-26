@@ -1,7 +1,6 @@
 package com.punuo.pet.home.module;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonArray;
@@ -113,7 +114,6 @@ public class HomeHeadModule {
         initView();
         refresh();
         initDeviceSelect();
-        ToastUtils.showToast("添加完宠物后请下拉刷新");
     }
 
     private void initDeviceSelect() {
@@ -277,6 +277,7 @@ public class HomeHeadModule {
     private void updatePet(int position, PetModel model) {
         if (model.mPets.isEmpty()) {
             mHomePetInfoContainer.setVisibility(View.GONE);
+            mHomePetName.setText("");
             return;
         }
         mHomePetInfoContainer.setVisibility(View.VISIBLE);

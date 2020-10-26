@@ -1,28 +1,31 @@
 package com.punuo.pet.feed;
 
-import android.os.Build;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.punuo.pet.feed.adapter.FeedViewAdapter;
 import com.punuo.pet.feed.plan.DeletePlanRequest;
+import com.punuo.pet.feed.plan.DeletePlanSipRequest;
 import com.punuo.pet.feed.plan.GetPlanRequest;
 import com.punuo.pet.feed.plan.Plan;
 import com.punuo.pet.feed.plan.PlanModel;
 import com.punuo.pet.feed.plan.PlanToSipRequest;
 import com.punuo.pet.router.FeedRouter;
 import com.punuo.sip.SipUserManager;
+import com.punuo.sip.event.AddPlanSuccessEvent;
+import com.punuo.sip.event.DeletePlanSuccessEvent;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -30,8 +33,14 @@ import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
 import com.punuo.sys.sdk.util.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,27 +60,19 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     RecyclerView mEditPlan;
     @BindView(R2.id.sub_title)
     TextView subTitle;
-
-    @BindView(R2.id.timeSelect)
-    LinearLayout timeSelect;
-
-
-    private Calendar calendar;
-    private TimePicker timePicker;
-    private TextView timeSelectText;
-    private TextView timeSure;
-    private EditText mealName;
+    private TextView timeSelect;
+    private TextView mealName;
     private TextView countSelect;
-    private RelativeLayout time_Select;
     private TextView mPlanSum;
     private TextView mFeedCountSum;
-    private Button mButton;
-    private TextView addPlanCount;
-    private TextView lessPlanCount;
-    private int defaultPlanCount = 3;
-    private long selectDateMills = 0;
+    private View mButton;
     private FeedViewAdapter mFeedViewAdapter;
 
+    private final SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private long selectTime = 0L;
+    private String mealText = "";
+    private String countText = "";
+    private boolean enableAddPlan = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,68 +80,99 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         setContentView(R.layout.feed_add_plan_activity);
         ButterKnife.bind(this);
         initView();
-        timePick();
+        EventBus.getDefault().register(this);
     }
 
     private void initView() {
         mTitle.setText("喂食计划");
         mFeedCountSum = (TextView) findViewById(R.id.feed_count_sum);
         mPlanSum = (TextView) findViewById(R.id.plan_sum);
-        mButton = (Button) findViewById(R.id.button);
-
+        mButton = findViewById(R.id.button);
         //新增计划部分
-        timeSelectText = (TextView) findViewById(R.id.time_select_text);
-        mealName = (EditText) findViewById(R.id.meal_name);
-        countSelect = (TextView) findViewById(R.id.count_select);
-        countSelect.setHint("选择份数");
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        timeSelect = (TextView) findViewById(R.id.time_select);
+        mealName = (TextView) findViewById(R.id.name_edit);
+        countSelect = (TextView) findViewById(R.id.size_edit);
+
+        mBack.setOnClickListener(v -> onBackPressed());
 
 
-        countSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                countSelect.setText(defaultPlanCount + "");
-            }
-        });
-        addPlanCount = (TextView) findViewById(R.id.add_plan_count);
-        addPlanCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                countSelect.setText((defaultPlanCount += 1) + "");
-            }
-        });
-        lessPlanCount = (TextView) findViewById(R.id.less_plan_count);
-        lessPlanCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (defaultPlanCount > 1)
-                    countSelect.setText((defaultPlanCount -= 1) + "");
-            }
+        countSelect.setOnClickListener(view -> {
+            EditText editText = new EditText(AddFeedPlanActivity.this);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            new AlertDialog.Builder(AddFeedPlanActivity.this)
+                    .setTitle("请输入份数")
+                    .setView(editText)
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        String text = editText.getText().toString();
+                        if (TextUtils.isEmpty(text)) {
+                            ToastUtils.showToast("请输入份数");
+                            return;
+                        }
+                        countText = text;
+                        countSelect.setText(text + "份");
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).show();
         });
 
-        mButton = (Button) findViewById(R.id.button);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String planTime = timeSelectText.getText().toString().trim();
-                String planName = mealName.getText().toString().trim();
-                String planCount = countSelect.getText().toString().trim();
-                if (planTime.length() == 0) {
-                    ToastUtils.showToast("请输入时间");
-                } else if (planName.length() == 0) {
-                    ToastUtils.showToast("请输入餐名");
-                } else if (planCount.length() == 0) {
-                    ToastUtils.showToast("请输入份数");
-                }
-                savePlanToSip(String.valueOf(selectDateMills / 1000), planName, planCount, AccountManager.getUserName());
-                Log.i("plan", "喂食计划发送中... ");
-                scrollToFinishActivity();
+        mealName.setOnClickListener(v -> {
+            EditText editText = new EditText(AddFeedPlanActivity.this);
+            new AlertDialog.Builder(AddFeedPlanActivity.this)
+                    .setTitle("请输入餐名")
+                    .setView(editText)
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        String text = editText.getText().toString();
+                        if (TextUtils.isEmpty(text)) {
+                            ToastUtils.showToast("请输入餐名");
+                            return;
+                        }
+                        mealText = text;
+                        mealName.setText(text);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        });
+
+        timeSelect.setOnClickListener(v -> {
+            new TimePickerBuilder(AddFeedPlanActivity.this, (date, v1) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.set(Calendar.YEAR, 2019);
+                calendar.set(Calendar.MONTH, 1);
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.SECOND, 0);
+                selectTime = calendar.getTimeInMillis() / 1000L;
+                timeSelect.setText(mSimpleDateFormat.format(date));
+            })
+                    .isDialog(true)
+                    .setType(new boolean[]{false, false, false, true, true, false})
+                    .build().show();
+        });
+
+        mButton.setOnClickListener(view -> {
+            if (!enableAddPlan) {
+                ToastUtils.showToast("最多能添加6个喂食计划");
+                return;
             }
+            if (selectTime == 0L) {
+                ToastUtils.showToast("请选择喂食时间");
+                return;
+            }
+            if (TextUtils.isEmpty(mealText)) {
+                ToastUtils.showToast("请输入喂食餐名");
+                return;
+            }
+            if (TextUtils.isEmpty(countText)) {
+                ToastUtils.showToast("请输入喂食份数");
+                return;
+            }
+            savePlanToSip(String.valueOf(selectTime), mealText, countText, AccountManager.getUserName());
+            scrollToFinishActivity();
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(AddFeedPlanActivity.this);
@@ -149,19 +181,23 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         mEditPlan.setAdapter(mFeedViewAdapter);
 
         //删除功能
-        mFeedViewAdapter.setOnItemLongClickListener(new FeedViewAdapter.OnItemLongClickListener() {
-            @Override
-            public void OnItemLongClick(int position) {
-                String delName =  mFeedViewAdapter.getPlanName(position);
-                Log.i("plan", delName);
-                deletePlan(delName);
-                Log.i("plan", "删除操作执行");
-//                mFeedViewAdapter.removePlan(position);
-                scrollToFinishActivity();
-            }
+        mFeedViewAdapter.setOnItemLongClickListener(position -> {
+            new AlertDialog.Builder(AddFeedPlanActivity.this)
+                    .setTitle("温馨提醒")
+                    .setMessage("是否确认要删除本条喂食计划？")
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        String delName = mFeedViewAdapter.getPlanName(position);
+                        deletePlan(delName);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
         });
-
-        initPlanData();
+        getFeedPlan();
 
     }
 
@@ -174,8 +210,8 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
     private GetPlanRequest mGetPlanRequest;
 
-    public void initPlanData() {
-        if (mGetPlanRequest != null && mGetPlanRequest.isFinish()) {
+    public void getFeedPlan() {
+        if (mGetPlanRequest != null && !mGetPlanRequest.isFinish()) {
             return;
         }
         mGetPlanRequest = new GetPlanRequest();
@@ -196,6 +232,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
                 mFeedViewAdapter.notifyDataSetChanged();
                 mFeedCountSum.setText(result.feedCountSum);
                 mPlanSum.setText(result.planSum);
+                enableAddPlan = result.mPlanList.size() < 6;
             }
 
             @Override
@@ -206,67 +243,15 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         HttpManager.addRequest(mGetPlanRequest);
     }
 
-    public void timePick() {
-        //TODO 以下代码用于测试时间选择
-
-        calendar = Calendar.getInstance();
-        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        timePicker = (TimePicker) findViewById(R.id.time_picker);
-        timePicker.setDescendantFocusability(TimePicker.FOCUS_BLOCK_DESCENDANTS);//设置点击事件不弹出键盘
-        timePicker.setIs24HourView(true);//设置时间显示是24小时格式
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            timePicker.setHour(07);
-            timePicker.setMinute(00);
-        }
-
-        time_Select = (RelativeLayout) findViewById(R.id.time_select);
-
-        timeSelectText.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                time_Select.setVisibility(View.VISIBLE);
-            }
-        });
-
-        timeSure = (TextView) findViewById(R.id.time_sure);
-        timeSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                time_Select.setVisibility(View.GONE);
-            }
-        });
-
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {//获取当前选择的时间
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, 2019);
-                calendar.set(Calendar.MONTH, 1);
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.SECOND, 0);
-                selectDateMills = calendar.getTimeInMillis();
-                String sHour = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
-                String sMinute = minute < 10 ? "0" + minute : "" + minute;
-                timeSelectText.setText(sHour + ":" + sMinute);
-            }
-        });
-    }
-
-    //删除计划之后，设备端需要在第二天重新获取计划时才能重新设置alarm，即删除操作后的相关alarm需要在第二天开始响应
     private DeletePlanRequest mDeletePlanRequest;
-    public void deletePlan(String deleteName){
-        if (mDeletePlanRequest!=null && !mDeletePlanRequest.isFinish()){
+
+    public void deletePlan(String deleteName) {
+        if (mDeletePlanRequest != null && !mDeletePlanRequest.isFinish()) {
             return;
         }
         mDeletePlanRequest = new DeletePlanRequest();
-        mDeletePlanRequest.addUrlParam("name",deleteName);
-        mDeletePlanRequest.addUrlParam("userName",AccountManager.getUserName());
+        mDeletePlanRequest.addUrlParam("name", deleteName);
+        mDeletePlanRequest.addUrlParam("userName", AccountManager.getUserName());
         mDeletePlanRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
             public void onComplete() {
@@ -275,8 +260,13 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSuccess(BaseModel result) {
-                Log.i("plan", "成功删除对应的计划");
+                if (result == null) {
+                    return;
+                }
                 ToastUtils.showToast(result.message);
+                getFeedPlan();
+                deletePlanNotifyDevice(); //通知设备去刷新喂食列表
+                EventBus.getDefault().post(new DeletePlanSuccessEvent());
             }
 
             @Override
@@ -287,9 +277,20 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         HttpManager.addRequest(mDeletePlanRequest);
     }
 
-//    public void deletePlan(String name){
-//        DeletePlanSipRequest deletePlanSipRequest = new DeletePlanSipRequest(name);
-//        SipUserManager.getInstance().addRequest(deletePlanSipRequest);
-//        Log.i("plan", "删除计划sip信令发送中...");
-//    }
+    public void deletePlanNotifyDevice(){
+        DeletePlanSipRequest deletePlanSipRequest = new DeletePlanSipRequest();
+        SipUserManager.getInstance().addRequest(deletePlanSipRequest);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddPlanSuccessEvent event) {
+        scrollToFinishActivity();
+    }
 }

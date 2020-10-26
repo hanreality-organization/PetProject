@@ -3,12 +3,13 @@ package com.punuo.pet.home;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -20,8 +21,6 @@ import com.punuo.pet.home.module.HomeHeadModule;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sys.sdk.fragment.BaseFragment;
-import com.punuo.sys.sdk.httplib.RequestListener;
-import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,7 +60,7 @@ public class HomeFragment extends BaseFragment {
             mStatusBar.requestLayout();
         }
         EventBus.getDefault().register(this);
-        PetManager.getPetInfo(mRequestListener);
+        PetManager.getPetInfo(false);
         return mFragmentView;
     }
 
@@ -77,37 +76,21 @@ public class HomeFragment extends BaseFragment {
         mPullToRefreshRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
             public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                PetManager.getPetInfo(mRequestListener);
+                PetManager.getPetInfo(false);
                 mHomeHeadModule.refresh();
             }
         });
         mHomeHeadModule = new HomeHeadModule(getActivity(), mHeadView);
         mHeadView.addView(mHomeHeadModule.getRootView());
     }
-    private RequestListener<PetModel> mRequestListener = new RequestListener<PetModel>() {
-        @Override
-        public void onComplete() {
-            mPullToRefreshRecyclerView.onRefreshComplete();
-        }
-
-        @Override
-        public void onSuccess(PetModel result) {
-            if (result != null) {
-                mHomeHeadModule.updateView(result);
-            }
-        }
-
-        @Override
-        public void onError(Exception e) {
-            HandlerExceptionUtils.handleException(e);
-        }
-    };
-
+    
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(final PetModel model) {
         if (model == null) {
             return;
         }
+        mPullToRefreshRecyclerView.onRefreshComplete();
+        mHomeHeadModule.updateView(model);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -2,7 +2,6 @@ package com.punuo.pet.feed.plan;
 
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipRequestType;
-import com.punuo.sys.sdk.account.AccountManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,12 +10,11 @@ import fr.arnaudguyon.xmltojsonlib.JsonToXml;
 
 public class DeletePlanSipRequest extends BaseSipRequest {
 
-    private String name;
-    public DeletePlanSipRequest(String name){
+    public DeletePlanSipRequest() {
         setSipRequestType(SipRequestType.Notify);
-        setTargetResponse("");
-        this.name =name;
+        setHasResponse(false);
     }
+
     @Override
     public String getBody() {
 
@@ -24,9 +22,7 @@ public class DeletePlanSipRequest extends BaseSipRequest {
         JSONObject value = new JSONObject();
 
         try {
-            value.put("userName", AccountManager.getUserName());
-            value.put("name",name);
-            body.put("delete_plan",value);
+            body.put("to_get_feed_plan", value);
         } catch (JSONException e) {
             e.printStackTrace();
         }

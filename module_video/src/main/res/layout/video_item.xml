@@ -38,10 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/video_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:riv_corner_radius="6dp"
             android:scaleType="fitXY" />
 
         <ImageView

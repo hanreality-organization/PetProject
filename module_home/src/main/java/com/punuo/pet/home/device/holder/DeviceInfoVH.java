@@ -85,7 +85,9 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
         mUnBindDeviceRequest.setRequestListener(new RequestListener<BaseModel>() {
             @Override
             public void onComplete() {
-
+                if (mContext instanceof BaseActivity) {
+                    ((BaseActivity) mContext).dismissLoadingDialog();
+                }
             }
 
             @Override

@@ -6,6 +6,7 @@
     android:layout_height="50dp"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
+    android:layout_marginTop="10dp"
     android:background="@drawable/home_white_card_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"

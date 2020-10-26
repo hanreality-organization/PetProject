@@ -13,7 +13,7 @@
         android:layout_above="@+id/progress_bar_container"
         android:layout_marginTop="44dp">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/music_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
