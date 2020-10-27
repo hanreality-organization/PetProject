@@ -71,7 +71,6 @@ class DeviceOrderFragment : BaseFragment() {
 
     private fun getBindingCheck() {
         val request = GetBindingCheckRequest()
-        request.addUrlParam("devid", DevManager.getInstance().devId)
         request.addUrlParam("username", AccountManager.getUserName())
         request.requestListener = object : RequestListener<DeviceBindModel> {
             override fun onComplete() {
