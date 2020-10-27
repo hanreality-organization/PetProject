@@ -8,5 +8,5 @@ import com.punuo.sys.sdk.model.PNBaseModel
  * Date on 2020/10/10.
  **/
 data class DeviceHost(var data: Data) : BaseModel() {
-    data class Data(var exist: Boolean) : PNBaseModel()
+    data class Data(var exist: Boolean, var isSelf:Boolean) : PNBaseModel()
 }

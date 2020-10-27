@@ -25,15 +25,4 @@
         android:textStyle="bold"
         app:border_radius="22dp"
         android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/text_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/my_device_apply"
-        android:gravity="center"
-        android:text="@string/home_empty_device_str"
-        android:textColor="#666666"
-        android:textSize="15sp"
-        android:visibility="gone" />
 </RelativeLayout>

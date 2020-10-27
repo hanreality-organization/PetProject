@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="12dp"
     android:background="@drawable/home_white_card_bg"
-    android:layout_marginTop="10dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingTop="6dp"
+    android:paddingRight="12dp"
+    android:paddingBottom="6dp">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -26,16 +28,26 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:textColor="#333333"
-            android:textSize="14sp"
-            tools:text="用户名" />
+            android:textSize="13sp"
+            tools:text="申请用户名" />
+
+        <TextView
+            android:id="@+id/dev_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:includeFontPadding="false"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            tools:text="设备id" />
 
         <TextView
             android:id="@+id/apply_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:includeFontPadding="false"
-            android:textColor="#666666"
+            android:textColor="#999999"
             android:textSize="12sp"
             tools:text="申请时间" />
     </LinearLayout>
@@ -54,12 +66,11 @@
             android:includeFontPadding="false"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text="已通过/已拒绝"
             android:textColor="#666666"
-            android:textSize="14sp"
-            android:visibility="visible"/>
+            android:textSize="12sp"
+            android:visibility="visible"
+            tools:text="已通过/已拒绝" />
     </LinearLayout>
-
 
 
 </LinearLayout>

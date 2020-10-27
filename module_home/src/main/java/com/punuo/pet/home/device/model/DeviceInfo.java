@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by han.chen.
  * Date on 2019-08-16.
  **/
-public class DeviceInfo {
+public class DeviceInfo extends BaseDevice {
 
     /**
      * devid : 310023000000010001

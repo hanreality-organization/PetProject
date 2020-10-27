@@ -34,16 +34,16 @@ import java.util.ArrayList
 /**
  * Created by han.chen.
  * Date on 2020/10/9.
+ * 我的申请
  **/
-class DeviceOrderFragment : BaseFragment() {
+class DeviceSelfApplyFragment : BaseFragment() {
 
     private lateinit var pulltoRecyclerView: PullToRefreshRecyclerView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var myApplyBtn: TextView
-    private var adapter: DeviceBindCheckAdapter? = null
+    private var mHistoryAdapter: BindHistoryAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentView = inflater.inflate(R.layout.device_order_fragment, container, false)
+        mFragmentView = inflater.inflate(R.layout.device_self_apply_fragment, container, false)
         initView()
         EventBus.getDefault().register(this)
         return mFragmentView
@@ -52,7 +52,6 @@ class DeviceOrderFragment : BaseFragment() {
     private fun initView() {
         pulltoRecyclerView = mFragmentView.findViewById(R.id.apply_list)
         recyclerView = pulltoRecyclerView.refreshableView
-        myApplyBtn = mFragmentView.findViewById(R.id.my_device_apply)
 
         pulltoRecyclerView.setOnRefreshListener {
             refresh()
@@ -60,32 +59,30 @@ class DeviceOrderFragment : BaseFragment() {
 
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        adapter = DeviceBindCheckAdapter(context, ArrayList())
+        mHistoryAdapter = BindHistoryAdapter(context, ArrayList())
         refresh()
     }
 
     private fun refresh() {
-        getBindingCheck()
+        getMyApplyCheck()
     }
-
-    private fun getBindingCheck() {
-        val request = GetBindingCheckRequest()
-        request.addUrlParam("devid", DevManager.getInstance().devId)
+    private fun getMyApplyCheck() {
+        val request = GetBindingHistoryRequest()
         request.addUrlParam("username", AccountManager.getUserName())
-        request.requestListener = object : RequestListener<DeviceBindModel> {
+        request.requestListener = object : RequestListener<BindHistoryModel> {
             override fun onComplete() {
                 pulltoRecyclerView.onRefreshComplete()
             }
 
-            override fun onSuccess(result: DeviceBindModel?) {
+            override fun onSuccess(result: BindHistoryModel?) {
                 result?.data?.let {
-                    recyclerView.adapter = adapter
+                    recyclerView.adapter = mHistoryAdapter
                     if (it.items.isNullOrEmpty()) {
                         val list = ArrayList<BaseDevice>()
-                        list.add(EmptyData("暂无可管理的设备"))
-                        adapter?.appendData(list)
+                        list.add(EmptyData("暂无申请信息"))
+                        mHistoryAdapter?.appendData(list)
                     } else {
-                        adapter?.appendData(it.items?.reversed())
+                        mHistoryAdapter?.appendData(it.items?.reversed())
                     }
                 }
             }
@@ -95,14 +92,12 @@ class DeviceOrderFragment : BaseFragment() {
             }
         }
         HttpManager.addRequest(request)
-
     }
 
-
-    //通过或拒绝
+    //提交申请
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: BindCheckEvent) {
-        getBindingCheck()
+    fun onMessageEvent(event: AddBindCheckEvent) {
+        getMyApplyCheck()
     }
 
     override fun onDestroyView() {

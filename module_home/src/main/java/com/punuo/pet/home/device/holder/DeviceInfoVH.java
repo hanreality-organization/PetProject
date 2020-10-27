@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.punuo.pet.home.R;
 import com.punuo.pet.home.R2;
+import com.punuo.pet.home.device.model.BaseDevice;
 import com.punuo.pet.home.device.model.DeviceInfo;
 import com.punuo.pet.home.device.request.UnBindDeviceRequest;
 import com.punuo.pet.router.HomeRouter;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by han.chen.
  * Date on 2019-08-16.
  **/
-public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
+public class DeviceInfoVH extends BaseViewHolder<BaseDevice> {
 
     @BindView(R2.id.device_icon)
     RoundedImageView mDeviceIcon;
@@ -52,22 +53,25 @@ public class DeviceInfoVH extends BaseViewHolder<DeviceInfo> {
     }
 
     @Override
-    protected void bindData(final DeviceInfo deviceInfo, int position) {
-        ViewUtil.setText(mDeviceId, deviceInfo.devid);
-        ViewUtil.setText(mDeviceTime, deviceInfo.createTime);
-        mDeviceUnbind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unBindDevice(deviceInfo.devid);
-            }
-        });
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI)
-                        .navigation();
-            }
-        });
+    protected void bindData(final BaseDevice baseDevice, int position) {
+        if (baseDevice instanceof DeviceInfo) {
+            DeviceInfo deviceInfo = (DeviceInfo) baseDevice;
+            ViewUtil.setText(mDeviceId, deviceInfo.devid);
+            ViewUtil.setText(mDeviceTime, deviceInfo.createTime);
+            mDeviceUnbind.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    unBindDevice(deviceInfo.devid);
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ARouter.getInstance().build(HomeRouter.ROUTER_HOTSPOT_CONNECT_WIFI)
+                            .navigation();
+                }
+            });
+        }
     }
 
     private UnBindDeviceRequest mUnBindDeviceRequest;
