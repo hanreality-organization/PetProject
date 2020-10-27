@@ -34,6 +34,7 @@ import java.util.ArrayList
 /**
  * Created by han.chen.
  * Date on 2020/10/9.
+ * 设备权限
  **/
 class DeviceOrderFragment : BaseFragment() {
 

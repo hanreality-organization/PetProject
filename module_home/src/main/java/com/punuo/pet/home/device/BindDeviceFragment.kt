@@ -42,6 +42,7 @@ import java.util.*
 /**
  * Created by han.chen.
  * Date on 2020/10/9.
+ * 设备绑定
  **/
 @RuntimePermissions
 class BindDeviceFragment : BaseFragment() {
