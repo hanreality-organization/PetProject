@@ -176,13 +176,8 @@ public class HomeHeadModule {
 
     private void initView() {
 
-        mHomeAddPet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
-                        .navigation();
-            }
-        });
+        mHomeAddPet.setOnClickListener(v ->
+                ARouter.getInstance().build(MemberRouter.ROUTER_CREATE_PET_ACTIVITY).navigation());
 
         mFeedPet.setOnClickListener(new View.OnClickListener() {
             @Override

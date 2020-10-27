@@ -68,5 +68,9 @@
             android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".pet.CreatePetActivity"
+            android:theme="@style/Theme.Pn.Translucent"
+            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>
