@@ -114,6 +114,9 @@ public class TimeUtils {
             builder.append(month)
                     .append("个月");
         }
+        if (builder.length() == 0) {
+            builder.append("未满月");
+        }
         return builder.toString();
     }
 }
