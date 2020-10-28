@@ -30,7 +30,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="66dp"
                 android:orientation="horizontal"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
@@ -45,11 +45,11 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/avatar"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    app:riv_corner_radius="19dp"
+                    app:riv_corner_radius="22dp"
                     tools:src="@tools:sample/avatars" />
 
             </RelativeLayout>
@@ -79,7 +79,7 @@
                     android:gravity="right|center_vertical"
                     android:hint="请输入宠物名字"
                     android:includeFontPadding="false"
-                    android:paddingLeft="6dp"
+                    android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
 
             </RelativeLayout>
@@ -106,6 +106,97 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:entries="@array/catTypeArray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="宠物性别"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/pet_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@drawable/icon_arrow_right"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择宠物性别"
+                    android:includeFontPadding="false"
+                    android:drawablePadding="6dp"
+                    android:textColorHint="#999999" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="宠物生日"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/pet_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@drawable/icon_arrow_right"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择宠物生日"
+                    android:includeFontPadding="false"
+                    android:drawablePadding="6dp"
+                    android:textColorHint="#999999" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="宠物体重"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/pet_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@drawable/icon_arrow_right"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择宠物体重(kg)"
+                    android:includeFontPadding="false"
+                    android:drawablePadding="6dp"
+                    android:textColorHint="#999999" />
 
             </RelativeLayout>
 
