@@ -256,7 +256,7 @@ class BindDeviceFragment : BaseFragment() {
                     if (it.exist) {
                         //存在主用户
                         if (it.isSelf) {
-                            bindDevice(devId)
+                            joinDevice(devId)
                         } else {
                             showHasHostDialog(devId)
                         }
