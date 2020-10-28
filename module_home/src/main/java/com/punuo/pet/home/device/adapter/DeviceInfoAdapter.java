@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.punuo.pet.home.device.holder.DeviceInfoVH;
-import com.punuo.pet.home.device.model.DeviceInfo;
+import com.punuo.pet.home.device.holder.EmptyVH;
+import com.punuo.pet.home.device.model.BaseDevice;
+import com.punuo.pet.home.device.model.EmptyData;
 import com.punuo.sys.sdk.recyclerview.BaseRecyclerViewAdapter;
 
 import java.util.List;
@@ -15,13 +17,13 @@ import java.util.List;
  * Created by han.chen.
  * Date on 2019-08-16.
  **/
-public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<DeviceInfo> {
+public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<BaseDevice> {
 
-    public DeviceInfoAdapter(Context context, List<DeviceInfo> data) {
+    public DeviceInfoAdapter(Context context, List<BaseDevice> data) {
         super(context, data);
     }
 
-    public void appendData(List<DeviceInfo> devices) {
+    public void appendData(List<BaseDevice> devices) {
         mData.clear();
         if (devices != null) {
             mData.addAll(devices);
@@ -31,19 +33,30 @@ public class DeviceInfoAdapter extends BaseRecyclerViewAdapter<DeviceInfo> {
 
     @Override
     public RecyclerView.ViewHolder onCreateBasicItemViewHolder(ViewGroup parent, int viewType) {
-        return new DeviceInfoVH(mContext, parent);
+        if (viewType == 0) {
+            return new EmptyVH(mContext, parent);
+        } else {
+            return new DeviceInfoVH(mContext, parent);
+        }
     }
 
     @Override
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, int position) {
         if (baseViewHolder instanceof DeviceInfoVH) {
             ((DeviceInfoVH) baseViewHolder).bind(mData.get(position), position);
+        } else if (baseViewHolder instanceof EmptyVH) {
+            ((EmptyVH) baseViewHolder).bind(mData.get(position), position);
         }
     }
 
     @Override
     public int getBasicItemType(int position) {
-        return 0;
+        BaseDevice item = getItem(position);
+        if (item instanceof EmptyData) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override

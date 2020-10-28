@@ -10,4 +10,4 @@ data class BindHistoryData(var id: String,
                            var time: String,
                            var username: String,
                            var devid: String,
-                           var status: Int) : PNBaseModel()
+                           var status: Int) : BaseDevice()

@@ -11,17 +11,6 @@ import com.google.gson.annotations.SerializedName;
  **/
 public class PetData implements Parcelable {
 
-    /**
-     * petname : miaomiao
-     * avatar : http://pet.qinqingonline.com/uploads/17816890870/397a339c578e4095f451c5da04826d3b.jpg
-     * type : 1
-     * age : 1
-     * breed : 1
-     * weight : 15.2
-     * unit : kg
-     * birth : 2019-1-1
-     */
-
     @SerializedName("petname")
     public String petname;
     @SerializedName("avatar")
@@ -40,6 +29,18 @@ public class PetData implements Parcelable {
     public String birth;
     @SerializedName("id")
     public String id;
+    @SerializedName("sex")
+    public int sex;
+
+    public String getBirth() {
+        try {
+            String[] sp = birth.split(" ");
+            return sp[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return birth;
+    }
 
     protected PetData(Parcel in) {
         petname = in.readString();
@@ -51,6 +52,7 @@ public class PetData implements Parcelable {
         unit = in.readString();
         birth = in.readString();
         id = in.readString();
+        sex = in.readInt();
     }
 
     public static final Creator<PetData> CREATOR = new Creator<PetData>() {
@@ -81,5 +83,6 @@ public class PetData implements Parcelable {
         dest.writeString(unit);
         dest.writeString(birth);
         dest.writeString(id);
+        dest.writeInt(sex);
     }
 }

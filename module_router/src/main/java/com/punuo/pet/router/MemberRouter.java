@@ -11,7 +11,8 @@ public class MemberRouter {
     public static final String ROUTER_REGISTER_ACCOUNT_ACTIVITY = PREFIX + "/RegisterAccountActivity";
     public static final String ROUTER_FORGET_PASSWORD_ACTIVITY = PREFIX + "/ForgetPasswordActivity";
     public static final String ROUTER_BIND_PHONE_ACTIVITY = PREFIX + "/BindPhoneActivity";
-    public static final String ROUTER_ADD_PET_ACTIVITY = PREFIX + "/AddPetActivity";
+    public static final String ROUTER_PET_INFO_ACTIVITY = PREFIX + "/PetInfoActivity";
+    public static final String ROUTER_USER_INFO_ACTIVITY = PREFIX + "/UserInfoActivity";
 
     //账号管理部分
     public static final String ROUTER_ACCOUNT_MANAGEMENT_ACTIVITY = PREFIX + "/AccountManagementActivity";
@@ -27,6 +28,4 @@ public class MemberRouter {
     //客服
     public static final String ROUTER_CUETOMERSERVICE = PREFIX + "/CustomerServiceActivity";
 
-    //修改个人信息
-    public static final String ROUTER_EDITUSERINFO_ACTIVITY = PREFIX + "/EditUserInfoActivity";
 }

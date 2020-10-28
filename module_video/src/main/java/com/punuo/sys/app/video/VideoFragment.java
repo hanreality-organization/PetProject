@@ -22,7 +22,6 @@ import com.punuo.sip.dev.BindDevSuccessEvent;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sip.model.DevNotifyData;
-import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.model.ResetData;
 import com.punuo.sip.model.VideoData;
@@ -328,12 +327,6 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LoginResponse event) {
-        int live = Integer.parseInt(event.live);
-        changeDeviceStatus(live);
     }
 
     /**

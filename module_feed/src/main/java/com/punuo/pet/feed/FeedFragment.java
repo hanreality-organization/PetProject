@@ -44,7 +44,6 @@ import com.punuo.sip.event.DeletePlanSuccessEvent;
 import com.punuo.sip.model.DevNotifyData;
 import com.punuo.sip.model.FeedCountData;
 import com.punuo.sip.model.LatestWeightData;
-import com.punuo.sip.model.LoginResponse;
 import com.punuo.sip.model.OnLineData;
 import com.punuo.sip.weight.WeightData;
 import com.punuo.sys.sdk.Constant;
@@ -179,12 +178,12 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void refresh() {
+        DevManager.getInstance().isOnline();
         PetManager.getPetInfo(false);
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
-        getRemainderQuality(true);
         getOutedCount();
-        DevManager.getInstance().isOnline();
+        getRemainderQuality(true);
     }
 
     private void layer() {
@@ -227,6 +226,7 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(OnLineData result) {
         int live = Integer.parseInt(result.live);
+        DevManager.getInstance().setOnline(live == 1);
         changeDeviceStatus(live);
     }
 
@@ -259,12 +259,6 @@ public class FeedFragment extends BaseFragment {
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LoginResponse event) {
-        int live = Integer.parseInt(event.live);
-        changeDeviceStatus(live);
     }
 
     /**

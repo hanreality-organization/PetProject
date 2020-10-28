@@ -54,7 +54,8 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event : SelfHost) {
-        mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager, DevManager.getInstance().isHost)
+        mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager)
+        viewPager.offscreenPageLimit = 2
         viewPager.adapter = mDeviceTabAdapter
         tabStrip.setViewPager(viewPager)
     }

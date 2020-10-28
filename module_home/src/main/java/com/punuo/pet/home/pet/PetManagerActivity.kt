@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.punuo.pet.PetManager
+import com.punuo.pet.event.UpdatePetEvent
 import com.punuo.pet.home.R
 import com.punuo.pet.home.pet.adapter.PetManagerAdapter
 import com.punuo.pet.model.PetModel
@@ -51,7 +52,8 @@ class PetManagerActivity : BaseSwipeBackActivity() {
         subTitle.visibility = View.VISIBLE
         backImage.setOnClickListener { onBackPressed() }
         subTitle.setOnClickListener {
-            ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+            ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                    .withBoolean("canEdit", true)
                     .navigation()
         }
 

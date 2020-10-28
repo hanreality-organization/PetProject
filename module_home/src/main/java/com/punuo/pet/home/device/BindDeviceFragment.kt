@@ -19,9 +19,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshRecyclerView
 import com.punuo.pet.home.R
 import com.punuo.pet.home.device.adapter.DeviceInfoAdapter
 import com.punuo.pet.home.device.event.AddBindCheckEvent
-import com.punuo.pet.home.device.model.DeviceHost
-import com.punuo.pet.home.device.model.DeviceInfo
-import com.punuo.pet.home.device.model.DeviceModel
+import com.punuo.pet.home.device.model.*
 import com.punuo.pet.home.device.request.*
 import com.punuo.sip.dev.BindDevSuccessEvent
 import com.punuo.sip.dev.UnBindDevSuccessEvent
@@ -44,6 +42,7 @@ import java.util.*
 /**
  * Created by han.chen.
  * Date on 2020/10/9.
+ * 设备绑定
  **/
 @RuntimePermissions
 class BindDeviceFragment : BaseFragment() {
@@ -54,7 +53,6 @@ class BindDeviceFragment : BaseFragment() {
     lateinit var pullToRefresh : PullToRefreshRecyclerView
     lateinit var mDeviceList: RecyclerView
     lateinit var mAddDevice: TextView
-    lateinit var mTextEmpty: TextView
 
     private var mDeviceInfoAdapter: DeviceInfoAdapter? = null
 
@@ -63,7 +61,6 @@ class BindDeviceFragment : BaseFragment() {
         pullToRefresh = mFragmentView.findViewById(R.id.pull_to_refresh)
         mDeviceList = pullToRefresh.refreshableView
         mAddDevice = mFragmentView.findViewById(R.id.add_device)
-        mTextEmpty = mFragmentView.findViewById(R.id.text_empty)
         initView()
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
@@ -107,7 +104,9 @@ class BindDeviceFragment : BaseFragment() {
                 updateView(result.mDeviceInfoList)
             }
 
-            override fun onError(e: Exception) {}
+            override fun onError(e: Exception) {
+                HandlerExceptionUtils.handleException(e)
+            }
         }
         HttpManager.addRequest(mGetBindDeviceRequest)
     }
@@ -256,7 +255,11 @@ class BindDeviceFragment : BaseFragment() {
                 result?.data?.let {
                     if (it.exist) {
                         //存在主用户
-                        showHasHostDialog(devId)
+                        if (it.isSelf) {
+                            joinDevice(devId)
+                        } else {
+                            showHasHostDialog(devId)
+                        }
                     } else {
                         //不存在主用户
                         showNoHostDialog(devId)
@@ -309,16 +312,13 @@ class BindDeviceFragment : BaseFragment() {
 
     private fun updateView(deviceInfoList: List<DeviceInfo>?) {
         if (deviceInfoList == null || deviceInfoList.isEmpty()) {
-            mTextEmpty.visibility = View.VISIBLE
-            mDeviceList.visibility = View.GONE
-//            mAddDevice.visibility = View.VISIBLE
+            val list = ArrayList<BaseDevice>()
+            list.add(EmptyData("暂无设备信息，请绑定设备"))
+            mDeviceInfoAdapter?.appendData(list)
             mAddDevice.setOnClickListener {
                 show()
             }
         } else {
-            mDeviceList.visibility = View.VISIBLE
-            mTextEmpty.visibility = View.GONE
-//        mAddDevice.visibility = View.GONE
             mDeviceInfoAdapter?.appendData(deviceInfoList)
             mAddDevice.setOnClickListener {
                 ToastUtils.showToast("暂时只支持绑定一台设备，如若更换绑定设备，请先解绑")

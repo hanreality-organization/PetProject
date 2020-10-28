@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
     android:background="@drawable/home_white_card_bg"
@@ -11,11 +11,13 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingRight="12dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -26,16 +28,26 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:textColor="#333333"
-            android:textSize="14sp"
+            android:textSize="13sp"
             tools:text="用户名" />
+
+        <TextView
+            android:id="@+id/dev_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:includeFontPadding="false"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            tools:text="设备id" />
 
         <TextView
             android:id="@+id/apply_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6dp"
             android:includeFontPadding="false"
-            android:textColor="#666666"
+            android:textColor="#999999"
             android:textSize="12sp"
             tools:text="申请时间" />
     </LinearLayout>
@@ -56,7 +68,7 @@
             android:paddingBottom="4dp"
             android:text="已通过/已拒绝"
             android:textColor="#666666"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:visibility="visible"/>
 
         <TextView
@@ -66,13 +78,13 @@
             android:background="@drawable/home_unbind_bg"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:paddingLeft="15dp"
+            android:paddingLeft="8dp"
             android:paddingTop="4dp"
-            android:paddingRight="15dp"
+            android:paddingRight="8dp"
             android:paddingBottom="4dp"
             android:text="通过"
             android:textColor="#FF1A1A"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/device_cancel"
@@ -80,15 +92,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/home_unbind_bg"
             android:gravity="center"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="6dp"
             android:includeFontPadding="false"
-            android:paddingLeft="15dp"
+            android:paddingLeft="8dp"
             android:paddingTop="4dp"
-            android:paddingRight="15dp"
+            android:paddingRight="8dp"
             android:paddingBottom="4dp"
             android:text="拒绝"
             android:textColor="#FF1A1A"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 

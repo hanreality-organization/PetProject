@@ -51,6 +51,16 @@ public class DevManager {
         return isHost;
     }
 
+    private boolean isOnline = false;
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public boolean online() {
+        return isOnline;
+    }
+
     public void refreshDevRelationShip() {
         final GetDevIdRequest request = new GetDevIdRequest();
         request.addUrlParam("userName", AccountManager.getUserName());

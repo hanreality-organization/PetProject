@@ -56,7 +56,6 @@ public class ProcessTasks {
             }
         });
         HttpManager.setDebug(true);
-        HttpManager.setContext(app);
         HttpManager.addInterceptor(new PNInterceptor());
         HttpManager.init();
         SipConfig.init(new ISipConfig() {
@@ -64,7 +63,7 @@ public class ProcessTasks {
             NameAddress mUserNormalAddress;
             @Override
             public String getServerIp() {
-                return "feeder.mengshitech.com";//39.98.36.250
+                return "39.98.36.250";//39.98.36.250
             }
 
             @Override
