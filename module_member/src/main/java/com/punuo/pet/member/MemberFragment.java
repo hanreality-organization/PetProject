@@ -1,12 +1,13 @@
 package com.punuo.pet.member;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -70,7 +71,6 @@ public class MemberFragment extends BaseFragment {
         mPullToRefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
             public void onRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                //TODO 添加你的刷新逻辑
                 UserManager.getUserInfo(AccountManager.getUserName());
             }
         });

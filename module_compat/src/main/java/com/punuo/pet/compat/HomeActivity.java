@@ -16,6 +16,7 @@ import com.punuo.pet.compat.process.HeartBeatTaskResumeProcessor;
 import com.punuo.pet.event.AddPetEvent;
 import com.punuo.pet.event.DelPetEvent;
 import com.punuo.pet.event.SelectDeviceEvent;
+import com.punuo.pet.event.UpdatePetEvent;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.CompatRouter;
 import com.punuo.pet.router.DeviceType;
@@ -156,7 +157,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void onMessageEvent(PetModel model) {
         if (model.mPets == null || model.mPets.isEmpty()) {
             if (model.needAuto) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY)
+                ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                        .withBoolean("canEdit", true)
                         .navigation();
             }
         }
@@ -169,6 +171,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DelPetEvent event) {
+        PetManager.getPetInfo(false);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UpdatePetEvent event) {
         PetManager.getPetInfo(false);
     }
 

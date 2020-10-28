@@ -1,16 +1,16 @@
 package com.punuo.pet.home.pet.holder
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.punuo.pet.event.DelPetEvent
 import com.punuo.pet.home.R
 import com.punuo.pet.home.pet.request.DeletePetRequest
 import com.punuo.pet.model.PetData
+import com.punuo.pet.router.MemberRouter
 import com.punuo.sys.sdk.account.AccountManager
 import com.punuo.sys.sdk.activity.BaseActivity
 import com.punuo.sys.sdk.httplib.HttpManager
@@ -29,12 +29,25 @@ class PetManagerHolder(var view: View) : BaseViewHolder<PetData>(view) {
     private val petAvatar = view.findViewById<ImageView>(R.id.pet_avatar)
     private val petName = view.findViewById<TextView>(R.id.pet_name)
     private val delete = view.findViewById<View>(R.id.delete)
+    private val edit = view.findViewById<View>(R.id.edit)
     override fun bindData(t: PetData?, position: Int) {
-        t?.let {
-            Glide.with(view.context).load(it.avatar).into(petAvatar)
-            petName.text = it.petname
+        t?.let {petData->
+            Glide.with(view.context).load(petData.avatar).into(petAvatar)
+            petName.text = petData.petname
             delete.setOnClickListener {
                 showDelConfirmDialog(t)
+            }
+            edit.setOnClickListener {
+                ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                        .withParcelable("petData", petData)
+                        .withBoolean("canEdit", true)
+                        .navigation()
+            }
+            itemView.setOnClickListener {
+                ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                        .withParcelable("petData", petData)
+                        .withBoolean("canEdit", false)
+                        .navigation()
             }
         }
     }

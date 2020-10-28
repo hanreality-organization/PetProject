@@ -18,6 +18,7 @@ import com.punuo.pet.feed.R2;
 import com.punuo.pet.model.PetData;
 import com.punuo.pet.model.PetModel;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.sdk.util.ViewUtil;
 
 import butterknife.BindView;
@@ -73,7 +74,10 @@ public class FeedHeadModule {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                            .withParcelable("petData", petData)
+                            .withBoolean("canEdit", false)
+                            .navigation();
                 }
             });
             mPetContainer.addView(view);
@@ -84,7 +88,9 @@ public class FeedHeadModule {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_ADD_PET_ACTIVITY).navigation();
+                ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                        .withBoolean("canEdit", true)
+                        .navigation();
             }
         });
     }
@@ -103,7 +109,7 @@ public class FeedHeadModule {
 
     private void checkRemainder(String remainder) {
         int remainderInt = Integer.parseInt(remainder);
-        if (remainderInt < 100) {
+        if (remainderInt < 100 && DevManager.getInstance().online()) {
             showAlterDialog();
         }
     }

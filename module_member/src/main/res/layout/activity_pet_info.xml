@@ -39,18 +39,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物头像(只支持jpg格式)"
+                    android:text="宠物头像"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/avatar"
+                    android:id="@+id/pet_avatar"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:riv_corner_radius="22dp"
-                    tools:src="@tools:sample/avatars" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_upload" />
 
             </RelativeLayout>
 
@@ -99,13 +100,18 @@
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
+                <TextView
                     android:id="@+id/pet_type"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:entries="@array/catTypeArray" />
+                    android:drawableRight="@drawable/icon_arrow_right"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择宠物品种"
+                    android:includeFontPadding="false"
+                    android:drawablePadding="6dp"
+                    android:textColorHint="#999999" />
 
             </RelativeLayout>
 

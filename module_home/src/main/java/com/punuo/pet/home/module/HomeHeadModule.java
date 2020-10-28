@@ -108,6 +108,22 @@ public class HomeHeadModule {
                 .inflate(R.layout.home_head_module_layout, parent, false);
         ButterKnife.bind(this, mRootView);
         mPetLoopHolder = PetLoopHolder.newInstance(context, mHeaderContainer);
+        mPetLoopHolder.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePet(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mHeaderContainer.addView(mPetLoopHolder.getRootView());
         initPetInfo();
         initAdLoop();
@@ -177,7 +193,10 @@ public class HomeHeadModule {
     private void initView() {
 
         mHomeAddPet.setOnClickListener(v ->
-                ARouter.getInstance().build(MemberRouter.ROUTER_CREATE_PET_ACTIVITY).navigation());
+                ARouter.getInstance().build(MemberRouter.ROUTER_PET_INFO_ACTIVITY)
+                        .withParcelable("petData", mCurrentPetData)
+                        .withBoolean("canEdit", true)
+                        .navigation());
 
         mFeedPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,35 +267,21 @@ public class HomeHeadModule {
      *
      * @param petModel
      */
+    private PetModel mPetModel;
     public void updateView(final PetModel petModel) {
+        mPetModel = petModel;
         mPetLoopHolder.updateView(petModel);
-        updatePet(0, petModel);
-        mPetLoopHolder.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                updatePet(position, petModel);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        updatePet(0);
     }
 
-    private void updatePet(int position, PetModel model) {
-        if (model.mPets.isEmpty()) {
+    private void updatePet(int position) {
+        if (mPetModel == null || mPetModel.mPets == null || mPetModel.mPets.isEmpty()) {
             mHomePetInfoContainer.setVisibility(View.GONE);
             mHomePetName.setText("");
             return;
         }
         mHomePetInfoContainer.setVisibility(View.VISIBLE);
-        mCurrentPetData = model.mPets.get(position);
+        mCurrentPetData = mPetModel.mPets.get(position);
         Constant.petData = mCurrentPetData;
         ViewUtil.setText(mHomePetName, mCurrentPetData.petname);
         String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(mCurrentPetData.birth));

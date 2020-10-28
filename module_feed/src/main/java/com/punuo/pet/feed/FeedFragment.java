@@ -178,12 +178,12 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void refresh() {
+        DevManager.getInstance().isOnline();
         PetManager.getPetInfo(false);
         DevManager.getInstance().refreshDevRelationShip();
         getPlan();
-        getRemainderQuality(true);
         getOutedCount();
-        DevManager.getInstance().isOnline();
+        getRemainderQuality(true);
     }
 
     private void layer() {
@@ -226,6 +226,7 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(OnLineData result) {
         int live = Integer.parseInt(result.live);
+        DevManager.getInstance().setOnline(live == 1);
         changeDeviceStatus(live);
     }
 

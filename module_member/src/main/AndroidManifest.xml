@@ -1,32 +1,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.punuo.pet.member" >
+    package="com.punuo.pet.member">
 
     <application>
         <activity
             android:name=".login.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoWindowAnimationStyle"/>
+            android:theme="@style/AppTheme.NoWindowAnimationStyle" />
 
-        <activity android:name=".login.activity.RegisterAccountActivity"
+        <activity
+            android:name=".login.activity.RegisterAccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity android:name=".login.activity.ForgetPasswordActivity"
+        <activity
+            android:name=".login.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity android:name=".login.activity.BindPhoneActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".login.activity.BindPhoneActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-        <activity android:name=".pet.AddPetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name="com.punuo.pet.wxapi.WXEntryActivity"
@@ -36,41 +34,46 @@
         <!--用户管理部分的活动-->
         <activity
             android:name="com.punuo.pet.activity.AccountManagementActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
 
         <activity
             android:name="com.punuo.pet.activity.SetNicknameActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
         <activity
             android:name="com.punuo.pet.activity.ChangePasswordActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
 
         <!--系统消息的活动-->
-        <activity android:name="com.punuo.pet.activity.SystemNewsActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.punuo.pet.activity.SystemNewsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
 
         <!--关于我们部分的活动-->
         <activity
             android:name="com.punuo.pet.activity.AboutActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
 
         <!--客服部分-->
-        <activity android:name="com.punuo.pet.activity.CustomerServiceActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.punuo.pet.activity.CustomerServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
         <!--修改个人信息-->
-        <activity android:name="com.punuo.pet.activity.EditUserInfoActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
 
-        <activity android:name=".pet.CreatePetActivity"
-            android:theme="@style/Theme.Pn.Translucent"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".pet.PetInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+
+        <activity
+            android:name=".user.UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
 
     </application>
 </manifest>

@@ -32,6 +32,16 @@ public class UserInfo implements Parcelable {
 
     }
 
+    public String getBirth() {
+        try {
+            String[] sp = birth.split(" ");
+            return sp[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return birth;
+    }
+
     protected UserInfo(Parcel in) {
         userName = in.readString();
         avatar = in.readString();

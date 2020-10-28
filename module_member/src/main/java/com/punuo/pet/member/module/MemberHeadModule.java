@@ -128,7 +128,9 @@ public class MemberHeadModule {
         editInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(MemberRouter.ROUTER_EDITUSERINFO_ACTIVITY).navigation();
+                ARouter.getInstance().build(MemberRouter.ROUTER_USER_INFO_ACTIVITY)
+                        .withBoolean("canEdit", true)
+                        .navigation();
             }
         });
         mShop.setOnClickListener(new View.OnClickListener() {
