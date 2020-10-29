@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
+import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,13 +38,16 @@ import com.punuo.sys.app.video.model.MusicModel;
 import com.punuo.sys.app.video.request.GetMusicListRequest;
 import com.punuo.sys.app.video.request.UploadAudioRequest;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.httplib.DownloadManager;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.httplib.upload.UploadResult;
 import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.MD5Util;
 import com.punuo.sys.sdk.util.ToastUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -85,12 +90,14 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     private static final int MAX_TIME = 30;
     private int recordTime = 1;
     private static final String prefixPath = Environment.getExternalStorageDirectory().getPath() + "/punuo/audio/";
+    private DownloadManager mDownloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_choose);
         ButterKnife.bind(this);
+        mDownloadManager = new DownloadManager();
         initView();
         getData();
     }
@@ -215,6 +222,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     }
 
     private AudioRecord audioRecord = null;//声明AudioRecord对象
+    private AudioTrack audioPlay = null;
     private boolean isRecording = false;//是否录音
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO})
@@ -225,6 +233,66 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         mRecordVoice.setText("停止录音");
     }
 
+    public void prepareListen(String url) {
+        MusicChooseActivityPermissionsDispatcher.listeningWithPermissionCheck(this, url);
+    }
+
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void listening(String url) {
+        showLoadingDialog();
+        if (mDownloadManager != null) {
+            mDownloadManager.download(url, getAudioPath(url), new DownloadManager.DownloadListener() {
+                @Override
+                public void onDownloadSuccess() {
+                    dismissLoadingDialog();
+                    final int minBufferSize = AudioRecord.getMinBufferSize(8000,
+                            AudioFormat.CHANNEL_IN_STEREO,
+                            AudioFormat.ENCODING_PCM_16BIT);
+                    audioPlay = new AudioTrack(
+                            AudioManager.STREAM_MUSIC,
+                            8000,
+                            AudioFormat.CHANNEL_IN_STEREO,
+                            AudioFormat.ENCODING_PCM_16BIT,
+                            minBufferSize,
+                            AudioTrack.MODE_STREAM
+                    );
+                    audioPlay.play();
+                    File playFile = new File(getAudioPath(url));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            FileInputStream inputStream = null;
+                            short[] audioData = new short[160];
+                            byte[] decodeData = new byte[160];
+                            int read;
+                            try {
+                                inputStream = new FileInputStream(playFile);
+                                while ((read = inputStream.read(decodeData))!= -1) {
+                                    G711Code.G711aDecoder(audioData, decodeData, read);
+                                    audioPlay.write(audioData, 0, read);
+                                }
+                                audioPlay.stop();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
+                }
+
+                @Override
+                public void onDownloadFailed() {
+                    dismissLoadingDialog();
+                }
+
+                @Override
+                public void onDownloadProgress(float progress) {
+
+                }
+            });
+        }
+    }
+
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO})
     void permissionsDenied() {
         ToastUtils.showToast("权限能获取失败");
@@ -233,6 +301,15 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MusicChooseActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    private String getAudioPath(String url) {
+        File appDir = new File(prefixPath);
+        if (!appDir.exists()) {
+            appDir.mkdirs();
+        }
+        return appDir.getAbsolutePath() + File.separator + MD5Util.getMD5String(url) + ".g711";
+
     }
 
     private void createAudioRecord() {

@@ -19,6 +19,8 @@ public class SipSendMusicRequest extends BaseSipRequest {
 
     public SipSendMusicRequest(String devId, String musicUrl) {
         setSipRequestType(SipRequestType.Notify);
+        setHasResponse(true);
+        setTargetResponse("play_music_response");
         this.musicUrl = musicUrl;
         mDevId = devId;
     }
