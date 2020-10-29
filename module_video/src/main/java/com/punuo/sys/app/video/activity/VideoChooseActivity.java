@@ -142,7 +142,8 @@ public class VideoChooseActivity extends BaseSwipeBackActivity {
                 public void onDownloadSuccess() {
                     dismissLoadingDialog();
                     File file = new File(getVideoPath(url));
-                    shareVideoToWeiXin(file);
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                    runOnUiThread(() -> shareVideoToWeiXin(file));
                 }
 
                 @Override

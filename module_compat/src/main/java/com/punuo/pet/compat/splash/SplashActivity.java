@@ -1,7 +1,6 @@
 package com.punuo.pet.compat.splash;
 
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.compat.R;
@@ -20,8 +19,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,//设置窗口全屏
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_layout);
         ProcessTasks.commonLaunchTasks(getApplication());
