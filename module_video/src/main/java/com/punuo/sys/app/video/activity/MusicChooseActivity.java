@@ -136,15 +136,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                 finish();
             }
         });
-        mTitle.setText("选择录音");
-        mSubTitle.setVisibility(View.VISIBLE);
-        mSubTitle.setText("停止播放");
-        mSubTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopMusic();
-            }
-        });
+        mTitle.setText("录音列表");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mMusicList.setLayoutManager(layoutManager);
         mMusicAdapter = new MusicAdapter(this, new ArrayList<MusicItem>(), DevManager.getInstance().getDevId());
