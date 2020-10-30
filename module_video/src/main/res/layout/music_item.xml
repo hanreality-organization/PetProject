@@ -24,8 +24,6 @@
         android:textSize="14sp"
         tools:text="歌名" />
 
-
-
     <com.punuo.sys.sdk.view.AdvancedTextView
         android:id="@+id/play_music"
         android:layout_width="wrap_content"
@@ -40,26 +38,6 @@
         android:paddingBottom="3dp"
         android:singleLine="true"
         android:text="播放"
-        android:textColor="#ff1940"
-        android:textSize="13sp"
-        app:border_color="#ff1940"
-        app:border_radius="15dp"
-        app:border_width="1px" />
-
-    <com.punuo.sys.sdk.view.AdvancedTextView
-        android:id="@+id/listen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:singleLine="true"
-        android:text="试听"
         android:textColor="#ff1940"
         android:textSize="13sp"
         app:border_color="#ff1940"

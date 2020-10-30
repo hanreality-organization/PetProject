@@ -171,15 +171,6 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         mTimeLabel.setText("0s");
     }
 
-    private void stopMusic() {
-        SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(DevManager.getInstance().getDevId(), "stop");
-        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
-        if (mMusicAdapter != null) {
-            mMusicAdapter.reset();
-        }
-    }
-
     private void renameFile() {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_item, null);
         final EditText input = view.findViewById(R.id.input_view);
@@ -279,6 +270,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                 play.setImageResource(R.drawable.ic_play_audio);
             } else {
                 playAudio(musicItem.url, play);
+                sendDevMusic(musicItem.url);
                 play.setImageResource(R.drawable.ic_stop_audio);
             }
         });
@@ -294,7 +286,9 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         playDialog.setCancelable(false);
         playDialog.setCanceledOnTouchOutside(false);
         playDialog.show();
+
         playAudio(musicItem.url, play);
+        sendDevMusic(musicItem.url);
 
     }
 
@@ -343,6 +337,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                         @Override
                         public void run() {
                             stopPlayAudio();
+                            stopMusic();
                             if (playDialog != null && playDialog.isShowing()) {
                                 playView.setImageResource(R.drawable.ic_play_audio);
                             }
@@ -358,9 +353,22 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         isPlaying = true;
     }
 
+    private void sendDevMusic(String musicUrl) {
+        SipSendMusicRequest sipSendMusicRequest
+                = new SipSendMusicRequest(DevManager.getInstance().getDevId(), musicUrl);
+        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
+    }
+
+    private void stopMusic() {
+        SipSendMusicRequest sipSendMusicRequest
+                = new SipSendMusicRequest(DevManager.getInstance().getDevId(), "stop");
+        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
+    }
+
     private void stopPlayAudio() {
         isPlaying = false;
         playAudio = null;
+        stopMusic();
     }
 
     private String getAudioPath(String url) {

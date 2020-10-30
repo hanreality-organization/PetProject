@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="试听"
+        android:text="播放录音"
         android:textColor="#333333"
         android:textSize="15sp" />
 
@@ -44,7 +44,7 @@
             android:id="@+id/play"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:padding="10dp"
+            android:padding="5dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_stop_audio"
             android:layout_alignParentRight="true"/>

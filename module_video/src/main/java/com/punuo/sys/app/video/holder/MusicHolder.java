@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.punuo.sys.app.video.R;
-import com.punuo.sys.app.video.activity.MusicChooseActivity;
 import com.punuo.sys.app.video.model.MusicItem;
 import com.punuo.sys.sdk.recyclerview.BaseViewHolder;
 
@@ -16,7 +15,6 @@ import com.punuo.sys.sdk.recyclerview.BaseViewHolder;
 public class MusicHolder extends BaseViewHolder<MusicItem> {
     private TextView mMusicName;
     private TextView mPlayMusic;
-    private TextView mListener;
     private TextView mDeleteMusic;
     private View.OnClickListener playMusicListener;
     private View.OnClickListener deleteMusicListener;
@@ -25,7 +23,6 @@ public class MusicHolder extends BaseViewHolder<MusicItem> {
         super(itemView);
         mMusicName = itemView.findViewById(R.id.music_name);
         mPlayMusic = itemView.findViewById(R.id.play_music);
-        mListener = itemView.findViewById(R.id.listen);
         mDeleteMusic = itemView.findViewById(R.id.delete_music);
     }
 
@@ -39,11 +36,6 @@ public class MusicHolder extends BaseViewHolder<MusicItem> {
 
     @Override
     protected void bindData(MusicItem musicItem, int position) {
-        if (musicItem.selected) {
-            mPlayMusic.setText("停止播放");
-        } else {
-            mPlayMusic.setText("播放");
-        }
         if (!TextUtils.isEmpty(musicItem.url)) {
             String title = musicItem.getFileName();
             mMusicName.setText(title);
@@ -55,11 +47,6 @@ public class MusicHolder extends BaseViewHolder<MusicItem> {
             mDeleteMusic.setOnClickListener(v -> {
                 if (deleteMusicListener != null) {
                     deleteMusicListener.onClick(v);
-                }
-            });
-            mListener.setOnClickListener(v -> {
-                if (v.getContext() instanceof MusicChooseActivity) {
-                    ((MusicChooseActivity) v.getContext()).prepareListen(musicItem);
                 }
             });
         }

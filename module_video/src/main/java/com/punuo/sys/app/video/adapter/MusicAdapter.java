@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.punuo.sip.SipUserManager;
-import com.punuo.sip.dev.DevManager;
-import com.punuo.sip.request.SipSendMusicRequest;
 import com.punuo.sys.app.video.R;
+import com.punuo.sys.app.video.activity.MusicChooseActivity;
 import com.punuo.sys.app.video.holder.MusicHolder;
 import com.punuo.sys.app.video.model.MusicItem;
 import com.punuo.sys.app.video.request.DeleteAudioRequest;
@@ -65,25 +63,8 @@ public class MusicAdapter extends BaseRecyclerViewAdapter<MusicItem> {
             ((MusicHolder) baseViewHolder).bind(mData.get(position), position);
             ((MusicHolder) baseViewHolder).setPlayMusicListener(v -> {
                 MusicItem item = mData.get(position);
-                if (item.selected) {
-                    stopMusic();
-                } else {
-                    AlertDialog dialog = new AlertDialog.Builder(mContext)
-                            .setTitle("温馨提示")
-                            .setMessage("确认播放" + item.getFileName())
-                            .setPositiveButton("确定", (dialog12, which) -> {
-                                for (int i = 0; i < mData.size(); i++) {
-                                    MusicItem musicItem = mData.get(i);
-                                    musicItem.selected = i == position;
-                                }
-                                sendDevMusic(mData.get(position).url);
-                                notifyDataSetChanged();
-                            })
-                            .setNegativeButton("取消", (dialog1, which) -> dialog1.dismiss())
-                            .create();
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.setCancelable(true);
-                    dialog.show();
+                if (v.getContext() instanceof MusicChooseActivity) {
+                    ((MusicChooseActivity) v.getContext()).prepareListen(item);
                 }
             });
             ((MusicHolder) baseViewHolder).setDeleteMusicListener(v -> {
@@ -119,19 +100,6 @@ public class MusicAdapter extends BaseRecyclerViewAdapter<MusicItem> {
     @Override
     public int getBasicItemCount() {
         return mData == null ? 0 : mData.size();
-    }
-
-    private void sendDevMusic(String musicUrl) {
-        SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(devId, musicUrl);
-        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
-    }
-
-    private void stopMusic() {
-        SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(DevManager.getInstance().getDevId(), "stop");
-        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
-        reset();
     }
 
     private void deleteDevAudio(String name, final int position) {
