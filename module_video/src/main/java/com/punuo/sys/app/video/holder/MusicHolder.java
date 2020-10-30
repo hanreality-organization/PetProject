@@ -2,7 +2,6 @@ package com.punuo.sys.app.video.holder;
 
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.punuo.sys.app.video.R;
@@ -16,32 +15,51 @@ import com.punuo.sys.sdk.recyclerview.BaseViewHolder;
  **/
 public class MusicHolder extends BaseViewHolder<MusicItem> {
     private TextView mMusicName;
-    private ImageView mSelectedView;
+    private TextView mPlayMusic;
     private TextView mListener;
+    private TextView mDeleteMusic;
+    private View.OnClickListener playMusicListener;
+    private View.OnClickListener deleteMusicListener;
 
     public MusicHolder(View itemView) {
         super(itemView);
         mMusicName = itemView.findViewById(R.id.music_name);
-        mSelectedView = itemView.findViewById(R.id.music_selected);
+        mPlayMusic = itemView.findViewById(R.id.play_music);
         mListener = itemView.findViewById(R.id.listen);
+        mDeleteMusic = itemView.findViewById(R.id.delete_music);
+    }
+
+    public void setPlayMusicListener(View.OnClickListener playMusicListener) {
+        this.playMusicListener = playMusicListener;
+    }
+
+    public void setDeleteMusicListener(View.OnClickListener deleteMusicListener) {
+        this.deleteMusicListener = deleteMusicListener;
     }
 
     @Override
     protected void bindData(MusicItem musicItem, int position) {
         if (musicItem.selected) {
-            mSelectedView.setVisibility(View.VISIBLE);
+            mPlayMusic.setText("停止播放");
         } else {
-            mSelectedView.setVisibility(View.INVISIBLE);
+            mPlayMusic.setText("播放");
         }
         if (!TextUtils.isEmpty(musicItem.url)) {
             String title = musicItem.getFileName();
             mMusicName.setText(title);
-            mListener.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v.getContext() instanceof MusicChooseActivity) {
-                        ((MusicChooseActivity) v.getContext()).prepareListen(musicItem);
-                    }
+            mPlayMusic.setOnClickListener(v -> {
+                if (playMusicListener != null) {
+                    playMusicListener.onClick(v);
+                }
+            });
+            mDeleteMusic.setOnClickListener(v -> {
+                if (deleteMusicListener != null) {
+                    deleteMusicListener.onClick(v);
+                }
+            });
+            mListener.setOnClickListener(v -> {
+                if (v.getContext() instanceof MusicChooseActivity) {
+                    ((MusicChooseActivity) v.getContext()).prepareListen(musicItem);
                 }
             });
         }

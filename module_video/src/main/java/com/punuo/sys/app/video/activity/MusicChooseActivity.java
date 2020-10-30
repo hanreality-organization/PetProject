@@ -239,7 +239,7 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void listening(MusicItem musicItem) {
-        showLoadingDialog();
+        showLoadingDialog("正在缓冲...");
         if (mDownloadManager != null) {
             mDownloadManager.download(musicItem.url, getAudioPath(musicItem.url), new DownloadManager.DownloadListener() {
                 @Override
