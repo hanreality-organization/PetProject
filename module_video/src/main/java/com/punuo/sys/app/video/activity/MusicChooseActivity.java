@@ -233,51 +233,19 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         mRecordVoice.setText("停止录音");
     }
 
-    public void prepareListen(String url) {
-        MusicChooseActivityPermissionsDispatcher.listeningWithPermissionCheck(this, url);
+    public void prepareListen(MusicItem musicItem) {
+        MusicChooseActivityPermissionsDispatcher.listeningWithPermissionCheck(this, musicItem);
     }
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void listening(String url) {
+    void listening(MusicItem musicItem) {
         showLoadingDialog();
         if (mDownloadManager != null) {
-            mDownloadManager.download(url, getAudioPath(url), new DownloadManager.DownloadListener() {
+            mDownloadManager.download(musicItem.url, getAudioPath(musicItem.url), new DownloadManager.DownloadListener() {
                 @Override
                 public void onDownloadSuccess() {
                     dismissLoadingDialog();
-                    final int minBufferSize = AudioRecord.getMinBufferSize(8000,
-                            AudioFormat.CHANNEL_IN_STEREO,
-                            AudioFormat.ENCODING_PCM_16BIT);
-                    audioPlay = new AudioTrack(
-                            AudioManager.STREAM_MUSIC,
-                            8000,
-                            AudioFormat.CHANNEL_IN_STEREO,
-                            AudioFormat.ENCODING_PCM_16BIT,
-                            minBufferSize,
-                            AudioTrack.MODE_STREAM
-                    );
-                    audioPlay.play();
-                    File playFile = new File(getAudioPath(url));
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            FileInputStream inputStream = null;
-                            short[] audioData = new short[160];
-                            byte[] decodeData = new byte[160];
-                            int read;
-                            try {
-                                inputStream = new FileInputStream(playFile);
-                                while ((read = inputStream.read(decodeData))!= -1) {
-                                    G711Code.G711aDecoder(audioData, decodeData, read);
-                                    audioPlay.write(audioData, 0, read);
-                                }
-                                audioPlay.stop();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }).start();
+                    showPlayDialog(musicItem);
                 }
 
                 @Override
@@ -293,6 +261,43 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
         }
     }
 
+    private AlertDialog playDialog;
+    private boolean isPlaying = false;
+
+    private void showPlayDialog(MusicItem musicItem) {
+        if (playDialog != null && playDialog.isShowing()) {
+            return;
+        }
+        View itemView = LayoutInflater.from(this).inflate(R.layout.dialog_listen, null);
+        TextView musicName = itemView.findViewById(R.id.music_name);
+        ImageView play = itemView.findViewById(R.id.play);
+        TextView close = itemView.findViewById(R.id.close);
+        musicName.setText(musicItem.getFileName());
+        play.setOnClickListener(v -> {
+            if (isPlaying) {
+                stopPlayAudio();
+                play.setImageResource(R.drawable.ic_play_audio);
+            } else {
+                playAudio(musicItem.url, play);
+                play.setImageResource(R.drawable.ic_stop_audio);
+            }
+        });
+        close.setOnClickListener(v -> {
+            stopPlayAudio();
+            if (playDialog != null) {
+                playDialog.dismiss();
+            }
+        });
+        playDialog = new AlertDialog.Builder(this)
+                .setView(itemView)
+                .create();
+        playDialog.setCancelable(false);
+        playDialog.setCanceledOnTouchOutside(false);
+        playDialog.show();
+        playAudio(musicItem.url, play);
+
+    }
+
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO})
     void permissionsDenied() {
         ToastUtils.showToast("权限能获取失败");
@@ -301,6 +306,61 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MusicChooseActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    private Thread playAudio;
+
+    private void playAudio(String url, ImageView playView) {
+        final int minBufferSize = AudioRecord.getMinBufferSize(8000,
+                AudioFormat.CHANNEL_IN_STEREO,
+                AudioFormat.ENCODING_PCM_16BIT);
+        audioPlay = new AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                8000,
+                AudioFormat.CHANNEL_IN_STEREO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                minBufferSize,
+                AudioTrack.MODE_STREAM
+        );
+        audioPlay.play();
+        File playFile = new File(getAudioPath(url));
+        playAudio = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileInputStream inputStream = null;
+                short[] audioData = new short[160];
+                byte[] decodeData = new byte[160];
+                int read;
+                try {
+                    inputStream = new FileInputStream(playFile);
+                    while (isPlaying && (read = inputStream.read(decodeData)) != -1) {
+                        G711Code.G711aDecoder(audioData, decodeData, read);
+                        audioPlay.write(audioData, 0, read);
+                    }
+                    audioPlay.stop();
+                    isPlaying = false;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            stopPlayAudio();
+                            if (playDialog != null && playDialog.isShowing()) {
+                                playView.setImageResource(R.drawable.ic_play_audio);
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        playAudio.start();
+        isPlaying = true;
+    }
+
+    private void stopPlayAudio() {
+        isPlaying = false;
+        playAudio = null;
     }
 
     private String getAudioPath(String url) {

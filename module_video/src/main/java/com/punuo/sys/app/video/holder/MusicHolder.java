@@ -40,7 +40,7 @@ public class MusicHolder extends BaseViewHolder<MusicItem> {
                 @Override
                 public void onClick(View v) {
                     if (v.getContext() instanceof MusicChooseActivity) {
-                        ((MusicChooseActivity) v.getContext()).prepareListen(musicItem.url);
+                        ((MusicChooseActivity) v.getContext()).prepareListen(musicItem);
                     }
                 }
             });
