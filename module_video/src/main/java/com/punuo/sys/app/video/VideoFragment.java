@@ -335,7 +335,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BindDevSuccessEvent event) {
-        DevManager.getInstance().isOnline();
+
     }
 
     /**

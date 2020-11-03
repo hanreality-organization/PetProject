@@ -5,16 +5,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
 import com.punuo.pet.member.R2;
 import com.punuo.pet.router.MemberRouter;
+import com.punuo.sip.dev.DevManager;
+import com.punuo.sys.sdk.activity.BaseActivity;
+import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.DeviceHelper;
 
 import butterknife.BindView;
@@ -25,13 +27,15 @@ import butterknife.ButterKnife;
  */
 
 @Route(path = MemberRouter.ROUTER_ABOUT_ACTIVITY)
-public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R2.id.user_agreement)
     RelativeLayout userAgreement;
     private ImageView mBack;
     private TextView mTitle;
     private TextView version;
+    private ImageView mLogo;
+    private int clickCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,10 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void init() {
-
-        mBack = (ImageView) findViewById(R.id.back);
-        mTitle = (TextView) findViewById(R.id.title);
-        version = (TextView) findViewById(R.id.version);
+        mLogo = findViewById(R.id.logo);
+        mBack = findViewById(R.id.back);
+        mTitle = findViewById(R.id.title);
+        version = findViewById(R.id.version);
 
         mTitle.setText("关于我们");
         version.setText("当前版本：v" + DeviceHelper.getVersionName());
@@ -57,7 +61,23 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
                 showAboutDialog();
             }
         });
+        ViewGroup.LayoutParams layoutParams = mLogo.getLayoutParams();
+        int width = CommonUtil.getWidth() - CommonUtil.dip2px(120f);
+        layoutParams.width = width;
+        layoutParams.height = width * 3 / 4;
+        mLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickCount++;
+                if (clickCount == 3) {
+                    DevManager.getInstance().clearDevConfirm(AboutActivity.this, 1);
+                    clickCount = 0;
+                }
+            }
+        });
     }
+
+
 
     public void showAboutDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);

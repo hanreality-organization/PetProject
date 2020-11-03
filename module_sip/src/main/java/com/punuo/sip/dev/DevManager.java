@@ -1,12 +1,18 @@
 package com.punuo.sip.dev;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -81,6 +87,7 @@ public class DevManager {
                 } else  {
                     devId = "";
                 }
+                DevManager.getInstance().isOnline();
                 checkHostOfSelf();
             }
 
@@ -131,5 +138,63 @@ public class DevManager {
             }
         });
         HttpManager.addRequest(checkHostOfSelfRequest);
+    }
+
+    public void clearDevConfirm(Context context, int leave) {
+        AlertDialog dialog = new  AlertDialog.Builder(context)
+                .setTitle("温馨提醒")
+                .setMessage("是否需要将设备" + DevManager.getInstance().getDevId() +"恢复置出厂设置?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearDev(context, leave);
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+    private void clearDev(Context context, int leave) {
+        if (context instanceof BaseActivity) {
+            ((BaseActivity) context).showLoadingDialog("正在恢复...");
+        }
+        ClearDevRequest clearDevRequest = new ClearDevRequest();
+        clearDevRequest.addUrlParam("username", AccountManager.getUserName());
+        clearDevRequest.addUrlParam("devid", DevManager.getInstance().getDevId());
+        clearDevRequest.addUrlParam("leave", leave);
+        clearDevRequest.setRequestListener(new RequestListener<ClearDevEvent>() {
+            @Override
+            public void onComplete() {
+                if (context instanceof BaseActivity) {
+                    ((BaseActivity) context).dismissLoadingDialog();
+                }
+            }
+
+            @Override
+            public void onSuccess(ClearDevEvent result) {
+                if (result != null) {
+                    ToastUtils.showToast(result.message);
+                    if (result.success) {
+                        DevManager.getInstance().refreshDevRelationShip();
+                        EventBus.getDefault().post(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                HandlerExceptionUtils.handleException(e);
+            }
+        });
+        HttpManager.addRequest(clearDevRequest);
     }
 }

@@ -22,6 +22,7 @@ import com.punuo.pet.home.device.event.AddBindCheckEvent
 import com.punuo.pet.home.device.model.*
 import com.punuo.pet.home.device.request.*
 import com.punuo.sip.dev.BindDevSuccessEvent
+import com.punuo.sip.dev.DevManager
 import com.punuo.sip.dev.UnBindDevSuccessEvent
 import com.punuo.sys.sdk.account.AccountManager
 import com.punuo.sys.sdk.activity.QRScanActivity
@@ -136,6 +137,7 @@ class BindDeviceFragment : BaseFragment() {
                 ToastUtils.showToast(result.message)
                 if (result.success) {
                     refresh()
+                    DevManager.getInstance().devId = devId
                     EventBus.getDefault().post(BindDevSuccessEvent())
                 }
             }
@@ -171,6 +173,7 @@ class BindDeviceFragment : BaseFragment() {
                 ToastUtils.showToast(result.message)
                 if (result.success) {
                     refresh()
+                    DevManager.getInstance().devId = devId
                     EventBus.getDefault().post(BindDevSuccessEvent())
                 }
             }
