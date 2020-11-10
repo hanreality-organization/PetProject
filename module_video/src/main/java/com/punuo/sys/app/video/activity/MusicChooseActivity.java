@@ -328,8 +328,8 @@ public class MusicChooseActivity extends BaseSwipeBackActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            stopPlayAudio();
-                            stopMusic();
+                            isPlaying = false;
+                            playAudio = null;
                             if (playDialog != null && playDialog.isShowing()) {
                                 playView.setImageResource(R.drawable.ic_play_audio);
                             }
