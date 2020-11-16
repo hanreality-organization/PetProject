@@ -255,6 +255,10 @@ class BindDeviceFragment : BaseFragment() {
             }
 
             override fun onSuccess(result: DeviceHost?) {
+                if (result != null && !result.success) {
+                    ToastUtils.showToast(result.message)
+                    return
+                }
                 result?.data?.let {
                     if (it.exist) {
                         //存在主用户

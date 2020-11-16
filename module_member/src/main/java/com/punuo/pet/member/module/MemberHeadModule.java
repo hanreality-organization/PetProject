@@ -140,7 +140,7 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId="+Constant.SHOPID).navigation();
+                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
