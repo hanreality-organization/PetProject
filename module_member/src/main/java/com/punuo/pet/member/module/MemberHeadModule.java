@@ -3,6 +3,7 @@ package com.punuo.pet.member.module;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import com.punuo.pet.member.request.GetIdRequest;
 import com.punuo.pet.member.request.LogoutRequest;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.pet.router.SDKRouter;
 import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.sdk.Constant;
@@ -139,8 +139,16 @@ public class MemberHeadModule {
         mShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    Uri content_url = Uri.parse("http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID);
+                    intent.setData(content_url);
+                    mContext.startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ToastUtils.showToast("没有找到合适的浏览器");
+                }
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
