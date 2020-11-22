@@ -1,10 +1,11 @@
 package com.punuo.sys.sdk.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.Nullable;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshWebView;
 import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.activity.WebViewActivity;
 import com.punuo.sys.sdk.util.BaseHandler;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
+
+import java.util.HashMap;
 
 /**
  * Created by han.chen.
@@ -31,6 +37,8 @@ public class WebViewFragment extends BaseFragment {
     private boolean isRefreshing;
     private BaseHandler mBaseHandler;
     private String mUrl = "";
+    private HashMap<String,String> webViewHead =new HashMap<>();
+    private String referer = "qinqingonline.com";
 
     @Nullable
     @Override
@@ -92,7 +100,23 @@ public class WebViewFragment extends BaseFragment {
     public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
+            if (url.contains("wx.tenpay.com/cgi-bin")) {
+                webViewHead.put("Referer","http://pet.qinqingonline.com:8001/");
+                view.loadUrl(url, webViewHead);
+                return true;
+            }
+            if (url.startsWith("weixin://wap/pay?")) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ToastUtils.showToast("未安装微信");
+                }
+                return true;
+            }
             return super.shouldOverrideUrlLoading(view, url);
         }
 
@@ -128,7 +152,7 @@ public class WebViewFragment extends BaseFragment {
     public void loadUrl() {
         String url = getUrl();
         if (url != null) {
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(url, webViewHead);
         }
     }
 
