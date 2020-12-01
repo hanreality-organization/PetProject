@@ -60,7 +60,7 @@ public class HomeFragment extends BaseFragment {
             mStatusBar.requestLayout();
         }
         EventBus.getDefault().register(this);
-        PetManager.getPetInfo(false);
+        PetManager.getPetInfo(true);
         return mFragmentView;
     }
 
