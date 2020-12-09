@@ -10,6 +10,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
         <activity
+            android:name=".care.CareDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+
+        <activity
+            android:name=".care.AddCareDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pn.Translucent" />
+        <activity
             android:name=".device.BindDeviceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent" />
@@ -18,55 +27,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pn.Translucent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--日常护理子项活动-->
-        <activity
-            android:name=".care.item_activity.BathActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.BeautyActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.BuyFoodActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.CheckupActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.DewormingVivoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.DewormingVitroActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.VaccineActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-        <activity
-            android:name=".care.item_activity.WalkActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Pn.Translucent" />
-
-        <receiver
-            android:name=".care.broadcast.BathAlarmBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.punuo.pet.home.ALARM_ONE" />
-                <action android:name="com.punuo.pet.home.ALARM_TWO" />
-                <action android:name="com.punuo.pet.home.ALARM_THREE" />
-                <action android:name="com.punuo.pet.home.ALARM_FOUR" />
-                <action android:name="com.punuo.pet.home.ALARM_FIVE" />
-                <action android:name="com.punuo.pet.home.ALARM_SIX" />
-                <action android:name="com.punuo.pet.home.ALARM_SEVEN" />
-                <action android:name="com.punuo.pet.home.ALARM_EIGHT" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".device.SelectDeviceActivity"

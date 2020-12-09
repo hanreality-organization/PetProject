@@ -8,6 +8,8 @@ public class HomeRouter {
     private static final String PREFIX = "/home";
     public static final String ROUTER_HOME_FRAGMENT = PREFIX + "/HomeFragment";
     public static final String ROUTER_CARE_ACTIVITY = PREFIX + "/CareActivity";
+    public static final String ROUTER_CARE_DETAIL_ACTIVITY = PREFIX + "/CareDetailActivity";
+    public static final String ROUTER_ADD_CARE_DETAIL_ACTIVITY = PREFIX + "/AddCareDetailActivity";
     public static final String ROUTER_CHART_ACTIVITY = PREFIX + "/ChartActivity";
     public static final String ROUTER_BIND_DEVICE_ACTIVITY = PREFIX + "/BindDeviceActivity";
     public static final String ROUTER_DEVICE_MANAGER_ACTIVITY = PREFIX + "/DeviceManagerActivity";
