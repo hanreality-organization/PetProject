@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.punuo.pet.home.R
 import com.punuo.pet.home.care.CareActivity
 import com.punuo.pet.home.care.CareDetailActivity
 import com.punuo.pet.home.care.model.CareDetailModel
+import com.punuo.pet.router.HomeRouter
 
 /**
  * Created by han.chen.
@@ -29,6 +31,9 @@ class CareDetailViewHolder(var context: Context?, parent: ViewGroup) : RecyclerV
             time.text = it.time
             delete.setOnClickListener {
                 (context as? CareDetailActivity)?.deleteHistory(item, position)
+            }
+            itemView.setOnClickListener {
+                (context as? CareDetailActivity)?.openDetail(item)
             }
         }
     }

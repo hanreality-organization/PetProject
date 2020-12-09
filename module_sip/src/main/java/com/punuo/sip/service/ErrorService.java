@@ -29,8 +29,11 @@ public class ErrorService extends NormalRequestService<String> {
             return;
         } else if (code == 401) {
             EventBus.getDefault().post(new LoginFailEvent());
+        } else if (code == 400) {
+            return;
+        } else {
+            HandlerExceptionUtils.handleException(new ErrorTipException(BaseSipResponses.reasonOf(code)));
         }
-        HandlerExceptionUtils.handleException(new ErrorTipException(BaseSipResponses.reasonOf(code)));
     }
 
     @Override

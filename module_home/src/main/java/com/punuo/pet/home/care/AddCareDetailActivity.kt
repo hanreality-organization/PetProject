@@ -2,6 +2,7 @@ package com.punuo.pet.home.care
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -14,6 +15,7 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.punuo.pet.home.R
 import com.punuo.pet.home.care.event.AddCareDetailEvent
+import com.punuo.pet.home.care.model.CareDetailModel
 import com.punuo.pet.home.care.request.SubmitCareDetailRequest
 import com.punuo.pet.model.PetData
 import com.punuo.pet.router.HomeRouter
@@ -47,6 +49,10 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
     @Autowired(name = "petData")
     var petData: PetData? = null
 
+    @JvmField
+    @Autowired(name = "careDetail")
+    var careDetail : CareDetailModel.CareDetailData? = null
+
     private lateinit var titleView: TextView
     private lateinit var backView: View
     private lateinit var descEdit : EditText
@@ -72,9 +78,13 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
             scrollToFinishActivity()
         }
 
+        val canEdit = careDetail == null
         descEdit = findViewById(R.id.desc_input) as EditText
         timePicker = findViewById(R.id.time_picker) as TextView
         submitButton = findViewById(R.id.submit_button)
+        descEdit.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(300))
+        descEdit.isEnabled = canEdit
+        timePicker.isEnabled = canEdit
         timePicker.setOnClickListener {
             hideKeyboard(this)
             TimePickerBuilder(this, OnTimeSelectListener { date: Date?, v1: View? ->
@@ -90,11 +100,20 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
                     .setType(booleanArrayOf(true, true, true, true, true, true))
                     .build().show()
         }
-
-        submitButton.setOnClickListener {
-            if (checkValid()) {
-                submit()
+        if (canEdit) {
+            submitButton.visibility = View.VISIBLE
+            submitButton.setOnClickListener {
+                if (checkValid()) {
+                    submit()
+                }
             }
+        } else {
+            submitButton.visibility = View.GONE
+        }
+
+        careDetail?.let {
+            descEdit.setText(it.detail)
+            timePicker.text = it.time
         }
     }
 

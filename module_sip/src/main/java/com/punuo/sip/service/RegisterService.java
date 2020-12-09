@@ -8,6 +8,7 @@ import com.punuo.sip.event.ReRegisterEvent;
 import com.punuo.sip.model.NegotiateResponse;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.request.SipRegisterRequest;
+import com.punuo.sys.sdk.util.HandlerExceptionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.zoolu.sip.message.Message;
@@ -32,7 +33,7 @@ public class RegisterService extends NormalRequestService<NegotiateResponse> {
 
     @Override
     protected void onError(Exception e) {
-
+        HandlerExceptionUtils.handleException(e);
     }
 
     @Override

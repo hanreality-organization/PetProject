@@ -190,6 +190,14 @@ class CareDetailActivity : BaseSwipeBackActivity() {
         HttpManager.addRequest(deleteRequest)
     }
 
+    fun openDetail(item: CareDetailModel.CareDetailData) {
+        ARouter.getInstance().build(HomeRouter.ROUTER_ADD_CARE_DETAIL_ACTIVITY)
+                .withString("title", title)
+                .withString("theme", theme)
+                .withParcelable("careDetail", item)
+                .navigation()
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event : AddCareDetailEvent) {
         getData()
