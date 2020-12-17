@@ -81,10 +81,10 @@ public class ChartActivity extends BaseSwipeBackActivity {
     }
 
     private void initData() {
-        getFoodFrequency(ChartType.WEEK);
-        getFoodNumber(ChartType.WEEK);
-        getSurplusFood(ChartType.WEEK);
-        mFilter1.setSelection(1);
+        getFoodFrequency(ChartType.DAY);
+        getFoodNumber(ChartType.DAY);
+        getSurplusFood(ChartType.DAY);
+        mFilter1.setSelection(0);
         mFilter1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -108,7 +108,7 @@ public class ChartActivity extends BaseSwipeBackActivity {
 
             }
         });
-        mFilter2.setSelection(1);
+        mFilter2.setSelection(0);
         mFilter2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -132,7 +132,7 @@ public class ChartActivity extends BaseSwipeBackActivity {
 
             }
         });
-        mFilter3.setSelection(1);
+        mFilter3.setSelection(0);
         mFilter3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -272,11 +272,44 @@ public class ChartActivity extends BaseSwipeBackActivity {
         HttpManager.addRequest(mGetSurplusFoodRequest);
     }
 
+    private String[] handleYLabel(int[] data) {
+        int step = getStep(data);
+        if (step <= 0) {
+            return null;
+        } else {
+            return new String[]{"0",
+                    String.valueOf(step),
+                    String.valueOf(step * 2),
+                    String.valueOf(step * 3),
+                    String.valueOf(step * 4),
+                    String.valueOf(step * 5),
+                    String.valueOf(step * 6),
+                    String.valueOf(step * 7),
+                    String.valueOf(step * 8),
+                    String.valueOf(step * 9)};
+        }
+    }
+
+    private int getStep(int[] data) {
+        int max = 0;
+        for (int datum : data) {
+            if (max < datum) {
+                max = datum;
+            }
+        }
+        return (int) Math.ceil((double) (max / 9f));
+    }
+
 
     //绘制柱状图函数
     private void barChart1() {
         String[] xLabel = {"", ChartX1[3], ChartX1[2], ChartX1[1], ChartX1[0]};
-        String[] yLabel = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        String[] yLabel = handleYLabel(ChartData1);
+        int step = getStep(ChartData1);
+        if (yLabel == null) {
+            yLabel = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+            step = 1;
+        }
         int[] data1 = {ChartData1[3], ChartData1[2], ChartData1[1], ChartData1[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
@@ -284,12 +317,17 @@ public class ChartActivity extends BaseSwipeBackActivity {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer1.addView(new CustomBarChart1(this, xLabel, yLabel, data, color));
+        mChartContainer1.addView(new CustomBarChart1(this, xLabel, yLabel, data, color, step));
     }
 
     private void barChart2() {
         String[] xLabel = {"", ChartX2[3], ChartX2[2], ChartX2[1], ChartX2[0]};
-        String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
+        String[] yLabel = handleYLabel(ChartData2);
+        int step = getStep(ChartData2);
+        if (yLabel == null) {
+            yLabel = new String[]{"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
+            step = 100;
+        }
         int[] data1 = {ChartData2[3], ChartData2[2], ChartData2[1], ChartData2[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
@@ -297,12 +335,17 @@ public class ChartActivity extends BaseSwipeBackActivity {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer2.addView(new CustomBarChart(this, xLabel, yLabel, data, color));
+        mChartContainer2.addView(new CustomBarChart(this, xLabel, yLabel, data, color, step));
     }
 
     private void barChart3() {
         String[] xLabel = {"", ChartX3[3], ChartX3[2], ChartX3[1], ChartX3[0]};
-        String[] yLabel = {"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
+        String[] yLabel = handleYLabel(ChartData3);
+        int step = getStep(ChartData3);
+        if (yLabel == null) {
+            yLabel = new String[]{"0", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
+            step = 100;
+        }
         int[] data1 = {ChartData3[3], ChartData3[2], ChartData3[1], ChartData3[0]};
         List<int[]> data = new ArrayList<>();
         data.add(data1);
@@ -310,6 +353,6 @@ public class ChartActivity extends BaseSwipeBackActivity {
         color.add(R.color.colorAccent);
         color.add(R.color.colorPrimary);
         color.add(R.color.blue);
-        mChartContainer3.addView(new CustomBarChart(this, xLabel, yLabel, data, color));
+        mChartContainer3.addView(new CustomBarChart(this, xLabel, yLabel, data, color, step));
     }
 }
