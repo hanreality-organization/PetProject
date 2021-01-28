@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -37,6 +38,7 @@ public class WebViewFragment extends BaseFragment {
     private boolean isRefreshing;
     private BaseHandler mBaseHandler;
     private String mUrl = "";
+    private String mTitle = "";
     private HashMap<String,String> webViewHead =new HashMap<>();
     private String referer = "qinqingonline.com";
 
@@ -46,6 +48,9 @@ public class WebViewFragment extends BaseFragment {
         mActivity = (WebViewActivity) getActivity();
         mBaseHandler = mActivity.getBaseHandler();
         mFragmentView = inflater.inflate(R.layout.webview_fragment, container, false);
+        View backIcon = mFragmentView.findViewById(R.id.back);
+        backIcon.setOnClickListener(v -> mActivity.finish());
+        TextView title = mFragmentView.findViewById(R.id.title);
         mPullToRefreshWebView = mFragmentView.findViewById(R.id.pull_to_refresh);
         mPullToRefreshWebView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         mStatusBar = mFragmentView.findViewById(R.id.status_bar);
@@ -55,6 +60,8 @@ public class WebViewFragment extends BaseFragment {
             mStatusBar.getLayoutParams().height = StatusBarUtil.getStatusBarHeight(mActivity);
             mStatusBar.requestLayout();
         }
+        mTitle = getArguments().getString("title", "");
+        title.setText(mTitle);
         mUrl = getArguments().getString("url", "");
         mWebView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         WebSettings settings = mWebView.getSettings();

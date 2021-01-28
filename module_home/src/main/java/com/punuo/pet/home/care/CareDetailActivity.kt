@@ -167,7 +167,7 @@ class CareDetailActivity : BaseSwipeBackActivity() {
                                 val next = iterator.next()
                                 if (next.id == item.id && next.petid == item.petid) {
                                     iterator.remove()
-                                    adapter.notifyItemChanged(position)
+                                    adapter.notifyItemRemoved(position)
                                     if (adapter.dataList.isNullOrEmpty()) {
                                         emptyText.visibility = View.VISIBLE
                                     }
