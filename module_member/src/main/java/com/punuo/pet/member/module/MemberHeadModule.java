@@ -24,6 +24,7 @@ import com.punuo.pet.router.SDKRouter;
 import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.sdk.Constant;
+import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
@@ -140,7 +141,7 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("title", "梦视商城")
+                        .withString("title", PnApplication.getInstance().getString(R.string.ms_shop))
                         .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
             }
         });
@@ -166,7 +167,7 @@ public class MemberHeadModule {
             if (DevManager.getInstance().isBindDevice()) {
                 DevManager.getInstance().clearDevConfirm(mContext, 2);
             } else {
-                ToastUtils.showToast("您还未绑定设备");
+                ToastUtils.showToast(mContext.getString(R.string.no_device));
             }
         });
     }
@@ -178,7 +179,7 @@ public class MemberHeadModule {
             return;
         }
         if (mContext instanceof BaseActivity) {
-            ((BaseActivity) mContext).showLoadingDialog("正在退出...");
+            ((BaseActivity) mContext).showLoadingDialog(mContext.getString(R.string.exiting));
         }
         mLogoutRequest = new LogoutRequest();
         mLogoutRequest.addUrlParam("userName", userName);
@@ -252,10 +253,10 @@ public class MemberHeadModule {
     public void updateVersionDisplay(String versionName, boolean isNew) {
         if (isNew) {
             mVersionName.setTextColor(Color.parseColor("#ff1940"));
-            mVersionName.setText("有新版本:V" + versionName);
+            mVersionName.setText(mContext.getString(R.string.new_version, versionName));
         } else {
             mVersionName.setTextColor(Color.parseColor("#666666"));
-            mVersionName.setText("当前版本:V" + versionName);
+            mVersionName.setText(mContext.getString(R.string.current_version, versionName));
         }
 
     }

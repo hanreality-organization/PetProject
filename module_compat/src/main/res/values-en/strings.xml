@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">module_compat</string>
+    <string name="tab_first">Home</string>
+    <string name="tab_second">Feed</string>
+    <string name="tab_third">Watch</string>
+    <string name="tab_four">Me</string>
+</resources>

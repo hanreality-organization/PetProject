@@ -53,7 +53,7 @@ public class SelectDeviceActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
-        mTitle.setText("选择设备");
+        mTitle.setText(R.string.string_select_device_title);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +75,7 @@ public class SelectDeviceActivity extends BaseSwipeBackActivity {
                 @Override
                 public void onClick(View v) {
                     if (deviceData.deviceType == DeviceType.MAOCE) {
-                        ToastUtils.showToast("设备即将上线，敬请期待");
+                        ToastUtils.showToast(getString(R.string.string_basin_tip));
                         return;
                     }
                     EventBus.getDefault().post(new SelectDeviceEvent(deviceData.deviceType));
@@ -88,8 +88,8 @@ public class SelectDeviceActivity extends BaseSwipeBackActivity {
 
     private List<DeviceData> getDeviceDataList() {
         List<DeviceData> list = new ArrayList<>();
-        list.add(new DeviceData("梦视智能宠物喂食器", R.drawable.home_device_feed, DeviceType.FEED));
-        list.add(new DeviceData("梦视智能宠物猫砂盆", R.drawable.home_device_maoce, DeviceType.MAOCE));
+        list.add(new DeviceData(getString(R.string.device_feeder), R.drawable.home_device_feed, DeviceType.FEED));
+        list.add(new DeviceData(getString(R.string.device_basin), R.drawable.home_device_maoce, DeviceType.MAOCE));
         return list;
     }
 }

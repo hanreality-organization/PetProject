@@ -153,7 +153,7 @@ public class HomeHeadModule {
         mDeviceMaoce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showToast("设备即将上线，敬请期待");
+                ToastUtils.showToast(mContext.getString(R.string.string_basin_tip));
             }
         });
     }
@@ -164,7 +164,7 @@ public class HomeHeadModule {
                 FeedToolsContainer.setVisibility(View.VISIBLE);
                 mDeviceDisplay.setVisibility(View.GONE);
                 deviceChoose.setVisibility(View.VISIBLE);
-                mDeviceTip.setText("当前设备：梦视智能宠物喂食器");
+                mDeviceTip.setText(R.string.string_select_device_feeder);
                 mDeviceSelectedContainer.setVisibility(View.VISIBLE);
                 mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_feed_big));
                 mMoreText.setVisibility(View.GONE);
@@ -173,7 +173,7 @@ public class HomeHeadModule {
                 FeedToolsContainer.setVisibility(View.GONE);
                 mDeviceDisplay.setVisibility(View.GONE);
                 deviceChoose.setVisibility(View.VISIBLE);
-                mDeviceTip.setText("当前设备：梦视智能宠物猫砂盆");
+                mDeviceTip.setText(R.string.string_select_device_basin);
                 mDeviceSelectedContainer.setVisibility(View.VISIBLE);
                 mDeviceSelected.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_device_maoce_big));
                 mMoreText.setVisibility(View.GONE);
@@ -185,7 +185,7 @@ public class HomeHeadModule {
                 mDeviceDisplay.setVisibility(View.VISIBLE);
                 deviceChoose.setVisibility(View.GONE);
                 mMoreText.setVisibility(View.VISIBLE);
-                mDeviceTip.setText("请选择设备以便获得更多功能");
+                mDeviceTip.setText(R.string.string_select_device);
                 break;
         }
     }
@@ -202,7 +202,7 @@ public class HomeHeadModule {
             @Override
             public void onClick(View v) {
                 if (mCurrentPetData == null) {
-                    ToastUtils.showToast("暂无宠物信息，请添加宠物");
+                    ToastUtils.showToast(mContext.getString(R.string.string_empty_pet_data));
                 } else {
                     ARouter.getInstance().build(FeedRouter.ROUTER_FEED_HEALTH_ACTIVITY)
                             .withParcelable("petData", mCurrentPetData)
@@ -214,7 +214,7 @@ public class HomeHeadModule {
             @Override
             public void onClick(View v) {
                 if (mCurrentPetData == null) {
-                    ToastUtils.showToast("暂无宠物信息，请添加宠物");
+                    ToastUtils.showToast(mContext.getString(R.string.string_empty_pet_data));
                 } else {
                     ARouter.getInstance().build(HomeRouter.ROUTER_CARE_ACTIVITY)
                             .withParcelable("petData", mCurrentPetData)
@@ -286,7 +286,7 @@ public class HomeHeadModule {
         ViewUtil.setText(mHomePetName, mCurrentPetData.petname);
         String age = TimeUtils.formatAge(TimeUtils.calAgeMonth(mCurrentPetData.birth));
         ViewUtil.setText(mPetAge, age);
-        ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight));
+        ViewUtil.setText(mPetWeight, String.valueOf(mCurrentPetData.weight) + "kg");
     }
 
     private GetRotationChart mGetRotationChart;

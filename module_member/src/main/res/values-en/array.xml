@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="catTypeArray">
+        <item>English Shorthair Cat</item>
+        <item>American Shorthair Cat</item>
+        <item>Exotic Shorthair Cat</item>
+    </string-array>
+    <string-array name="dogTypeArray">
+        <item>husky</item>
+        <item>Golden retriever</item>
+        <item>shetland</item>
+    </string-array>
+
+    <string-array name="petWeightUnit">
+        <item>kg</item>
+        <item>pounds</item>
+    </string-array>
+</resources>

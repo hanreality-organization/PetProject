@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">module_member</string>
+    <string name="string_quick_login">Quick Login</string>
+    <string name="string_password_login">Password Login</string>
+    <string name="string_edit_phone_number_hint">Phone Number</string>
+    <string name="string_edit_code_hint">Verification Code</string>
+    <string name="string_edit_code_again">Get again</string>
+    <string name="string_edit_code_timer">%dS later resending</string>
+    <string name="string_get_code">Get the verification code</string>
+    <string name="string_login_tip">Warm Reminder: If you do not register the mobile phone number of the feeder App, it will be automatically registered when you sign in</string>
+    <string name="string_login">Sign in</string>
+    <string name="string_register">Register</string>
+    <string name="string_third_method_login">Third-party login</string>
+    <string name="string_wx_login_cancel">You have cancelled WeChat login</string>
+    <string name="string_wx_login_not_support">Your WeChat version does not yet support third-party login</string>
+    <string name="string_account_input">Please enter your account number.</string>
+    <string name="string_password_input">Please enter your password.</string>
+    <string name="string_password_forget">Forgot Password?</string>
+    <string name="string_password_forget_title">Forgot Password</string>
+    <string name="string_legal_phone_number">Please enter a valid cell phone number</string>
+    <string name="string_input_code">Please enter the verification code</string>
+    <string name="string_login_ing">Sign in...</string>
+    <string name="string_code_sending">Sending...</string>
+    <string name="string_code_have_send">Verify that SMS has been sent to %s</string>
+    <string name="string_wx_not_install">You have not installed WeChat</string>
+    <string name="string_check_password">Please enter your confirmation password</string>
+    <string name="string_commit_ing">Submit...</string>
+    <string name="string_one_step"><![CDATA[<font color=\"#FF1A1A\">1.Enter your phone number</font> > 2.Enter the verification code > 3.Set password]]></string>
+    <string name="string_two_step"><![CDATA[1.Enter your phone number > <font color=\"#FF1A1A\">2.Enter the verification code</font> > 3.Set password]]></string>
+    <string name="string_three_step"><![CDATA[1.Enter your phone number > 2.Enter the verification code > <font color=\"#FF1A1A\">3.Set password</font>]]></string>
+    <string name="string_submit_code">Submit verification code</string>
+    <string name="string_submit">Submit</string>
+    <string name="string_confirm_password">Confirm password</string>
+    <string name="string_confirm_submit">Confirm submit</string>
+    <string name="string_password_tip">Password length 8-32 characters, must contain at least 2 or more elements of numbers, letters, symbols</string>
+    <string name="string_set_password">Set Password</string>
+    <string name="edit_user_info">Edit Personal Information</string>
+    <string name="ms_shop">MS Shop</string>
+    <string name="device_manager">Device Manager</string>
+    <string name="pet_manager">Pet Manager</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="about_me">About Us</string>
+    <string name="customer_service">Customer Service</string>
+    <string name="connect_wifi">Connect WiFi</string>
+    <string name="check_update">Check Update</string>
+    <string name="data_reset">Data Reset</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="exiting">exiting...</string>
+    <string name="new_version">New Version:V%s</string>
+    <string name="current_version">Current Version:V%s</string>
+    <string name="no_device">You have not yet bound the device</string>
+</resources>

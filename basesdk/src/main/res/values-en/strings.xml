@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
-    <string name="pull_to_refresh_release_label">放开以刷新…</string>
-    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+    <string name="pull_to_refresh_pull_label">pull_to_refresh…</string>
+    <string name="pull_to_refresh_release_label">release to refresh…</string>
+    <string name="pull_to_refresh_refreshing_label">loading…</string>
     <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->
     <string name="pull_to_refresh_from_bottom_pull_label">@string/pull_to_refresh_pull_label</string>
     <string name="pull_to_refresh_from_bottom_release_label">@string/pull_to_refresh_release_label</string>
     <string name="pull_to_refresh_from_bottom_refreshing_label">@string/pull_to_refresh_refreshing_label</string>
 
-    <string name="error_no_net">网络未连接，请检查后再试</string>
-    <string name="error_timeout">连接超时，等会再试试</string>
-    <string name="error_json">服务器不乖了，等会再试试</string>
-    <string name="error_json_parse_exception">数据解析失败</string>
-    <string name="error_unknown">请求错误，请稍后再试</string>
+    <string name="error_no_net">The network is disconnected. Please check and try again</string>
+    <string name="error_timeout">Connection timed out, try again later</string>
+    <string name="error_json">The server is not behaving, try again later</string>
+    <string name="error_json_parse_exception">Data parsing failed</string>
+    <string name="error_unknown">Request error. Please try again later</string>
 
     <string name="date">%d-%d-%d</string>
 
@@ -82,7 +82,7 @@
     <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
-    <string name="year">年</string>
-    <string name="month_suffix">个月</string>
-    <string name="not_one_month">未满月</string>
+    <string name="year">year(s)</string>
+    <string name="month_suffix">month(s)</string>
+    <string name="not_one_month">Not full month</string>
 </resources>

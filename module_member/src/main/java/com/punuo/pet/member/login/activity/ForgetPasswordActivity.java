@@ -48,7 +48,7 @@ public class ForgetPasswordActivity extends BaseSwipeBackActivity {
     private void initView() {
         mTitle = (TextView) findViewById(R.id.title);
         mBack = (ImageView) findViewById(R.id.back);
-        mTitle.setText("忘记密码");
+        mTitle.setText(getString(R.string.string_password_forget_title));
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +83,7 @@ public class ForgetPasswordActivity extends BaseSwipeBackActivity {
             //跳转设置密码页面
             ARouter.getInstance().build(MemberRouter.ROUTER_REGISTER_ACCOUNT_ACTIVITY)
                     .withBoolean("isRegister", false)
-                    .withString("title", "设置密码")
+                    .withString("title", getString(R.string.string_set_password))
                     .withInt("type", RegisterAccountActivity.TYPE_SET_PWD)
                     .navigation();
         }
@@ -129,14 +129,14 @@ public class ForgetPasswordActivity extends BaseSwipeBackActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            mGetCode.setText(millisUntilFinished / 1000 + "S后重发");
+            mGetCode.setText(getString(R.string.string_edit_code_timer,millisUntilFinished / 1000));
             mGetCode.setEnabled(false);
         }
 
         @Override
         public void onFinish() {
             mGetCode.setEnabled(true);
-            mGetCode.setText("重新获取");
+            mGetCode.setText(getString(R.string.string_edit_code_again));
         }
     }
 }

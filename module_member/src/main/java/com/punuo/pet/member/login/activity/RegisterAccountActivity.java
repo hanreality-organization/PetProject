@@ -41,9 +41,6 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
     @Autowired(name = "title")
     String title;
 
-    private String stepOne = "<font color=\"#FF1A1A\">1.输入手机号</font> > 2.输入验证码 > 3.设置密码";
-    private String stepTwo = "1.输入手机号 > <font color=\"#FF1A1A\">2.输入验证码</font> > 3.设置密码";
-    private String stepThree = "1.输入手机号 > 2.输入验证码 > <font color=\"#FF1A1A\">3.设置密码</font>";
     public static final int TYPE_INPUT_PHONE = 1;
     public static final int TYPE_INPUT_CODE = 2;
     public static final int TYPE_SET_PWD = 3;
@@ -87,11 +84,11 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
             case TYPE_INPUT_PHONE:
                 mEditPwd.setVisibility(View.GONE);
                 mPasswordTip.setVisibility(View.GONE);
-                mStatusText.setText(Html.fromHtml(stepOne));
+                mStatusText.setText(Html.fromHtml(getString(R.string.string_one_step)));
                 mEditInput.setText("");
                 mEditInput.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                mEditInput.setHint("请输入您的手机号");
-                mApply.setText("获取验证码");
+                mEditInput.setHint(getString(R.string.string_edit_phone_number_hint));
+                mApply.setText(getString(R.string.string_get_code));
                 mApply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -103,11 +100,11 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
             case TYPE_INPUT_CODE:
                 mEditPwd.setVisibility(View.GONE);
                 mPasswordTip.setVisibility(View.GONE);
-                mStatusText.setText(Html.fromHtml(stepTwo));
+                mStatusText.setText(Html.fromHtml(getString(R.string.string_two_step)));
                 mEditInput.setText("");
                 mEditInput.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
-                mEditInput.setHint("请输入短信中的验证码");
-                mApply.setText("提交验证码");
+                mEditInput.setHint(getString(R.string.string_input_code));
+                mApply.setText(R.string.string_submit_code);
                 mApply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -123,10 +120,10 @@ public class RegisterAccountActivity extends BaseSwipeBackActivity {
                 mEditInput.setInputType(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
                 mEditPwd.setText("");
                 mEditPwd.setInputType(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
-                mEditInput.setHint("输入密码");
-                mEditPwd.setHint("确认密码");
-                mStatusText.setText(Html.fromHtml(stepThree));
-                mApply.setText("确认提交");
+                mEditInput.setHint(getString(R.string.string_password_input));
+                mEditPwd.setHint(R.string.string_confirm_password);
+                mStatusText.setText(Html.fromHtml(getString(R.string.string_three_step)));
+                mApply.setText(R.string.string_confirm_submit);
                 mApply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="编辑个人信息"
+                android:text="@string/edit_user_info"
                 android:textColor="#666666"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -104,7 +104,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_shop"
-                android:text="梦视商城"
+                android:text="@string/ms_shop"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -140,7 +140,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_account"
-                android:text="设备管理"
+                android:text="@string/device_manager"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -177,7 +177,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_pet"
-                android:text="宠物管理"
+                android:text="@string/pet_manager"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -213,7 +213,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_cache"
-                android:text="清除缓存"
+                android:text="@string/clear_cache"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -252,7 +252,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toEndOf="@+id/image_about"
-                android:text="关于我们"
+                android:text="@string/about_me"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -288,7 +288,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_customerservice"
-                android:text="客服"
+                android:text="@string/customer_service"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -325,7 +325,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_wificonnected"
-                android:text="连接WiFi"
+                android:text="@string/connect_wifi"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -362,7 +362,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_update_service"
-                android:text="检查更新"
+                android:text="@string/check_update"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -403,7 +403,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/image_reset_dev"
-                android:text="恢复出厂设置"
+                android:text="@string/data_reset"
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -425,7 +425,7 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/white_corner_bg"
             android:gravity="center"
-            android:text="退出登陆"
+            android:text="@string/sign_out"
             android:textColor="#FF1A1A"
             android:textSize="16sp"
             android:textStyle="bold" />

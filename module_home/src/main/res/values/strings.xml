@@ -3,6 +3,21 @@
     <string name="update_status">正在更新连接状态，请稍后</string>
     <string name="connect_tip">请尽量使您的设备靠近路由器，并确保网络环境良好</string>
     <string name="home_empty_device_str">暂无设备信息，请绑定设备</string>
+    <string name="string_empty_pet_data">暂无宠物信息，请添加宠物</string>
+    <string name="string_select_device_basin">当前设备：梦视智能宠物猫砂盆</string>
+    <string name="string_select_device_feeder">当前设备：梦视智能宠物喂食器</string>
+    <string name="string_select_device">请选择设备以便获得更多功能</string>
+    <string name="string_basin_tip">设备即将上线，敬请期待</string>
+    <string name="device_basin">梦视智能宠物猫砂盆</string>
+    <string name="device_feeder">梦视智能宠物喂食器</string>
+    <string name="age">年龄</string>
+    <string name="weight">体重</string>
+    <string name="normal">正常</string>
+    <string name="status">状态</string>
+    <string name="string_switch">点击切换</string>
+    <string name="string_select_device_title">选择设备</string>
+    <string name="string_show_more_device_tip">即将支持更多设备，敬请期待～</string>
+    <string name="string_tools_text">我的工具</string>
 </resources>
 
 

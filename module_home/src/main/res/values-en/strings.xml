@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">module_home</string>
+    <string name="update_status">Update connection status, please wait</string>
+    <string name="connect_tip">Please try to keep your device close to the router and ensure that the network environment is good</string>
+    <string name="home_empty_device_str">No device information yet, please bind the device</string>
+    <string name="string_empty_pet_data">No pet information yet, please add a pet</string>
+    <string name="string_select_device_basin">Current Device: MS Intelligent Pet Cat Litter Basin</string>
+    <string name="string_select_device_feeder">Current Device: MS Intelligent Pet Feeder</string>
+    <string name="string_select_device">Select the device to get more functionality</string>
+    <string name="string_basin_tip">The device is coming online soon, so stay tuned</string>
+    <string name="device_basin">MS Intelligent Pet Cat Litter Basin</string>
+    <string name="device_feeder">MS Intelligent Pet Feeder</string>
+    <string name="age">Age</string>
+    <string name="weight">Weight</string>
+    <string name="normal">Normal</string>
+    <string name="status">Status</string>
+    <string name="string_switch">Switch</string>
+    <string name="string_select_device_title">Select Device</string>
+    <string name="string_show_more_device_tip">More devices will be supported soon, so stay tuned～</string>
+    <string name="string_tools_text">My Tools</string>
+</resources>
+
+

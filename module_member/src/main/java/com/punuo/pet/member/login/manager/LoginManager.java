@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.punuo.pet.member.R;
 import com.punuo.pet.member.login.model.LoginResult;
 import com.punuo.pet.member.login.request.AccountLoginRequest;
 import com.punuo.pet.member.login.request.GetCodeRequest;
@@ -46,17 +47,17 @@ public class LoginManager {
 
     public void loginWithPhone(final String phone, String code) {
         if (!RegexUtils.checkMobile(phone)) {
-            ToastUtils.showToast("请输入合法的手机号码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_legal_phone_number));
             return;
         }
         if (TextUtils.isEmpty(code)) {
-            ToastUtils.showToast("请输入验证码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_input_code));
             return;
         }
         if (mQuickLoginRequest != null && !mQuickLoginRequest.isFinish()) {
             return;
         }
-        mActivity.showLoadingDialog("登陆中...");
+        mActivity.showLoadingDialog(mActivity.getString(R.string.string_login_ing));
         mQuickLoginRequest = new QuickLoginRequest();
         mQuickLoginRequest.addUrlParam("phone", phone);
         mQuickLoginRequest.addUrlParam("code", code);
@@ -104,13 +105,13 @@ public class LoginManager {
 
     public void sendAuthCode(final String phone) {
         if (!RegexUtils.checkMobile(phone)) {
-            ToastUtils.showToast("请输入合法的手机号码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_legal_phone_number));
             return;
         }
         if (mGetCodeRequest != null && !mGetCodeRequest.isFinish()) {
             return;
         }
-        mActivity.showLoadingDialog("验证码发送中...");
+        mActivity.showLoadingDialog(mActivity.getString(R.string.string_code_sending));
         mGetCodeRequest = new GetCodeRequest();
         mGetCodeRequest.addUrlParam("phone", phone);
         mGetCodeRequest.setRequestListener(new RequestListener<BaseModel>() {
@@ -127,7 +128,7 @@ public class LoginManager {
                 if (!TextUtils.isEmpty(result.message)) {
                     ToastUtils.showToast(result.message);
                 } else {
-                    ToastUtils.showToast("验证短信已经发送到" + RegexUtils.hidePhone(phone));
+                    ToastUtils.showToast(mActivity.getString(R.string.string_code_have_send, RegexUtils.hidePhone(phone)));
                 }
                 if (result.success) {
                     if (mLoginCallBack != null) {
@@ -151,17 +152,17 @@ public class LoginManager {
 
     public void loginWithAccount(final String phone, String pwd) {
         if (TextUtils.isEmpty(phone)) {
-            ToastUtils.showToast("请输入账号");
+            ToastUtils.showToast(mActivity.getString(R.string.string_account_input));
             return;
         }
         if (TextUtils.isEmpty(pwd)) {
-            ToastUtils.showToast("请输入密码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_password_input));
             return;
         }
         if (mAccountLoginRequest != null && !mAccountLoginRequest.isFinish()) {
             return;
         }
-        mActivity.showLoadingDialog("登陆中...");
+        mActivity.showLoadingDialog(mActivity.getString(R.string.string_login_ing));
         mAccountLoginRequest = new AccountLoginRequest();
         mAccountLoginRequest.addUrlParam("userName", phone);
         mAccountLoginRequest.addUrlParam("userPwd", pwd);
@@ -268,7 +269,7 @@ public class LoginManager {
             req.state = String.valueOf(System.currentTimeMillis());
             mIWXAPI.sendReq(req);
         } else {
-            ToastUtils.showToast("您还没有安装微信");
+            ToastUtils.showToast(context.getString(R.string.string_wx_not_install));
             mActivity.dismissLoadingDialog();
         }
     }
@@ -277,17 +278,17 @@ public class LoginManager {
 
     public void setPassword(String password, String confirmPwd) {
         if (TextUtils.isEmpty(password)) {
-            ToastUtils.showToast("请输入密码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_login_ing));
             return;
         }
         if (TextUtils.isEmpty(confirmPwd)) {
-            ToastUtils.showToast("请输入确认密码");
+            ToastUtils.showToast(mActivity.getString(R.string.string_check_password));
             return;
         }
         if (mSetPasswordRequest != null && !mSetPasswordRequest.isFinish()) {
             return;
         }
-        mActivity.showLoadingDialog("提交中...");
+        mActivity.showLoadingDialog(mActivity.getString(R.string.string_commit_ing));
         mSetPasswordRequest = new SetPasswordRequest();
         mSetPasswordRequest.addUrlParam("password", password);
         mSetPasswordRequest.addUrlParam("confirm_pwd", confirmPwd);

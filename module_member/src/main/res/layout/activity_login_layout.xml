@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="快捷登陆"
+                    android:text="@string/string_quick_login"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -69,7 +69,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="密码登录"
+                    android:text="@string/string_password_login"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
