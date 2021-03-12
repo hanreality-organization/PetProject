@@ -18,7 +18,7 @@ public class MMKVUtil {
     }
 
     public static void setBoolean(String key, boolean value) {
-        getMMKV().decodeBool(key, value);
+        getMMKV().encode(key, value);
     }
 
     public static void setString(String key, String value) {
@@ -43,7 +43,7 @@ public class MMKVUtil {
     }
 
     public static boolean getBoolean(String key, boolean defaultValue) {
-        return getMMKV().encode(key, defaultValue);
+        return getMMKV().decodeBool(key, defaultValue);
     }
 
     public static int getInt(String key) {

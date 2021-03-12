@@ -3,14 +3,13 @@ package com.punuo.sys.app.video.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.punuo.sip.SipUserManager;
-import com.punuo.sip.request.SipSendMusicRequest;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.punuo.sys.app.video.R;
+import com.punuo.sys.app.video.activity.MusicChooseActivity;
 import com.punuo.sys.app.video.holder.MusicHolder;
 import com.punuo.sys.app.video.model.MusicItem;
 import com.punuo.sys.app.video.request.DeleteAudioRequest;
@@ -62,64 +61,33 @@ public class MusicAdapter extends BaseRecyclerViewAdapter<MusicItem> {
     public void onBindBasicItemView(RecyclerView.ViewHolder baseViewHolder, final int position) {
         if (baseViewHolder instanceof MusicHolder) {
             ((MusicHolder) baseViewHolder).bind(mData.get(position), position);
-            baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MusicItem item = mData.get(position);
-                    if (item.selected) {
-                        return;
-                    }
-                    AlertDialog dialog = new AlertDialog.Builder(mContext)
-                            .setTitle("温馨提示")
-                            .setMessage("确认播放" + item.getFileName())
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    for (int i = 0; i < mData.size(); i++) {
-                                        MusicItem musicItem = mData.get(i);
-                                        musicItem.selected = i == position;
-                                    }
-                                    notifyDataSetChanged();
-                                    sendDevMusic(mData.get(position).url);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create();
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.setCancelable(true);
-                    dialog.show();
+            ((MusicHolder) baseViewHolder).setPlayMusicListener(v -> {
+                MusicItem item = mData.get(position);
+                if (v.getContext() instanceof MusicChooseActivity) {
+                    ((MusicChooseActivity) v.getContext()).prepareListen(item);
                 }
             });
-            baseViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    final MusicItem item = mData.get(position);
-                    AlertDialog dialog = new AlertDialog.Builder(mContext)
-                            .setTitle("温馨提示")
-                            .setMessage("确认删除" + item.getFileName())
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    deleteDevAudio(item.getFileName(), position);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create();
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.setCancelable(true);
-                    dialog.show();
-                    return true;
-                }
+            ((MusicHolder) baseViewHolder).setDeleteMusicListener(v -> {
+                final MusicItem item = mData.get(position);
+                AlertDialog dialog = new AlertDialog.Builder(mContext)
+                        .setTitle("温馨提示")
+                        .setMessage("确认删除" + item.getFileName())
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteDevAudio(item.getFileName(), position);
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCancelable(true);
+                dialog.show();
             });
         }
     }
@@ -132,12 +100,6 @@ public class MusicAdapter extends BaseRecyclerViewAdapter<MusicItem> {
     @Override
     public int getBasicItemCount() {
         return mData == null ? 0 : mData.size();
-    }
-
-    private void sendDevMusic(String musicUrl) {
-        SipSendMusicRequest sipSendMusicRequest
-                = new SipSendMusicRequest(devId, musicUrl);
-        SipUserManager.getInstance().addRequest(sipSendMusicRequest);
     }
 
     private void deleteDevAudio(String name, final int position) {

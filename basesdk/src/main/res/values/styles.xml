@@ -21,6 +21,13 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="Splash" parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
     <style name="Theme.Pn.Translucent" parent="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.punuo.pet.home.device.event.AddBindCheckEvent
 import com.punuo.pet.home.device.model.*
 import com.punuo.pet.home.device.request.*
 import com.punuo.sip.dev.BindDevSuccessEvent
+import com.punuo.sip.dev.DevManager
 import com.punuo.sip.dev.UnBindDevSuccessEvent
 import com.punuo.sys.sdk.account.AccountManager
 import com.punuo.sys.sdk.activity.QRScanActivity
@@ -136,6 +138,7 @@ class BindDeviceFragment : BaseFragment() {
                 ToastUtils.showToast(result.message)
                 if (result.success) {
                     refresh()
+                    DevManager.getInstance().devId = devId
                     EventBus.getDefault().post(BindDevSuccessEvent())
                 }
             }
@@ -171,6 +174,7 @@ class BindDeviceFragment : BaseFragment() {
                 ToastUtils.showToast(result.message)
                 if (result.success) {
                     refresh()
+                    DevManager.getInstance().devId = devId
                     EventBus.getDefault().post(BindDevSuccessEvent())
                 }
             }
@@ -252,6 +256,10 @@ class BindDeviceFragment : BaseFragment() {
             }
 
             override fun onSuccess(result: DeviceHost?) {
+                if (result != null && !result.success) {
+                    ToastUtils.showToast(result.message)
+                    return
+                }
                 result?.data?.let {
                     if (it.exist) {
                         //存在主用户
@@ -340,6 +348,7 @@ class BindDeviceFragment : BaseFragment() {
             }
             input.setOnClickListener {
                 val editText = EditText(context)
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
                 AlertDialog.Builder(context)
                         .setTitle("请输入设备号")
                         .setView(editText)

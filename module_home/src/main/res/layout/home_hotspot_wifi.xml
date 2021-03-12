@@ -24,7 +24,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:gravity="left"
-                android:text="1、喂食器开机后连接名为MSPET的网络"
+                android:text="1、喂食器开机后连接名为MSPET的网络,初始密码12345678"
                 android:textColor="#333333" />
 
             <Button

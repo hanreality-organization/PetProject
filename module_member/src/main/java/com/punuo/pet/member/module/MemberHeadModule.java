@@ -22,6 +22,7 @@ import com.punuo.pet.router.HomeRouter;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.pet.update.AutoUpdateService;
+import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.sdk.Constant;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
@@ -32,6 +33,7 @@ import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
 import com.punuo.sys.sdk.util.IntentUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 
 import butterknife.ButterKnife;
 
@@ -82,6 +84,7 @@ public class MemberHeadModule {
         View update = mView.findViewById(R.id.update_service);
         View wifiConnected = mView.findViewById(R.id.wificonnected);
         View petManager = mView.findViewById(R.id.pet_manager);
+        View resetDev = mView.findViewById(R.id.reset_dev);
         mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
@@ -137,7 +140,8 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "http://feeder.qinqingonline.com:8080/#/?userId="+Constant.SHOPID).navigation();
+                        .withString("title", "梦视商城")
+                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +160,14 @@ public class MemberHeadModule {
         });
         petManager.setOnClickListener(v -> {
             ARouter.getInstance().build(HomeRouter.ROUTER_PET_MANAGER_ACTIVITY).navigation();
+        });
+
+        resetDev.setOnClickListener(v -> {
+            if (DevManager.getInstance().isBindDevice()) {
+                DevManager.getInstance().clearDevConfirm(mContext, 2);
+            } else {
+                ToastUtils.showToast("您还未绑定设备");
+            }
         });
     }
 

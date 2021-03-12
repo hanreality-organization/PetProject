@@ -20,7 +20,7 @@ public class NegotiateResponse {
     public String salt;
     @SerializedName("seed")
     public String seed;
-    @SerializedName("")
+    @SerializedName("user_id")
     public String userId;
     @SerializedName("phone_num")
     public String phoneNum;

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_background"
     android:orientation="vertical">
 
     <View
@@ -12,7 +11,14 @@
         android:background="@color/transparent"
         android:visibility="gone" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_background"/>
+
     <RelativeLayout
+        android:layout_below="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -77,4 +83,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

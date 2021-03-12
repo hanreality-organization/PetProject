@@ -14,20 +14,20 @@
 
     <include layout="@layout/module_title_layout"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/ic_logo_bg">
+        android:background="@color/white">
 
         <ImageView
+            android:id="@+id/logo"
             android:layout_width="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             android:layout_height="200dp"
-            android:id="@+id/logo"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_logo_bg" />
 
 
         <TextView
@@ -48,16 +48,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:clickable="true">
+        android:layout_marginTop="12dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/black"
+            android:padding="12dp"
+            android:textColor="#333333"
             android:textSize="16sp"
             android:text="用户协议"/>
 
@@ -66,7 +63,7 @@
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/rightarrow"/>
 
     </RelativeLayout>

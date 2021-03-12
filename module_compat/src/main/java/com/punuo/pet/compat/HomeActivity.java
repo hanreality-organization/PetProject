@@ -96,8 +96,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                                 .with(params)
                                 .navigation();
                     } else {
-                        //获取宠物信息
-                        PetManager.getPetInfo(true);
                         //获取设备信息
                         DevManager.getInstance().refreshDevRelationShip();
                     }

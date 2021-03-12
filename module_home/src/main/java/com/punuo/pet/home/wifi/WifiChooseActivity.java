@@ -1,13 +1,16 @@
 package com.punuo.pet.home.wifi;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.hacknife.wifimanager.IWifi;
@@ -22,6 +25,7 @@ import com.punuo.pet.home.R2;
 import com.punuo.pet.home.adapter.WifiAdapter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
+import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.AdvancedTextView;
 
 import java.util.ArrayList;
@@ -29,11 +33,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by han.chen.
  * Date on 2020/8/21.
  **/
+@RuntimePermissions
 @Route(path = HomeRouter.ROUTER_WIFI_CHOOSE_ACTIVITY)
 public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiChangeListener, OnWifiConnectListener, OnWifiStateChangeListener {
 
@@ -69,10 +77,11 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
         manager.setOnWifiStateChangeListener(this);
         mAdapter = new WifiAdapter(this, new ArrayList<IWifi>(), mClickListener);
         mRecycler.setAdapter(mAdapter);
-        manager.openWifi();
+        WifiChooseActivityPermissionsDispatcher.scanWifiWithPermissionCheck(this);
         mScanWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WifiChooseActivityPermissionsDispatcher.scanWifiWithPermissionCheck(WifiChooseActivity.this);
                 manager.scanWifi();
                 showLoadingDialog("正在获取wif");
             }
@@ -108,12 +117,33 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
 
     @Override
     public void onStateChanged(State state) {
-
+        if (state == State.ENABLED) {
+            manager.scanWifi();
+        }
     }
 
     @Override
     protected void onDestroy() {
         manager.destroy();
         super.onDestroy();
+    }
+
+    @NeedsPermission(value = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void scanWifi() {
+        if (manager.isOpened()) {
+            manager.scanWifi();
+        } else {
+            manager.openWifi();
+        }
+    }
+
+    @OnPermissionDenied(value = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void scanWifiError() {
+        ToastUtils.showToast("权限获取失败");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        WifiChooseActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingTop="20dp"
+    android:paddingRight="12dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="播放录音"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_listen_music" />
+        <TextView
+            android:id="@+id/music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/icon"
+            android:gravity="center_vertical"
+            tools:text="录音名字"
+            android:textSize="15sp"
+            android:textColor="#333333"/>
+
+        <ImageView
+            android:id="@+id/play"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_stop_audio"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="12dp"
+        android:text="关闭"
+        android:textColor="#ff1940"
+        android:textSize="16sp" />
+</LinearLayout>

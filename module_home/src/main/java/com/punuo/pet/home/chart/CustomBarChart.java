@@ -1,15 +1,16 @@
 package com.punuo.pet.home.chart;
 
 
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.punuo.pet.home.R;
+import com.punuo.sys.sdk.util.CommonUtil;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CustomBarChart extends View {
     // 曲线数据
     private List<int[]> dataList;
     private List<Integer> colorList;
+    private int step; //y轴步长
     // 默认边距
     private int margin = 20;
     // 距离左边偏移量
@@ -39,12 +41,13 @@ public class CustomBarChart extends View {
     private Paint paintValue;
 
     public CustomBarChart(Context context, String[] xLabel, String[] yLabel,
-                          List<int[]> dataList, List<Integer> colorList) {
+                          List<int[]> dataList, List<Integer> colorList, int step) {
         super(context);
         this.xLabel = xLabel;
         this.yLabel = yLabel;
         this.dataList = dataList;
         this.colorList = colorList;
+        this.step = step;
     }
 
     public CustomBarChart(Context context) {
@@ -55,10 +58,10 @@ public class CustomBarChart extends View {
      * 初始化数据值和画笔
      */
     public void init() {
-        xPoint = margin + marginX;
-        yPoint = this.getHeight() - margin;
+        xPoint = margin;
+        yPoint = this.getHeight() - margin * 2;
         xScale = (this.getWidth() - 2 * margin - marginX) / (xLabel.length - 1);
-        yScale = (this.getHeight() - 2 * margin) / (yLabel.length - 1);
+        yScale = (this.getHeight() - 4 * margin) / (yLabel.length - 1);
 
         paintAxes = new Paint();
         paintAxes.setStyle(Paint.Style.STROKE);
@@ -72,7 +75,7 @@ public class CustomBarChart extends View {
         paintCoordinate.setDither(true);
         paintCoordinate.setAntiAlias(true);
         paintCoordinate.setColor(ContextCompat.getColor(getContext(), R.color.black));
-        paintCoordinate.setTextSize(15);
+        paintCoordinate.setTextSize(CommonUtil.dip2px(10f));
 
         paintRectF = new Paint();
         paintRectF.setStyle(Paint.Style.FILL);
@@ -85,7 +88,7 @@ public class CustomBarChart extends View {
         paintValue.setAntiAlias(true);
         paintValue.setDither(true);
         paintValue.setTextAlign(Paint.Align.CENTER);
-        paintValue.setTextSize(10);
+        paintValue.setTextSize(CommonUtil.dip2px(10f));
     }
 
     @Override
@@ -126,42 +129,14 @@ public class CustomBarChart extends View {
         for (int i = 0; i <= (xLabel.length - 1); i++) {
             paint.setTextAlign(Paint.Align.CENTER);
             int startX = xPoint + i * xScale;
-            canvas.drawText(xLabel[i], startX, this.getHeight() - margin / 6, paint);
+            canvas.drawText(xLabel[i], startX, this.getHeight() - margin / 6f, paint);
         }
 
         // Y轴坐标
         for (int i = 0; i <= (yLabel.length - 1); i++) {
             paint.setTextAlign(Paint.Align.LEFT);
             int startY = yPoint - i * yScale;
-            int offsetX;
-            switch (yLabel[i].length()) {
-                case 1:
-                    offsetX = 28;
-                    break;
-
-                case 2:
-                    offsetX = 20;
-                    break;
-
-                case 3:
-                    offsetX = 12;
-                    break;
-
-                case 4:
-                    offsetX = 5;
-                    break;
-
-                default:
-                    offsetX = 0;
-                    break;
-            }
-            int offsetY;
-            if (i == 0) {
-                offsetY = 0;
-            } else {
-                offsetY = margin / 5;
-            }
-            canvas.drawText(yLabel[i], margin / 4 + offsetX, startY + offsetY, paint);
+            canvas.drawText(yLabel[i], xPoint + margin / 6f, startY -  margin / 6f, paint);
         }
     }
 
@@ -171,7 +146,7 @@ public class CustomBarChart extends View {
     private void drawBar(Canvas canvas, Paint paint, int data[], List<Integer> colorList) {
         for (int i = 1; i <= (xLabel.length - 1); i++) {
             int startX = xPoint + i * xScale;
-            RectF rect = new RectF(startX - 5, toY(data[i - 1]), startX + 5, this.getHeight() - margin - 2);
+            RectF rect = new RectF(startX - 10, toY(data[i - 1]), startX + 10, this.getHeight() - margin * 2);
             if (i % 2 == 1) {
                 paint.setColor(ContextCompat.getColor(getContext(), colorList.get(0)));
             } else {
@@ -239,7 +214,7 @@ public class CustomBarChart extends View {
     private float toY(int num) {
         float y;
         try {
-            float a = (float) num / 100.0f;
+            float a = (float) num / (step * 1.0f);
             y = yPoint - a * yScale;
         } catch (Exception e) {
             return 0;

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="12dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="12dp"
+    android:background="@drawable/sdk_white_card_bg"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
+        <TextView
+            android:id="@+id/item_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="洗澡清洁" />
+
+        <TextView
+            android:id="@+id/item_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            tools:text="一次洗澡清洁" />
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#999999"
+            android:textSize="13sp"
+            tools:text="2020-12-12 12:12:12" />
+
+    </LinearLayout>
+
+    <com.punuo.sys.sdk.view.AdvancedTextView
+        android:id="@+id/item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="删除"
+        android:textColor="#ff1940"
+        android:textSize="14sp"
+        app:border_color="#ff1940"
+        app:border_radius="15dp"
+        app:border_width="1px" />
+
+</LinearLayout>

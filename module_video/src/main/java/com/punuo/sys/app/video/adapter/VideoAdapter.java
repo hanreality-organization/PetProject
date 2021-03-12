@@ -1,13 +1,14 @@
 package com.punuo.sys.app.video.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
@@ -33,6 +34,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private List<String> mPathList;
     private String devId;
 
+    private View.OnClickListener shareClick;
+
+    public void setShareClick(View.OnClickListener shareClick) {
+        this.shareClick = shareClick;
+    }
 
     public VideoAdapter(Context context, List<String> pathList, String devId) {
         mContext = context;
@@ -102,6 +108,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             }
         });
 
+        holder.mShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setTag(path);
+                if (shareClick != null) {
+                    shareClick.onClick(v);
+                }
+            }
+        });
+
     }
 
     private void deleteVideo(String fileName, final int position) {
@@ -148,6 +164,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         ImageView mFirstFrame;
         ImageView mPlay;
         TextView mDelete;
+        TextView mShare;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -155,6 +172,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             CreateTime = itemView.findViewById(R.id.create_time);
             mPlay = itemView.findViewById(R.id.video_play);
             mDelete = itemView.findViewById(R.id.delete_video);
+            mShare = itemView.findViewById(R.id.share_video);
         }
     }
 }

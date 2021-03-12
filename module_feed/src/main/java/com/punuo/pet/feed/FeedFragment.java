@@ -37,6 +37,7 @@ import com.punuo.pet.router.FeedRouter;
 import com.punuo.pet.router.HomeRouter;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.dev.BindDevSuccessEvent;
+import com.punuo.sip.dev.ClearDevEvent;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sip.dev.UnBindDevSuccessEvent;
 import com.punuo.sip.event.AddPlanSuccessEvent;
@@ -267,8 +268,18 @@ public class FeedFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BindDevSuccessEvent event) {
-        DevManager.getInstance().isOnline();
 
+        getPlan();
+        getRemainderQuality(true);
+        getOutedCount();
+    }
+
+    /**
+     * 设备恢复出厂设置
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ClearDevEvent event) {
         getPlan();
         getRemainderQuality(true);
         getOutedCount();
