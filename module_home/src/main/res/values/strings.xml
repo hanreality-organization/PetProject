@@ -18,6 +18,9 @@
     <string name="string_select_device_title">选择设备</string>
     <string name="string_show_more_device_tip">即将支持更多设备，敬请期待～</string>
     <string name="string_tools_text">我的工具</string>
+    <string name="string_attention">温馨提醒</string>
+    <string name="string_delete_pet_tip">确认删除该宠物信息?</string>
+    <string name="string_pet_manager">宠物管理</string>
 </resources>
 
 

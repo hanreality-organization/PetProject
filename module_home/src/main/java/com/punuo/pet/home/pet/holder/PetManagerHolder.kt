@@ -53,13 +53,13 @@ class PetManagerHolder(var view: View) : BaseViewHolder<PetData>(view) {
     }
     private fun showDelConfirmDialog(t: PetData) {
         val dialog = AlertDialog.Builder(view.context)
-                .setTitle("温馨提醒")
-                .setMessage("确认删除该宠物信息?")
-                .setPositiveButton("确定") { dialog, which ->
+                .setTitle(view.context.getString(R.string.string_attention))
+                .setMessage(view.context.getString(R.string.string_delete_pet_tip))
+                .setPositiveButton(view.context.getString(R.string.string_confirm)) { dialog, which ->
                     deletePet(t)
                     dialog.dismiss()
                 }
-                .setNegativeButton("取消") { dialog, which ->
+                .setNegativeButton(view.context.getString(R.string.string_cancel)) { dialog, which ->
                     dialog.dismiss()
                 }
                 .create()

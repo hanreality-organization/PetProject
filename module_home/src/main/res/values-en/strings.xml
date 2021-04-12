@@ -18,6 +18,9 @@
     <string name="string_select_device_title">Select Device</string>
     <string name="string_show_more_device_tip">More devices will be supported soon, so stay tuned～</string>
     <string name="string_tools_text">My Tools</string>
+    <string name="string_attention">Friendly Reminder</string>
+    <string name="string_delete_pet_tip">Confirm to delete this pet information?</string>
+    <string name="string_pet_manager">Pet Manager</string>
 </resources>
 
 

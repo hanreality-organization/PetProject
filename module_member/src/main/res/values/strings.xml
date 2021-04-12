@@ -30,6 +30,7 @@
     <string name="string_three_step"><![CDATA[1.输入手机号 > 2.输入验证码 > <font color=\"#FF1A1A\">3.设置密码</font>]]></string>
     <string name="string_submit_code">提交验证码</string>
     <string name="string_submit">提交</string>
+    <string name="string_modify">修改</string>
     <string name="string_confirm_password">确认密码</string>
     <string name="string_confirm_submit">确认提交</string>
     <string name="string_password_tip">密码长度8-32位，须包含数字、字母、符号至少2种或以上元素</string>
@@ -49,4 +50,29 @@
     <string name="new_version">有新版本:V%s</string>
     <string name="current_version">当前版本:V%s</string>
     <string name="no_device">您还未绑定设备</string>
+    <string name="string_pet_avatar">宠物头像</string>
+    <string name="string_pet_name">宠物名字</string>
+    <string name="string_pet_name_hint">请输入宠物名字</string>
+    <string name="string_pet_breed">宠物品种</string>
+    <string name="string_pet_breed_hint">请选择宠物品种</string>
+    <string name="string_pet_breed_hint_short">选择宠物品种</string>
+    <string name="string_pet_gender">宠物性别</string>
+    <string name="string_pet_gender_hint">请选择宠物性别</string>
+    <string name="string_pet_gender_hint_short">选择宠物性别</string>
+    <string name="string_pet_birth">宠物生日</string>
+    <string name="string_pet_birth_hint">请选择宠物生日</string>
+    <string name="string_pet_weight">宠物体重</string>
+    <string name="string_pet_weight_hint">请选择宠物体重(kg)</string>
+    <string name="string_add_pet">添加宠物</string>
+    <string name="string_edit_pet">编辑宠物</string>
+    <string name="string_look_pet">查看宠物</string>
+    <string name="string_british_shorthair">英国短毛猫</string>
+    <string name="string_usa_shorthair">美国短毛猫</string>
+    <string name="string_exotic_shorthair">异国短毛猫</string>
+    <string name="string_other">其他</string>
+    <string name="string_uploading">正在上传...</string>
+    <string name="string_compress">正在压缩图片...</string>
+    <string name="string_only_support_jpg">只支持jpg格式</string>
+    <string name="string_pet_avatar_hint">请上传宠物头像</string>
+    <string name="string_date_choose_tip">当前选择是未来时间，请重新设置宠物生日</string>
 </resources>

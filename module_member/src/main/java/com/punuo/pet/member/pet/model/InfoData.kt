@@ -1,5 +1,8 @@
 package com.punuo.pet.member.pet.model
 
+import com.punuo.pet.member.R
+import com.punuo.sys.sdk.PnApplication
+
 /**
  * Created by han.chen.
  * Date on 2020/10/28.
@@ -9,10 +12,10 @@ object InfoData {
     fun getPetTypeList(): MutableList<String> {
         if (petType == null) {
             petType = ArrayList()
-            petType?.add("英国短毛猫")
-            petType?.add("美国短毛猫")
-            petType?.add("异国短毛猫")
-            petType?.add("其他")
+            petType?.add(PnApplication.getInstance().getString(R.string.string_british_shorthair))
+            petType?.add(PnApplication.getInstance().getString(R.string.string_usa_shorthair))
+            petType?.add(PnApplication.getInstance().getString(R.string.string_exotic_shorthair))
+            petType?.add(PnApplication.getInstance().getString(R.string.string_other))
         }
         return petType ?: ArrayList()
     }
@@ -21,8 +24,8 @@ object InfoData {
     fun getPetSexList(): MutableList<String> {
         if (petSex == null) {
             petSex = ArrayList()
-            petSex?.add("公")
-            petSex?.add("母")
+            petSex?.add(PnApplication.getInstance().getString(R.string.string_pet_male))
+            petSex?.add(PnApplication.getInstance().getString(R.string.string_pet_female))
         }
         return petSex ?: ArrayList()
     }

@@ -85,4 +85,14 @@
     <string name="year">年</string>
     <string name="month_suffix">个月</string>
     <string name="not_one_month">未满月</string>
+    <string name="string_submit">提交</string>
+    <string name="string_modify">修改</string>
+    <string name="string_delete">删除</string>
+    <string name="string_add">添加</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_confirm">确定</string>
+    <string name="string_pet_male">公</string>
+    <string name="string_pet_female">母</string>
+    <string name="string_male">男</string>
+    <string name="string_female">女</string>
 </resources>

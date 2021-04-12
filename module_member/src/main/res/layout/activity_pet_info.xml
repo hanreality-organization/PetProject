@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物头像"
+                    android:text="@string/string_pet_avatar"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物名字"
+                    android:text="@string/string_pet_name"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -78,7 +78,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请输入宠物名字"
+                    android:hint="@string/string_pet_name_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物品种"
+                    android:text="@string/string_pet_breed"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -108,7 +108,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择宠物品种"
+                    android:hint="@string/string_pet_breed_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物性别"
+                    android:text="@string/string_pet_gender"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -138,7 +138,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择宠物性别"
+                    android:hint="@string/string_pet_gender_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物生日"
+                    android:text="@string/string_pet_birth"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -168,7 +168,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择宠物生日"
+                    android:hint="@string/string_pet_birth_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="宠物体重"
+                    android:text="@string/string_pet_weight"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -199,7 +199,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择宠物体重(kg)"
+                    android:hint="@string/string_pet_weight_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -218,7 +218,7 @@
         android:layout_margin="12dp"
         android:background="#ff1940"
         android:gravity="center"
-        android:text="提交"
+        android:text="@string/string_submit"
         android:textColor="#ffffff"
         android:textSize="18sp"
         app:border_radius="22dp" />

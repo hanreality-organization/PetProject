@@ -5,8 +5,8 @@
     <string name="string_edit_phone_number_hint">Phone Number</string>
     <string name="string_edit_code_hint">Verification Code</string>
     <string name="string_edit_code_again">Get again</string>
-    <string name="string_edit_code_timer">%dS later resending</string>
-    <string name="string_get_code">Get the verification code</string>
+    <string name="string_edit_code_timer">Try again in %d seconds</string>
+    <string name="string_get_code">Get verification code</string>
     <string name="string_login_tip">Warm Reminder: If you do not register the mobile phone number of the feeder App, it will be automatically registered when you sign in</string>
     <string name="string_login">Sign in</string>
     <string name="string_register">Register</string>
@@ -29,7 +29,7 @@
     <string name="string_two_step"><![CDATA[1.Enter your phone number > <font color=\"#FF1A1A\">2.Enter the verification code</font> > 3.Set password]]></string>
     <string name="string_three_step"><![CDATA[1.Enter your phone number > 2.Enter the verification code > <font color=\"#FF1A1A\">3.Set password</font>]]></string>
     <string name="string_submit_code">Submit verification code</string>
-    <string name="string_submit">Submit</string>
+
     <string name="string_confirm_password">Confirm password</string>
     <string name="string_confirm_submit">Confirm submit</string>
     <string name="string_password_tip">Password length 8-32 characters, must contain at least 2 or more elements of numbers, letters, symbols</string>
@@ -49,4 +49,29 @@
     <string name="new_version">New Version:V%s</string>
     <string name="current_version">Current Version:V%s</string>
     <string name="no_device">You have not yet bound the device</string>
+    <string name="string_pet_avatar">Pet Avatar</string>
+    <string name="string_pet_name">Pet Name</string>
+    <string name="string_pet_name_hint">Please input pet name</string>
+    <string name="string_pet_breed">Pet Breed</string>
+    <string name="string_pet_breed_hint">Please choose pet breed</string>
+    <string name="string_pet_breed_hint_short">Choose pet breed</string>
+    <string name="string_pet_gender">Pet Gender</string>
+    <string name="string_pet_gender_hint">Please choose pet gender</string>
+    <string name="string_pet_gender_hint_short">Choose pet gender</string>
+    <string name="string_pet_birth">Pet Birthday</string>
+    <string name="string_pet_birth_hint">Please choose pet birthday</string>
+    <string name="string_pet_weight">Pet weight</string>
+    <string name="string_pet_weight_hint">Please input pet weight(Kg)</string>
+    <string name="string_add_pet">Add Pet</string>
+    <string name="string_edit_pet">Edit Pet</string>
+    <string name="string_look_pet">View Pet</string>
+    <string name="string_british_shorthair">British Shorthair</string>
+    <string name="string_usa_shorthair">USA Shorthair</string>
+    <string name="string_exotic_shorthair">Exotic Shorthair</string>
+    <string name="string_other">Other</string>
+    <string name="string_uploading">uploading...</string>
+    <string name="string_compress">compress...</string>
+    <string name="string_only_support_jpg">only support jpg</string>
+    <string name="string_pet_avatar_hint">Please upload pet avatar</string>
+    <string name="string_date_choose_tip">The current selection is the future time. Please reset the pet\'s birthday</string>
 </resources>

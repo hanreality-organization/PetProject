@@ -85,4 +85,14 @@
     <string name="year">year(s)</string>
     <string name="month_suffix">month(s)</string>
     <string name="not_one_month">Not full month</string>
+    <string name="string_submit">Submit</string>
+    <string name="string_modify">Modify</string>
+    <string name="string_delete">Delete</string>
+    <string name="string_add">Add</string>
+    <string name="string_cancel">Cancel</string>
+    <string name="string_confirm">Confirm</string>
+    <string name="string_pet_male">Male</string>
+    <string name="string_pet_female">Female</string>
+    <string name="string_male">Male</string>
+    <string name="string_female">Female</string>
 </resources>
