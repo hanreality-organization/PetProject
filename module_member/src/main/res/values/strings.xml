@@ -75,4 +75,7 @@
     <string name="string_only_support_jpg">只支持jpg格式</string>
     <string name="string_pet_avatar_hint">请上传宠物头像</string>
     <string name="string_date_choose_tip">当前选择是未来时间，请重新设置宠物生日</string>
+    <string name="string_pet_user_protocol">用户协议</string>
+    <string name="string_customer_service">客服</string>
+    <string name="string_contract_us">联系我们：13989878430</string>
 </resources>

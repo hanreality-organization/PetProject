@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.punuo.pet.member.R;
 import com.punuo.pet.router.MemberRouter;
-import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 
 /**
@@ -34,7 +33,7 @@ public class CustomerServiceActivity extends BaseSwipeBackActivity{
         mBack = (ImageView)findViewById(R.id.back);
         mTitle = (TextView)findViewById(R.id.title);
 
-        mTitle.setText("客服");
+        mTitle.setText(R.string.string_customer_service);
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override

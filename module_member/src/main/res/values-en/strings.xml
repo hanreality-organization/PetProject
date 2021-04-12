@@ -71,7 +71,10 @@
     <string name="string_other">Other</string>
     <string name="string_uploading">uploading...</string>
     <string name="string_compress">compress...</string>
-    <string name="string_only_support_jpg">only support jpg</string>
+    <string name="string_only_support_jpg">Only support jpg</string>
     <string name="string_pet_avatar_hint">Please upload pet avatar</string>
     <string name="string_date_choose_tip">The current selection is the future time. Please reset the pet\'s birthday</string>
+    <string name="string_pet_user_protocol">User Protocol</string>
+    <string name="string_customer_service">Customer Service</string>
+    <string name="string_contract_us">Contract Us：13989878430</string>
 </resources>

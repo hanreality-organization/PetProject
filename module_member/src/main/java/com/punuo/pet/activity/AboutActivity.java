@@ -14,7 +14,7 @@ import com.punuo.pet.member.R2;
 import com.punuo.pet.router.MemberRouter;
 import com.punuo.pet.router.SDKRouter;
 import com.punuo.sip.dev.DevManager;
-import com.punuo.sys.sdk.activity.BaseActivity;
+import com.punuo.sys.sdk.activity.BaseSwipeBackActivity;
 import com.punuo.sys.sdk.util.CommonUtil;
 import com.punuo.sys.sdk.util.DeviceHelper;
 
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  */
 
 @Route(path = MemberRouter.ROUTER_ABOUT_ACTIVITY)
-public class AboutActivity extends BaseActivity implements View.OnClickListener {
+public class AboutActivity extends BaseSwipeBackActivity implements View.OnClickListener {
 
     @BindView(R2.id.user_agreement)
     RelativeLayout userAgreement;
@@ -46,35 +46,27 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void init() {
-        mLogo = findViewById(R.id.logo);
-        mBack = findViewById(R.id.back);
-        mTitle = findViewById(R.id.title);
-        version = findViewById(R.id.version);
+        mLogo = (ImageView) findViewById(R.id.logo);
+        mBack = (ImageView) findViewById(R.id.back);
+        mTitle = (TextView) findViewById(R.id.title);
+        version = (TextView) findViewById(R.id.version);
 
-        mTitle.setText("关于我们");
-        version.setText("当前版本：v" + DeviceHelper.getVersionName());
+        mTitle.setText(getString(R.string.about_me));
+        version.setText(getString(R.string.current_version, DeviceHelper.getVersionName()));
         mBack.setOnClickListener(this);
-        userAgreement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("url", "https://pet.qinqingonline.com/static/pet_user_protocol.html")
-                        .withString("title", "用户协议")
-                        .navigation();
-            }
-        });
+        userAgreement.setOnClickListener(v -> ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
+                .withString("url", "https://pet.qinqingonline.com/static/pet_user_protocol.html")
+                .withString("title", getString(R.string.string_pet_user_protocol))
+                .navigation());
         ViewGroup.LayoutParams layoutParams = mLogo.getLayoutParams();
         int width = CommonUtil.getWidth() - CommonUtil.dip2px(120f);
         layoutParams.width = width;
         layoutParams.height = width * 3 / 4;
-        mLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickCount++;
-                if (clickCount == 3) {
-                    DevManager.getInstance().clearDevConfirm(AboutActivity.this, 1);
-                    clickCount = 0;
-                }
+        mLogo.setOnClickListener(v -> {
+            clickCount++;
+            if (clickCount == 3) {
+                DevManager.getInstance().clearDevConfirm(AboutActivity.this, 1);
+                clickCount = 0;
             }
         });
     }
