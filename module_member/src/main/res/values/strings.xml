@@ -74,8 +74,19 @@
     <string name="string_compress">正在压缩图片...</string>
     <string name="string_only_support_jpg">只支持jpg格式</string>
     <string name="string_pet_avatar_hint">请上传宠物头像</string>
-    <string name="string_date_choose_tip">当前选择是未来时间，请重新设置宠物生日</string>
+    <string name="string_date_choose_tip">当前选择是未来时间，请重新设置生日</string>
     <string name="string_pet_user_protocol">用户协议</string>
     <string name="string_customer_service">客服</string>
     <string name="string_contract_us">联系我们：13989878430</string>
+    <string name="string_add_user_info">添加用户信息</string>
+    <string name="string_edit_user_info">编辑用户信息</string>
+    <string name="string_view_user_info">查看用户信息</string>
+    <string name="string_input_user_nick_hint">请输入昵称</string>
+    <string name="string_choose_user_gender_hint">请选择性别</string>
+    <string name="string_upload_user_avatar_hint">请上传头像</string>
+    <string name="string_choose_user_birth_hint">请输入生日</string>
+    <string name="string_user_avatar">用户头像</string>
+    <string name="string_user_nick">用户昵称</string>
+    <string name="string_user_gender">用户性别</string>
+    <string name="string_user_birth">用户生日</string>
 </resources>

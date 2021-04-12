@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="用户头像"
+                    android:text="@string/string_user_avatar"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="用户昵称"
+                    android:text="@string/string_user_nick"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -78,7 +78,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请输入昵称"
+                    android:hint="@string/string_input_user_nick_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="用户性别"
+                    android:text="@string/string_user_gender"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -108,7 +108,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择性别"
+                    android:hint="@string/string_choose_user_gender_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="用户生日"
+                    android:text="@string/string_user_birth"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 
@@ -138,7 +138,7 @@
                     android:layout_centerVertical="true"
                     android:drawableRight="@drawable/icon_arrow_right"
                     android:gravity="right|center_vertical"
-                    android:hint="请选择生日"
+                    android:hint="@string/string_choose_user_birth_hint"
                     android:includeFontPadding="false"
                     android:drawablePadding="6dp"
                     android:textColorHint="#999999" />
@@ -156,7 +156,7 @@
         android:layout_margin="12dp"
         android:background="#ff1940"
         android:gravity="center"
-        android:text="提交"
+        android:text="@string/string_submit"
         android:textColor="#ffffff"
         android:textSize="18sp"
         app:border_radius="22dp" />

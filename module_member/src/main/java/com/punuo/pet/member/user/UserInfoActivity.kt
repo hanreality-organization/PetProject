@@ -79,7 +79,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
     }
     private fun initView() {
         titleText = findViewById(R.id.title) as TextView
-        titleText.text = if (TextUtils.isEmpty(AccountManager.getUserInfo().userName)) "添加用户信息" else if (canEdit) "编辑用户信息" else "查看用户信息"
+        titleText.text = if (TextUtils.isEmpty(AccountManager.getUserInfo().userName)) getString(R.string.string_add_user_info) else if (canEdit) getString(R.string.string_edit_user_info) else getString(R.string.string_view_user_info)
         backIcon = findViewById(R.id.back)
         backIcon.setOnClickListener {
             onBackPressed()
@@ -103,7 +103,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
             userBirth.text = userInfo.getBirth()
             mUserBirth = userInfo.getBirth()
 
-            userSex.text = if (userInfo.gender == 1) "男" else "女"
+            userSex.text = if (userInfo.gender == 1) getString(R.string.string_male) else getString(R.string.string_female)
             mUserSex = userInfo.gender
         }
 
@@ -118,25 +118,25 @@ class UserInfoActivity :BaseSwipeBackActivity() {
             }
             userNick.setOnClickListener {
                 val editText = EditText(this)
-                editText.hint = "请输入用户昵称"
+                editText.hint = getString(R.string.string_input_user_nick_hint)
                 mUserNick?.let { text->
                     editText.setText(text)
                     editText.setSelection(text.length)
                 }
                 AlertDialog.Builder(this)
-                        .setTitle("请输入用户昵称")
+                        .setTitle(getString(R.string.string_input_user_nick_hint))
                         .setView(editText)
-                        .setPositiveButton("确定") { dialog: DialogInterface, which: Int ->
+                        .setPositiveButton(getString(R.string.string_confirm)) { dialog: DialogInterface, which: Int ->
                             val text = editText.text.toString()
                             if (TextUtils.isEmpty(text)) {
-                                ToastUtils.showToast("请输入用户昵称")
+                                ToastUtils.showToast(R.string.string_input_user_nick_hint)
                                 return@setPositiveButton
                             }
                             mUserNick = text
                             userNick.text = text
                             dialog.dismiss()
                         }
-                        .setNegativeButton("取消") { dialog, which -> dialog.dismiss() }.show()
+                        .setNegativeButton(getString(R.string.string_cancel)) { dialog, which -> dialog.dismiss() }.show()
             }
             userSex.setOnClickListener {
                 val pvOption = OptionsPickerBuilder(this,
@@ -144,7 +144,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
                             mUserSex = options1 + 1
                             userSex.text = InfoData.getUserSexList()[options1]
                         })
-                        .setTitleText("请选择用户性别")
+                        .setTitleText(getString(R.string.string_choose_user_gender_hint))
                         .build<String>()
                 pvOption.setPicker(InfoData.getUserSexList())
                 pvOption.show()
@@ -154,7 +154,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
                     val select = Calendar.getInstance()
                     select.time = date
                     if (select.after(Calendar.getInstance())) {
-                        ToastUtils.showToast("当前选择是未来时间，请重新设置用户生日")
+                        ToastUtils.showToast(getString(R.string.string_date_choose_tip))
                         return@OnTimeSelectListener
                     }
                     mUserBirth = mSimpleDateFormat.format(date)
@@ -165,7 +165,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
             }
         }
         submit = findViewById(R.id.submit) as TextView
-        submit.text = if (TextUtils.isEmpty(AccountManager.getUserInfo().userName)) "提交" else "修改"
+        submit.text = if (TextUtils.isEmpty(AccountManager.getUserInfo().userName)) getString(R.string.string_submit) else getString(R.string.string_modify)
         submit.visibility = if (canEdit) View.VISIBLE else View.GONE
 
         submit.setOnClickListener {
@@ -181,22 +181,22 @@ class UserInfoActivity :BaseSwipeBackActivity() {
 
     private fun checkValid() :Boolean {
         if (TextUtils.isEmpty(mUserAvatar)) {
-            ToastUtils.showToast("请上传用户头像")
+            ToastUtils.showToast(getString(R.string.string_upload_user_avatar_hint))
             return false
         }
 
         if (TextUtils.isEmpty(mUserNick)) {
-            ToastUtils.showToast("请输入用户名字")
+            ToastUtils.showToast(getString(R.string.string_input_user_nick_hint))
             return false
         }
 
         if (mUserSex == -1) {
-            ToastUtils.showToast("请选择用户性别")
+            ToastUtils.showToast(getString(R.string.string_choose_user_gender_hint))
             return false
         }
 
         if (TextUtils.isEmpty(mUserBirth)) {
-            ToastUtils.showToast("请输入用户生日")
+            ToastUtils.showToast(getString(R.string.string_choose_user_birth_hint))
             return false
         }
 
@@ -282,7 +282,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
                     if (BitmapUtil.isJPEG(path)) {
                         uploadPicture(compressBitmap(path))
                     } else {
-                        ToastUtils.showToast("只支持jpg格式")
+                        ToastUtils.showToast(getString(R.string.string_only_support_jpg))
                     }
                 }
                 else -> {
@@ -301,7 +301,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
         if (!file.exists()) {
             return
         }
-        showLoadingDialog("正在上传...")
+        showLoadingDialog(getString(R.string.string_uploading))
         mUploadPictureRequest = UploadPictureRequest()
         mUploadPictureRequest!!.addEntityParam("photo", file)
         mUploadPictureRequest!!.addEntityParam("userName", AccountManager.getUserName())
@@ -335,7 +335,7 @@ class UserInfoActivity :BaseSwipeBackActivity() {
         if (TextUtils.isEmpty(selectPath)) {
             return ""
         }
-        showLoadingDialog("正在压缩图片...")
+        showLoadingDialog(getString(R.string.string_compress))
         val bitmap = FileUtil.compressBitmap(selectPath)
         val temp = FileUtil.saveBitmap(bitmap, System.currentTimeMillis().toString())
         dismissLoadingDialog()

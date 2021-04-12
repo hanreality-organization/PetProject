@@ -34,8 +34,8 @@ object InfoData {
     fun getUserSexList(): MutableList<String> {
         if (userSex == null) {
             userSex = ArrayList()
-            userSex?.add("男")
-            userSex?.add("女")
+            userSex?.add(PnApplication.getInstance().getString(R.string.string_male))
+            userSex?.add(PnApplication.getInstance().getString(R.string.string_female))
         }
         return userSex ?: ArrayList()
     }

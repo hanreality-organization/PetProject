@@ -73,8 +73,19 @@
     <string name="string_compress">compress...</string>
     <string name="string_only_support_jpg">Only support jpg</string>
     <string name="string_pet_avatar_hint">Please upload pet avatar</string>
-    <string name="string_date_choose_tip">The current selection is the future time. Please reset the pet\'s birthday</string>
+    <string name="string_date_choose_tip">The current selection is the future time. Please reset the birthday</string>
     <string name="string_pet_user_protocol">User Protocol</string>
     <string name="string_customer_service">Customer Service</string>
     <string name="string_contract_us">Contract Us：13989878430</string>
+    <string name="string_add_user_info">Add User Information</string>
+    <string name="string_edit_user_info">Edit User Information</string>
+    <string name="string_view_user_info">View User Information</string>
+    <string name="string_input_user_nick_hint">Please enter nick</string>
+    <string name="string_choose_user_gender_hint">Please choose gender</string>
+    <string name="string_upload_user_avatar_hint">Please upload avatar</string>
+    <string name="string_choose_user_birth_hint">Please choose birth</string>
+    <string name="string_user_avatar">User Avatar</string>
+    <string name="string_user_nick">User Nick</string>
+    <string name="string_user_gender">User Gender</string>
+    <string name="string_user_birth">User Birthday</string>
 </resources>
