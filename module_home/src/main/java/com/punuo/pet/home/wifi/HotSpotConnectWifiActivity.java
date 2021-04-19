@@ -6,7 +6,6 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -42,11 +41,9 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
     @BindView(R2.id.pwd)
     EditText pwd;
     @BindView(R2.id.send)
-    Button send;
+    View send;
     @BindView(R2.id.setting)
-    Button setting;
-    @BindView(R2.id.connected_wifi_name)
-    TextView connectedWifiName;
+    View setting;
     @BindView(R2.id.sub_title)
     TextView mSubTitle;
     @BindView(R2.id.authentication_type)
@@ -58,7 +55,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_hotspot_wifi);
         ButterKnife.bind(this);
-        mSubTitle.setText("去选择");
+        mSubTitle.setText(R.string.string_choose);
         mSubTitle.setVisibility(View.VISIBLE);
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +64,7 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
                         .navigation(HotSpotConnectWifiActivity.this, 5);
             }
         });
-        title.setText("AP模式连接WiFi");
+        title.setText(R.string.string_wifi_connected);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,15 +80,15 @@ public class HotSpotConnectWifiActivity extends BaseSwipeBackActivity {
                 String inputText = input.getText().toString().trim();
                 String pwdText = pwd.getText().toString().trim();
                 if (TextUtils.isEmpty(inputText)) {
-                    ToastUtils.showToast("请输入WIFI名");
+                    ToastUtils.showToast(getString(R.string.string_wifi_toast_1));
                     return;
                 }
                 if (TextUtils.isEmpty(pwdText) || pwdText.length() < 8) {
-                    ToastUtils.showToast("密码不能小于8位");
+                    ToastUtils.showToast(getString(R.string.string_wifi_toast_2));
                     return;
                 }
                 Send(inputText, pwdText, mAuthenticationType.getSelectedItem().toString());
-                ToastUtils.showToast( "发送WiFi信息成功");
+                ToastUtils.showToast( getString(R.string.string_wifi_toast_3));
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {

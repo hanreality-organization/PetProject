@@ -69,7 +69,7 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
                 scrollToFinishActivity();
             }
         });
-        mTitle.setText("选择WIFI");
+        mTitle.setText(R.string.string_connect_wifi);
         manager = WifiManager.create(this);
         mRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         manager.setOnWifiChangeListener(this);
@@ -83,10 +83,10 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
             public void onClick(View v) {
                 WifiChooseActivityPermissionsDispatcher.scanWifiWithPermissionCheck(WifiChooseActivity.this);
                 manager.scanWifi();
-                showLoadingDialog("正在获取wif");
+                showLoadingDialog(getString(R.string.string_wifi_loading_1));
             }
         });
-        showLoadingDialog("正在获取wifi");
+        showLoadingDialog(getString(R.string.string_wifi_loading_1));
     }
 
     private View.OnClickListener mClickListener = new View.OnClickListener() {
@@ -139,7 +139,7 @@ public class WifiChooseActivity extends BaseSwipeBackActivity implements OnWifiC
 
     @OnPermissionDenied(value = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
     public void scanWifiError() {
-        ToastUtils.showToast("权限获取失败");
+        ToastUtils.showToast(getString(R.string.string_permission_failed));
     }
 
     @Override

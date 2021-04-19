@@ -74,7 +74,7 @@ dependencies {
     api project(':fastvideoplayer')
     api 'com.tencent.bugly:crashreport:2.8.6.0'
     api 'com.github.bumptech.glide:glide:4.5.0'
-    api 'com.hacknife:wifimanager:1.0.2'
+    api 'com.github.hanreality-organization:WifiManager:1.0.4'
     api 'com.contrarywind:Android-PickerView:4.1.9'
 
 }

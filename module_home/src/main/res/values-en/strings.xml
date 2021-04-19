@@ -21,6 +21,27 @@
     <string name="string_attention">Friendly Reminder</string>
     <string name="string_delete_pet_tip">Confirm to delete this pet information?</string>
     <string name="string_pet_manager">Pet Manager</string>
+    <string name="string_wifi_connected">Connect WiFi</string>
+    <string name="string_choose">Choose</string>
+    <string name="string_wifi_toast_1">Please enter WiFi name</string>
+    <string name="string_wifi_toast_2">The password must not be less than 8 digits</string>
+    <string name="string_wifi_toast_3">WiFi message sent successfully</string>
+    <string name="string_wifi_tip_1">1. After the feeder is turned on, it is connected to the network named mspet with the password of 12345678.</string>
+    <string name="string_wifi_tip_2">To connect MESPET</string>
+    <string name="string_wifi_tip_3">2. Enter the WiFi name and password that the feeder wants to connect to below (please make sure you enter it correctly before continuing).</string>
+    <string name="string_wifi_tip_4">3. After all input is completed, click send WiFi information below, wait about 5 seconds, and the device will restart automatically.</string>
+    <string name="string_wifi_tip_5">4. When the device is restarted, the feeder will make a click sound, and wait about 10 seconds after the restart. If the indicator light is always on, it means that the WiFi connection is successful. If the indicator light is long and dark, it means that the WiFi connection is failed. Please press the button under the WiFi indicator light for about 10 seconds, and then the device will restart automatically. Repeat the above steps after the restar.
+ </string>
+    <string name="string_wifi_name">WiFi Name</string>
+    <string name="string_wifi_input_hint">Please enter Wifi Name</string>
+    <string name="string_wifi_password">WiFi Password</string>
+    <string name="string_wifi_password_hint">Please enter Wifi Password</string>
+    <string name="string_wifi_type">WiFi authentication mode</string>
+    <string name="string_wifi_send">Connect</string>
+    <string name="string_connect_wifi">WIFI Choose</string>
+    <string name="string_wifi_loading_1">Getting WiFi</string>
+    <string name="string_permission_failed">Permission acquisition failed</string>
+    <string name="string_scan">Scan</string>
 </resources>
 
 

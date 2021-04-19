@@ -7,6 +7,7 @@ import android.os.IBinder;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.pet.router.SDKRouter;
+import com.punuo.sys.sdk.R;
 import com.punuo.sys.sdk.httplib.JsonUtil;
 import com.punuo.sys.sdk.httplib.StringRequest;
 import com.punuo.sys.sdk.util.DeviceHelper;
@@ -59,7 +60,7 @@ public class AutoUpdateService extends Service {
                 new CheckForUpdateTask().executeOnExecutor(mExecutor);
             }
         } else {
-            ToastUtils.showToast("下载中");
+            ToastUtils.showToast(getString(R.string.string_downloading));
         }
         return START_STICKY;
     }
@@ -103,7 +104,7 @@ public class AutoUpdateService extends Service {
                         .navigation();
             } else {
                 if (needToast) {
-                    ToastUtils.showToast("当前已经是最新版本");
+                    ToastUtils.showToast(getString(R.string.string_app_update_text));
                 }
             }
         }

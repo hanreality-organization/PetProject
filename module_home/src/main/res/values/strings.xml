@@ -21,6 +21,26 @@
     <string name="string_attention">温馨提醒</string>
     <string name="string_delete_pet_tip">确认删除该宠物信息?</string>
     <string name="string_pet_manager">宠物管理</string>
+    <string name="string_wifi_connected">AP模式连接WiFi</string>
+    <string name="string_choose">去选择</string>
+    <string name="string_wifi_toast_1">请输入WIFI名</string>
+    <string name="string_wifi_toast_2">密码不能小于8位</string>
+    <string name="string_wifi_toast_3">发送WiFi信息成功</string>
+    <string name="string_wifi_tip_1">1、喂食器开机后连接名为MSPET的网络,初始密码12345678</string>
+    <string name="string_wifi_tip_2">去连接MSPET</string>
+    <string name="string_wifi_tip_3">2、右上角选择WiFi或在下面输入喂食器想要连接的WiFi名、密码和认证模式（请确保输入正确再继续下一步）</string>
+    <string name="string_wifi_tip_4">3、全部输入完成后点击下方的发送WiFi信息，等待5秒左右设备会自动重启</string>
+    <string name="string_wifi_tip_5">4、设备重启时，喂食器会发出咔咔咔的声音，重启后等待10秒左右，如果WiFi指示灯常亮则表示WiFi连接成功，如果指示灯常暗则表示WiFi连接失败，请长按WiFi指示灯下的按钮10秒左右，然后设备自动重启，重启以后重复上述步骤</string>
+    <string name="string_wifi_name">WiFi名</string>
+    <string name="string_wifi_input_hint">请输入WiFi名称</string>
+    <string name="string_wifi_password">WiFi密码</string>
+    <string name="string_wifi_password_hint">请输入WiFi密码</string>
+    <string name="string_wifi_type">WIFI认证模式</string>
+    <string name="string_wifi_send">发送WiFi信息</string>
+    <string name="string_connect_wifi">选择WIFI</string>
+    <string name="string_wifi_loading_1">正在获取wifi</string>
+    <string name="string_permission_failed">权限获取失败</string>
+    <string name="string_scan">扫描</string>
 </resources>
 
 

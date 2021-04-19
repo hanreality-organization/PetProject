@@ -95,4 +95,6 @@
     <string name="string_pet_female">Female</string>
     <string name="string_male">Male</string>
     <string name="string_female">Female</string>
+    <string name="string_app_update_text">Currently is the latest version</string>
+    <string name="string_downloading">Downloading</string>
 </resources>

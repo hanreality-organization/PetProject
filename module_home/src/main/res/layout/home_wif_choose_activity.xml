@@ -33,7 +33,7 @@
             android:layout_marginBottom="10dp"
             android:background="#ff1940"
             android:gravity="center"
-            android:text="扫描"
+            android:text="@string/string_scan"
             android:textColor="#ffffff"
             android:textSize="18sp"
             app:border_radius="22dp" />
