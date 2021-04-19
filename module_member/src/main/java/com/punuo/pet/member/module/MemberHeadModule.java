@@ -141,7 +141,7 @@ public class MemberHeadModule {
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
                         .withString("title", PnApplication.getInstance().getString(R.string.ms_shop))
-                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
+                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId=" + Constant.SHOPID).navigation();
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
@@ -223,12 +223,13 @@ public class MemberHeadModule {
     }
 
     private GetIdRequest mGetIdRequest;
-    private void getShopId(){
-        if(mGetIdRequest!=null&&!mGetIdRequest.isFinish()){
+
+    private void getShopId() {
+        if (mGetIdRequest != null && !mGetIdRequest.isFinish()) {
             return;
         }
         mGetIdRequest = new GetIdRequest();
-        mGetIdRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetIdRequest.addUrlParam("username", AccountManager.getUserName());
         mGetIdRequest.setRequestListener(new RequestListener<GetIdModel>() {
             @Override
             public void onComplete() {
