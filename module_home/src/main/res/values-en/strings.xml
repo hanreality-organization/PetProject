@@ -39,6 +39,30 @@
     <string name="string_wifi_loading_1">Getting WiFi</string>
     <string name="string_permission_failed">Permission acquisition failed</string>
     <string name="string_scan">Scan</string>
+    <string name="string_device_manager">Device Manager</string>
+    <string name="string_device_bind">Device Bind</string>
+    <string name="string_device_permissions">Device Authority</string>
+    <string name="string_my_apply">My Apply</string>
+    <string name="string_empty_device">Equipment not currently under management</string>
+    <string name="string_empty_apply">No application information at present</string>
+    <string name="string_device_binding">Binding Device...</string>
+    <string name="string_apply_success">Apply Success</string>
+    <string name="string_apply">Apply</string>
+    <string name="string_no_bind">The device to be bound currently has no primary user. After confirming the binding, you will automatically become the primary user. Do you confirm the binding?</string>
+    <string name="string_has_bind">The current device to be bound already has a primary user, so we need to apply to the primary user. Are you sure to apply for binding?</string>
+    <string name="string_empty_device_text">No device information yet, please bind the device</string>
+    <string name="string_only_bind_one">For the moment, only one device can be bound. If you want to change the bound device, please unbind it first</string>
+    <string name="string_device_num">Please enter the device number</string>
+    <string name="string_unbind_device">unbind</string>
+    <string name="string_checking">Under Review</string>
+    <string name="string_passed">Passed</string>
+    <string name="string_refuse">Refused</string>
+    <string name="string_apply_user">user:%s</string>
+    <string name="string_apply_device">device:%s</string>
+    <string name="string_apply_time">time:%s</string>
+    <string name="string_passed_or_refused">Passed/Refused</string>
+    <string name="string_pass_text">pass</string>
+    <string name="string_refuse_text">refuse</string>
 </resources>
 
 

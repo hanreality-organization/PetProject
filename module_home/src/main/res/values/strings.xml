@@ -38,6 +38,30 @@
     <string name="string_wifi_loading_1">正在获取wifi</string>
     <string name="string_permission_failed">权限获取失败</string>
     <string name="string_scan">扫描</string>
+    <string name="string_device_manager">设备管理</string>
+    <string name="string_device_bind">设备绑定</string>
+    <string name="string_device_permissions">设备权限</string>
+    <string name="string_my_apply">我的申请</string>
+    <string name="string_empty_device">暂无可管理的设备</string>
+    <string name="string_empty_apply">暂无申请信息</string>
+    <string name="string_device_binding">设备绑定中...</string>
+    <string name="string_apply_success">申请成功</string>
+    <string name="string_apply">申请</string>
+    <string name="string_no_bind">当前要绑定的设备暂无主用户，确认绑定之后，您自动成为主用户，是否确认绑定？</string>
+    <string name="string_has_bind">当前要绑定的设备已存在主用户，需要向主用户申请，是否确定申请绑定？</string>
+    <string name="string_empty_device_text">暂无设备信息，请绑定设备</string>
+    <string name="string_only_bind_one">暂时只支持绑定一台设备，如若更换绑定设备，请先解绑</string>
+    <string name="string_device_num">请输入设备号</string>
+    <string name="string_unbind_device">解绑</string>
+    <string name="string_checking">审核中</string>
+    <string name="string_passed">已通过</string>
+    <string name="string_refuse">已拒绝</string>
+    <string name="string_apply_user">申请用户:%s</string>
+    <string name="string_apply_device">申请设备:%s</string>
+    <string name="string_apply_time">申请时间:%s</string>
+    <string name="string_passed_or_refused">已通过/已拒绝</string>
+    <string name="string_pass_text">通过</string>
+    <string name="string_refuse_text">拒绝</string>
 </resources>
 
 
