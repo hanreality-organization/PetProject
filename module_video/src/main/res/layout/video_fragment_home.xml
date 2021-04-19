@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="离线"
+            android:text="@string/string_offline"
             android:textColor="#999999"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -111,7 +111,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="音量减"
+                    android:gravity="center"
+                    android:text="@string/string_voice_dec"
                     android:textColor="#707070" />
             </LinearLayout>
 
@@ -134,7 +135,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="音量加"
+                    android:gravity="center"
+                    android:text="@string/string_voice_inc"
                     android:textColor="#707070" />
             </LinearLayout>
 
@@ -160,7 +162,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="视频回放"
+                    android:gravity="center"
+                    android:text="@string/string_video_replay"
                     android:textColor="#707070" />
             </LinearLayout>
 
@@ -183,7 +186,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="录音"
+                    android:gravity="center"
+                    android:text="@string/string_voice_record"
                     android:textColor="#707070" />
             </LinearLayout>
 

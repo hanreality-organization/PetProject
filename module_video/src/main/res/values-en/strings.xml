@@ -1,0 +1,10 @@
+<resources>
+    <string name="string_voice_dec">Volume Reduce</string>
+    <string name="string_voice_inc">Volume Increase</string>
+    <string name="string_video_replay">Video Playback</string>
+    <string name="string_voice_record">Voice Recorder</string>
+    <string name="string_stop_play">Stop</string>
+    <string name="string_get_video">Getting the video...</string>
+    <string name="string_video_title">Video</string>
+    <string name="string_device_tip">Please confirm that the device has been bound</string>
+</resources>

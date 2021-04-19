@@ -102,4 +102,7 @@
     <string name="device_basin">梦视智能宠物猫砂盆</string>
     <string name="device_feeder">梦视智能宠物喂食器</string>
     <string name="device_feeder_title">智能宠物喂食器</string>
+    <string name="string_online">在线</string>
+    <string name="string_unbind">未绑定</string>
+    <string name="string_offline">离线</string>
 </resources>
