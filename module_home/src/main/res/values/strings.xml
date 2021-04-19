@@ -62,6 +62,12 @@
     <string name="string_passed_or_refused">已通过/已拒绝</string>
     <string name="string_pass_text">通过</string>
     <string name="string_refuse_text">拒绝</string>
+    <string name="string_health_text">健康统计</string>
+    <string name="string_feed_times_text">出粮频率(次)</string>
+    <string name="string_feed_g_text">出粮克数(克)</string>
+    <string name="string_remind_g_text">剩余克数(克)</string>
+    <string name="string_daily_care">日常护理</string>
+    <string name="string_empty_data">获取到的数据为空</string>
 </resources>
 
 

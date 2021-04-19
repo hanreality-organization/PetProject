@@ -70,7 +70,7 @@ public class ChartActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_chart_activity);
         ButterKnife.bind(this);
-        mTitle.setText("健康统计");
+        mTitle.setText(R.string.string_health_text);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,13 +91,13 @@ public class ChartActivity extends BaseSwipeBackActivity {
                 String str = mFilter1.getSelectedItem().toString();
                 mChartContainer1.removeAllViews();
                 ChartType chartType = ChartType.DAY;
-                if ("日".equals(str)) {
+                if (getString(R.string.text_day).equals(str)) {
                     chartType = ChartType.DAY;
                 }
-                if ("周".equals(str)) {
+                if (getString(R.string.text_week).equals(str)) {
                     chartType = ChartType.WEEK;
                 }
-                if ("月".equals(str)) {
+                if (getString(R.string.text_month).equals(str)) {
                     chartType = ChartType.MONTH;
                 }
                 getFoodFrequency(chartType);
@@ -115,13 +115,13 @@ public class ChartActivity extends BaseSwipeBackActivity {
                 String str = mFilter2.getSelectedItem().toString();
                 mChartContainer2.removeAllViews();
                 ChartType chartType = ChartType.DAY;
-                if ("日".equals(str)) {
+                if (getString(R.string.text_day).equals(str)) {
                     chartType = ChartType.DAY;
                 }
-                if ("周".equals(str)) {
+                if (getString(R.string.text_week).equals(str)) {
                     chartType = ChartType.WEEK;
                 }
-                if ("月".equals(str)) {
+                if (getString(R.string.text_month).equals(str)) {
                     chartType = ChartType.MONTH;
                 }
                 getFoodNumber(chartType);
@@ -139,13 +139,13 @@ public class ChartActivity extends BaseSwipeBackActivity {
                 String str = mFilter3.getSelectedItem().toString();
                 mChartContainer3.removeAllViews();
                 ChartType chartType = ChartType.DAY;
-                if ("日".equals(str)) {
+                if (getString(R.string.text_day).equals(str)) {
                     chartType = ChartType.DAY;
                 }
-                if ("周".equals(str)) {
+                if (getString(R.string.text_week).equals(str)) {
                     chartType = ChartType.WEEK;
                 }
-                if ("月".equals(str)) {
+                if (getString(R.string.text_month).equals(str)) {
                     chartType = ChartType.MONTH;
                 }
                 getSurplusFood(chartType);

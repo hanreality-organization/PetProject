@@ -1,81 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:theme="@android:style/Theme.Translucent">
 
-    <RelativeLayout
-        android:layout_width="250dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:background="@color/white"
-        android:layout_centerInParent="true">
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/feed_now_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="立即出粮"
-            android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="@string/string_feed_now"
+            android:textColor="@color/black" />
+
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/feed_now_title"
-            android:background="#C0C0C0"/>
+            android:layout_height="1dp"
+            android:background="#C0C0C0" />
+
         <LinearLayout
-            android:id="@+id/feed_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:layout_marginLeft="20dp"
-                android:text="喂食量(份)"/>
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:text="(每份约10g)"
-                android:textColor="@color/black"
-                android:gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/add_sub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/feed_amount">
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:text="3"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:layout_marginLeft="20dp"/>
-            <TextView
-                android:id="@+id/sub_count"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:background="@drawable/feed_count_sub_bg"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="@color/black"
-                />
-            <TextView
-                android:id="@+id/add_count"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@color/black"
-                android:background="@drawable/feed_count_add_bg"/>
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <LinearLayout
+                android:id="@+id/feed_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/string_feed_count"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/add_sub"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/label"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="@string/string_feed_tip"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sub_count"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/feed_count_sub_bg"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/add_count"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/feed_count_add_bg"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
+
         <Button
             android:id="@+id/complete"
             android:layout_width="match_parent"
@@ -83,7 +111,7 @@
             android:layout_below="@+id/add_sub"
             android:layout_marginTop="20dp"
             android:background="#8BC34A"
-            android:text="完成"/>
+            android:text="@string/string_confirm" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

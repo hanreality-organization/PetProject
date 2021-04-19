@@ -105,4 +105,7 @@
     <string name="string_online">在线</string>
     <string name="string_unbind">未绑定</string>
     <string name="string_offline">离线</string>
+    <string name="text_day">日</string>
+    <string name="text_week">周</string>
+    <string name="text_month">月</string>
 </resources>

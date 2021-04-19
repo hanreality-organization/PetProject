@@ -65,7 +65,7 @@ public class FeedHealthActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
-        mTitle.setText("健康喂养");
+        mTitle.setText(R.string.string_health_feed);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

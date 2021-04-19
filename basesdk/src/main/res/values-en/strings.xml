@@ -105,4 +105,7 @@
     <string name="string_online">online</string>
     <string name="string_unbind">unbind</string>
     <string name="string_offline">offline</string>
+    <string name="text_day">day</string>
+    <string name="text_week">week</string>
+    <string name="text_month">month</string>
 </resources>

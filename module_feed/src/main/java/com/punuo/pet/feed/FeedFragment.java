@@ -53,6 +53,7 @@ import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.BreatheView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -121,7 +122,11 @@ public class FeedFragment extends BaseFragment {
         mFeedRightNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFeedDialog();
+                if (DevManager.getInstance().isBindDevice()) {
+                    showFeedDialog();
+                } else {
+                    ToastUtils.showToast(R.string.string_no_device_tip);
+                }
             }
         });
         deviceStatus.setOnClickListener(new View.OnClickListener() {
@@ -208,8 +213,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     public void showFeedDialog() {
-        feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now,
-                new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
+        feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now);
         feedDialog.show();
     }
 

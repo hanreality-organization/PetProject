@@ -23,4 +23,13 @@
     <string name="string_add_plan">新增计划</string>
     <string name="string_total_feed_times">喂食总次数</string>
     <string name="string_total_feed_copies">喂食总份数(10g/份)</string>
+    <string name="string_health_feed">健康喂养</string>
+    <string name="string_edit">修改</string>
+    <string name="string_daily">每日</string>
+    <string name="string_times_text">次</string>
+    <string name="string_feed_knowledge">点击了解更多健康喂养的知识</string>
+    <string name="string_feed_now">立即出粮</string>
+    <string name="string_feed_count">喂食量(份)</string>
+    <string name="string_feed_tip">每份约10g</string>
+    <string name="string_no_device_tip">请先绑定设备</string>
 </resources>

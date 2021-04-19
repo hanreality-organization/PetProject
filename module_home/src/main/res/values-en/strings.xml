@@ -63,6 +63,12 @@
     <string name="string_passed_or_refused">Passed/Refused</string>
     <string name="string_pass_text">pass</string>
     <string name="string_refuse_text">refuse</string>
+    <string name="string_health_text">Health Statistics</string>
+    <string name="string_feed_times_text">Feed Frequency (times)</string>
+    <string name="string_feed_g_text">Feed (g)</string>
+    <string name="string_remind_g_text">Remaining (g)</string>
+    <string name="string_daily_care">Daily Care</string>
+    <string name="string_empty_data">The data is empty</string>
 </resources>
 
 

@@ -23,4 +23,13 @@
     <string name="string_add_plan">Add Plan</string>
     <string name="string_total_feed_times">Total feeding times</string>
     <string name="string_total_feed_copies">Total feeding amount (10g/ copies)</string>
+    <string name="string_health_feed">Health Feed</string>
+    <string name="string_edit">edit</string>
+    <string name="string_daily">daily</string>
+    <string name="string_times_text">times</string>
+    <string name="string_feed_knowledge">Learn more about healthy feeding</string>
+    <string name="string_feed_now">feed immediately</string>
+    <string name="string_feed_count">feed weight(copies)</string>
+    <string name="string_feed_tip">each copies 10g</string>
+    <string name="string_no_device_tip">please bind device first</string>
 </resources>
