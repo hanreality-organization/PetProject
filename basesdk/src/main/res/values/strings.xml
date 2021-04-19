@@ -97,4 +97,9 @@
     <string name="string_female">女</string>
     <string name="string_app_update_text">当前已经是最新版本</string>
     <string name="string_downloading">下载中</string>
+    <string name="string_attention">温馨提醒</string>
+
+    <string name="device_basin">梦视智能宠物猫砂盆</string>
+    <string name="device_feeder">梦视智能宠物喂食器</string>
+    <string name="device_feeder_title">智能宠物喂食器</string>
 </resources>

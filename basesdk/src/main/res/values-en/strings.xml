@@ -97,4 +97,9 @@
     <string name="string_female">Female</string>
     <string name="string_app_update_text">Currently is the latest version</string>
     <string name="string_downloading">Downloading</string>
+    <string name="string_attention">Friendly Reminder</string>
+
+    <string name="device_basin">MS Intelligent Pet Cat Litter Basin</string>
+    <string name="device_feeder">MS Intelligent Pet Feeder</string>
+    <string name="device_feeder_title">Intelligent Pet Feeder</string>
 </resources>

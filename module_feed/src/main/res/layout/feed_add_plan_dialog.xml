@@ -19,14 +19,14 @@
             android:textSize="14sp"
             android:textColor="#333333"
             android:textStyle="bold"
-            android:text="出粮时间" />
+            android:text="@string/string_feed_time" />
 
         <TextView
             android:id="@+id/time_select"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"
-            android:hint="选择出粮时间"
+            android:hint="@string/string_feed_tip_2"
             android:textColorHint="#cdcdcd"
             android:textColor="#666666"
             android:textSize="13sp" />
@@ -54,14 +54,14 @@
             android:textSize="14sp"
             android:textColor="#333333"
             android:textStyle="bold"
-            android:text="餐名" />
+            android:text="@string/string_feed_name" />
 
         <TextView
             android:id="@+id/name_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"
-            android:hint="设置喂食餐名"
+            android:hint="@string/string_feed_tip_3"
             android:textColorHint="#cdcdcd"
             android:textColor="#666666"
             android:textSize="13sp" />
@@ -91,14 +91,14 @@
             android:textSize="14sp"
             android:textColor="#333333"
             android:textStyle="bold"
-            android:text="份数" />
+            android:text="@string/string_feed_copies" />
 
         <TextView
             android:id="@+id/size_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"
-            android:hint="设置喂食份数"
+            android:hint="@string/string_feed_tip_4"
             android:textColorHint="#cdcdcd"
             android:textColor="#666666"
             android:textSize="13sp" />

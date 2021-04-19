@@ -8,8 +8,6 @@
     <string name="string_select_device_feeder">当前设备：梦视智能宠物喂食器</string>
     <string name="string_select_device">请选择设备以便获得更多功能</string>
     <string name="string_basin_tip">设备即将上线，敬请期待</string>
-    <string name="device_basin">梦视智能宠物猫砂盆</string>
-    <string name="device_feeder">梦视智能宠物喂食器</string>
     <string name="age">年龄</string>
     <string name="weight">体重</string>
     <string name="normal">正常</string>
@@ -18,7 +16,6 @@
     <string name="string_select_device_title">选择设备</string>
     <string name="string_show_more_device_tip">即将支持更多设备，敬请期待～</string>
     <string name="string_tools_text">我的工具</string>
-    <string name="string_attention">温馨提醒</string>
     <string name="string_delete_pet_tip">确认删除该宠物信息?</string>
     <string name="string_pet_manager">宠物管理</string>
     <string name="string_wifi_connected">AP模式连接WiFi</string>

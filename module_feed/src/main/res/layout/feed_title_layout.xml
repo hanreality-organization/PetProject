@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="离线"
+            android:text="@string/string_offline"
             android:textColor="#999999"
             android:textSize="14sp"
             android:textStyle="bold" />

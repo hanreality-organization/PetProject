@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -238,7 +237,6 @@ public class MemberHeadModule {
 
             @Override
             public void onSuccess(GetIdModel result) {
-                Log.i("服务器返回的shopId", ""+result.shopId);
                 Constant.SHOPID = result.shopId;
             }
 

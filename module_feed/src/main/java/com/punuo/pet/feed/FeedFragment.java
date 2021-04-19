@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,7 +111,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
-        mTitle.setText("梦视宠物喂食器");
+        mTitle.setText(getString(R.string.device_feeder_title));
         mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,11 +250,11 @@ public class FeedFragment extends BaseFragment {
 
     private void changeDeviceStatus(int live) {
         if (live == 1) {
-            mWifiState.setText("在线");
+            mWifiState.setText(R.string.string_online);
             mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
             mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
         } else {
-            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? "未绑定" : "离线";
+            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? getString(R.string.string_unbind) : getString(R.string.string_offline);
             mWifiState.setText(text);
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
@@ -407,7 +406,6 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
         mFeedHeadModule.updateRemainder(data.quality, true);
-        Log.i("weight", "剩余粮食重量更新成功");
     }
 
     /**
@@ -423,7 +421,6 @@ public class FeedFragment extends BaseFragment {
         } else {
             Constant.LATESTWEIGHT -= out;
         }
-        Log.i("weight........", String.valueOf(temp));
         mFeedHeadModule.updateRemainder(String.valueOf(temp), true);
         getOutedCount();
     }
@@ -434,7 +431,6 @@ public class FeedFragment extends BaseFragment {
     private void updateWeight(String username) {
         UpdateWeightSipRequest mUpdateWeightRequest = new UpdateWeightSipRequest(username);
         SipUserManager.getInstance().addRequest(mUpdateWeightRequest);
-        Log.i("update_weight", "正在发送更新重量的sip请求");
     }
 
     /**

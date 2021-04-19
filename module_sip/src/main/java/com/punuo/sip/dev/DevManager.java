@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 
+import com.punuo.sip.R;
 import com.punuo.sip.SipUserManager;
 import com.punuo.sip.request.SipOnLineRequest;
 import com.punuo.sys.sdk.account.AccountManager;
@@ -142,15 +143,15 @@ public class DevManager {
 
     public void clearDevConfirm(Context context, int leave) {
         AlertDialog dialog = new  AlertDialog.Builder(context)
-                .setTitle("温馨提醒")
-                .setMessage("是否需要将设备" + DevManager.getInstance().getDevId() +"恢复置出厂设置?")
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setTitle(context.getString(R.string.string_attention))
+                .setMessage(String.format(context.getString(R.string.string_reset_tip), DevManager.getInstance().getDevId()))
+                .setNegativeButton(context.getString(R.string.string_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(context.getString(R.string.string_confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         clearDev(context, leave);
@@ -165,7 +166,7 @@ public class DevManager {
 
     private void clearDev(Context context, int leave) {
         if (context instanceof BaseActivity) {
-            ((BaseActivity) context).showLoadingDialog("正在恢复...");
+            ((BaseActivity) context).showLoadingDialog(context.getString(R.string.string_clear));
         }
         ClearDevRequest clearDevRequest = new ClearDevRequest();
         clearDevRequest.addUrlParam("username", AccountManager.getUserName());

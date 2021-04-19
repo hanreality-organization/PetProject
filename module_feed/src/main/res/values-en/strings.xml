@@ -1,0 +1,29 @@
+<resources>
+    <string name="feed_tip">Daily Feeding Advice</string>
+    <string name="feed_text">My Feeding Plan</string>
+    <string name="string_online">online</string>
+    <string name="string_unbind">unbind</string>
+    <string name="string_offline">offline</string>
+    <string name="string_edit_plan">Edit Plan</string>
+    <string name="string_quick_add">Fast Feeding</string>
+    <string name="string_add_complete">Completed</string>
+    <string name="string_remind">Surplus(g)</string>
+    <string name="string_issued">Issued (copies)</string>
+    <string name="string_plan">Plan (copies)</string>
+    <string name="string_feed_plan">Feed Plan</string>
+    <string name="string_feed_size">Please enter the number of copies</string>
+    <string name="string_copies">%s copies</string>
+    <string name="string_feed_name_input">Please enter the name of the meal</string>
+    <string name="string_feed_tip_1">Up to 6 feeding schedules can be added</string>
+    <string name="string_feed_tip_2">Please select a feeding time</string>
+    <string name="string_feed_tip_3">Please enter the feeding name</string>
+    <string name="string_feed_tip_4">Please enter the feeding number</string>
+    <string name="string_delete_tip">Are you sure want to delete this feeding program?</string>
+    <string name="string_small_tip">Tip: To delete a certain plan, long press the plan to delete!</string>
+    <string name="string_feed_time">Feeding Time</string>
+    <string name="string_feed_name">Feed Name</string>
+    <string name="string_feed_copies">Feed Copies</string>
+    <string name="string_add_plan">Add Plan</string>
+    <string name="string_total_feed_times">Total feeding times</string>
+    <string name="string_total_feed_copies">Total feeding amount (10g/ copies)</string>
+</resources>
