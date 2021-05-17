@@ -68,6 +68,17 @@
     <string name="string_remind_g_text">剩余克数(克)</string>
     <string name="string_daily_care">日常护理</string>
     <string name="string_empty_data">获取到的数据为空</string>
+    <string name="net_error">接口请求失败，请重试</string>
+    <string name="empty_data">暂无数据</string>
+    <string name="toast_delete_success">删除成功</string>
+    <string name="string_add_item">新增%s</string>
+    <string name="string_time_choose_tip">当请重前选择是未来时间，新设置完成时间</string>
+    <string name="string_desc">请输入说明</string>
+    <string name="string_toast_time">请输入完成时间</string>
+    <string name="string_add_success">添加成功</string>
+    <string name="string_completed_time">请选择完成时间</string>
+    <string name="string_text_complete_time">完成时间</string>
+    <string name="string_hint_input">请输入说明，最多输入300字</string>
 </resources>
 
 

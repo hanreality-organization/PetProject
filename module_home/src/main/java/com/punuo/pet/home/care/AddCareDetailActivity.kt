@@ -71,7 +71,8 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
 
     private fun initView() {
         titleView = findViewById(R.id.title) as TextView
-        titleView.text = "新增${title ?: "日常护理"}"
+        val defaultTitle = title?: getString(R.string.string_daily_care)
+        titleView.text = getString(R.string.string_add_item, defaultTitle)
 
         backView = findViewById(R.id.back)
         backView.setOnClickListener {
@@ -91,7 +92,7 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
                 val select = Calendar.getInstance()
                 select.time = date
                 if (select.after(Calendar.getInstance())) {
-                    ToastUtils.showToast("当请重前选择是未来时间，新设置完成时间")
+                    ToastUtils.showToast(getString(R.string.string_time_choose_tip))
                     return@OnTimeSelectListener
                 }
                 mFinishTime = mSimpleDateFormat.format(date)
@@ -119,11 +120,11 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
 
     private fun checkValid() :Boolean {
         if (TextUtils.isEmpty(descEdit.text.trim())) {
-            ToastUtils.showToast("请输入说明")
+            ToastUtils.showToast(getString(R.string.string_desc))
             return false
         }
         if (TextUtils.isEmpty(mFinishTime)) {
-            ToastUtils.showToast("请输入完成时间")
+            ToastUtils.showToast(getString(R.string.string_toast_time))
             return false
         }
         return true
@@ -152,7 +153,7 @@ class AddCareDetailActivity : BaseSwipeBackActivity() {
                 override fun onSuccess(result: BaseModel?) {
                     result?.let {
                         if (it.success) {
-                            ToastUtils.showToast("添加成功")
+                            ToastUtils.showToast(getString(R.string.string_add_success))
                             EventBus.getDefault().post(AddCareDetailEvent())
                             finish()
                         } else {

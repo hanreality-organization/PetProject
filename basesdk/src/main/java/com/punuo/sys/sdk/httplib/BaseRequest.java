@@ -12,6 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -91,6 +92,7 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
         if (!TextUtils.isEmpty(AccountManager.getSession())) {
             requestParams.put("session", AccountManager.getSession());
         }
+        requestParams.put("language", Locale.getDefault().getLanguage());
         return urlWithQueryString(getPathUrl(), requestParams);
     }
 

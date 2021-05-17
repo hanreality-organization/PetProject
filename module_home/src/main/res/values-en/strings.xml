@@ -69,6 +69,17 @@
     <string name="string_remind_g_text">Remaining (g)</string>
     <string name="string_daily_care">Daily Care</string>
     <string name="string_empty_data">The data is empty</string>
+    <string name="net_error">The request failed. Please try again</string>
+    <string name="empty_data">The data is empty</string>
+    <string name="toast_delete_success">Delete Success</string>
+    <string name="string_add_item">Add %s</string>
+    <string name="string_time_choose_tip">The current selection is the future time. Please reset the time</string>
+    <string name="string_desc">Please enter description</string>
+    <string name="string_toast_time">Please enter the time</string>
+    <string name="string_add_success">Add Success</string>
+    <string name="string_completed_time">Please enter the time</string>
+    <string name="string_text_complete_time">Completed Time</string>
+    <string name="string_hint_input">Please enter instructions, up to 300 words</string>
 </resources>
 
 
