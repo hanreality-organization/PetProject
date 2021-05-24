@@ -108,4 +108,5 @@
     <string name="text_day">日</string>
     <string name="text_week">周</string>
     <string name="text_month">月</string>
+    <string name="tip_change_language">正在切换语言</string>
 </resources>

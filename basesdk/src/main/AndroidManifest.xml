@@ -17,6 +17,9 @@
             android:name=".activity.QRScanActivity"
             android:theme="@style/Theme.Pn.Translucent"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.LanguageEntryActivity"
+            android:theme="@style/Theme.Pn.Translucent"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name="com.punuo.pet.update.AutoUpdateService">

@@ -108,4 +108,5 @@
     <string name="text_day">day</string>
     <string name="text_week">week</string>
     <string name="text_month">month</string>
+    <string name="tip_change_language">Switching language</string>
 </resources>

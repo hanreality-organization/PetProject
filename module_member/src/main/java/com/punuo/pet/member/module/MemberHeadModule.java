@@ -1,5 +1,6 @@
 package com.punuo.pet.member.module;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,8 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.R;
+import com.punuo.pet.member.pet.model.InfoData;
 import com.punuo.pet.member.request.GetIdModel;
 import com.punuo.pet.member.request.GetIdRequest;
 import com.punuo.pet.member.request.LogoutRequest;
@@ -29,9 +33,11 @@ import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.sys.sdk.model.LanguageModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
 import com.punuo.sys.sdk.util.IntentUtil;
+import com.punuo.sys.sdk.util.LanguageUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 
@@ -49,6 +55,10 @@ public class MemberHeadModule {
     private ImageView mAvatar;
     private Context mContext;
     private TextView mVersionName;
+    private TextView mLanguageText;
+
+    private int languageSelectIndex;
+
     public View getView() {
         return mView;
     }
@@ -85,9 +95,20 @@ public class MemberHeadModule {
         View wifiConnected = mView.findViewById(R.id.wificonnected);
         View petManager = mView.findViewById(R.id.pet_manager);
         View resetDev = mView.findViewById(R.id.reset_dev);
+        View language = mView.findViewById(R.id.language);
+        mLanguageText = mView.findViewById(R.id.language_text);
         mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
+
+        LanguageModel currentLanguageModel = LanguageUtil.INSTANCE.getCurrentLanguageModel();
+        if (currentLanguageModel != null) {
+            mLanguageText.setText(currentLanguageModel.getLanguageName());
+            languageSelectIndex = InfoData.INSTANCE.getLanguageList().indexOf(currentLanguageModel);
+        } else {
+            String systemLanguageName = LanguageUtil.INSTANCE.getSystemLanguageName();
+            mLanguageText.setText(systemLanguageName);
+        }
 
         //获取id
         getShopId();
@@ -168,6 +189,25 @@ public class MemberHeadModule {
             } else {
                 ToastUtils.showToast(mContext.getString(R.string.no_device));
             }
+        });
+
+        language.setOnClickListener(v -> {
+            OptionsPickerView<LanguageModel> pickerView
+                    = new OptionsPickerBuilder(mContext, (options1, options2, options3, v1) -> {
+                languageSelectIndex = options1;
+                mLanguageText.setText(InfoData.INSTANCE.getLanguageList().get(options1).getLanguageName());
+                LanguageUtil.INSTANCE.changeLanguage(mContext, InfoData.INSTANCE.getLanguageList().get(options1));
+                ARouter.getInstance()
+                        .build(SDKRouter.ROUTER_LANGUAGE_ENTRY_ACTIVITY)
+                        .navigation();
+                if (mContext instanceof Activity) {
+                    ((Activity) mContext).finish();
+                }
+            }).build();
+            pickerView.setSelectOptions(languageSelectIndex);
+            pickerView.setTitleText(mContext.getString(R.string.string_language_choose));
+            pickerView.setPicker(InfoData.INSTANCE.getLanguageList());
+            pickerView.show();
         });
     }
 

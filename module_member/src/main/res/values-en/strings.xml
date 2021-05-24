@@ -36,6 +36,7 @@
     <string name="string_set_password">Set Password</string>
     <string name="edit_user_info">Edit Personal Information</string>
     <string name="ms_shop">MS Shop</string>
+    <string name="ms_language">Language</string>
     <string name="device_manager">Device Manager</string>
     <string name="pet_manager">Pet Manager</string>
     <string name="clear_cache">Clear Cache</string>
@@ -88,4 +89,7 @@
     <string name="string_user_nick">User Nick</string>
     <string name="string_user_gender">User Gender</string>
     <string name="string_user_birth">User Birthday</string>
+    <string name="string_language_zh">简体中文</string>
+    <string name="string_language_en">English</string>
+    <string name="string_language_choose">Please Choose Language</string>
 </resources>

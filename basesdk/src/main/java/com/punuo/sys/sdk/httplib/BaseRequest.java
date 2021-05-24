@@ -6,13 +6,13 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.util.LanguageUtil;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -92,7 +92,7 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
         if (!TextUtils.isEmpty(AccountManager.getSession())) {
             requestParams.put("session", AccountManager.getSession());
         }
-        requestParams.put("language", Locale.getDefault().getLanguage());
+        requestParams.put("language", LanguageUtil.INSTANCE.getCurrentLanguage());
         return urlWithQueryString(getPathUrl(), requestParams);
     }
 

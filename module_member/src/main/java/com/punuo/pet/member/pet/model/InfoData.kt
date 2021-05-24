@@ -2,6 +2,7 @@ package com.punuo.pet.member.pet.model
 
 import com.punuo.pet.member.R
 import com.punuo.sys.sdk.PnApplication
+import com.punuo.sys.sdk.model.LanguageModel
 
 /**
  * Created by han.chen.
@@ -40,5 +41,14 @@ object InfoData {
         return userSex ?: ArrayList()
     }
 
+    private var languageList :ArrayList<LanguageModel>? = null
+    fun getLanguageList():MutableList<LanguageModel> {
+        if (languageList == null) {
+            languageList = ArrayList()
+            languageList?.add(LanguageModel(PnApplication.getInstance().getString(R.string.string_language_zh), "zh","CN"))
+            languageList?.add(LanguageModel(PnApplication.getInstance().getString(R.string.string_language_en), "en",""))
+        }
+        return languageList ?: ArrayList()
+    }
 
 }
