@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-while read line; do
+while read -r line; do
   result=$(echo "$line" | grep "versionCode")
   if [ "$result" != "" ]; then
     versionCode=$(echo "$line" | sed 's/[^0-9]*//g')
@@ -7,11 +7,11 @@ while read line; do
   fi
   result=$(echo "$line" | grep "versionName")
   if [ "$result" != "" ]; then
-    versionName=$(echo "$line" | cut -d "\"" -f2)
+    versionName=$(echo "$line" | sed 's/.*\"\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/g')
     echo "版本名：${versionName}"
-    one=$(echo "$versionName" | cut -d "." -f1)
-    two=$(echo "$versionName" | cut -d "." -f2)
-    three=$(echo "$versionName" | cut -d "." -f3)
+    one=$(echo "$versionName" | sed 's/\([0-9]*\)\..*/\1/g')
+    two=$(echo "$versionName" | sed 's/.*\.\([0-9]*\)\..*/\1/g')
+    three=$(echo "$versionName" | sed 's/.*\.\([0-9]*\)/\1/g')
     if [ "$two" -lt 10 ]; then
       two="0${two}"
     fi
@@ -24,9 +24,18 @@ while read line; do
 done <base.gradle
 echo "准备开始打包"
 ./gradlew assembleRelease
-echo "打包完成,开始上传apk"
-scp -r /Users/han.chen/punuo/PetProject/app/build/outputs/apk/release/feed_signed.apk root@39.98.36.250:/home/wwwroot/tp5/public/apk
-#curl -H "Expect:" -F 'file=@/Users/han.chen/punuo/PetProject/app/build/outputs/apk/release/feed_signed.apk' http://121.5.252.108:8080/apk/upload
-echo "上传完毕，更新版本信息"
-curl "http://pet.qinqingonline.com/developers/appUpgrade?versionName=${versionName}&versionCode=${versionCode}"
-echo "更新版本信息完成"
+if [ $? -eq 0 ]; then
+    echo "打包完成,开始上传apk"
+    response=$(curl --location --request POST 'http://pet.qinqingonline.com/devupgrade/moveDevfile' --form 'updateFile=@"/Users/han.chen/punuo/PetProject/app/build/outputs/apk/release/feed_signed.apk"' --form 'fileName="feed_signed.apk"')
+    result=$(echo "$response" | sed 's/.*success\":\([a-z]*\),.*/\1/g')
+    if [ "$result" = 'true' ]; then
+        echo "上传完毕，更新版本信息"
+        response=$(curl -s "http://pet.qinqingonline.com/developers/appUpgrade?versionName=${versionName}&versionCode=${versionCode}")
+        result=$(echo "$response" | sed 's/.*success\":\([a-z]*\),.*/\1/g')
+        if [ "$result" = 'true' ]; then
+            echo "版本更新成功"
+            else
+              echo "版本更新失败"
+        fi
+    fi
+fi
