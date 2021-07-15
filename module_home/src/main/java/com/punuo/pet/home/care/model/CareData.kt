@@ -24,14 +24,14 @@ class CareData : PNBaseModel() {
     val theme: String?
         get() {
             return when (careName) {
-                "洗澡清洁" -> "ShowerPlan"
-                "体检" -> "HealthExam"
-                "买宠物粮" -> "PetFood"
-                "体内驱虫" -> "InnerInsect"
-                "体外驱虫" -> "OuterInsect"
-                "疫苗注射" -> "TakeVaccine"
-                "美容护理" -> "MakeBeauty"
-                "遛宠" -> "WalkPet"
+                "洗澡清洁" ,"Cleaning" -> "ShowerPlan"
+                "体检" ,"Health Examination"-> "HealthExam"
+                "买宠物粮", "Pet Food" -> "PetFood"
+                "体内驱虫", "Insect Repellent" -> "InnerInsect"
+                "体外驱虫", "Expelling parasite" -> "OuterInsect"
+                "疫苗注射", "Vaccination" -> "TakeVaccine"
+                "美容护理", "Aesthetic Nursing" -> "MakeBeauty"
+                "遛宠", "Walking" -> "WalkPet"
                 else -> ""
             }
         }
