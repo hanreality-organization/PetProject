@@ -147,7 +147,7 @@ class BindDeviceFragment : BaseFragment() {
                 HandlerExceptionUtils.handleException(e)
             }
         }
-        showLoadingDialog("设备绑定中...")
+        showLoadingDialog(getString(R.string.string_device_binding))
         HttpManager.addRequest(mBindDeviceRequest)
     }
 
@@ -201,7 +201,7 @@ class BindDeviceFragment : BaseFragment() {
             override fun onSuccess(result: BaseModel?) {
                 result?.let {
                     if (result.success) {
-                        ToastUtils.showToast("申请成功")
+                        ToastUtils.showToast(getString(R.string.string_apply_success))
                         EventBus.getDefault().post(AddBindCheckEvent())
                     } else {
                         ToastUtils.showToast(it.message)
@@ -287,14 +287,14 @@ class BindDeviceFragment : BaseFragment() {
      */
     private fun showNoHostDialog(devId: String) {
         val alertDialog = AlertDialog.Builder(context)
-                .setTitle("温馨提醒")
-                .setMessage("当前要绑定的设备暂无主用户，确认绑定之后，您自动成为主用户，是否确认绑定？")
-                .setPositiveButton("绑定") { dialog, which ->
+                .setTitle(R.string.string_attention)
+                .setMessage(getString(R.string.string_no_bind))
+                .setPositiveButton(R.string.string_confirm) { dialog, which ->
                     dialog.dismiss()
                     bindDevice(devId)
                     activity?.finish()
                 }
-                .setNegativeButton("取消") { dialog, which ->
+                .setNegativeButton(R.string.string_cancel) { dialog, which ->
                     dialog.dismiss()
                 }.create()
         alertDialog.show()
@@ -305,14 +305,14 @@ class BindDeviceFragment : BaseFragment() {
      */
     private fun showHasHostDialog(devId: String) {
         val alertDialog = AlertDialog.Builder(context)
-                .setTitle("温馨提醒")
-                .setMessage("当前要绑定的设备已存在主用户，需要向主用户申请，是否确定申请绑定？")
-                .setPositiveButton("申请") { dialog, which ->
+                .setTitle(R.string.string_attention)
+                .setMessage(getString(R.string.string_has_bind))
+                .setPositiveButton(R.string.string_apply) { dialog, which ->
                     dialog.dismiss()
                     addBindingCheck(devId)
                     activity?.finish()
                 }
-                .setNegativeButton("取消") { dialog, which ->
+                .setNegativeButton(R.string.string_cancel) { dialog, which ->
                     dialog.dismiss()
                 }.create()
         alertDialog.show()
@@ -321,7 +321,7 @@ class BindDeviceFragment : BaseFragment() {
     private fun updateView(deviceInfoList: List<DeviceInfo>?) {
         if (deviceInfoList == null || deviceInfoList.isEmpty()) {
             val list = ArrayList<BaseDevice>()
-            list.add(EmptyData("暂无设备信息，请绑定设备"))
+            list.add(EmptyData(getString(R.string.string_empty_device_text)))
             mDeviceInfoAdapter?.appendData(list)
             mAddDevice.setOnClickListener {
                 show()
@@ -329,7 +329,7 @@ class BindDeviceFragment : BaseFragment() {
         } else {
             mDeviceInfoAdapter?.appendData(deviceInfoList)
             mAddDevice.setOnClickListener {
-                ToastUtils.showToast("暂时只支持绑定一台设备，如若更换绑定设备，请先解绑")
+                ToastUtils.showToast(getString(R.string.string_only_bind_one))
             }
         }
     }
@@ -350,13 +350,13 @@ class BindDeviceFragment : BaseFragment() {
                 val editText = EditText(context)
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
                 AlertDialog.Builder(context)
-                        .setTitle("请输入设备号")
+                        .setTitle(R.string.string_device_num)
                         .setView(editText)
-                        .setPositiveButton("确定") { dialogInterface, i ->
+                        .setPositiveButton(R.string.string_confirm) { dialogInterface, i ->
                             val devId = editText.text.toString()
                             checkHost(devId)
                             dialog?.dismiss()
-                        }.setNegativeButton("取消", DialogInterface.OnClickListener { dialogInterface, i ->
+                        }.setNegativeButton(R.string.string_cancel, DialogInterface.OnClickListener { dialogInterface, i ->
                             return@OnClickListener
                         }).show()
                 dialog?.dismiss()
@@ -380,7 +380,7 @@ class BindDeviceFragment : BaseFragment() {
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     fun openScanError() {
-        ToastUtils.showToast("权限获取失败")
+        ToastUtils.showToast(R.string.string_permission_failed)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

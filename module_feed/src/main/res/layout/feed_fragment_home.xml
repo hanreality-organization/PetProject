@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="编辑计划"
+                android:text="@string/string_edit_plan"
                 android:textColor="#FF1A1A"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="快速加餐"
+                android:text="@string/string_quick_add"
                 android:textColor="#8BC34A"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="加粮完毕"
+                android:text="@string/string_add_complete"
                 android:textColor="#4169E1"
                 android:textStyle="bold" />
         </LinearLayout>

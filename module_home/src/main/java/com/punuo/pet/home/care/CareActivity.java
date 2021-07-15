@@ -60,7 +60,7 @@ public class CareActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
-        mTitle.setText("日常护理");
+        mTitle.setText(R.string.string_daily_care);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +83,7 @@ public class CareActivity extends BaseSwipeBackActivity {
         }
         mGetCareRequest = new GetCareRequest();
         mGetCareRequest.addUrlParam("username", AccountManager.getUserName());
-        mGetCareRequest.addUrlParam("petname", "王斌弟弟");
+        mGetCareRequest.addUrlParam("petname", mPetData.petname);
         mGetCareRequest.setRequestListener(new RequestListener<CareModel>() {
             @Override
             public void onComplete() {
@@ -93,7 +93,7 @@ public class CareActivity extends BaseSwipeBackActivity {
             @Override
             public void onSuccess(CareModel result) {
                 if (result == null) {
-                    ToastUtils.showToast("获取到的数据为空");
+                    ToastUtils.showToast(getString(R.string.string_empty_data));
                 }
                 mCareAdapter.clear();
                 mCareAdapter.addAll(result.mCareDataList);

@@ -19,7 +19,8 @@
         app:pstsIndicatorHeight="2dp"
         app:pstsIndicatorSmoothOpen="true"
         app:pstsShouldExpand="true"
-        app:pstsTabPaddingLeftRight="12dp"
+        app:pstsTextAllCaps="false"
+        app:pstsTabPaddingLeftRight="0dp"
         app:pstsTextColorSelect="#FF1A1A"
         app:pstsUnderlineHeight="0px" />
 

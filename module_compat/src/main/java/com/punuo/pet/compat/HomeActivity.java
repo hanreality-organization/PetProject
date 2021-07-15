@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -68,6 +70,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View[] mTabBars = new View[TAB_COUNT];
     private View mPostView;
     private boolean loginFailed = false;
+    private String lastFragmentTag;
 
     public static final int MSG_HEART_BEAR_VALUE = 1;
     private HeartBeatTaskResumeProcessor mHeartBeatTaskResumeProcessor;
@@ -78,6 +81,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
         mMyFragmentManager = new MyFragmentManager(this);
+        if (savedInstanceState != null) {
+            lastFragmentTag = savedInstanceState.getString("lastFragmentTag");
+        }
         init();
         mHeartBeatTaskResumeProcessor = new HeartBeatTaskResumeProcessor(mBaseHandler);
         mHeartBeatTaskResumeProcessor.onCreate();
@@ -116,7 +122,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private void init() {
         initTabBars();
-        switchFragment(TAB_ONE);
+        if (!TextUtils.isEmpty(lastFragmentTag)) {
+            restoreFragment(lastFragmentTag);
+        } else {
+            switchFragment(TAB_ONE);
+        }
     }
 
     private void initTabBars() {
@@ -281,6 +291,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    private void restoreFragment(String fragmentTag) {
+        mMyFragmentManager.switchFragmentWithCache(fragmentTag, new Bundle());
+    }
+
     private void changeTab(int type) {
         for (int i = 0; i < TAB_COUNT; ++i) {
             if (i == type) {
@@ -347,5 +361,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (mHeartBeatTaskResumeProcessor != null) {
             mHeartBeatTaskResumeProcessor.onDestroy();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mMyFragmentManager != null) {
+            outState.putString("lastFragmentTag", mMyFragmentManager.getLastFragmentTag());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        lastFragmentTag = savedInstanceState.getString("lastFragmentTag");
     }
 }

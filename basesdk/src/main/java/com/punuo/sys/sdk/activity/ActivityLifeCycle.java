@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import com.punuo.sys.sdk.app.AppStateManager;
+import com.punuo.sys.sdk.util.LanguageUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -36,6 +37,7 @@ public class ActivityLifeCycle implements Application.ActivityLifecycleCallbacks
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         mActivityReference = new WeakReference<>(activity);
+        LanguageUtil.INSTANCE.changeLanguage(activity, LanguageUtil.INSTANCE.getCurrentLanguageModel());
     }
 
     @Override

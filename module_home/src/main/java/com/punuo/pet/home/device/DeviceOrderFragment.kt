@@ -40,7 +40,6 @@ class DeviceOrderFragment : BaseFragment() {
 
     private lateinit var pulltoRecyclerView: PullToRefreshRecyclerView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var myApplyBtn: TextView
     private var adapter: DeviceBindCheckAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,7 +52,6 @@ class DeviceOrderFragment : BaseFragment() {
     private fun initView() {
         pulltoRecyclerView = mFragmentView.findViewById(R.id.apply_list)
         recyclerView = pulltoRecyclerView.refreshableView
-        myApplyBtn = mFragmentView.findViewById(R.id.my_device_apply)
 
         pulltoRecyclerView.setOnRefreshListener {
             refresh()
@@ -82,7 +80,7 @@ class DeviceOrderFragment : BaseFragment() {
                     recyclerView.adapter = adapter
                     if (it.items.isNullOrEmpty()) {
                         val list = ArrayList<BaseDevice>()
-                        list.add(EmptyData("暂无可管理的设备"))
+                        list.add(EmptyData(getString(R.string.string_empty_device)))
                         adapter?.appendData(list)
                     } else {
                         adapter?.appendData(it.items?.reversed())

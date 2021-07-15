@@ -1,5 +1,8 @@
 package com.punuo.sys.sdk.util;
 
+import com.punuo.sys.sdk.PnApplication;
+import com.punuo.sys.sdk.R;
+
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -108,14 +111,14 @@ public class TimeUtils {
         StringBuilder builder = new StringBuilder();
         if (year != 0) {
             builder.append(year)
-                    .append("年");
+                    .append(PnApplication.getInstance().getString(R.string.year));
         }
         if (month != 0) {
             builder.append(month)
-                    .append("个月");
+                    .append(PnApplication.getInstance().getString(R.string.month_suffix));
         }
         if (builder.length() == 0) {
-            builder.append("未满月");
+            builder.append(PnApplication.getInstance().getString(R.string.not_one_month));
         }
         return builder.toString();
     }

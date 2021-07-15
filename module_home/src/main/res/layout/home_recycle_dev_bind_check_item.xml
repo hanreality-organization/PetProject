@@ -66,7 +66,7 @@
             android:includeFontPadding="false"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text="已通过/已拒绝"
+            android:text="@string/string_passed_or_refused"
             android:textColor="#666666"
             android:textSize="12sp"
             android:visibility="visible"/>
@@ -82,7 +82,7 @@
             android:paddingTop="4dp"
             android:paddingRight="8dp"
             android:paddingBottom="4dp"
-            android:text="通过"
+            android:text="@string/string_pass_text"
             android:textColor="#FF1A1A"
             android:textSize="12sp" />
 
@@ -98,7 +98,7 @@
             android:paddingTop="4dp"
             android:paddingRight="8dp"
             android:paddingBottom="4dp"
-            android:text="拒绝"
+            android:text="@string/string_refuse_text"
             android:textColor="#FF1A1A"
             android:textSize="12sp" />
     </LinearLayout>

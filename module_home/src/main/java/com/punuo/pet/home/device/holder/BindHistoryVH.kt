@@ -27,7 +27,7 @@ import java.lang.Exception
  * Created by han.chen.
  * Date on 2020/10/22.
  **/
-class BindHistoryVH(context:Context, parent: ViewGroup) : BaseViewHolder<BaseDevice>(
+class BindHistoryVH(var context:Context, parent: ViewGroup) : BaseViewHolder<BaseDevice>(
         LayoutInflater.from(context).inflate(R.layout.home_recycle_bind_history_item, parent, false)
 ) {
 
@@ -38,18 +38,18 @@ class BindHistoryVH(context:Context, parent: ViewGroup) : BaseViewHolder<BaseDev
 
     override fun bindData(t: BaseDevice?, position: Int) {
         (t as? BindHistoryData)?.let { order->
-            userName.text = "申请用户: ${order.username}"
-            devId.text = "申请设备: ${order.devid}"
-            applyTime.text = "申请时间: ${order.time}"
+            userName.text = context.getString(R.string.string_apply_user, order.username)
+            devId.text = context.getString(R.string.string_apply_device, order.devid)
+            applyTime.text = context.getString(R.string.string_apply_time, order.time)
             when (order.status) {
                 0 -> {
-                    applyStatus.text = "审核中"
+                    applyStatus.text = context.getString(R.string.string_checking)
                 }
                 1 -> {
-                    applyStatus.text = "已通过"
+                    applyStatus.text = context.getString(R.string.string_passed)
                 }
                 2 -> {
-                    applyStatus.text = "已拒绝"
+                    applyStatus.text = context.getString(R.string.string_refuse)
 
                 }
             }

@@ -43,7 +43,7 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
         title = findViewById(R.id.title) as TextView
         backIcon = findViewById(R.id.back) as ImageView
         subTitle = findViewById(R.id.sub_title) as TextView
-        title.text = "设备管理"
+        title.text = getString(R.string.string_device_manager)
         tabStrip = findViewById(R.id.pager_slide_tab) as PagerSlidingTabStrip
         viewPager = findViewById(R.id.view_pager) as ViewPager
         DevManager.getInstance().refreshDevRelationShip()
@@ -54,7 +54,7 @@ class DeviceManagerActivity : BaseSwipeBackActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event : SelfHost) {
-        mDeviceTabAdapter = DeviceTabAdapter(supportFragmentManager)
+        mDeviceTabAdapter = DeviceTabAdapter(this, supportFragmentManager)
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = mDeviceTabAdapter
         tabStrip.setViewPager(viewPager)

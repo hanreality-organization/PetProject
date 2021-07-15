@@ -71,7 +71,7 @@ public class QuickLoginFragment extends BaseFragment {
         mRegisterBtn = mFragmentView.findViewById(R.id.register_btn);
         mCount = new MyCount(60 * 1000, 1000);
         mLoginManager = new LoginManager(mActivity, mLoginCallBack);
-        mPhone = MMKVUtil.getString("wsp_phone");
+        mPhone = MMKVUtil.getString("wsq_phone");
         mEditPhone.setText(mPhone);
         mGetCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +101,7 @@ public class QuickLoginFragment extends BaseFragment {
             public void onClick(View v) {
                 ARouter.getInstance().build(MemberRouter.ROUTER_REGISTER_ACCOUNT_ACTIVITY)
                         .withBoolean("isRegister", true)
-                        .withString("title", "注册")
+                        .withString("title", getString(R.string.string_register))
                         .withInt("type", RegisterAccountActivity.TYPE_INPUT_PHONE)
                         .navigation();
             }
@@ -112,7 +112,7 @@ public class QuickLoginFragment extends BaseFragment {
         @Override
         public void loginSuccess() {
             ARouter.getInstance().build(CompatRouter.ROUTER_HOME_ACTIVITY).navigation();
-            MMKVUtil.setString("wsp_phone", mPhone);
+            MMKVUtil.setString("wsq_phone", mPhone);
             mActivity.finish();
         }
 
@@ -148,10 +148,10 @@ public class QuickLoginFragment extends BaseFragment {
             if (resp.errCode == BaseResp.ErrCode.ERR_OK) {
                 mLoginManager.loginWithWeChat(resp.code);
             } else if (resp.errCode == BaseResp.ErrCode.ERR_UNSUPPORT) {
-                ToastUtils.showToast("您的微信版本还不支持第三方登录");
+                ToastUtils.showToast(getString(R.string.string_wx_login_not_support));
                 dismissLoadingDialog();
             } else if (resp.errCode == BaseResp.ErrCode.ERR_USER_CANCEL) {
-                ToastUtils.showToast("您取消了微信登录");
+                ToastUtils.showToast(getString(R.string.string_wx_login_cancel));
                 dismissLoadingDialog();
             } else {
                 dismissLoadingDialog();
@@ -186,14 +186,14 @@ public class QuickLoginFragment extends BaseFragment {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            mGetCode.setText(millisUntilFinished / 1000 + "S后重发");
+            mGetCode.setText(getString(R.string.string_edit_code_timer,millisUntilFinished / 1000));
             mGetCode.setEnabled(false);
         }
 
         @Override
         public void onFinish() {
             mGetCode.setEnabled(true);
-            mGetCode.setText("重新获取");
+            mGetCode.setText(getString(R.string.string_edit_code_again));
         }
     }
 }

@@ -1,10 +1,10 @@
 package com.punuo.pet.member.module;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.punuo.pet.member.R;
+import com.punuo.pet.member.pet.model.InfoData;
 import com.punuo.pet.member.request.GetIdModel;
 import com.punuo.pet.member.request.GetIdRequest;
 import com.punuo.pet.member.request.LogoutRequest;
@@ -24,14 +27,17 @@ import com.punuo.pet.router.SDKRouter;
 import com.punuo.pet.update.AutoUpdateService;
 import com.punuo.sip.dev.DevManager;
 import com.punuo.sys.sdk.Constant;
+import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.account.AccountManager;
 import com.punuo.sys.sdk.activity.BaseActivity;
 import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.model.BaseModel;
+import com.punuo.sys.sdk.model.LanguageModel;
 import com.punuo.sys.sdk.model.UserInfo;
 import com.punuo.sys.sdk.util.DataClearUtil;
 import com.punuo.sys.sdk.util.IntentUtil;
+import com.punuo.sys.sdk.util.LanguageUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
 import com.punuo.sys.sdk.util.ToastUtils;
 
@@ -49,6 +55,10 @@ public class MemberHeadModule {
     private ImageView mAvatar;
     private Context mContext;
     private TextView mVersionName;
+    private TextView mLanguageText;
+
+    private int languageSelectIndex;
+
     public View getView() {
         return mView;
     }
@@ -85,9 +95,20 @@ public class MemberHeadModule {
         View wifiConnected = mView.findViewById(R.id.wificonnected);
         View petManager = mView.findViewById(R.id.pet_manager);
         View resetDev = mView.findViewById(R.id.reset_dev);
+        View language = mView.findViewById(R.id.language);
+        mLanguageText = mView.findViewById(R.id.language_text);
         mVersionName = mView.findViewById(R.id.current_version);
         mBuff = mView.findViewById(R.id.buff);
         mBuff.setText(DataClearUtil.getTotalCacheSize(mContext));
+
+        LanguageModel currentLanguageModel = LanguageUtil.INSTANCE.getCurrentLanguageModel();
+        if (currentLanguageModel != null) {
+            mLanguageText.setText(currentLanguageModel.getLanguageName());
+            languageSelectIndex = InfoData.INSTANCE.getLanguageList().indexOf(currentLanguageModel);
+        } else {
+            String systemLanguageName = LanguageUtil.INSTANCE.getSystemLanguageName();
+            mLanguageText.setText(systemLanguageName);
+        }
 
         //获取id
         getShopId();
@@ -140,8 +161,8 @@ public class MemberHeadModule {
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build(SDKRouter.ROUTER_WEB_VIEW_ACTIVITY)
-                        .withString("title", "梦视商城")
-                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId="+Constant.SHOPID).navigation();
+                        .withString("title", PnApplication.getInstance().getString(R.string.ms_shop))
+                        .withString("url", "http://pet.qinqingonline.com:8001/#/?userId=" + Constant.SHOPID).navigation();
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
@@ -166,8 +187,27 @@ public class MemberHeadModule {
             if (DevManager.getInstance().isBindDevice()) {
                 DevManager.getInstance().clearDevConfirm(mContext, 2);
             } else {
-                ToastUtils.showToast("您还未绑定设备");
+                ToastUtils.showToast(mContext.getString(R.string.no_device));
             }
+        });
+
+        language.setOnClickListener(v -> {
+            OptionsPickerView<LanguageModel> pickerView
+                    = new OptionsPickerBuilder(mContext, (options1, options2, options3, v1) -> {
+                languageSelectIndex = options1;
+                mLanguageText.setText(InfoData.INSTANCE.getLanguageList().get(options1).getLanguageName());
+                LanguageUtil.INSTANCE.changeLanguage(mContext, InfoData.INSTANCE.getLanguageList().get(options1));
+                ARouter.getInstance()
+                        .build(SDKRouter.ROUTER_LANGUAGE_ENTRY_ACTIVITY)
+                        .navigation();
+                if (mContext instanceof Activity) {
+                    ((Activity) mContext).finish();
+                }
+            }).build();
+            pickerView.setSelectOptions(languageSelectIndex);
+            pickerView.setTitleText(mContext.getString(R.string.string_language_choose));
+            pickerView.setPicker(InfoData.INSTANCE.getLanguageList());
+            pickerView.show();
         });
     }
 
@@ -178,7 +218,7 @@ public class MemberHeadModule {
             return;
         }
         if (mContext instanceof BaseActivity) {
-            ((BaseActivity) mContext).showLoadingDialog("正在退出...");
+            ((BaseActivity) mContext).showLoadingDialog(mContext.getString(R.string.exiting));
         }
         mLogoutRequest = new LogoutRequest();
         mLogoutRequest.addUrlParam("userName", userName);
@@ -223,12 +263,13 @@ public class MemberHeadModule {
     }
 
     private GetIdRequest mGetIdRequest;
-    private void getShopId(){
-        if(mGetIdRequest!=null&&!mGetIdRequest.isFinish()){
+
+    private void getShopId() {
+        if (mGetIdRequest != null && !mGetIdRequest.isFinish()) {
             return;
         }
         mGetIdRequest = new GetIdRequest();
-        mGetIdRequest.addUrlParam("username",AccountManager.getUserName());
+        mGetIdRequest.addUrlParam("username", AccountManager.getUserName());
         mGetIdRequest.setRequestListener(new RequestListener<GetIdModel>() {
             @Override
             public void onComplete() {
@@ -237,7 +278,6 @@ public class MemberHeadModule {
 
             @Override
             public void onSuccess(GetIdModel result) {
-                Log.i("服务器返回的shopId", ""+result.shopId);
                 Constant.SHOPID = result.shopId;
             }
 
@@ -252,10 +292,10 @@ public class MemberHeadModule {
     public void updateVersionDisplay(String versionName, boolean isNew) {
         if (isNew) {
             mVersionName.setTextColor(Color.parseColor("#ff1940"));
-            mVersionName.setText("有新版本:V" + versionName);
+            mVersionName.setText(mContext.getString(R.string.new_version, versionName));
         } else {
             mVersionName.setTextColor(Color.parseColor("#666666"));
-            mVersionName.setText("当前版本:V" + versionName);
+            mVersionName.setText(mContext.getString(R.string.current_version, versionName));
         }
 
     }

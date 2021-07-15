@@ -25,7 +25,7 @@ import java.lang.Exception
  * Created by han.chen.
  * Date on 2020/10/22.
  **/
-class DeviceBindCheckVH(context: Context, parent: ViewGroup) : BaseViewHolder<BaseDevice>(
+class DeviceBindCheckVH(var context: Context, parent: ViewGroup) : BaseViewHolder<BaseDevice>(
         LayoutInflater.from(context).inflate(R.layout.home_recycle_dev_bind_check_item, parent, false)
 ) {
 
@@ -38,9 +38,9 @@ class DeviceBindCheckVH(context: Context, parent: ViewGroup) : BaseViewHolder<Ba
 
     override fun bindData(t: BaseDevice?, position: Int) {
         (t as? DeviceBindOrder)?.let { order ->
-            userName.text = "申请用户: ${order.username}"
-            devId.text = "申请设备: ${order.devid}"
-            applyTime.text = "申请时间: ${order.time}"
+            userName.text = context.getString(R.string.string_apply_user, order.username)
+            devId.text = context.getString(R.string.string_apply_device, order.devid)
+            applyTime.text = context.getString(R.string.string_apply_time, order.time)
             when (order.status) {
                 0 -> {
                     applyStatus.visibility = View.GONE
@@ -49,13 +49,13 @@ class DeviceBindCheckVH(context: Context, parent: ViewGroup) : BaseViewHolder<Ba
                 }
                 1 -> {
                     applyStatus.visibility = View.VISIBLE
-                    applyStatus.text = "已通过"
+                    applyStatus.text = context.getString(R.string.string_passed)
                     applyOk.visibility = View.GONE
                     applyCancel.visibility = View.GONE
                 }
                 2 -> {
                     applyStatus.visibility = View.VISIBLE
-                    applyStatus.text = "已拒绝"
+                    applyStatus.text = context.getString(R.string.string_refuse)
                     applyOk.visibility = View.GONE
                     applyCancel.visibility = View.GONE
                 }

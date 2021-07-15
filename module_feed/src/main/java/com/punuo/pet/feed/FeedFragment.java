@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +53,7 @@ import com.punuo.sys.sdk.httplib.HttpManager;
 import com.punuo.sys.sdk.httplib.RequestListener;
 import com.punuo.sys.sdk.util.MMKVUtil;
 import com.punuo.sys.sdk.util.StatusBarUtil;
+import com.punuo.sys.sdk.util.ToastUtils;
 import com.punuo.sys.sdk.view.BreatheView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -112,7 +112,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     private void initView() {
-        mTitle.setText("梦视宠物喂食器");
+        mTitle.setText(getString(R.string.device_feeder_title));
         mEditFeedPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +122,11 @@ public class FeedFragment extends BaseFragment {
         mFeedRightNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFeedDialog();
+                if (DevManager.getInstance().isBindDevice()) {
+                    showFeedDialog();
+                } else {
+                    ToastUtils.showToast(R.string.string_no_device_tip);
+                }
             }
         });
         deviceStatus.setOnClickListener(new View.OnClickListener() {
@@ -209,8 +213,7 @@ public class FeedFragment extends BaseFragment {
     }
 
     public void showFeedDialog() {
-        feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now,
-                new int[]{R.id.count, R.id.sub_count, R.id.add_count, R.id.complete});
+        feedDialog = new FeedDialog(getContext(), R.layout.feed_right_now);
         feedDialog.show();
     }
 
@@ -251,11 +254,11 @@ public class FeedFragment extends BaseFragment {
 
     private void changeDeviceStatus(int live) {
         if (live == 1) {
-            mWifiState.setText("在线");
+            mWifiState.setText(R.string.string_online);
             mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
             mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
         } else {
-            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? "未绑定" : "离线";
+            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? getString(R.string.string_unbind) : getString(R.string.string_offline);
             mWifiState.setText(text);
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));
@@ -407,7 +410,6 @@ public class FeedFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventBus(WeightData data) {
         mFeedHeadModule.updateRemainder(data.quality, true);
-        Log.i("weight", "剩余粮食重量更新成功");
     }
 
     /**
@@ -423,7 +425,6 @@ public class FeedFragment extends BaseFragment {
         } else {
             Constant.LATESTWEIGHT -= out;
         }
-        Log.i("weight........", String.valueOf(temp));
         mFeedHeadModule.updateRemainder(String.valueOf(temp), true);
         getOutedCount();
     }
@@ -434,7 +435,6 @@ public class FeedFragment extends BaseFragment {
     private void updateWeight(String username) {
         UpdateWeightSipRequest mUpdateWeightRequest = new UpdateWeightSipRequest(username);
         SipUserManager.getInstance().addRequest(mUpdateWeightRequest);
-        Log.i("update_weight", "正在发送更新重量的sip请求");
     }
 
     /**

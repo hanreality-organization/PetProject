@@ -1,2 +1,10 @@
 <resources>
+    <string name="string_voice_dec">音量减</string>
+    <string name="string_voice_inc">音量加</string>
+    <string name="string_video_replay">视频回放</string>
+    <string name="string_voice_record">录音</string>
+    <string name="string_stop_play">停止播放</string>
+    <string name="string_get_video">正在获取视频...</string>
+    <string name="string_video_title">视频</string>
+    <string name="string_device_tip">请先确认已绑定设备</string>
 </resources>

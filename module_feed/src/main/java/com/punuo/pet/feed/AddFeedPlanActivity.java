@@ -84,7 +84,7 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
-        mTitle.setText("喂食计划");
+        mTitle.setText(R.string.string_feed_plan);
         mFeedCountSum = (TextView) findViewById(R.id.feed_count_sum);
         mPlanSum = (TextView) findViewById(R.id.plan_sum);
         mButton = findViewById(R.id.button);
@@ -100,37 +100,37 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
             EditText editText = new EditText(AddFeedPlanActivity.this);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             new AlertDialog.Builder(AddFeedPlanActivity.this)
-                    .setTitle("请输入份数")
+                    .setTitle(R.string.string_feed_size)
                     .setView(editText)
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setPositiveButton(R.string.string_confirm, (dialog, which) -> {
                         String text = editText.getText().toString();
                         if (TextUtils.isEmpty(text)) {
-                            ToastUtils.showToast("请输入份数");
+                            ToastUtils.showToast(getString(R.string.string_feed_size));
                             return;
                         }
                         countText = text;
-                        countSelect.setText(text + "份");
+                        countSelect.setText(getString(R.string.string_copies, text));
                         dialog.dismiss();
                     })
-                    .setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).show();
+                    .setNegativeButton(R.string.string_cancel, (dialog, which) -> dialog.dismiss()).show();
         });
 
         mealName.setOnClickListener(v -> {
             EditText editText = new EditText(AddFeedPlanActivity.this);
             new AlertDialog.Builder(AddFeedPlanActivity.this)
-                    .setTitle("请输入餐名")
+                    .setTitle(R.string.string_feed_name_input)
                     .setView(editText)
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setPositiveButton(R.string.string_confirm, (dialog, which) -> {
                         String text = editText.getText().toString();
                         if (TextUtils.isEmpty(text)) {
-                            ToastUtils.showToast("请输入餐名");
+                            ToastUtils.showToast(getString(R.string.string_feed_name_input));
                             return;
                         }
                         mealText = text;
                         mealName.setText(text);
                         dialog.dismiss();
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.string_cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -156,19 +156,19 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
 
         mButton.setOnClickListener(view -> {
             if (!enableAddPlan) {
-                ToastUtils.showToast("最多能添加6个喂食计划");
+                ToastUtils.showToast(getString(R.string.string_feed_tip_1));
                 return;
             }
             if (selectTime == 0L) {
-                ToastUtils.showToast("请选择喂食时间");
+                ToastUtils.showToast(getString(R.string.string_feed_tip_2));
                 return;
             }
             if (TextUtils.isEmpty(mealText)) {
-                ToastUtils.showToast("请输入喂食餐名");
+                ToastUtils.showToast(getString(R.string.string_feed_tip_3));
                 return;
             }
             if (TextUtils.isEmpty(countText)) {
-                ToastUtils.showToast("请输入喂食份数");
+                ToastUtils.showToast(getString(R.string.string_feed_tip_4));
                 return;
             }
             savePlanToSip(String.valueOf(selectTime), mealText, countText, AccountManager.getUserName());
@@ -183,14 +183,14 @@ public class AddFeedPlanActivity extends BaseSwipeBackActivity {
         //删除功能
         mFeedViewAdapter.setOnItemLongClickListener(position -> {
             new AlertDialog.Builder(AddFeedPlanActivity.this)
-                    .setTitle("温馨提醒")
-                    .setMessage("是否确认要删除本条喂食计划？")
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setTitle(R.string.string_attention)
+                    .setMessage(R.string.string_delete_tip)
+                    .setPositiveButton(R.string.string_confirm, (dialog, which) -> {
                         String delName = mFeedViewAdapter.getPlanName(position);
                         deletePlan(delName);
                         dialog.dismiss();
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.string_cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

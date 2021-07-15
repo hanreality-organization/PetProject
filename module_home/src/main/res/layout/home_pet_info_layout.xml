@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="年龄"
+            android:text="@string/age"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="体重"
+            android:text="@string/weight"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="正常"
+            android:text="@string/normal"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="状态"
+            android:text="@string/status"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

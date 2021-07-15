@@ -2,11 +2,12 @@ package com.punuo.pet.compat;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import android.text.TextUtils;
 
 
 /**
@@ -49,5 +50,13 @@ public class MyFragmentManager {
             ft.commitAllowingStateLoss();
             mFragmentManager.executePendingTransactions();
         }
+    }
+
+    public String getLastFragmentTag() {
+        return lastFragmentTag;
+    }
+
+    public void setLastFragmentTag(String lastFragmentTag) {
+        this.lastFragmentTag = lastFragmentTag;
     }
 }

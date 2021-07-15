@@ -20,7 +20,7 @@
         android:background="@color/tips"
         android:textColor="@color/white"
         android:gravity="center"
-        android:text="小提示：若删除某项计划，长按该计划即可删除！" />
+        android:text="@string/string_small_tip" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -64,18 +64,18 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="喂食总次数"
+                    android:text="@string/string_total_feed_times"
                     android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="喂食总份数(10g/份)"
+                    android:text="@string/string_total_feed_copies"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -137,7 +137,7 @@
         android:layout_marginBottom="12dp"
         android:background="@drawable/feed_green_circle_bg"
         android:gravity="center"
-        android:text="新增计划"
+        android:text="@string/string_add_plan"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

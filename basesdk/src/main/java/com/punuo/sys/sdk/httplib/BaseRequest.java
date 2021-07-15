@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.punuo.sys.sdk.account.AccountManager;
+import com.punuo.sys.sdk.util.LanguageUtil;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -91,6 +92,7 @@ public class BaseRequest<T> extends NetRequest implements IRequest<T> {
         if (!TextUtils.isEmpty(AccountManager.getSession())) {
             requestParams.put("session", AccountManager.getSession());
         }
+        requestParams.put("language", LanguageUtil.INSTANCE.getCurrentLanguage());
         return urlWithQueryString(getPathUrl(), requestParams);
     }
 

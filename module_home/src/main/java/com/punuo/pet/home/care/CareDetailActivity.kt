@@ -67,7 +67,7 @@ class CareDetailActivity : BaseSwipeBackActivity() {
 
     fun initView() {
         titleView = findViewById(R.id.title) as TextView
-        titleView.text = title ?: "日常护理"
+        titleView.text = title ?: getString(R.string.string_daily_care)
 
         backView = findViewById(R.id.back)
         backView.setOnClickListener {
@@ -113,13 +113,13 @@ class CareDetailActivity : BaseSwipeBackActivity() {
                     result?.let {
                         if (it.success) {
                             if (result.info.isNullOrEmpty()) {
-                                emptyText.text = "暂无数据"
+                                emptyText.text = getString(R.string.empty_data)
                                 emptyText.visibility = View.VISIBLE
                             } else {
                                 updateView(result.info)
                             }
                         } else {
-                            emptyText.text = "接口请求失败，请重试"
+                            emptyText.text = getString(R.string.net_error)
                             emptyText.visibility = View.VISIBLE
                         }
                     }
@@ -174,7 +174,7 @@ class CareDetailActivity : BaseSwipeBackActivity() {
                                     break
                                 }
                             }
-                            ToastUtils.showToast("删除成功")
+                            ToastUtils.showToast(getString(R.string.toast_delete_success))
                         } else {
                             ToastUtils.showToast(it.message)
                         }

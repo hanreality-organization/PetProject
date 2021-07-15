@@ -47,8 +47,8 @@ class PetManagerActivity : BaseSwipeBackActivity() {
         backImage = findViewById(R.id.back)
         titleText = findViewById(R.id.title) as TextView
         subTitle = findViewById(R.id.sub_title) as TextView
-        titleText.text = "宠物管理"
-        subTitle.text ="添加"
+        titleText.text = getString(R.string.string_pet_manager)
+        subTitle.text = getString(R.string.string_add)
         subTitle.visibility = View.VISIBLE
         backImage.setOnClickListener { onBackPressed() }
         subTitle.setOnClickListener {

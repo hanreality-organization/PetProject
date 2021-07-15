@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,28 +17,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="1、喂食器开机后连接名为MSPET的网络,初始密码12345678"
-                android:textColor="#333333" />
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/string_wifi_tip_1"
+                android:textColor="#666666"
+                android:textSize="13sp" />
 
-            <Button
+            <com.punuo.sys.sdk.view.AdvancedTextView
                 android:id="@+id/setting"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#ff1940"
                 android:gravity="center"
-                android:text="去连接MSPET" />
-
+                android:text="@string/string_wifi_tip_2"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                app:border_radius="22dp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -50,38 +53,35 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="2、右上角选择WiFi或在下面输入喂食器想要连接的WiFi名、密码和认证模式（请确保输入正确再继续下一步）"
-                android:textColor="#333333" />
+                android:text="@string/string_wifi_tip_3"
+                android:textColor="#666666"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="3、全部输入完成后点击下方的发送WiFi信息，等待5秒左右设备会自动重启"
-                android:textColor="#333333" />
+                android:text="@string/string_wifi_tip_4"
+                android:textColor="#666666"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
-                android:gravity="left"
-                android:text="4、设备重启时，喂食器会发出咔咔咔的声音，重启后等待10秒左右，如果WiFi指示灯常亮则表示WiFi连接成功，如果指示灯常暗则表示WiFi连接失败，请长按WiFi指示灯下的按钮10秒左右，然后设备自动重启，重启以后重复上述步骤"
-                android:textColor="#333333" />
+                android:text="@string/string_wifi_tip_5"
+                android:textColor="#666666"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginRight="12dp"
-                android:text="WiFi名"
+                android:text="@string/string_wifi_name"
                 android:textSize="14sp"
+                android:textColor="#333333"
+                android:textStyle="bold"
                 tools:visibility="visible" />
 
             <EditText
@@ -89,25 +89,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
                 android:background="@drawable/login_edit_bg"
                 android:drawableRight="@drawable/ic_delete_grey"
                 android:gravity="center_vertical"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:textSize="14sp"
-                tools:hint="请输入WiFi名称" />
+                android:hint="@string/string_wifi_input_hint" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginRight="12dp"
-                android:text="WiFi密码"
+                android:text="@string/string_wifi_password"
                 android:textSize="14sp"
+                android:textColor="#333333"
+                android:textStyle="bold"
                 tools:visibility="visible" />
 
             <EditText
@@ -115,59 +113,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
                 android:background="@drawable/login_edit_bg"
                 android:drawableRight="@drawable/ic_delete_grey"
                 android:gravity="center_vertical"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:textSize="14sp"
-                tools:hint="请输入WiFi密码"
-                tools:visibility="visible" />
+                android:hint="@string/string_wifi_password_hint" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginRight="12dp"
-                android:text="WIFI认证模式"
+                android:text="@string/string_wifi_type"
                 android:textSize="14sp"
+                android:textColor="#333333"
+                android:textStyle="bold"
                 tools:visibility="visible" />
 
             <Spinner
                 android:id="@+id/authentication_type"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
                 android:background="@drawable/login_edit_bg"
-                android:entries="@array/authentication_type"/>
+                android:entries="@array/authentication_type"
+                android:gravity="center_vertical"
+                android:textSize="14sp" />
 
-            <Button
+            <com.punuo.sys.sdk.view.AdvancedTextView
                 android:id="@+id/send"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#ff1940"
                 android:gravity="center"
-                android:text="发送WiFi信息" />
-
-            <TextView
-                android:id="@+id/connected_wifi_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:textColor="#333333" />
+                android:text="@string/string_wifi_send"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                app:border_radius="22dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

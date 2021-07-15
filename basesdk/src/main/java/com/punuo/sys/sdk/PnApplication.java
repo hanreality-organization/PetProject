@@ -6,6 +6,7 @@ import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.punuo.sys.sdk.util.DeviceHelper;
+import com.punuo.sys.sdk.util.LanguageUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
@@ -28,6 +29,7 @@ public class PnApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(base);
         MMKV.initialize(base);
+        LanguageUtil.INSTANCE.attachBaseContext(base);
 
     }
 

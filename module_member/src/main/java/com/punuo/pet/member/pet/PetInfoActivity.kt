@@ -92,7 +92,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
 
     private fun initView() {
         titleText = findViewById(R.id.title) as TextView
-        titleText.text = if (petData == null) "添加宠物" else if (canEdit) "编辑宠物" else "查看宠物"
+        titleText.text = if (petData == null) getString(R.string.string_add_pet) else if (canEdit) getString(R.string.string_edit_pet) else getString(R.string.string_look_pet)
         backIcon = findViewById(R.id.back)
         backIcon.setOnClickListener {
             onBackPressed()
@@ -117,14 +117,14 @@ class PetInfoActivity : BaseSwipeBackActivity() {
             petBirth.text = it.getBirth()
             mPetBirth = it.getBirth()
 
-            petSex.text = if (it.sex == 1) "公" else "母"
+            petSex.text = if (it.sex == 1) getString(R.string.string_pet_male) else getString(R.string.string_pet_female)
             mPetSex = it.sex
 
             petType.text = when (it.breed) {
-                1 -> "英国短毛猫"
-                2 -> "美国短毛猫"
-                3 -> "异国短毛猫"
-                else -> "其他"
+                1 -> getString(R.string.string_british_shorthair)
+                2 -> getString(R.string.string_usa_shorthair)
+                3 -> getString(R.string.string_exotic_shorthair)
+                else -> getString(R.string.string_other)
             }
             mPetType = it.breed
 
@@ -143,25 +143,25 @@ class PetInfoActivity : BaseSwipeBackActivity() {
             }
             petName.setOnClickListener {
                 val editText = EditText(this)
-                editText.hint = "请输入宠物名字"
+                editText.hint = getString(R.string.string_pet_name_hint)
                 mPetName?.let {text->
                     editText.setText(text)
                     editText.setSelection(text.length)
                 }
                 AlertDialog.Builder(this)
-                        .setTitle("请输入宠物名字")
+                        .setTitle(getString(R.string.string_pet_name_hint))
                         .setView(editText)
-                        .setPositiveButton("确定") { dialog: DialogInterface, which: Int ->
+                        .setPositiveButton(getString(R.string.string_confirm)) { dialog: DialogInterface, which: Int ->
                             val text = editText.text.toString()
                             if (TextUtils.isEmpty(text)) {
-                                ToastUtils.showToast("请输入宠物名字")
+                                ToastUtils.showToast(getString(R.string.string_pet_name_hint))
                                 return@setPositiveButton
                             }
                             mPetName = text
                             petName.text = text
                             dialog.dismiss()
                         }
-                        .setNegativeButton("取消") { dialog, which -> dialog.dismiss() }.show()
+                        .setNegativeButton(getString(R.string.string_cancel)) { dialog, which -> dialog.dismiss() }.show()
             }
             petType.setOnClickListener {
                 val pvOption = OptionsPickerBuilder(this,
@@ -169,7 +169,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
                             mPetType = options1 + 1
                             petType.text = InfoData.getPetTypeList()[options1]
                         })
-                        .setTitleText("请选择宠物品种")
+                        .setTitleText(getString(R.string.string_pet_breed_hint_short))
                         .build<String>()
                 pvOption.setPicker(InfoData.getPetTypeList())
                 pvOption.show()
@@ -180,7 +180,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
                             mPetSex = options1 + 1
                             petSex.text = InfoData.getPetSexList()[options1]
                         })
-                        .setTitleText("请选择宠物性别")
+                        .setTitleText(getString(R.string.string_pet_gender_hint_short))
                         .build<String>()
                 pvOption.setPicker(InfoData.getPetSexList())
                 pvOption.show()
@@ -190,7 +190,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
                     val select = Calendar.getInstance()
                     select.time = date
                     if (select.after(Calendar.getInstance())) {
-                        ToastUtils.showToast("当前选择是未来时间，请重新设置宠物生日")
+                        ToastUtils.showToast(getString(R.string.string_date_choose_tip))
                         return@OnTimeSelectListener
                     }
                     mPetBirth = mSimpleDateFormat.format(date)
@@ -203,29 +203,29 @@ class PetInfoActivity : BaseSwipeBackActivity() {
             petWeight.setOnClickListener {
                 val editText = EditText(this)
                 editText.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
-                editText.hint = "请输入宠物体重"
+                editText.hint = getString(R.string.string_pet_weight_hint)
                 mPetWeight?.let {text->
                     editText.setText(text)
                     editText.setSelection(text.length)
                 }
                 AlertDialog.Builder(this)
-                        .setTitle("请输入宠物体重")
+                        .setTitle(getString(R.string.string_pet_weight_hint))
                         .setView(editText)
-                        .setPositiveButton("确定") { dialog: DialogInterface, which: Int ->
+                        .setPositiveButton(getString(R.string.string_confirm)) { dialog: DialogInterface, which: Int ->
                             val text = editText.text.toString()
                             if (TextUtils.isEmpty(text)) {
-                                ToastUtils.showToast("请输入宠物体重")
+                                ToastUtils.showToast(getString(R.string.string_pet_weight_hint))
                                 return@setPositiveButton
                             }
                             mPetWeight = text
                             petWeight.text = "${text}kg"
                             dialog.dismiss()
                         }
-                        .setNegativeButton("取消") { dialog, which -> dialog.dismiss() }.show()
+                        .setNegativeButton(getString(R.string.string_cancel)) { dialog, which -> dialog.dismiss() }.show()
             }
         }
 
-        submit.text = if (petData == null) "提交" else "修改"
+        submit.text = if (petData == null) getString(R.string.string_submit) else getString(R.string.string_modify)
         submit.visibility = if (canEdit) View.VISIBLE else View.GONE
 
         submit.setOnClickListener {
@@ -242,32 +242,32 @@ class PetInfoActivity : BaseSwipeBackActivity() {
 
     private fun checkValid() :Boolean {
         if (TextUtils.isEmpty(mPetAvatar)) {
-            ToastUtils.showToast("请上传宠物头像")
+            ToastUtils.showToast(getString(R.string.string_pet_avatar_hint))
             return false
         }
 
         if (TextUtils.isEmpty(mPetName)) {
-            ToastUtils.showToast("请输入宠物名字")
+            ToastUtils.showToast(getString(R.string.string_pet_name_hint))
             return false
         }
 
         if (mPetType == -1) {
-            ToastUtils.showToast("请选择宠物品种")
+            ToastUtils.showToast(getString(R.string.string_pet_breed_hint))
             return false
         }
 
         if (mPetSex == -1) {
-            ToastUtils.showToast("请选择宠物性别")
+            ToastUtils.showToast(getString(R.string.string_pet_gender_hint))
             return false
         }
 
         if (TextUtils.isEmpty(mPetBirth)) {
-            ToastUtils.showToast("请输入宠物生日")
+            ToastUtils.showToast(getString(R.string.string_pet_birth_hint))
             return false
         }
 
         if (TextUtils.isEmpty(mPetWeight)) {
-            ToastUtils.showToast("请输入宠物体重")
+            ToastUtils.showToast(getString(R.string.string_pet_weight_hint))
             return false
         }
         return true
@@ -364,7 +364,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
                     if (BitmapUtil.isJPEG(path)) {
                         uploadPicture(compressBitmap(path))
                     } else {
-                        ToastUtils.showToast("只支持jpg格式")
+                        ToastUtils.showToast(getString(R.string.string_only_support_jpg))
                     }
                 }
                 else -> {
@@ -383,7 +383,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
         if (!file.exists()) {
             return
         }
-        showLoadingDialog("正在上传...")
+        showLoadingDialog(getString(R.string.string_uploading))
         mUploadPictureRequest = UploadPictureRequest()
         mUploadPictureRequest!!.addEntityParam("photo", file)
         mUploadPictureRequest!!.addEntityParam("userName", AccountManager.getUserName())
@@ -417,7 +417,7 @@ class PetInfoActivity : BaseSwipeBackActivity() {
         if (TextUtils.isEmpty(selectPath)) {
             return ""
         }
-        showLoadingDialog("正在压缩图片...")
+        showLoadingDialog(getString(R.string.string_compress))
         val bitmap = FileUtil.compressBitmap(selectPath)
         val temp = FileUtil.saveBitmap(bitmap, System.currentTimeMillis().toString())
         dismissLoadingDialog()

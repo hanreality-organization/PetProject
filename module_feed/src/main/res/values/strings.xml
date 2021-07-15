@@ -1,4 +1,35 @@
 <resources>
     <string name="feed_tip">每日建议喂食</string>
     <string name="feed_text">我的喂食方案</string>
+    <string name="string_edit_plan">编辑计划</string>
+    <string name="string_quick_add">快速加餐</string>
+    <string name="string_add_complete">加粮完毕</string>
+    <string name="string_remind">剩余(克)</string>
+    <string name="string_issued">已出(份)</string>
+    <string name="string_plan">计划(份)</string>
+    <string name="string_feed_plan">喂食计划</string>
+    <string name="string_feed_size">请输入份数</string>
+    <string name="string_copies">%s份</string>
+    <string name="string_feed_name_input">请输入餐名</string>
+    <string name="string_feed_tip_1">最多能添加6个喂食计划</string>
+    <string name="string_feed_tip_2">请选择喂食时间</string>
+    <string name="string_feed_tip_3">请输入喂食餐名</string>
+    <string name="string_feed_tip_4">请输入喂食份数</string>
+    <string name="string_delete_tip">是否确认要删除本条喂食计划？</string>
+    <string name="string_small_tip">小提示：若删除某项计划，长按该计划即可删除！</string>
+    <string name="string_feed_time">出粮时间</string>
+    <string name="string_feed_name">餐名</string>
+    <string name="string_feed_copies">份数</string>
+    <string name="string_add_plan">新增计划</string>
+    <string name="string_total_feed_times">喂食总次数</string>
+    <string name="string_total_feed_copies">喂食总份数(10g/份)</string>
+    <string name="string_health_feed">健康喂养</string>
+    <string name="string_edit">修改</string>
+    <string name="string_daily">每日</string>
+    <string name="string_times_text">次</string>
+    <string name="string_feed_knowledge">点击了解更多健康喂养的知识</string>
+    <string name="string_feed_now">立即出粮</string>
+    <string name="string_feed_count">喂食量(份)</string>
+    <string name="string_feed_tip">每份约10g</string>
+    <string name="string_no_device_tip">请先绑定设备</string>
 </resources>

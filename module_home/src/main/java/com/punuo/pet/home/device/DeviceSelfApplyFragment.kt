@@ -79,7 +79,7 @@ class DeviceSelfApplyFragment : BaseFragment() {
                     recyclerView.adapter = mHistoryAdapter
                     if (it.items.isNullOrEmpty()) {
                         val list = ArrayList<BaseDevice>()
-                        list.add(EmptyData("暂无申请信息"))
+                        list.add(EmptyData(getString(R.string.string_empty_apply)))
                         mHistoryAdapter?.appendData(list)
                     } else {
                         mHistoryAdapter?.appendData(it.items?.reversed())

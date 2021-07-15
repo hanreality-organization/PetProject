@@ -109,7 +109,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
                 return;
             }
             if (!isPlaying) {
-                showLoadingDialogWithCancel("正在获取视频...", v1 -> {
+                showLoadingDialogWithCancel(getString(R.string.string_get_video), v1 -> {
                     dismissLoadingDialog();
                     stopVideo();
                 });
@@ -186,7 +186,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     private void initTextureView() {
         player.setLive(true);//是直播还是点播  false为点播
         player.setScaleType(FastVideoPlayer.SCALETYPE_FITXY);
-        player.setTitle("梦视喂食器");
+        player.setTitle(getString(R.string.device_feeder_title));
         player.setShowNavIcon(false);
         player.setHideControl(true);
         int width = CommonUtil.getWidth();
@@ -195,7 +195,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     private void initSubTitle() {
         mSubTitle.setVisibility(View.VISIBLE);
-        mSubTitle.setText("停止播放");
+        mSubTitle.setText(R.string.string_stop_play);
         mSubTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +218,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     }
 
     private void initTitle() {
-        mTitle.setText("视频");
+        mTitle.setText(R.string.string_video_title);
     }
 
 
@@ -271,10 +271,10 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(VolumeData result) {
         if (TextUtils.equals(result.volume, "raise")) {
-            ToastUtils.showToast("音量加");
+            ToastUtils.showToast(getString(R.string.string_voice_inc));
         }
         if (TextUtils.equals(result.volume, "lower")) {
-            ToastUtils.showToast("音量减");
+            ToastUtils.showToast(getString(R.string.string_voice_dec));
         }
     }
 
@@ -298,7 +298,7 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
         if (!TextUtils.isEmpty(DevManager.getInstance().getDevId())) {
             return true;
         } else {
-            ToastUtils.showToast("请先确认已绑定设备");
+            ToastUtils.showToast(getString(R.string.string_device_tip));
             ARouter.getInstance().build(HomeRouter.ROUTER_BIND_DEVICE_ACTIVITY)
                     .navigation();
             return false;
@@ -318,11 +318,11 @@ public class VideoFragment extends BaseFragment implements BaseHandler.MessageHa
 
     private void changeDeviceStatus(int live) {
         if (live == 1) {
-            mWifiState.setText("在线");
+            mWifiState.setText(R.string.string_online);
             mBreatheView.setCoreColor(Color.parseColor("#8BC34A"));
             mBreatheView.setDiffusColor(Color.parseColor("#8BC34A"));
         } else {
-            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? "未绑定" : "离线";
+            String text = TextUtils.isEmpty(DevManager.getInstance().getDevId()) ? getString(R.string.string_unbind) : getString(R.string.string_offline);
             mWifiState.setText(text);
             mBreatheView.setCoreColor(Color.parseColor("#ff0000"));
             mBreatheView.setDiffusColor(Color.parseColor("#ff0000"));

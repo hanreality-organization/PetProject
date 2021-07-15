@@ -47,21 +47,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="剩余(克)" />
+                android:text="@string/string_remind" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="已出(份)" />
+                android:text="@string/string_issued" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="计划(份)" />
+                android:text="@string/string_plan" />
         </LinearLayout>
 
         <LinearLayout
