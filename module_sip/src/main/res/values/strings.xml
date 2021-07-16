@@ -2,4 +2,6 @@
     <string name="app_name">module_sip</string>
     <string name="string_reset_tip">是否需要将设备%s恢复置出厂设置?</string>
     <string name="string_clear">正在清除...</string>
+    <string name="tip_update_success">喂食计划保存/更新成功</string>
+    <string name="tip_got_weight">已成功获取重量！</string>
 </resources>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">module_sip</string>
     <string name="string_reset_tip">Do you want to reset the device %s to factory settings?</string>
-    <string name="string_clear">clearing...</string>
+    <string name="string_clear">Clearing...</string>
+    <string name="tip_update_success">Update Success</string>
+    <string name="tip_got_weight">Got Weight Successfully!</string>
 </resources>

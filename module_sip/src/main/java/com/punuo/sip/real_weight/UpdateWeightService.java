@@ -1,13 +1,14 @@
 package com.punuo.sip.real_weight;
 
-import android.util.LayoutDirection;
 import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.punuo.sip.R;
 import com.punuo.sip.model.LatestWeightData;
 import com.punuo.sip.request.BaseSipRequest;
 import com.punuo.sip.service.NormalRequestService;
 import com.punuo.sip.service.ServicePath;
+import com.punuo.sys.sdk.PnApplication;
 import com.punuo.sys.sdk.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,7 +28,7 @@ public class UpdateWeightService extends NormalRequestService<LatestWeightData> 
 //        Log.i("update_weight", "通知设备重新获取最新重量...");
         if(result!=null){
             Log.i("update_weight", "成功将sip命令发送到服务器");
-            ToastUtils.showToast("已成功获取重量！");
+            ToastUtils.showToast(PnApplication.getInstance().getResources().getString(R.string.tip_got_weight));
         }
         EventBus.getDefault().post(result);
     }
