@@ -32,12 +32,12 @@ public class ProcessTasks {
         HttpConfig.init(new IHttpConfig() {
             @Override
             public String getHost() {
-                return "pet.qinqingonline.com";
+                return "101.69.255.134";
             }
 
             @Override
             public int getPort() {
-                return 0;
+                return 9001;
             }
 
             @Override
@@ -63,7 +63,7 @@ public class ProcessTasks {
             NameAddress mUserNormalAddress;
             @Override
             public String getServerIp() {
-                return "39.98.36.250";//39.98.36.250
+                return "101.69.255.134";//39.98.36.250
             }
 
             @Override
