@@ -302,127 +302,128 @@ public class IjkVideoView extends FrameLayout implements
 				.getSystemService(Context.AUDIO_SERVICE);
 		am.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
 				AudioManager.AUDIOFOCUS_GAIN);
+		postDelayed(() -> {
+			try {
+				if (usingAndroidPlayer) {
+					mMediaPlayer = new AndroidMediaPlayer();
+				} else {
+					IjkMediaPlayer ijkMediaPlayer = null;
+					if (mUri != null) {
+						ijkMediaPlayer = new IjkMediaPlayer();
+						ijkMediaPlayer
+								.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG);
 
-		try {
-			if (usingAndroidPlayer) {
-				mMediaPlayer = new AndroidMediaPlayer();
-			} else {
-				IjkMediaPlayer ijkMediaPlayer = null;
-				if (mUri != null) {
-					ijkMediaPlayer = new IjkMediaPlayer();
-					ijkMediaPlayer
-							.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG);
-
-					if (usingMediaCodec) {
-						ijkMediaPlayer.	setOption(
-								IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-								"mediacodec", 1);
-						if (usingMediaCodecAutoRotate) {
-							ijkMediaPlayer.setOption(
+						if (usingMediaCodec) {
+							ijkMediaPlayer.	setOption(
 									IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-									"mediacodec-auto-rotate", 1);
+									"mediacodec", 1);
+							if (usingMediaCodecAutoRotate) {
+								ijkMediaPlayer.setOption(
+										IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+										"mediacodec-auto-rotate", 1);
+							} else {
+								ijkMediaPlayer.setOption(
+										IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+										"mediacodec-auto-rotate", 0);
+							}
 						} else {
 							ijkMediaPlayer.setOption(
 									IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-									"mediacodec-auto-rotate", 0);
+									"mediacodec", 0);
 						}
-					} else {
+
+						if (usingOpenSLES) {
+							ijkMediaPlayer.setOption(
+									IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles",
+									1);
+						} else {
+							ijkMediaPlayer.setOption(
+									IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles",
+									0);
+						}
+
+						if (TextUtils.isEmpty(pixelFormat)) {
+							ijkMediaPlayer.setOption(
+									IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+									"overlay-format", IjkMediaPlayer.SDL_FCC_RV32);
+						} else {
+							ijkMediaPlayer.setOption(
+									IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+									"overlay-format", pixelFormat);
+						}
+						ijkMediaPlayer.setOption(
+								IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
+						ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzemaxduration", 100);
+						ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 10240);
+						ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1);
+						ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0);
 						ijkMediaPlayer.setOption(
 								IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-								"mediacodec", 0);
+								"start-on-prepared", 0);
+
+						ijkMediaPlayer.setOption(
+								IjkMediaPlayer.OPT_CATEGORY_FORMAT,
+								"http-detect-range-support", 0);
+						ijkMediaPlayer.setOption(
+								IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);
+
+						ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC,
+								"skip_loop_filter", 48);
 					}
-
-					if (usingOpenSLES) {
-						ijkMediaPlayer.setOption(
-								IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles",
-								1);
-					} else {
-						ijkMediaPlayer.setOption(
-								IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles",
-								0);
-					}
-
-					if (TextUtils.isEmpty(pixelFormat)) {
-						ijkMediaPlayer.setOption(
-								IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-								"overlay-format", IjkMediaPlayer.SDL_FCC_RV32);
-					} else {
-						ijkMediaPlayer.setOption(
-								IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-								"overlay-format", pixelFormat);
-					}
-					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzemaxduration", 100);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 10240);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1);
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0);
-					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_PLAYER,
-							"start-on-prepared", 0);
-
-					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_FORMAT,
-							"http-detect-range-support", 0);
-					ijkMediaPlayer.setOption(
-							IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1);
-
-					ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC,
-							"skip_loop_filter", 48);
+					mMediaPlayer = ijkMediaPlayer;
 				}
-				mMediaPlayer = ijkMediaPlayer;
+
+				if (enableBackgroundPlay) {
+					mMediaPlayer = new TextureMediaPlayer(mMediaPlayer);
+				}
+
+				// TODO: create SubtitleController in MediaPlayer, but we need
+				// a context for the subtitle renderers
+				final Context context = getContext();
+				// REMOVED: SubtitleController
+
+				// REMOVED: mAudioSession
+				mMediaPlayer.setOnPreparedListener(mPreparedListener);
+				mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
+				mMediaPlayer.setOnCompletionListener(mCompletionListener);
+				mMediaPlayer.setOnErrorListener(mErrorListener);
+				mMediaPlayer.setOnInfoListener(mInfoListener);
+				mMediaPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
+				mCurrentBufferPercentage = 0;
+				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+					mMediaPlayer.setDataSource(mAppContext, mUri, mHeaders);
+				} else {
+					mMediaPlayer.setDataSource(mUri.toString());
+				}
+				bindSurfaceHolder(mMediaPlayer, mSurfaceHolder);
+				mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				mMediaPlayer.setScreenOnWhilePlaying(true);
+				mMediaPlayer.prepareAsync();
+
+				// REMOVED: mPendingSubtitleTracks
+
+				// we don't set the target state here either, but preserve the
+				// target state that was there before.
+				mCurrentState = STATE_PREPARING;
+				attachMediaController();
+			} catch (IOException ex) {
+				Log.w(TAG, "Unable to open content: " + mUri, ex);
+				mCurrentState = STATE_ERROR;
+				mTargetState = STATE_ERROR;
+				mErrorListener.onError(mMediaPlayer,
+						MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
+				return;
+			} catch (IllegalArgumentException ex) {
+				Log.w(TAG, "Unable to open content: " + mUri, ex);
+				mCurrentState = STATE_ERROR;
+				mTargetState = STATE_ERROR;
+				mErrorListener.onError(mMediaPlayer,
+						MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
+				return;
+			} finally {
+				// REMOVED: mPendingSubtitleTracks.clear();
 			}
-
-			if (enableBackgroundPlay) {
-				mMediaPlayer = new TextureMediaPlayer(mMediaPlayer);
-			}
-
-			// TODO: create SubtitleController in MediaPlayer, but we need
-			// a context for the subtitle renderers
-			final Context context = getContext();
-			// REMOVED: SubtitleController
-
-			// REMOVED: mAudioSession
-			mMediaPlayer.setOnPreparedListener(mPreparedListener);
-			mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
-			mMediaPlayer.setOnCompletionListener(mCompletionListener);
-			mMediaPlayer.setOnErrorListener(mErrorListener);
-			mMediaPlayer.setOnInfoListener(mInfoListener);
-			mMediaPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
-			mCurrentBufferPercentage = 0;
-			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-				mMediaPlayer.setDataSource(mAppContext, mUri, mHeaders);
-			} else {
-				mMediaPlayer.setDataSource(mUri.toString());
-			}
-			bindSurfaceHolder(mMediaPlayer, mSurfaceHolder);
-			mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			mMediaPlayer.setScreenOnWhilePlaying(true);
-			mMediaPlayer.prepareAsync();
-
-			// REMOVED: mPendingSubtitleTracks
-
-			// we don't set the target state here either, but preserve the
-			// target state that was there before.
-			mCurrentState = STATE_PREPARING;
-			attachMediaController();
-		} catch (IOException ex) {
-			Log.w(TAG, "Unable to open content: " + mUri, ex);
-			mCurrentState = STATE_ERROR;
-			mTargetState = STATE_ERROR;
-			mErrorListener.onError(mMediaPlayer,
-					MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-			return;
-		} catch (IllegalArgumentException ex) {
-			Log.w(TAG, "Unable to open content: " + mUri, ex);
-			mCurrentState = STATE_ERROR;
-			mTargetState = STATE_ERROR;
-			mErrorListener.onError(mMediaPlayer,
-					MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-			return;
-		} finally {
-			// REMOVED: mPendingSubtitleTracks.clear();
-		}
+		}, 2000);
 	}
 
 	public void setMediaController(IMediaController controller) {
